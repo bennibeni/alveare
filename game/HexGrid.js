@@ -1,0 +1,183 @@
+/**
+ * HexGrid — tabellone esagonale in coordinate ASSIALI (q, r), con s = -q - r.
+ *
+ * Perché non la griglia rettangolare "sfasata" (offset) della prima versione?
+ * Con le righe pari/dispari sfasate le linee orizzontali sono facili, ma le
+ * due diagonali diventano zig-zag che dipendono dalla parità della riga.
+ * In coordinate assiali/cubiche, invece, le TRE famiglie di linee sono
+ * simmetriche: una linea è semplicemente l'insieme delle celle con
+ *   r costante  (orizzontale),
+ *   q costante  (diagonale "\"),
+ *   s costante  (diagonale "/").
+ *
+ * Il tabellone è un esagono di "raggio" N: tutte le celle con
+ * max(|q|, |r|, |s|) <= N. Con N = 4 ci sono 61 celle e 27 linee (9 per
+ * direzione, lunghe da 5 a 9 celle).
+ *
+ * La classe è IMMUTABILE: place() e clear() restituiscono un nuovo HexGrid,
+ * così lo stato React resta prevedibile e l'annullamento è banale.
+ */
+
+export const DIRECTIONS = [
+  [1, 0], // E
+  [1, -1], // NE
+  [0, -1], // NO
+  [-1, 0], // O
+  [-1, 1], // SO
+  [0, 1], // SE
+];
+
+const AXES = [
+  { id: "r", label: "orizzontale", coord: (q, r) => r },
+  { id: "q", label: "diagonale \\", coord: (q) => q },
+  { id: "s", label: "diagonale /", coord: (q, r) => -q - r },
+];
+
+export const key = (q, r) => `${q},${r}`;
+export const parseKey = (k) => k.split(",").map(Number);
+
+const lineCache = new Map();
+
+export default class HexGrid {
+  constructor(radius = 4, cells = null) {
+    this.radius = radius;
+    // cells: Map "q,r" -> 0 (vuota) oppure un indice colore >= 1
+    if (cells) {
+      this.cells = cells;
+    } else {
+      this.cells = new Map();
+      for (let q = -radius; q <= radius; q++) {
+        for (let r = -radius; r <= radius; r++) {
+          if (Math.abs(-q - r) <= radius) this.cells.set(key(q, r), 0);
+        }
+      }
+    }
+    this.lines = HexGrid.linesFor(radius, this.cells);
+  }
+
+  /** Tutte le linee del tabellone (calcolate una sola volta per raggio). */
+  static linesFor(radius, cells) {
+    if (lineCache.has(radius)) return lineCache.get(radius);
+    const lines = [];
+    for (const axis of AXES) {
+      for (let v = -radius; v <= radius; v++) {
+        const members = [];
+        for (const k of cells.keys()) {
+          const [q, r] = parseKey(k);
+          if (axis.coord(q, r) === v) members.push(k);
+        }
+        lines.push({ id: `${axis.id}${v}`, axis: axis.id, value: v, cells: members });
+      }
+    }
+    lineCache.set(radius, lines);
+    return lines;
+  }
+
+  has(q, r) {
+    return this.cells.has(key(q, r));
+  }
+
+  get(q, r) {
+    return this.cells.get(key(q, r));
+  }
+
+  isEmpty(q, r) {
+    return this.cells.get(key(q, r)) === 0;
+  }
+
+  /** I (fino a) 6 vicini di una cella, già filtrati sui confini. */
+  getNeighbors(q, r) {
+    return DIRECTIONS.map(([dq, dr]) => [q + dq, r + dr]).filter(([nq, nr]) =>
+      this.has(nq, nr),
+    );
+  }
+
+  /** Il pezzo (lista di offset [dq, dr]) entra con l'origine in (q, r)? */
+  canPlace(piece, q, r) {
+    return piece.every(([dq, dr]) => this.isEmpty(q + dq, r + dr));
+  }
+
+  /** Nuovo HexGrid con il pezzo appoggiato (senza cancellare linee). */
+  place(piece, q, r, color = 1) {
+    const cells = new Map(this.cells);
+    for (const [dq, dr] of piece) cells.set(key(q + dq, r + dr), color);
+    return new HexGrid(this.radius, cells);
+  }
+
+  /** Le linee completamente piene, in tutte e tre le direzioni. */
+  fullLines() {
+    return this.lines.filter((l) => l.cells.every((k) => this.cells.get(k) !== 0));
+  }
+
+  /** Nuovo HexGrid con le celle delle linee indicate svuotate. */
+  clear(lines) {
+    const cells = new Map(this.cells);
+    for (const l of lines) for (const k of l.cells) cells.set(k, 0);
+    return new HexGrid(this.radius, cells);
+  }
+
+  /** Tutte le posizioni d'origine in cui il pezzo entra. */
+  placementsFor(piece) {
+    const out = [];
+    for (const k of this.cells.keys()) {
+      const [q, r] = parseKey(k);
+      if (this.canPlace(piece, q, r)) out.push([q, r]);
+    }
+    return out;
+  }
+
+  fits(piece) {
+    for (const k of this.cells.keys()) {
+      const [q, r] = parseKey(k);
+      if (this.canPlace(piece, q, r)) return true;
+    }
+    return false;
+  }
+
+  /**
+   * Simula una mossa completa: appoggia, trova le linee piene, cancellale.
+   * Restituisce { grid, lines, clearedCells }.
+   */
+  play(piece, q, r, color = 1) {
+    const placed = this.place(piece, q, r, color);
+    const lines = placed.fullLines();
+    const clearedCells = new Set(lines.flatMap((l) => l.cells));
+    return { placed, grid: lines.length ? placed.clear(lines) : placed, lines, clearedCells };
+  }
+}
+
+// ---- Geometria (esagoni "a punta in su") ----------------------------------
+
+export const SQRT3 = Math.sqrt(3);
+
+export function axialToPixel(q, r, size) {
+  return [size * SQRT3 * (q + r / 2), size * 1.5 * r];
+}
+
+export function pixelToAxial(x, y, size) {
+  const fq = ((SQRT3 / 3) * x - y / 3) / size;
+  const fr = ((2 / 3) * y) / size;
+  return cubeRound(fq, fr);
+}
+
+function cubeRound(fq, fr) {
+  const fs = -fq - fr;
+  let q = Math.round(fq);
+  let r = Math.round(fr);
+  const s = Math.round(fs);
+  const dq = Math.abs(q - fq);
+  const dr = Math.abs(r - fr);
+  const ds = Math.abs(s - fs);
+  if (dq > dr && dq > ds) q = -r - s;
+  else if (dr > ds) r = -q - s;
+  return [q + 0, r + 0]; // +0 elimina eventuali -0
+}
+
+export function hexPoints(cx, cy, size) {
+  const pts = [];
+  for (let i = 0; i < 6; i++) {
+    const a = (Math.PI / 180) * (60 * i - 30);
+    pts.push(`${(cx + size * Math.cos(a)).toFixed(2)},${(cy + size * Math.sin(a)).toFixed(2)}`);
+  }
+  return pts.join(" ");
+}
