@@ -134,7 +134,7 @@ function unknownPieceDetail(g) {
  * Beam search sui pezzi della coda. Restituisce le sequenze finali con il loro
  * valore (v) e quanti candidati sono stati generati/tenuti a ogni livello.
  */
-function queueSearch(grid, tray, streak) {
+function queueSearch(grid, tray, streak, firstMove = null) {
   const pieces = tray.filter(Boolean);
   if (!pieces.length || !grid.fits(pieces[0].cells)) return null;
   let beam = [{ grid, streak, acc: 0, path: [] }];
@@ -143,6 +143,7 @@ function queueSearch(grid, tray, streak) {
     const next = [];
     for (const node of beam) {
       for (const [q, r] of node.grid.placementsFor(pieces[level].cells)) {
+        if (level === 0 && firstMove && (q !== firstMove.q || r !== firstMove.r)) continue;
         const res = node.grid.play(pieces[level].cells, q, r);
         const gain = res.lines.length ? res.clearedCells.size * res.lines.length * (1 + 0.5 * node.streak) : 0;
         const acc = node.acc + gain * QUEUE_GAIN + res.lines.length * W.line;
@@ -211,4 +212,53 @@ export function explainNormal(grid, tray, streak = 0) {
   });
   const ordered = [...candidates].sort((a, b) => b.total - a.total);
   return { totalMoves: moves.length, byValue: candidates, byTotal: ordered, streak };
+}
+
+/** Classifica delle sole candidate approfondite dalla strategia attuale.
+ * In coda, una prima mossa compare una volta sola, con la sua migliore sequenza.
+ * Non estende la ricerca e conserva l'ordine degli ex aequo del suggerimento.
+ */
+export function analyzeMoves(grid, tray, streak = 0, { queue = false } = {}) {
+  if (!queue) {
+    const result = explainNormal(grid, tray, streak);
+    return { totalMoves: result.totalMoves, moves: result.byTotal };
+  }
+  const totalMoves = tray[0] ? grid.placementsFor(tray[0].cells).length : 0;
+  const result = explainQueue(grid, tray, streak, QUEUE_BEAM * 2);
+  const seen = new Set();
+  const moves = [];
+  for (const leaf of result?.leaves || []) {
+    const first = leaf.path[0];
+    const id = `${first.q},${first.r}`;
+    if (seen.has(id)) continue;
+    seen.add(id);
+    moves.push({
+      idx: 0, q: first.q, r: first.r, piece: first.piece, cells: first.piece.cells,
+      lines: first.lines, total: leaf.v, sequence: leaf,
+    });
+  }
+  return { totalMoves, moves: moves.slice(0, 10) };
+}
+
+/** Confronto retrospettivo: usa esclusivamente i pezzi e il tabellone PRIMA
+ * della mossa, senza conoscere il nuovo pezzo estratto. La ricerca aggiuntiva
+ * riguarda solo la mossa giocata e non modifica mai il suggerimento.
+ */
+export function analyzePlayedMove({ grid, tray, streak, expert, idx, q, r }) {
+  const analysis = analyzeMoves(grid, tray, streak, { queue: expert });
+  const found = analysis.moves.find((m) => m.idx === idx && m.q === q && m.r === r);
+  if (found) return { ...analysis, moves: analysis.moves.map((m) => ({ ...m, played: m === found })) };
+  const piece = tray[idx];
+  if (!piece || (expert && idx !== 0) || !grid.canPlace(piece.cells, q, r)) return analysis;
+  let move;
+  if (expert) {
+    const sequence = queueSearch(grid, tray, streak, { q, r }).leaves[0];
+    move = { idx, q, r, piece, cells: piece.cells, lines: sequence.path[0].lines, total: sequence.v, sequence };
+  } else {
+    const candidate = rankedMoves(grid, tray, streak).find((m) => m.idx === idx && m.q === q && m.r === r);
+    const rest = tray.map((p, i) => i === idx ? null : p);
+    const next = rankedMoves(candidate.after, rest, candidate.nextStreak)[0] || null;
+    move = { ...candidate, next, total: candidate.gain * W.cell + (next ? next.value : -10000) };
+  }
+  return { ...analysis, moves: [...analysis.moves, { ...move, played: true, added: true }] };
 }

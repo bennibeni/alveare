@@ -1,10 +1,79 @@
 import { describe, expect, it } from "vitest";
 import HexGrid from "../../game/HexGrid.js";
 import { PIECES, randomTray, seededRandom, SHAPES } from "../../game/pieces.js";
-import { bestMove, explainNormal, explainQueue } from "../../game/strategy.js";
+import { analyzeMoves, analyzePlayedMove, bestMove, explainNormal, explainQueue } from "../../game/strategy.js";
 import { pairedCompare, playGame, playGames, seedFor } from "../../scripts/sim-lib.mjs";
 
 const byName = (n) => SHAPES.find((s) => s.name === n).pieces;
+
+describe("classifica delle mosse approfondite", () => {
+  for (const expert of [false, true]) {
+    it(`evidenzia o aggiunge la mossa giocata senza cambiare le candidate (Esperto: ${expert})`, () => {
+      const grid = new HexGrid(4);
+      const tray = randomTray(grid, seededRandom(23));
+      const position = { grid, tray, streak: 2, expert };
+      const original = analyzeMoves(grid, tray, 2, { queue: expert });
+      const top = original.moves[0];
+      const included = analyzePlayedMove({ ...position, idx: top.idx, q: top.q, r: top.r });
+      expect(included.moves).toHaveLength(original.moves.length);
+      expect(included.moves.filter((m) => m.played)).toHaveLength(1);
+      expect(included.moves[0]).toMatchObject({ played: true, total: top.total });
+      const [q, r] = grid.placementsFor(tray[0].cells).find(([q, r]) => !original.moves.some((m) => m.idx === 0 && m.q === q && m.r === r));
+      const extra = analyzePlayedMove({ ...position, idx: 0, q, r });
+      expect(extra.moves.slice(0, -1)).toEqual(original.moves);
+      expect(extra.moves.at(-1)).toMatchObject({ idx: 0, q, r, played: true, added: true });
+      expect(Number.isFinite(extra.moves.at(-1).total)).toBe(true);
+      if (expert) {
+        const leaf = extra.moves.at(-1).sequence;
+        expect(leaf.path[0]).toMatchObject({ q, r });
+        expect(extra.moves.at(-1).total).toBeCloseTo(leaf.acc + leaf.board + leaf.unknown.value);
+      } else {
+        const m = extra.moves.at(-1);
+        expect(m.total).toBe(m.gain + (m.next ? m.next.value : -10000));
+      }
+      expect(bestMove(grid, tray, 2, { queue: expert })).toEqual({ idx: top.idx, q: top.q, r: top.r, cells: top.cells });
+    });
+  }
+  for (const queue of [false, true]) {
+    it(`conteggio, ordine e suggerimento coerenti (coda: ${queue})`, () => {
+      const grid = new HexGrid(4);
+      const tray = randomTray(grid, seededRandom(23));
+      const result = analyzeMoves(grid, tray, 2, { queue });
+      const playable = (queue ? tray.slice(0, 1) : tray).reduce((n, p) => n + grid.placementsFor(p.cells).length, 0);
+      expect(result.totalMoves).toBe(playable);
+      expect(result.moves.length).toBeGreaterThan(0);
+      expect(result.moves.length).toBeLessThanOrEqual(queue ? 10 : 6);
+      const top = result.moves[0];
+      expect(bestMove(grid, tray, 2, { queue })).toEqual({ idx: top.idx, q: top.q, r: top.r, cells: top.cells });
+      expect(new Set(result.moves.map((m) => `${m.idx}:${m.q}:${m.r}`)).size).toBe(result.moves.length);
+      result.moves.forEach((m, i) => {
+        expect(grid.canPlace(m.cells, m.q, m.r)).toBe(true);
+        expect(m.total).toBeLessThanOrEqual(top.total);
+        if (i) expect(m.total).toBeLessThanOrEqual(result.moves[i - 1].total);
+        if (queue) expect(m.idx).toBe(0);
+      });
+      if (queue) {
+        const leaves = explainQueue(grid, tray, 2, 20).leaves;
+        result.moves.forEach((m) => {
+          const values = leaves.filter((l) => l.path[0].q === m.q && l.path[0].r === m.r).map((l) => l.v);
+          expect(m.total).toBe(Math.max(...values));
+        });
+      }
+    });
+  }
+
+  it("mostra zero mosse a fine partita e meno di sei quando ne restano poche", () => {
+    let grid = new HexGrid(4);
+    for (const k of grid.cells.keys()) if (k !== "0,0") grid = grid.place([[0, 0]], ...k.split(",").map(Number), 1);
+    const point = byName("punto")[0];
+    const bar = byName("barra 4")[0];
+    expect(analyzeMoves(grid, [bar, bar, bar])).toEqual({ totalMoves: 0, moves: [] });
+    expect(analyzeMoves(grid, [bar, point, point], 0, { queue: true })).toEqual({ totalMoves: 0, moves: [] });
+    const result = analyzeMoves(grid, [bar, point, bar]);
+    expect(result.totalMoves).toBe(1);
+    expect(result.moves).toHaveLength(1);
+  });
+});
 
 /** Tabellone a metà partita, riproducibile. */
 function midGame(seed, moves = 15) {

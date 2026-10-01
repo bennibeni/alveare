@@ -5,11 +5,16 @@ import { createPortal } from "react-dom";
 import { toast as notify, ToastContainer } from "react-toastify"; // "toast" è già lo stato del banner "Linea!"
 import GuideExpert from "./GuideExpert.jsx";
 import GuideNormal from "./GuideNormal.jsx";
+import MoveAnalysis from "./MoveAnalysis.jsx";
+import MoveFeedback from "./MoveFeedback.jsx";
+import { judgeMove } from "./moveJudgment.js";
 import HexGrid, { axialToPixel, hexPoints, key, parseKey, pixelToAxial, SQRT3 } from "./HexGrid.js";
 import { PIECE_COLORS, pieceCentroid, PIECES, randomTray, replacePiece, SHAPES, shiftQueue } from "./pieces.js";
-import { bestMove } from "./strategy.js";
+import { analyzePlayedMove, bestMove } from "./strategy.js";
 
 const RADIUS = 4;
+const SHOW_MOVE_ANALYSIS = true; // false per nascondere l'accordion delle mosse
+const SHOW_MOVE_FEEDBACK = true; // toast laterale dopo le mosse manuali
 const SIZE = 22; // raggio di un esagono in unità SVG
 const GAP = 1.6; // spazio visivo fra esagoni
 const TRAY_SCALE = 0.62; // scala massima dei pezzi nel vassoio (schermi larghi)
@@ -256,6 +261,8 @@ function Game({ active = true, onSnapshot }) {
   const autoOn = auto && !gameOver; // stato mostrato dal bottone
   // l'autogioco aspetta durante la pausa di festa e quando si sta leggendo una guida
   const autoActive = autoOn && !celebrate && active;
+  const playedAnalysis = useMemo(() => game.lastMove ? analyzePlayedMove(game.lastMove) : null, [game.lastMove]);
+  const moveJudgment = useMemo(() => judgeMove(playedAnalysis, game.lastMove?.tray.filter(Boolean).length), [playedAnalysis, game.lastMove]);
 
   // comunica alle guide lo stato attuale (per gli esempi "dal tuo tabellone")
   useEffect(() => {
@@ -282,7 +289,7 @@ function Game({ active = true, onSnapshot }) {
   const commit = useCallback(
     (idx, q, r) => {
       const piece = game.tray[idx];
-      if (!piece || !game.grid.canPlace(piece.cells, q, r)) return false;
+      if (!piece || (expert && idx !== 0) || !game.grid.canPlace(piece.cells, q, r)) return false;
       const { grid: next, lines, clearedCells, placed } = game.grid.play(piece.cells, q, r, piece.color);
       const { gained, bonus } = scoreMove(piece.cells.length, lines, clearedCells.size, game.streak);
       // il pezzo usato viene subito sostituito da uno nuovo nello stesso posto
@@ -337,6 +344,9 @@ function Game({ active = true, onSnapshot }) {
         moves: game.moves + 1,
         linesTotal: game.linesTotal + lines.length,
         recordBase: game.recordBase, // il record da battere resta quello di inizio partita
+        lastMove: (SHOW_MOVE_ANALYSIS || SHOW_MOVE_FEEDBACK) && !auto
+          ? { grid: game.grid, tray: game.tray, streak: game.streak, expert, idx, q, r }
+          : null,
       };
       setSelected(null);
       setHover(null);
@@ -366,7 +376,7 @@ function Game({ active = true, onSnapshot }) {
       }, CELEBRATE_MS);
       return true;
     },
-    [game, best, expert, schedule],
+    [game, best, expert, schedule, auto],
   );
 
   // --- volo fino alla posizione finale -----------------------------------------
@@ -655,6 +665,7 @@ function Game({ active = true, onSnapshot }) {
         .hx-hint { animation: hx-pulse 1s ease-in-out infinite; }
       `}</style>
 
+      <div className={SHOW_MOVE_FEEDBACK ? "hx-game-layout hx-with-feedback" : "hx-game-layout"}>
       <div
         className="mx-auto flex flex-col gap-4 py-6"
         style={{ width: `calc(${BOARD_WIDTH} + 162px)` }} // tabellone + gap + colonna pezzi
@@ -834,12 +845,15 @@ function Game({ active = true, onSnapshot }) {
                       data-testid={`slot-${i}`}
                       data-selected={isSel ? "true" : undefined}
                       tabIndex={p ? 0 : -1}
+                      aria-disabled={!p || locked || gameOver || auto || !!celebrate || !!flying}
                       aria-label={p ? `Pezzo ${i + 1}: ${p.name}${locked ? " (in coda)" : ""}` : `Posto ${i + 1} vuoto`}
                       onPointerDown={(e) => onTrayPointerDown(e, i)}
                       onKeyDown={(e) => {
                         if (e.key === "Enter" || e.key === " ") {
                           e.preventDefault();
-                          if (p) setSelected((s) => (s === i ? null : i));
+                          if (p && !locked && !gameOver && !auto && !celebrate && !flying) {
+                            setSelected((s) => (s === i ? null : i));
+                          }
                         }
                       }}
                       className={`relative flex h-25 w-full shrink-0 touch-none items-center justify-center overflow-hidden rounded-xl transition ${!p ? "bg-slate-900" : locked ? "cursor-not-allowed bg-slate-900/60" : "cursor-grab bg-slate-800/60 hover:bg-slate-800"
@@ -856,6 +870,9 @@ function Game({ active = true, onSnapshot }) {
           </aside>
         </div>
 
+        {SHOW_MOVE_FEEDBACK && <MoveFeedback snapshot={game.lastMove} judgment={moveJudgment}
+          hidden={autoOn || !active} busy={!!flying || !!celebrate} />}
+
         {/* sotto: istruzioni e spiegazione */}
         <div className="flex flex-col gap-3">
           <p className="text-center text-xs text-slate-500">
@@ -863,6 +880,10 @@ function Game({ active = true, onSnapshot }) {
               ? "Esperto: gioca sempre il primo pezzo (bordo dorato). Trascinalo, oppure selezionalo (clic o tasto 1) e clicca dove metterlo."
               : "Trascina un pezzo sul tabellone, oppure selezionalo (clic o tasti 1–3) e clicca dove metterlo."}
           </p>
+
+          {SHOW_MOVE_ANALYSIS && !autoOn && active && (
+            <MoveAnalysis grid={grid} tray={tray} streak={streak} expert={expert} lastMove={game.lastMove} playedAnalysis={playedAnalysis} busy={!!flying || !!celebrate} />
+          )}
 
           <div className="rounded-2xl bg-slate-900/70 p-3 text-sm ring-1 ring-slate-800">
             <button
@@ -948,6 +969,8 @@ function Game({ active = true, onSnapshot }) {
         </div>
       </div>
 
+      </div>
+
       {createPortal(
         <ToastContainer position="top-center" theme="dark" newestOnTop limit={1} />,
         document.body,
@@ -1023,4 +1046,3 @@ function Button({ children, onClick, disabled, primary, full }) {
     </button>
   );
 }
-

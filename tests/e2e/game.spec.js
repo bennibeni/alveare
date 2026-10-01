@@ -180,7 +180,7 @@ test("fine partita: solo l'etichetta «Partita finita», senza bottoni né riqua
     }
     await page.waitForTimeout(800);
   }
-  const banner = page.getByRole("status");
+  const banner = page.getByRole("status").filter({ hasText: "Partita finita" });
   await expect(banner).toHaveText("Partita finita");
   expect(await banner.locator("button").count()).toBe(0);
   // l'etichetta sta sul bordo inferiore: non copre il centro del tabellone

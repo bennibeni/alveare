@@ -40,6 +40,52 @@ possono confrontare partita per partita (`pairedCompare` in `scripts/sim-lib.mjs
 
 ## Struttura
 
+L’accordion **Analisi delle mosse**, sopra le istruzioni, è disponibile fuori dall’autogioco.
+Mostra il numero di mosse legali e le candidate approfondite dalla strategia attuale, ordinate
+con il suggerimento in testa: fino a 6 in modalità normale; in Esperto le prime mosse distinte
+delle sequenze conservate, ciascuna con il punteggio della propria migliore sequenza (massimo 10).
+Il punteggio è quello della strategia, non i punti aggiunti alla partita. L’analisi viene calcolata
+solo aprendo l’accordion. Per disabilitarlo da codice, impostare `SHOW_MOVE_ANALYSIS = false`
+in `game/HexBlockPuzzle.jsx`.
+
+Dopo una mossa manuale l’accordion mostra il confronto sulla posizione precedente:
+la mossa giocata è evidenziata, oppure aggiunta in fondo e valutata con gli stessi criteri
+se non era fra le candidate. La valutazione usa solo i pezzi noti prima della mossa.
+I pulsanti «Ultima mossa» e «Posizione corrente» permettono di passare dal confronto
+alle nuove possibilità. Il suggerimento e la sua ricerca restano invariati.
+
+Il **toast di valutazione** compare dopo ogni mossa manuale, anche con l’accordion chiuso.
+Su desktop occupa una colonna riservata a destra; sotto 1100 px resta nel flusso sotto
+il tabellone, prima degli accordion. Rimane leggibile fino alla mossa successiva o alla
+chiusura e non impila notifiche. `SHOW_MOVE_FEEDBACK` abilita/disabilita questa funzione
+indipendentemente dall’accordion. Durante l’autogioco non valuta né suona.
+I giudizi verdi mostrano subito tutti i dettagli; gli altri mostrano solo il giudizio,
+cliccabile per aprire i dettagli. Ogni nuova mossa non verde parte con i dettagli chiusi.
+
+Il rapporto mostrato è `voto della mossa / massimo fra le mosse valutate`, inclusa
+la mossa aggiunta al confronto: non è una percentuale né il massimo globale di tutte
+le mosse legali. Il giudizio è euristico e considera distacco dal massimo, rango con
+ex aequo, mediana, quante alternative sono migliori/comparabili/inferiori e rischio
+di prosecuzione. I conti sono in `game/moveJudgment.js`:
+
+- La scala di confronto è il massimo fra 1, valore assoluto del massimo e della mediana;
+  in questo modo anche voti zero o negativi hanno un confronto definito.
+- Alternative entro ±5% della scala sono comparabili. Il rango usa invece i punteggi
+  effettivi con una piccola tolleranza numerica per gli ex aequo.
+- Una prima scelta è notevole se almeno metà delle alternative è inferiore, il vantaggio
+  sulla mediana raggiunge il 10% della scala e non emerge un rischio elevato di prosecuzione.
+- Una scelta è segnalata negativamente se perde almeno il 30% della scala, è nella metà
+  inferiore e almeno metà delle alternative è nettamente migliore. Conta anche la perdita
+  di una prosecuzione nota o un aumento del rischio stimato di almeno 20 punti percentuali
+  rispetto alla migliore, insieme a un distacco significativo dal massimo.
+- Scelte obbligate, campioni di una sola candidata e alternative tutte comparabili non
+  producono segnali speciali. Si tratta di un confronto fra le candidate approfondite,
+  non di una valutazione esaustiva o appresa statisticamente.
+
+Il **beep è disattivato inizialmente** e si può attivare dal riquadro. Produce due brevi
+toni ascendenti/discendenti solo per le mosse evidenziate positivamente/negativamente;
+aprire guide, annullare o riaprire un’analisi non ripete un suono già valutato.
+
 ```
 app/                  layout, pagina, stili globali, icona
 game/

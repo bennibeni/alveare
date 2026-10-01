@@ -7,6 +7,35 @@ body {
   color: #f1f5f9;
 }
 
+/* Colonna riservata: il toast non si sovrappone mai al gioco.
+   Sugli schermi stretti resta nel flusso, subito sotto il tabellone. */
+.hx-game-layout {
+  position: relative;
+  width: max-content;
+  max-width: 100%;
+  margin-inline: auto;
+}
+.hx-feedback-rail {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+@media (min-width: 1100px) {
+  .hx-with-feedback { padding-right: 312px; }
+  .hx-feedback-rail {
+    position: absolute;
+    right: 0;
+    top: 24px;
+    width: 288px;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .hx-feedback-card { animation: hx-feedback-in 180ms ease-out; }
+  @keyframes hx-feedback-in {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}
+
 footer {
   display: flex;
   justify-content: space-between;
