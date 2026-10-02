@@ -32,9 +32,9 @@ function SequenceBoards({ path, width = 104 }) {
 /** Schema della beam search: quanti candidati a ogni livello e quanti ne restano. */
 function BeamDiagram({ levels }) {
   const steps = levels || [
-    { label: "1° pezzo", generated: "≈ 60", kept: Q.beam },
-    { label: "2° pezzo", generated: `≈ ${Q.beam} × 60`, kept: Q.beam },
-    { label: "3° pezzo", generated: `≈ ${Q.beam} × 60`, kept: Q.beam * 2 },
+    { label: "1° pezzo", generated: "≈ 60", kept: Q.first },
+    { label: "2° pezzo · per ogni prima mossa", generated: "≈ 60", kept: Q.beam },
+    { label: "3° pezzo · per ogni prima mossa", generated: `≈ ${Q.beam} × 60`, kept: Q.beam * 2 },
   ];
   return (
     <div className="flex flex-wrap items-stretch justify-center gap-2 text-center text-sm">
@@ -98,26 +98,36 @@ export default function GuideExpert({ snapshot }) {
         </p>
         <ol className="list-decimal space-y-1 pl-6">
           <li>
-            prova tutte le posizioni del <b>1° pezzo</b>, dà un punteggio a ognuna e tiene le <b>{Q.beam}</b> migliori;
+            prova tutte le posizioni del <b>1° pezzo</b>, dà un punteggio a ognuna e tiene le <b>{Q.first}</b> migliori;
           </li>
           <li>
-            da ognuna di queste prova tutte le posizioni del <b>2° pezzo</b>: le sequenze di due mosse ottenute vengono ordinate e
-            ne restano di nuovo <b>{Q.beam}</b>;
+            per <b>ognuna di queste, separatamente</b>, prova tutte le posizioni del <b>2° pezzo</b>: le sequenze di due mosse
+            ottenute vengono ordinate e ne restano <b>{Q.beam}</b>;
           </li>
           <li>
             lo stesso con il <b>3° pezzo</b>, tenendo stavolta le <b>{Q.beam * 2}</b> migliori sequenze complete;
           </li>
-          <li>per queste ultime si stima il rischio del pezzo ignoto (passo 4) e si sceglie la sequenza migliore.</li>
+          <li>
+            per queste ultime si stima il rischio del pezzo ignoto (passo 4); ogni prima mossa vale quanto la sua sequenza
+            migliore e si sceglie la prima mossa che vale di più.
+          </li>
         </ol>
         <BeamDiagram />
         <p>
-          Invece di 216.000 tabelloni se ne valutano circa 60 + {Q.beam}×60 + {Q.beam}×60 ≈ 1.300: un suggerimento richiede circa
-          50 millisecondi. Il prezzo è che una sequenza scartata presto non viene più riconsiderata, anche se si sarebbe rivelata
-          ottima più avanti.
+          Invece di 216.000 tabelloni se ne valutano circa 60 + {Q.first} × (60 + {Q.beam}×60) ≈ 6.700: un suggerimento richiede
+          qualche decina di millisecondi, qualche centinaio nelle posizioni più aperte. Il prezzo è che una prima mossa esclusa al
+          primo livello, o una sequenza scartata presto dentro un fascio, non viene più riconsiderata, anche se si sarebbe
+          rivelata ottima più avanti.
         </p>
         <p>
-          Se a un certo livello il pezzo non entra da nessuna parte, la ricerca si ferma lì e decide con le sequenze già trovate:
-          così il computer gioca comunque la mossa migliore possibile anche quando la fine è vicina.
+          Dare a ogni prima mossa il <b>proprio</b> fascio costa di più che usarne uno solo per tutte, ma garantisce un confronto
+          alla pari: ogni prima mossa viene approfondita allo stesso modo, sia quando la sceglie il computer sia quando la gioca
+          tu e l&apos;analisi la valuta.
+        </p>
+        <p>
+          Se a un certo livello un pezzo noto non entra da nessuna parte, la sequenza resta incompleta e perde{" "}
+          {fmt(Q.blocked, 0)} punti: una prima mossa che porta al blocco viene scelta solo se ci portano tutte, e in quel caso il
+          computer gioca comunque la migliore fra quelle.
         </p>
       </Section>
 
@@ -167,8 +177,10 @@ export default function GuideExpert({ snapshot }) {
           </span>
         </Note>
         <p>
-          La penalità è forte ({Q.unknownDeath}) perché un pezzo che non entra significa fine partita: una sequenza che lascia
-          anche solo il 10% di probabilità di morte perde {fmt(Q.unknownDeath * 0.1, 0)} punti, più di quanto valga una linea.
+          La penalità è forte ({fmt(Q.unknownDeath, 0)}) perché un pezzo che non entra significa fine partita: una sequenza che
+          lascia anche solo il 10% di probabilità di morte perde {fmt(Q.unknownDeath * 0.1, 0)} punti. Il valore è stato scelto
+          con le partite simulate: da quando ogni prima mossa ha il proprio fascio la ricerca trova più sequenze che svuotano
+          linee, e con una penalità più bassa (400) le partite si accorciavano.
         </p>
       </Section>
 
@@ -182,18 +194,20 @@ export default function GuideExpert({ snapshot }) {
       </Section>
 
       <Section n={6} title="Quanto rende">
-        <p>100 partite simulate in modalità Esperto, con la stessa sequenza di pezzi per le due strategie:</p>
+        <p>50 partite simulate in modalità Esperto, con la stessa sequenza di pezzi per le due strategie:</p>
         <Table
           head={["Strategia", "Durata mediana", "Durata media", "Partita più lunga", "Punti medi"]}
           align={["", "r", "r", "r", "r"]}
           rows={[
-            ["Precedente: 1° pezzo + 2° pezzo", "83", "101", "399", "784"],
-            ["Attuale: tre pezzi (beam search) + pezzo ignoto", "245", "309", "1.587", "2.862"],
+            ["Precedente: un solo fascio per tutte le prime mosse", "310", "369", "1.649", "3.434"],
+            ["Attuale: un fascio per ogni prima mossa", "266", "400", "1.789", "4.306"],
           ]}
         />
         <p>
-          La strategia attuale è durata di più in 84 partite su 100 e di meno in 15 (una pari). Con queste regole, però, nessuna
-          strategia è immortale: prima o poi arriva una serie di pezzi che non trova posto.
+          La strategia attuale fa più punti in media (+25%), ma partita per partita dura di più in 24 casi e di meno in 26: le
+          durate variano così tanto che la differenza non è significativa. Il vantaggio certo è un altro: suggerimento e
+          analisi delle mosse ora confrontano le prime mosse alla pari. Con queste regole, comunque, nessuna strategia è
+          immortale: prima o poi arriva una serie di pezzi che non trova posto.
         </p>
       </Section>
 
@@ -225,15 +239,16 @@ export default function GuideExpert({ snapshot }) {
           <>
             <p>
               La ricerca appena eseguita sul tuo tabellone attuale
-              {snapshot.expert ? "" : " (trattando il vassoio come una coda, anche se stai giocando in modalità normale)"}:
+              {snapshot.expert ? "" : " (trattando il vassoio come una coda, anche se stai giocando in modalità normale)"}. Il
+              2° e il 3° livello si riferiscono al fascio della prima mossa scelta:
             </p>
             <BeamDiagram
               levels={example.levels.map((l, i) => ({ label: `${i + 1}° pezzo · ${l.piece.name}`, generated: l.generated, kept: l.kept }))}
             />
             <p>
-              Le {example.leaves.length} sequenze migliori. Ogni miniatura mostra una mossa sul tabellone in cui viene giocata (se
-              una mossa svuota linee, la successiva parte dal tabellone già svuotato). La stella indica la sequenza scelta: si gioca
-              solo la sua prima mossa.
+              Le {example.leaves.length} prime mosse migliori, ciascuna con la sua sequenza migliore. Ogni miniatura mostra una
+              mossa sul tabellone in cui viene giocata (se una mossa svuota linee, la successiva parte dal tabellone già svuotato).
+              La stella indica la sequenza scelta: si gioca solo la sua prima mossa.
             </p>
             <Table
               head={["", "Sequenza", "Mosse", "Tabellone", "Pezzo ignoto", "Totale"]}
@@ -249,7 +264,8 @@ export default function GuideExpert({ snapshot }) {
             />
             <p className="text-sm text-slate-400">
               «Mosse» = Σ (punti × {Q.gain} + linee × {fmt(W.line)}); «Tabellone» = voto del tabellone finale; «Pezzo ignoto» =
-              rischio del passo 4. Totale = somma delle tre colonne.
+              rischio del passo 4. Totale = somma delle tre colonne
+              {example.leaves.some((leaf) => leaf.blocked) ? `, meno ${fmt(Q.blocked, 0)} per le sequenze bloccate` : ""}.
             </p>
             <p>Il dettaglio del pezzo ignoto per la sequenza scelta:</p>
             <Table

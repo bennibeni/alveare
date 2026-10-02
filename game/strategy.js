@@ -10,22 +10,24 @@
  * 2. Guarda una mossa avanti: per le 6 mosse migliori prova anche la migliore
  *    mossa successiva con gli altri due pezzi del vassoio, e sceglie la coppia
  *    che rende di più.
+ * 3. Toglie al totale 400 × la probabilità che un pezzo estratto a caso non entri
+ *    nel tabellone dopo le due mosse: i pezzi in arrivo sono ignoti, ma un tabellone
+ *    in cui molte forme non entrano più è un tabellone pericoloso.
  *
- * Su partite simulate (stessi pezzi per entrambe) rende circa il 20% di punti per
- * pezzo in più della strategia precedente, senza partite perse.
- *
- * In modalità Esperto (coda) la ricerca è diversa: vedi bestQueueMove più sotto.
+ * In modalità Esperto (coda) la ricerca è diversa: vedi queueCandidates più sotto.
  */
-import { parseKey } from "./HexGrid.js";
+import { DIRECTIONS, parseKey } from "./HexGrid.js";
 import { PIECES, SHAPES } from "./pieces.js";
 import { pieceAvailability } from "./positionRisk.js";
 
 const W = { line: 60, cell: 1, dead: -12, hole: -5, fit: 2.5, near: 1.2, empty: 0.3 };
 const LOOKAHEAD = 6;
+const NORMAL_DEATH = 400; // penalità × probabilità che un pezzo nuovo non entri dopo le due mosse
 
 /** Pesi e parametri, esportati per le pagine che spiegano i suggerimenti. */
 export const WEIGHTS = W;
 export const NORMAL_LOOKAHEAD = LOOKAHEAD;
+export const NORMAL_RISK = NORMAL_DEATH;
 
 function boardFeatures(g) {
   let holes = 0;
@@ -35,7 +37,8 @@ function boardFeatures(g) {
     if (v) continue;
     empty++;
     const [q, r] = parseKey(k);
-    const free = g.getNeighbors(q, r).filter(([a, b]) => g.isEmpty(a, b)).length;
+    let free = 0;
+    for (const [dq, dr] of DIRECTIONS) if (g.isEmpty(q + dq, r + dr)) free++;
     if (free === 0) deadHoles++;
     else if (free === 1) holes++;
   }
@@ -84,21 +87,53 @@ function rankedMoves(grid, tray, streak) {
   return moves.sort((a, b) => b.value - a.value);
 }
 
+/** Probabilità che un pezzo estratto a caso non entri nel tabellone dopo le due mosse.
+ * Non è la probabilità di fine partita (il vassoio ha tre pezzi), ma misura quanto il
+ * tabellone è diventato stretto. Provata anche la stima "esatta" della fine partita
+ * (pezzo noto rimasto che non entra × probabilità al quadrato): rendeva meno. */
+function normalDeath(next) {
+  return pieceAvailability(next.after).death;
+}
+
+/** Totale di una candidata: punti della prima mossa + voto della migliore seconda
+ * mossa con gli altri due pezzi − rischio che un pezzo nuovo non entri. */
+function withLookahead(m, tray) {
+  const rest = tray.map((p, i) => (i === m.idx ? null : p));
+  const next = rankedMoves(m.after, rest, m.nextStreak)[0] || null;
+  const death = next ? normalDeath(next) : 1;
+  const total = m.gain * W.cell + (next ? next.value - NORMAL_DEATH * death : -10000);
+  return { ...m, next, death, total };
+}
+
+/** Le LOOKAHEAD mosse migliori per voto, approfondite; byTotal[0] è il suggerimento. */
+function normalCandidates(grid, tray, streak) {
+  const moves = rankedMoves(grid, tray, streak);
+  const byValue = moves.slice(0, LOOKAHEAD).map((m) => withLookahead(m, tray));
+  return { totalMoves: moves.length, byValue, byTotal: [...byValue].sort((a, b) => b.total - a.total) };
+}
+
 // ---------------------------------------------------------------------------
 // Modalità Esperto (coda FIFO)
-// Si conoscono con certezza i tre pezzi della coda, in ordine: si cercano le
-// sequenze di tre posizioni (primo, secondo, terzo pezzo) con una "beam search"
-// che a ogni livello tiene solo le QUEUE_BEAM sequenze più promettenti. Alla fine
-// si stima il rischio del pezzo ignoto che arriverà dopo: probabilità che non
-// entri da nessuna parte (forte penalità) e quanto spazio avrebbe (premio).
-// Su 100 partite simulate con gli stessi pezzi, le partite durano diverse volte
-// più a lungo rispetto alla versione che guardava solo due pezzi.
+// Si conoscono con certezza i tre pezzi della coda, in ordine. Le posizioni del
+// primo pezzo ricevono un voto a un passo e le QUEUE_FIRST migliori vengono
+// approfondite UNA PER UNA: per ciascuna, una "beam search" sui due pezzi
+// successivi tiene a ogni livello le QUEUE_BEAM sequenze più promettenti
+// (QUEUE_BEAM × 2 all'ultimo). Alla fine si stima il rischio del pezzo ignoto
+// che arriverà dopo: probabilità che non entri da nessuna parte (forte
+// penalità) e quanto spazio avrebbe (premio).
+// Ogni prima mossa ha il proprio fascio, quindi suggerimento, analisi e
+// valutazione di una mossa manuale usano esattamente la stessa ricerca.
 // ---------------------------------------------------------------------------
 const QUEUE_BEAM = 10;
+const QUEUE_FIRST = 10; // prime mosse approfondite, ciascuna con un proprio fascio
 const QUEUE_GAIN = 60; // con la coda conta soprattutto svuotare subito: punti × 60
-const UNKNOWN_DEATH = 400; // penalità × probabilità che il pezzo ignoto non entri
+const UNKNOWN_DEATH = 1200; // penalità × probabilità che il pezzo ignoto non entri (scelta con il simulatore)
 const UNKNOWN_ROOM = 40; // premio × spazio medio per il pezzo ignoto (0..1)
-export const QUEUE_PARAMS = { beam: QUEUE_BEAM, gain: QUEUE_GAIN, unknownDeath: UNKNOWN_DEATH, unknownRoom: UNKNOWN_ROOM };
+const BLOCKED = 10000; // penalità per una sequenza che non colloca tutti i pezzi noti
+export const QUEUE_PARAMS = {
+  beam: QUEUE_BEAM, first: QUEUE_FIRST, gain: QUEUE_GAIN,
+  unknownDeath: UNKNOWN_DEATH, unknownRoom: UNKNOWN_ROOM, blocked: BLOCKED,
+};
 
 // probabilità di uscita di ogni forma (dai pesi di pieces.js)
 const SHAPE_P = (() => {
@@ -126,33 +161,37 @@ function unknownPieceDetail(g) {
   return { death, room, perShape, value: -UNKNOWN_DEATH * death + UNKNOWN_ROOM * room };
 }
 
+/** Un passo della sequenza: gioca il pezzo e aggiorna punti, combo e punteggio. */
+function expand(node, piece, q, r) {
+  const res = node.grid.play(piece.cells, q, r);
+  const gain = res.lines.length ? res.clearedCells.size * res.lines.length * (1 + 0.5 * node.streak) : 0;
+  const acc = node.acc + gain * QUEUE_GAIN + res.lines.length * W.line;
+  return {
+    grid: res.grid,
+    streak: res.lines.length ? node.streak + 1 : 0,
+    acc,
+    path: [...node.path, { piece, q, r, gain, lines: res.lines.length, before: node.grid }],
+    score: acc + boardValue(res.grid),
+  };
+}
+
 /**
- * Beam search sui pezzi della coda. Restituisce le sequenze finali con il loro
- * valore (v) e quanti candidati sono stati generati/tenuti a ogni livello.
+ * Beam search sui pezzi della coda, con la prima mossa fissata. Restituisce le
+ * sequenze finali con il loro valore (v) e quanti candidati sono stati
+ * generati/tenuti a ogni livello successivo al primo. Se un pezzo noto non entra
+ * più, la sequenza resta incompleta: è "bloccata" e perde BLOCKED punti.
  */
-function queueSearch(grid, tray, streak, firstMove = null) {
+function queueSearch(grid, tray, streak, firstMove) {
   const pieces = tray.filter(Boolean);
-  if (!pieces.length || !grid.fits(pieces[0].cells)) return null;
-  let beam = [{ grid, streak, acc: 0, path: [] }];
+  if (!pieces.length || !grid.canPlace(pieces[0].cells, firstMove.q, firstMove.r)) return null;
+  let beam = [expand({ grid, streak, acc: 0, path: [] }, pieces[0], firstMove.q, firstMove.r)];
   const levels = [];
-  for (let level = 0; level < pieces.length; level++) {
+  for (let level = 1; level < pieces.length; level++) {
     const next = [];
     for (const node of beam) {
-      for (const [q, r] of node.grid.placementsFor(pieces[level].cells)) {
-        if (level === 0 && firstMove && (q !== firstMove.q || r !== firstMove.r)) continue;
-        const res = node.grid.play(pieces[level].cells, q, r);
-        const gain = res.lines.length ? res.clearedCells.size * res.lines.length * (1 + 0.5 * node.streak) : 0;
-        const acc = node.acc + gain * QUEUE_GAIN + res.lines.length * W.line;
-        next.push({
-          grid: res.grid,
-          streak: res.lines.length ? node.streak + 1 : 0,
-          acc,
-          path: [...node.path, { piece: pieces[level], q, r, gain, lines: res.lines.length, before: node.grid }],
-          score: acc + boardValue(res.grid),
-        });
-      }
+      for (const [q, r] of node.grid.placementsFor(pieces[level].cells)) next.push(expand(node, pieces[level], q, r));
     }
-    if (!next.length) break; // questo pezzo non entra più: decide il livello precedente
+    if (!next.length) break; // questo pezzo non entra più: la sequenza resta bloccata
     next.sort((a, b) => b.score - a.score);
     const keep = level === pieces.length - 1 ? QUEUE_BEAM * 2 : QUEUE_BEAM;
     levels.push({ piece: pieces[level], generated: next.length, kept: Math.min(keep, next.length) });
@@ -161,24 +200,64 @@ function queueSearch(grid, tray, streak, firstMove = null) {
   const leaves = beam
     .map((n) => {
       const unknown = unknownPieceDetail(n.grid);
-      return { ...n, board: boardValue(n.grid), unknown, v: n.score + unknown.value };
+      const blocked = n.path.length < pieces.length;
+      return { ...n, board: boardValue(n.grid), unknown, blocked, v: n.score + unknown.value - (blocked ? BLOCKED : 0) };
     })
     .sort((a, b) => b.v - a.v);
   return { leaves, levels };
 }
 
+/**
+ * Le prime mosse approfondite, dalla migliore: ognuna con la sua migliore sequenza.
+ * A parità di valore resta l'ordine del voto a un passo.
+ */
+function queueCandidates(grid, tray, streak) {
+  const first = tray.find(Boolean);
+  if (!first) return null;
+  const root = { grid, streak, acc: 0, path: [] };
+  const firsts = grid.placementsFor(first.cells)
+    .map(([q, r]) => ({ q, r, score: expand(root, first, q, r).score }))
+    .sort((a, b) => b.score - a.score);
+  if (!firsts.length) return null;
+  const moves = firsts.slice(0, QUEUE_FIRST)
+    .map(({ q, r }, order) => {
+      const search = queueSearch(grid, tray, streak, { q, r });
+      return { q, r, order, piece: first, leaf: search.leaves[0], levels: search.levels };
+    })
+    .sort((a, b) => b.leaf.v - a.leaf.v || a.order - b.order);
+  return { totalMoves: firsts.length, moves };
+}
+
+// Suggerimento, analisi e pagina guida chiedono spesso la stessa posizione:
+// il tabellone è immutabile, quindi il risultato si può riusare.
+const queueCache = new WeakMap();
+function cachedQueueCandidates(grid, tray, streak) {
+  const key = `${streak}|${tray.map((p) => p?.id ?? "-").join(",")}`;
+  let byTray = queueCache.get(grid);
+  if (!byTray) queueCache.set(grid, (byTray = new Map()));
+  if (!byTray.has(key)) byTray.set(key, queueCandidates(grid, tray, streak));
+  return byTray.get(key);
+}
+
 function bestQueueMove(grid, tray, streak) {
-  const res = queueSearch(grid, tray, streak);
+  const res = cachedQueueCandidates(grid, tray, streak);
   if (!res) return null;
-  const first = res.leaves[0].path[0];
-  return { idx: 0, q: first.q, r: first.r, cells: first.piece.cells };
+  const best = res.moves[0];
+  return { idx: 0, q: best.q, r: best.r, cells: best.piece.cells };
 }
 
 /** Per la pagina "Suggerimenti · Esperto": la ricerca completa sul tabellone dato. */
 export function explainQueue(grid, tray, streak = 0, top = 5) {
-  const res = queueSearch(grid, tray, streak);
+  const res = cachedQueueCandidates(grid, tray, streak);
   if (!res) return null;
-  return { levels: res.levels, leaves: res.leaves.slice(0, top), shapeOdds: SHAPE_P };
+  const best = res.moves[0];
+  return {
+    levels: [{ piece: best.piece, generated: res.totalMoves, kept: res.moves.length }, ...best.levels],
+    leaves: res.moves.slice(0, top).map((m) => m.leaf),
+    firstMoves: res.moves.length,
+    totalMoves: res.totalMoves,
+    shapeOdds: SHAPE_P,
+  };
 }
 
 /**
@@ -187,53 +266,29 @@ export function explainQueue(grid, tray, streak = 0, top = 5) {
  */
 export function bestMove(grid, tray, streak = 0, { queue = false } = {}) {
   if (queue) return bestQueueMove(grid, tray, streak);
-  const moves = rankedMoves(grid, tray, streak);
-  let best = null;
-  for (const m of moves.slice(0, LOOKAHEAD)) {
-    const rest = tray.map((p, i) => (i === m.idx ? null : p));
-    const next = rankedMoves(m.after, rest, m.nextStreak)[0];
-    const total = m.gain * W.cell + (next ? next.value : -10000);
-    if (!best || total > best.total) best = { ...m, total };
-  }
-  return best && { idx: best.idx, q: best.q, r: best.r, cells: best.cells };
+  const best = normalCandidates(grid, tray, streak).byTotal[0];
+  return best ? { idx: best.idx, q: best.q, r: best.r, cells: best.cells } : null;
 }
 
 /** Per la pagina "Suggerimenti · normale": le mosse candidate col dettaglio dei conti. */
 export function explainNormal(grid, tray, streak = 0) {
-  const moves = rankedMoves(grid, tray, streak);
-  const candidates = moves.slice(0, LOOKAHEAD).map((m) => {
-    const rest = tray.map((p, i) => (i === m.idx ? null : p));
-    const next = rankedMoves(m.after, rest, m.nextStreak)[0] || null;
-    return { ...m, next, total: m.gain * W.cell + (next ? next.value : -10000) };
-  });
-  const ordered = [...candidates].sort((a, b) => b.total - a.total);
-  return { totalMoves: moves.length, byValue: candidates, byTotal: ordered, streak };
+  return { ...normalCandidates(grid, tray, streak), streak };
 }
 
 /** Classifica delle sole candidate approfondite dalla strategia attuale.
- * In coda, una prima mossa compare una volta sola, con la sua migliore sequenza.
- * Non estende la ricerca e conserva l'ordine degli ex aequo del suggerimento.
+ * In coda, ogni prima mossa approfondita compare con la sua migliore sequenza:
+ * la prima della lista è sempre il suggerimento.
  */
 export function analyzeMoves(grid, tray, streak = 0, { queue = false } = {}) {
   if (!queue) {
-    const result = explainNormal(grid, tray, streak);
+    const result = normalCandidates(grid, tray, streak);
     return { totalMoves: result.totalMoves, moves: result.byTotal };
   }
-  const totalMoves = tray[0] ? grid.placementsFor(tray[0].cells).length : 0;
-  const result = explainQueue(grid, tray, streak, QUEUE_BEAM * 2);
-  const seen = new Set();
-  const moves = [];
-  for (const leaf of result?.leaves || []) {
-    const first = leaf.path[0];
-    const id = `${first.q},${first.r}`;
-    if (seen.has(id)) continue;
-    seen.add(id);
-    moves.push({
-      idx: 0, q: first.q, r: first.r, piece: first.piece, cells: first.piece.cells,
-      lines: first.lines, total: leaf.v, sequence: leaf,
-    });
-  }
-  return { totalMoves, moves: moves.slice(0, 10) };
+  const res = cachedQueueCandidates(grid, tray, streak);
+  const moves = (res?.moves || []).map(({ q, r, piece, leaf }) => ({
+    idx: 0, q, r, piece, cells: piece.cells, lines: leaf.path[0].lines, total: leaf.v, sequence: leaf,
+  }));
+  return { totalMoves: res?.totalMoves ?? (tray[0] ? grid.placementsFor(tray[0].cells).length : 0), moves };
 }
 
 /** Confronto retrospettivo: usa esclusivamente i pezzi e il tabellone PRIMA
@@ -291,9 +346,7 @@ export function analyzePlayedMove({ grid, tray, streak, expert, idx, q, r }) {
     move = { idx, q, r, piece, cells: piece.cells, lines: sequence.path[0].lines, total: sequence.v, sequence };
   } else {
     const candidate = rankedMoves(grid, tray, streak).find((m) => m.idx === idx && m.q === q && m.r === r);
-    const rest = tray.map((p, i) => i === idx ? null : p);
-    const next = rankedMoves(candidate.after, rest, candidate.nextStreak)[0] || null;
-    move = { ...candidate, next, total: candidate.gain * W.cell + (next ? next.value : -10000) };
+    move = withLookahead(candidate, tray);
   }
   return { ...analysis, moves: [...analysis.moves, { ...move, played: true, added: true }] };
 }

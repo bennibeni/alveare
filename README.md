@@ -58,8 +58,9 @@ I giudizi non vengono ricalibrati automaticamente su queste stime sperimentali.
 
 L’accordion **Analisi delle mosse**, sopra le istruzioni, è disponibile fuori dall’autogioco.
 Mostra il numero di mosse legali e le candidate approfondite dalla strategia attuale, ordinate
-con il suggerimento in testa: fino a 6 in modalità normale; in Esperto le prime mosse distinte
-delle sequenze conservate, ciascuna con il punteggio della propria migliore sequenza (massimo 10).
+con il suggerimento in testa: fino a 6 in modalità normale; in Esperto fino a 10 posizioni del
+primo pezzo, ciascuna approfondita con la propria ricerca e mostrata con il punteggio della sua
+migliore sequenza.
 Il punteggio è quello della strategia, non i punti aggiunti alla partita. L’analisi viene calcolata
 solo aprendo l’accordion. Per disabilitarlo da codice, impostare `SHOW_MOVE_ANALYSIS = false`
 in `game/HexBlockPuzzle.jsx`.
@@ -119,13 +120,36 @@ tests/e2e/            test Playwright
 
 ## Risultati di riferimento (simulatore)
 
-| Modalità | Partite | Durata | Punti |
-|---|---|---|---|
-| normale | 6 × 1.000 pezzi | nessuna partita persa | 10,4 punti per pezzo |
-| Esperto | 100 | mediana 245 pezzi, media 309, max 1.587 | 2.862 punti medi |
+Confronto appaiato (stessi pezzi per le due strategie) fra la versione precedente e quella attuale.
+Le partite hanno durate molto variabili, da poche decine a oltre mille pezzi: le differenze fra le
+medie non sono statisticamente significative con questo numero di partite.
+
+| Modalità | Partite | Strategia | Durata media | Durata mediana | Punti medi | Punti per pezzo |
+|---|---|---|---|---|---|---|
+| normale | 60, max 1.000 pezzi | precedente | 311 | 266 | 3.155 | 10,15 |
+| normale | 60, max 1.000 pezzi | **attuale** (+ rischio del pezzo in arrivo) | 382 | 307 | 3.929 | 10,29 |
+| Esperto | 50, max 3.000 pezzi | precedente (un fascio per tutte le prime mosse) | 369 | 310 | 3.434 | 9,30 |
+| Esperto | 50, max 3.000 pezzi | **attuale** (un fascio per prima mossa) | 400 | 266 | 4.306 | 10,76 |
+
+Semi usati: normale `--seed 7000` (12 partite), `9000` e `11000` (24 ciascuno); Esperto `7000` (20) e
+`13000` (30). Nessuna strategia è immortale: anche in modalità normale tutte le partite finiscono,
+tranne 5 su 60 interrotte al limite dei 1.000 pezzi.
+
+Con la nuova ricerca Esperto la penalità per il pezzo ignoto è passata da 400 a 1.200: con un fascio
+per ogni prima mossa la ricerca trova più sequenze che svuotano linee, e con la penalità a 400 le partite
+si accorciavano (durata media 309 sulle stesse 50 partite). Su 30 partite: 400 → durata media 310,
+800 → 378, 1.200 → 434, 1.600 → 428 (precedente: 402).
+
+Comando rapido (circa 20 secondi):
+
+```bash
+npm run sim -- --mode normal --games 6 --max 1000   # seme 7000: mediana 301, media 458, 1 partita a 1.000
+```
 
 I test di regressione in `tests/unit/strategy.test.js` bloccano il comportamento attuale della strategia: se la
 si modifica di proposito, si misurano i nuovi risultati con `npm run sim` e si aggiornano i valori attesi.
+Sono fotografie di poche partite, non misure di qualità: per confrontare due strategie servono molte
+partite appaiate (`pairedCompare` in `scripts/sim-lib.mjs`).
 
 ## Nota
 

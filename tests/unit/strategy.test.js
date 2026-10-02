@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import HexGrid from "../../game/HexGrid.js";
 import { PIECES, randomTray, seededRandom, SHAPES } from "../../game/pieces.js";
-import { analyzeMoves, analyzePlayedMove, bestMove, explainNormal, explainQueue } from "../../game/strategy.js";
+import { analyzeMoves, analyzePlayedMove, bestMove, explainNormal, explainQueue, NORMAL_RISK, QUEUE_PARAMS } from "../../game/strategy.js";
 import { pairedCompare, playGame, playGames, seedFor } from "../../scripts/sim-lib.mjs";
 
 const byName = (n) => SHAPES.find((s) => s.name === n).pieces;
@@ -29,7 +29,7 @@ describe("classifica delle mosse approfondite", () => {
         expect(extra.moves.at(-1).total).toBeCloseTo(leaf.acc + leaf.board + leaf.unknown.value);
       } else {
         const m = extra.moves.at(-1);
-        expect(m.total).toBe(m.gain + (m.next ? m.next.value : -10000));
+        expect(m.total).toBeCloseTo(m.gain + (m.next ? m.next.value - NORMAL_RISK * m.death : -10000));
       }
       expect(bestMove(grid, tray, 2, { queue: expert })).toEqual({ idx: top.idx, q: top.q, r: top.r, cells: top.cells });
     });
@@ -53,10 +53,12 @@ describe("classifica delle mosse approfondite", () => {
         if (queue) expect(m.idx).toBe(0);
       });
       if (queue) {
+        // ogni prima mossa approfondita compare, con il valore della sua sequenza migliore
+        expect(result.moves).toHaveLength(Math.min(QUEUE_PARAMS.first, result.totalMoves));
         const leaves = explainQueue(grid, tray, 2, 20).leaves;
-        result.moves.forEach((m) => {
-          const values = leaves.filter((l) => l.path[0].q === m.q && l.path[0].r === m.r).map((l) => l.v);
-          expect(m.total).toBe(Math.max(...values));
+        result.moves.forEach((m, i) => {
+          expect(leaves[i].path[0]).toMatchObject({ q: m.q, r: m.r });
+          expect(m.total).toBe(leaves[i].v);
         });
       }
     });
@@ -88,6 +90,40 @@ function midGame(seed, moves = 15) {
   return { grid, tray };
 }
 
+describe("Esperto: ogni prima mossa ha il proprio fascio", () => {
+  it("su tabelloni di metà partita l'analisi confronta tutte le prime mosse approfondite", () => {
+    for (let s = 1; s <= 5; s++) {
+      const { grid, tray } = midGame(s);
+      const result = analyzeMoves(grid, tray, 0, { queue: true });
+      expect(result.moves).toHaveLength(Math.min(QUEUE_PARAMS.first, result.totalMoves));
+    }
+  });
+
+  it("la mossa che impedisce di collocare un pezzo noto è penalizzata e non suggerita", () => {
+    // La barra orizzontale entra solo nelle quattro celle libere della riga r = 2 (q da -4 a -1).
+    // Ogni linea ha almeno due celle libere, quindi un punto non svuota mai linee: se finisce
+    // in quelle quattro celle, la barra (secondo pezzo della coda) non entra più.
+    const slot = ["-4,2", "-3,2", "-2,2", "-1,2"];
+    const free = new Set([...slot, "0,0", "2,-1", "-2,0", "-1,-3", "-3,3", "2,-3", "-2,-2", "-4,1", "-2,3", "4,-1",
+      "-1,1", "1,-4", "4,0", "2,1", "1,-1", "2,2", "4,-2", "3,-4", "-2,4", "-3,4", "3,-2", "0,1"]);
+    let g = new HexGrid(4);
+    for (const k of g.cells.keys()) if (!free.has(k)) g = g.place([[0, 0]], ...k.split(",").map(Number), 1);
+    const punto = byName("punto")[0];
+    const barra = byName("barra 4").find((p) => p.cells.every(([, r]) => r === 0));
+    expect(g.placementsFor(barra.cells)).toHaveLength(1);
+    const tray = [punto, barra, punto];
+    const blockedMove = analyzePlayedMove({ grid: g, tray, streak: 0, expert: true, idx: 0, q: -4, r: 2 })
+      .moves.find((m) => m.played);
+    expect(blockedMove.sequence.blocked).toBe(true);
+    expect(blockedMove.sequence.path).toHaveLength(1);
+    expect(blockedMove.total).toBeLessThan(-QUEUE_PARAMS.blocked / 2);
+    const { moves } = analyzeMoves(g, tray, 0, { queue: true });
+    for (const m of moves) expect(m.sequence.blocked).toBe(slot.includes(`${m.q},${m.r}`));
+    expect(moves[0].sequence.blocked).toBe(false);
+    expect(slot).not.toContain(`${moves[0].q},${moves[0].r}`);
+  });
+});
+
 describe("suggerimenti: mosse sempre valide", () => {
   it("modalità normale: la mossa suggerita è legale", () => {
     for (let s = 1; s <= 5; s++) {
@@ -117,12 +153,21 @@ describe("suggerimenti: mosse sempre valide", () => {
     expect(bestMove(g, [barra, punto, barra], 0, { queue: true })).toBeNull(); // Esperto: conta solo il primo
   });
 
-  it("in Esperto, se il punto può chiudere una linea, la chiude", () => {
+  it("in Esperto, il punto chiude subito una linea oppure c'è una sequenza che rende di più", () => {
     let g = new HexGrid(4);
     for (let q = -4; q <= 3; q++) g = g.place([[0, 0]], q, 0, 1); // riga centrale piena tranne (4,0)
     const punto = byName("punto")[0];
     const rombo = byName("rombo")[0];
-    const m = bestMove(g, [punto, rombo, rombo], 0, { queue: true });
+    const tray = [punto, rombo, rombo];
+    const close = analyzePlayedMove({ grid: g, tray, streak: 0, expert: true, idx: 0, q: 4, r: 0 })
+      .moves.find((m) => m.played);
+    expect(close.sequence.path[0].lines).toBe(1);
+    const best = analyzeMoves(g, tray, 0, { queue: true }).moves[0];
+    expect(best.total).toBeGreaterThanOrEqual(close.total);
+    // Con questi pezzi conviene rimandare: i due rombi svuotano due linee insieme.
+    expect(best.sequence.acc).toBeGreaterThan(close.sequence.acc);
+    // Con tre punti, invece, chiudere subito è la scelta migliore.
+    const m = bestMove(g, [punto, punto, punto], 0, { queue: true });
     expect([m.q, m.r]).toEqual([4, 0]);
   });
 });
@@ -167,17 +212,19 @@ describe("prestazioni e regressioni (simulazioni con seme)", () => {
     expect(playGame({ mode: "normal", seed: 555, maxMoves: 60 })).toEqual({ seed: 555, pieces: 60, points: 493, lines: 30, lost: false });
   });
 
-  it("regressione · Esperto con rischio per orientamento, seme 7097: 208 pezzi, 1834 punti", () => {
+  it("regressione · Esperto, seme 7097: 52 pezzi, 561 punti", () => {
     expect(playGame({ mode: "expert", seed: seedFor(7000, 1), maxMoves: 5000 })).toEqual({
       seed: 7097,
-      pieces: 208,
-      points: 1834,
-      lines: 112,
+      pieces: 52,
+      points: 561,
+      lines: 28,
       lost: true,
     });
   });
 
-  it("modalità normale: nessuna partita persa in 3 partite da 150 pezzi", () => {
+  // Regressione, non garanzia: con altri semi la modalità normale perde anche prima di 150
+  // pezzi (vedi README). La qualità della strategia si misura con `npm run sim`.
+  it("regressione · normale, semi 1, 98, 195: tutte e tre arrivano a 150 pezzi", () => {
     expect(playGames({ mode: "normal", games: 3, maxMoves: 150, seed: 1 }).every((r) => !r.lost)).toBe(true);
   });
 

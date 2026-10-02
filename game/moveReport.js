@@ -1,5 +1,5 @@
 import { JUDGMENT_LIMITS } from "./moveJudgment.js";
-import { WEIGHTS, NORMAL_LOOKAHEAD, QUEUE_PARAMS } from "./strategy.js";
+import { WEIGHTS, NORMAL_LOOKAHEAD, NORMAL_RISK, QUEUE_PARAMS } from "./strategy.js";
 
 const board = (grid) => ({ radius: grid.radius, cells: [...grid.cells] });
 const placement = (move) => ({
@@ -24,16 +24,16 @@ export function buildMoveReport({ snapshot, analysis, judgment, feedbackText, po
     after: { ...board(result.grid), clearedLines: result.lines, clearedCells: [...result.clearedCells] },
     judgment,
     positionIndicators,
-    parameters: { judgment: JUDGMENT_LIMITS, weights: WEIGHTS, normalLookahead: NORMAL_LOOKAHEAD, queue: QUEUE_PARAMS },
+    parameters: { judgment: JUDGMENT_LIMITS, weights: WEIGHTS, normalLookahead: NORMAL_LOOKAHEAD, normalRisk: NORMAL_RISK, queue: QUEUE_PARAMS },
     totalMoves: analysis.totalMoves,
     legalMoves,
     evaluatedMoves: analysis.moves.map((move) => ({
-      ...placement(move), total: move.total, played: !!move.played, added: !!move.added,
+      ...placement(move), total: move.total, death: move.death ?? null, played: !!move.played, added: !!move.added,
       next: move.next ? placement(move.next) : null,
       sequence: move.sequence ? {
         path: move.sequence.path.map(placement), acc: move.sequence.acc,
         score: move.sequence.score, board: move.sequence.board,
-        unknown: move.sequence.unknown, value: move.sequence.v,
+        unknown: move.sequence.unknown, blocked: !!move.sequence.blocked, value: move.sequence.v,
       } : null,
     })),
   };
