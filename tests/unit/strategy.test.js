@@ -10,7 +10,7 @@ describe("classifica delle mosse approfondite", () => {
   for (const expert of [false, true]) {
     it(`evidenzia o aggiunge la mossa giocata senza cambiare le candidate (Esperto: ${expert})`, () => {
       const grid = new HexGrid(4);
-      const tray = randomTray(grid, seededRandom(23));
+      const tray = randomTray(seededRandom(23));
       const position = { grid, tray, streak: 2, expert };
       const original = analyzeMoves(grid, tray, 2, { queue: expert });
       const top = original.moves[0];
@@ -37,7 +37,7 @@ describe("classifica delle mosse approfondite", () => {
   for (const queue of [false, true]) {
     it(`conteggio, ordine e suggerimento coerenti (coda: ${queue})`, () => {
       const grid = new HexGrid(4);
-      const tray = randomTray(grid, seededRandom(23));
+      const tray = randomTray(seededRandom(23));
       const result = analyzeMoves(grid, tray, 2, { queue });
       const playable = (queue ? tray.slice(0, 1) : tray).reduce((n, p) => n + grid.placementsFor(p.cells).length, 0);
       expect(result.totalMoves).toBe(playable);
@@ -79,7 +79,7 @@ describe("classifica delle mosse approfondite", () => {
 function midGame(seed, moves = 15) {
   const rng = seededRandom(seed);
   let grid = new HexGrid(4);
-  let tray = randomTray(grid, rng);
+  let tray = randomTray(rng);
   for (let i = 0; i < moves; i++) {
     const m = bestMove(grid, tray, 0);
     grid = grid.play(tray[m.idx].cells, m.q, m.r).grid;

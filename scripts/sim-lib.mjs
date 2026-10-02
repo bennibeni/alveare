@@ -23,7 +23,7 @@ export function playGame({ mode = "normal", seed = 1, maxMoves = 1000, strategy 
   const rng = seededRandom(seed);
   const queue = mode === "expert";
   let grid = new HexGrid(4);
-  let tray = randomTray(queue ? null : grid, rng);
+  let tray = randomTray(rng);
   let streak = 0;
   let pieces = 0;
   let points = 0;
@@ -41,7 +41,7 @@ export function playGame({ mode = "normal", seed = 1, maxMoves = 1000, strategy 
     lines += res.lines.length;
     streak = res.lines.length ? streak + 1 : 0;
     grid = res.grid;
-    tray = queue ? shiftQueue(tray, rng) : replacePiece(tray, m.idx, grid, rng);
+    tray = queue ? shiftQueue(tray, rng) : replacePiece(tray, m.idx, rng);
   }
   return { seed, pieces, points, lines, lost };
 }

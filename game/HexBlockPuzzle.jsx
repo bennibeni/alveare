@@ -15,6 +15,7 @@ import { analyzePlayedMove, bestMove } from "./strategy.js";
 const RADIUS = 4;
 const SHOW_MOVE_ANALYSIS = true; // false per nascondere l'accordion delle mosse
 const SHOW_MOVE_FEEDBACK = true; // toast laterale dopo le mosse manuali
+const SHOW_JUDGMENT_COPY = true; // false per nascondere l'icona che copia giudizio e log diagnostico
 const SIZE = 22; // raggio di un esagono in unità SVG
 const GAP = 1.6; // spazio visivo fra esagoni
 const TRAY_SCALE = 0.62; // scala massima dei pezzi nel vassoio (schermi larghi)
@@ -101,7 +102,7 @@ function trayScaleFor(boardScale) {
 /** Nuova partita. recordBase = record della modalità all'inizio: superarlo fa scattare l'avviso. */
 function freshGame(recordBase = 0) {
   const grid = new HexGrid(RADIUS);
-  return { grid, tray: randomTray(grid), score: 0, streak: 0, moves: 0, linesTotal: 0, recordBase };
+  return { grid, tray: randomTray(), score: 0, streak: 0, moves: 0, linesTotal: 0, recordBase };
 }
 
 /**
@@ -294,7 +295,7 @@ function Game({ active = true, onSnapshot }) {
       const { gained, bonus } = scoreMove(piece.cells.length, lines, clearedCells.size, game.streak);
       // il pezzo usato viene subito sostituito da uno nuovo nello stesso posto
       // normale: il pezzo usato viene sostituito al suo posto; Esperto: la coda scorre
-      const nextTray = expert ? shiftQueue(game.tray) : replacePiece(game.tray, idx, next);
+      const nextTray = expert ? shiftQueue(game.tray) : replacePiece(game.tray, idx);
 
       const newScore = game.score + gained;
       // Nuovo record: l'avviso compare nel momento in cui il record viene superato
@@ -871,6 +872,8 @@ function Game({ active = true, onSnapshot }) {
         </div>
 
         {SHOW_MOVE_FEEDBACK && <MoveFeedback snapshot={game.lastMove} judgment={moveJudgment}
+          analysis={playedAnalysis} showCopy={SHOW_JUDGMENT_COPY}
+          onUndo={undo} undoDisabled={!history || auto || !!celebrate || !!flying}
           hidden={autoOn || !active} busy={!!flying || !!celebrate} />}
 
         {/* sotto: istruzioni e spiegazione */}

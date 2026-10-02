@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { fmt } from "./GuideKit.jsx";
+import { buildMoveReport } from "./moveReport.js";
 
 const tones = {
   positive: { border: "#34d399", background: "#052e26", icon: "★" },
@@ -29,11 +30,13 @@ function beep(context, positive) {
   });
 }
 
-export default function MoveFeedback({ snapshot, judgment, hidden, busy }) {
+export default function MoveFeedback({ snapshot, judgment, analysis, showCopy = false, hidden, busy, onUndo, undoDisabled }) {
   const [sound, setSound] = useState(false);
   const [audioUnavailable, setAudioUnavailable] = useState(false);
   const [dismissed, setDismissed] = useState(null);
   const [expandedFor, setExpandedFor] = useState(null);
+  const [copyStatus, setCopyStatus] = useState(null);
+  const card = useRef(null);
   const context = useRef(null);
   const heard = useRef(new WeakSet());
 
@@ -57,6 +60,21 @@ export default function MoveFeedback({ snapshot, judgment, hidden, busy }) {
     } catch { setAudioUnavailable(true); }
   };
 
+  const copyReport = async () => {
+    try {
+      // textContent include anche i dettagli chiusi, senza cambiare l'accordion.
+      const paragraphs = [...card.current.querySelectorAll("p, li")]
+        .filter((element) => !element.closest("[data-copy-exclude]"))
+        .map((element) => element.textContent.replace(/\s+/g, " ").trim());
+      const text = buildMoveReport({ snapshot, analysis, judgment,
+        feedbackText: [judgment.label, ...paragraphs].join("\n") });
+      await navigator.clipboard.writeText(text);
+      setCopyStatus({ snapshot, message: "Giudizio e log copiati" });
+    } catch {
+      setCopyStatus({ snapshot, message: "Copia non riuscita. Controlla i permessi degli appunti e riprova." });
+    }
+  };
+
   const visible = judgment && snapshot !== dismissed && !busy;
   const tone = tones[judgment?.emphasis || "neutral"];
   const detailsOpen = judgment?.emphasis === "positive" || expandedFor === snapshot;
@@ -70,10 +88,10 @@ export default function MoveFeedback({ snapshot, judgment, hidden, busy }) {
         </button>
       </div>
       {visible ? (
-        <section role="status" aria-live="polite" aria-atomic="true" data-testid="move-feedback"
+        <section ref={card} role="status" aria-live="polite" aria-atomic="true" data-testid="move-feedback"
           data-emphasis={judgment.emphasis} className="hx-feedback-card rounded-2xl border-2 p-4 text-sm text-slate-200 shadow-lg"
           style={{ borderColor: tone.border, backgroundColor: tone.background }}>
-          <div className="flex items-start justify-between gap-2">
+          <div className="flex items-start justify-between gap-2" data-copy-exclude>
             {judgment.emphasis === "positive" ? (
               <p className="font-semibold text-white">{tone.icon} {judgment.label}</p>
             ) : (
@@ -85,10 +103,26 @@ export default function MoveFeedback({ snapshot, judgment, hidden, busy }) {
                 <span aria-hidden="true">{detailsOpen ? "−" : "+"}</span>
               </button>
             )}
+            {showCopy && <button type="button" onClick={copyReport} disabled={!analysis}
+              className="hx-btn shrink-0 rounded p-1.5" aria-label="Copia giudizio e log della mossa"
+              title="Copia giudizio e log della mossa">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+                <rect x="8" y="8" width="12" height="13" rx="2" />
+                <path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3" />
+              </svg>
+            </button>}
             <button type="button" className="hx-link rounded px-2" aria-label="Chiudi valutazione mossa" onClick={() => setDismissed(snapshot)}>×</button>
           </div>
+          {showCopy && copyStatus?.snapshot === snapshot && <p data-copy-exclude className="mt-2 text-xs text-slate-300">{copyStatus.message}</p>}
           {judgment.label === "Occasione persa" && (
-            <p className="mt-2 text-sm text-orange-200">Puoi annullare l&apos;ultima mossa e riprovare</p>
+            <p className="mt-2 text-sm text-orange-200">
+              Puoi{" "}
+              <button type="button" onClick={onUndo} disabled={undoDisabled}
+                className="hx-btn rounded border border-orange-300/40 px-2 py-0.5 text-sm font-semibold">
+                annullare
+              </button>{" "}
+              l&apos;ultima mossa e riprovare
+            </p>
           )}
           <div id="move-feedback-details" hidden={!detailsOpen}>
           <p className="mt-3 text-xl font-semibold tabular-nums text-white" data-testid="move-feedback-score">
@@ -100,8 +134,10 @@ export default function MoveFeedback({ snapshot, judgment, hidden, busy }) {
             <li>Posizione: {judgment.rank}ª su {judgment.count}{judgment.tied ? `, a pari merito con ${judgment.tied} altre` : ""}.</li>
             <li>Distacco dal massimo: {fmt(judgment.gap, 3)}. Mediana: {fmt(judgment.middle, 3)}.</li>
             <li>Alternative: {judgment.better} migliori, {judgment.comparable} comparabili, {judgment.worse} inferiori.</li>
+            <li>Nettamente migliori: {judgment.clearlyBetter} (vantaggio superiore a {fmt(judgment.clearlyBetterTolerance, 3)} punti). Per “Occasione persa” basta una alternativa con un vantaggio di almeno il 50% della scala di confronto; altrimenti ne servono almeno {judgment.requiredClearlyBetter}, con un distacco dal massimo di almeno il 30%.</li>
             <li>Fascia comparabile: ±{fmt(judgment.tolerance, 3)} punti.</li>
             {judgment.risk.death !== null && <li>Rischio stimato del pezzo ignoto: {fmt(judgment.risk.death * 100)}% (migliore valutata: {fmt(judgment.bestRisk.death * 100)}%).</li>}
+            {judgment.safestDeath != null && <li>Rischio dell’alternativa più sicura che prosegue con i pezzi noti: {fmt(judgment.safestDeath * 100)}%.</li>}
             {judgment.risk.blocked && <li>La sequenza non riesce a collocare tutti i pezzi già noti.</li>}
           </ul>
           <p className="mt-3 text-xs text-slate-400">

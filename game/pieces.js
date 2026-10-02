@@ -107,18 +107,9 @@ export function randomPiece(rng = Math.random) {
   return PIECES[PIECES.length - 1];
 }
 
-/**
- * Nuovo vassoio di 3 pezzi. Se `grid` è fornito, prova (fino a 20 volte) a
- * garantire che almeno un pezzo entri: la partita finisce per le scelte del
- * giocatore, non per sfortuna al sorteggio.
- */
-export function randomTray(grid = null, rng = Math.random) {
-  let tray = null;
-  for (let attempt = 0; attempt < 20; attempt++) {
-    tray = [randomPiece(rng), randomPiece(rng), randomPiece(rng)];
-    if (!grid || tray.some((p) => grid.fits(p.cells))) break;
-  }
-  return tray;
+/** Nuovo vassoio di 3 pezzi estratti indipendentemente dalla griglia. */
+export function randomTray(rng = Math.random) {
+  return [randomPiece(rng), randomPiece(rng), randomPiece(rng)];
 }
 
 /** Centro geometrico di un pezzo in coordinate assiali frazionarie. */
@@ -128,16 +119,11 @@ export function pieceCentroid(cells) {
 }
 
 /**
- * Sostituisce il pezzo usato (posto `idx`) con uno nuovo. Come per il vassoio
- * iniziale, prova (fino a 20 volte) a far sì che almeno uno dei tre pezzi entri.
+ * Sostituisce il pezzo usato (posto `idx`) con una sola estrazione casuale,
+ * anche se nessuno dei tre pezzi risultanti entra nella griglia.
  */
-export function replacePiece(tray, idx, grid = null, rng = Math.random) {
-  let next = tray;
-  for (let attempt = 0; attempt < 20; attempt++) {
-    next = tray.map((p, i) => (i === idx ? randomPiece(rng) : p));
-    if (!grid || next.some((p) => p && grid.fits(p.cells))) break;
-  }
-  return next;
+export function replacePiece(tray, idx, rng = Math.random) {
+  return tray.map((p, i) => (i === idx ? randomPiece(rng) : p));
 }
 
 /** Modalità Esperto (coda FIFO): il primo pezzo esce, gli altri scorrono, uno nuovo entra in fondo. */

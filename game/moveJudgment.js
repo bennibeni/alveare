@@ -1,5 +1,8 @@
 // Soglie descrittive del confronto: non cambiano la strategia di gioco.
-export const JUDGMENT_LIMITS = { comparable: 0.05, strongGap: 0.30, notableLead: 0.10, riskIncrease: 0.20 };
+export const JUDGMENT_LIMITS = {
+  comparable: 0.05, strongGap: 0.30, exceptionalGap: 0.50, clearlyBetter: 0.20, clearlyBetterShare: 2 / 3,
+  notableLead: 0.10, riskIncrease: 0.20, highRisk: 0.50, extremeRisk: 0.80,
+};
 
 const median = (values) => {
   const sorted = [...values].sort((a, b) => a - b);
@@ -35,12 +38,27 @@ export function judgeMove(analysis, knownPieces = 3) {
   const better = others.filter((m) => m.total - played.total > tolerance).length;
   const worse = others.filter((m) => played.total - m.total > tolerance).length;
   const comparable = others.length - better - worse;
+  // Per il giudizio negativo non basta uscire dalla fascia comparabile del 5%.
+  // Includere il valore assoluto della mossa evita distacchi gonfiati quando
+  // il massimo è vicino a zero e la mossa giocata ha un punteggio negativo.
+  const lossScale = Math.max(scale, Math.abs(played.total));
+  const clearlyBetterTolerance = lossScale * JUDGMENT_LIMITS.clearlyBetter;
+  const clearlyBetter = others.filter((m) => m.total - played.total > clearlyBetterTolerance).length;
+  const requiredClearlyBetter = Math.max(2, Math.ceil(others.length * JUDGMENT_LIMITS.clearlyBetterShare));
+  const exceptionalLoss = clearlyBetter >= 1 && gap / lossScale >= JUDGMENT_LIMITS.exceptionalGap;
   const rank = 1 + others.filter((m) => m.total - played.total > epsilon).length;
   const tied = others.filter((m) => Math.abs(m.total - played.total) <= epsilon).length;
   const risk = riskOf(played, knownPieces);
   const bestRisk = riskOf(best, knownPieces);
-  const risky = (risk.blocked && !bestRisk.blocked)
-    || (risk.death !== null && risk.death - bestRisk.death >= JUDGMENT_LIMITS.riskIncrease);
+  // Il riferimento per la sicurezza è l'alternativa meno rischiosa, anche
+  // quando il suo punteggio strategico è inferiore a quello della mossa giocata.
+  const continuingRisks = others.map((m) => riskOf(m, knownPieces)).filter((r) => !r.blocked);
+  const safestDeath = continuingRisks.reduce((minimum, r) =>
+    r.death === null ? minimum : Math.min(minimum, r.death), Infinity);
+  const avoidableBlock = risk.blocked && continuingRisks.length > 0;
+  const riskIncrease = !risk.blocked && risk.death !== null && Number.isFinite(safestDeath)
+    ? risk.death - safestDeath : 0;
+  const risky = avoidableBlock || riskIncrease + 1e-9 >= JUDGMENT_LIMITS.riskIncrease;
   const enough = others.length >= 2;
   const majority = Math.ceil(others.length / 2);
   let label = "Mossa migliorabile";
@@ -51,23 +69,35 @@ export function judgeMove(analysis, knownPieces = 3) {
     label = "Mossa obbligata";
     reason = "Era l’unica mossa legale: il punteggio non misura una scelta fra alternative.";
   } else if (!others.length) {
-    label = "Confronto limitato";
+    label = "Mossa poco promettente";
     reason = "La ricerca ha conservato una sola mossa distinta: non basta per premiare o criticare la scelta.";
-  } else if (risky && better > 0 && relativeGap > JUDGMENT_LIMITS.comparable) {
+  } else if (risky && (avoidableBlock || risk.death >= JUDGMENT_LIMITS.extremeRisk)) {
+    label = "Mossa pessima";
+    emphasis = "negative";
+    reason = avoidableBlock
+      ? "La ricerca non trova una prosecuzione con i pezzi già noti, mentre un’altra mossa la permette. Il rischio di blocco prevale sul punteggio."
+      : "Il rischio stimato di blocco al pezzo ignoto è almeno dell’80%, con un’alternativa più sicura di almeno 20 punti percentuali. Il rischio prevale sul punteggio.";
+  } else if (risky && risk.death >= JUDGMENT_LIMITS.highRisk) {
+    label = "Mossa cattiva";
+    emphasis = "negative";
+    reason = "Il rischio stimato di blocco al pezzo ignoto è almeno del 50%, con un’alternativa più sicura di almeno 20 punti percentuali. Il rischio prevale sul punteggio.";
+  } else if (risky) {
     label = "Mossa rischiosa";
     emphasis = "negative";
-    reason = "Rispetto alla migliore valutata, aumenta il rischio di non riuscire a proseguire e perde punteggio.";
-  } else if (enough && relativeGap >= JUDGMENT_LIMITS.strongGap && better >= majority && rank > moves.length / 2) {
+    reason = "Aumenta il rischio stimato di blocco di almeno 20 punti percentuali rispetto a un’alternativa più sicura, anche se il punteggio è buono.";
+  } else if (exceptionalLoss || (gap / lossScale >= JUDGMENT_LIMITS.strongGap && clearlyBetter >= requiredClearlyBetter)) {
     label = "Occasione persa";
     emphasis = "negative";
-    reason = "Distacco ampio dal massimo e posizione nella metà inferiore: almeno metà delle alternative è nettamente migliore.";
+    reason = exceptionalLoss
+      ? "C’era un’alternativa con un vantaggio di almeno il 50% della scala di confronto: basta questa occasione nettamente superiore, indipendentemente dalla posizione in classifica."
+      : "Distacco dal massimo di almeno il 30% della scala di confronto; almeno due alternative, pari ad almeno due terzi delle valutate, superano la mossa di oltre il 20% della stessa scala.";
   } else if (gap <= epsilon && enough && worse >= majority && (played.total - middle) / scale >= JUDGMENT_LIMITS.notableLead
     && !risk.blocked && (risk.death === null || risk.death < JUDGMENT_LIMITS.riskIncrease)) {
     label = played.added ? "Ottima scoperta" : "Ottima mossa";
     emphasis = "positive";
     reason = "Prima in classifica, con vantaggio significativo sulla mediana e almeno metà delle alternative nettamente inferiori.";
   } else if (!better && !worse) {
-    label = "Scelta equivalente";
+    label = "Una mossa vale l’altra";
     reason = "Tutte le alternative valutate hanno punteggi comparabili: nessuna differenza merita un segnale speciale.";
   } else if (gap <= epsilon && (risk.blocked || risk.death >= JUDGMENT_LIMITS.riskIncrease)) {
     label = "Migliore disponibile";
@@ -84,6 +114,8 @@ export function judgeMove(analysis, knownPieces = 3) {
     label, emphasis, reason, score: played.total, maximum, gap, relativeGap,
     rank, tied, count: moves.length, totalMoves: analysis.totalMoves,
     better, comparable, worse, tolerance, middle, risk, bestRisk,
+    clearlyBetter, clearlyBetterTolerance, requiredClearlyBetter,
+    safestDeath: Number.isFinite(safestDeath) ? safestDeath : null,
     added: !!played.added,
   };
 }

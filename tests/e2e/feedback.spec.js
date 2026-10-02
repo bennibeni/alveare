@@ -12,6 +12,21 @@ test("toast manuale: punteggio coerente, chiusura, annullamento e nessuna sovrap
   await page.mouse.click(target.x, target.y);
   await waitPieces(page, 1);
   await expect(feedback).toBeVisible();
+  const copy = feedback.getByRole("button", { name: "Copia giudizio e log della mossa" });
+  await expect(copy).toBeVisible();
+  await expect(copy).toBeEnabled();
+  await page.evaluate(() => {
+    Object.defineProperty(navigator, "clipboard", { configurable: true, value: {
+      writeText: async (text) => { window.__copiedMoveReport = text; },
+    } });
+  });
+  await copy.click();
+  await expect(feedback).toContainText("Giudizio e log copiati");
+  const report = await page.evaluate(() => window.__copiedMoveReport);
+  expect(report).toContain("Punteggio della mossa / massimo valutato");
+  const log = JSON.parse(report.split("--- Log diagnostico Alveare ---\n")[1]);
+  expect(log.legalMoves).toContainEqual(log.played);
+  expect(log.before.cells).toHaveLength(61);
   const details = feedback.getByRole("button", { name: /^Dettagli del giudizio:/ });
   if (await feedback.getAttribute("data-emphasis") === "positive") {
     await expect(details).toHaveCount(0);

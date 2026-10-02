@@ -4,6 +4,7 @@ import {
   normalize,
   PIECES,
   randomPiece,
+  randomTray,
   replacePiece,
   rotations,
   seededRandom,
@@ -96,18 +97,31 @@ describe("estrazione dei pezzi", () => {
     for (const [name, w] of Object.entries(expected)) expect(count[name] / n).toBeCloseTo(w / 4.6, 1);
   });
 
-  it("modalità normale: replacePiece cambia solo il posto usato e garantisce un pezzo che entra, se possibile", () => {
+  it("modalità normale: replacePiece cambia solo il posto usato", () => {
     const rng = seededRandom(3);
     const tray = [PIECES[1], PIECES[2], PIECES[3]];
-    const next = replacePiece(tray, 1, new HexGrid(4), rng);
+    const next = replacePiece(tray, 1, rng);
     expect(next[0]).toBe(tray[0]);
     expect(next[2]).toBe(tray[2]);
-    // tabellone con una sola cella libera: solo il punto entra, e almeno un pezzo deve entrare
+  });
+
+  it("non ripete il sorteggio per salvare un vassoio senza mosse disponibili", () => {
+    // Solo il punto entra, ma l'estrazione di una barra deve concludere la partita.
     let g = new HexGrid(4);
     for (const k of g.cells.keys()) if (k !== "0,0") g = g.place([[0, 0]], ...k.split(",").map(Number), 1);
     const barre = SHAPES.find((s) => s.name === "barra 4").pieces;
-    const t2 = replacePiece([barre[0], barre[1], barre[2]], 0, g, seededRandom(5));
-    expect(t2.some((p) => g.fits(p.cells))).toBe(true);
+    let calls = 0;
+    const rng = () => ++calls === 1 ? 0.2 : 0;
+    const t2 = replacePiece([barre[0], barre[1], barre[2]], 0, rng);
+    expect(g.fits(PIECES[0].cells)).toBe(true);
+    expect(t2.some((p) => g.fits(p.cells))).toBe(false);
+    expect(calls).toBe(1);
+  });
+
+  it("il vassoio iniziale usa tre estrazioni senza correzioni", () => {
+    const rng = seededRandom(23);
+    const expected = [randomPiece(rng), randomPiece(rng), randomPiece(rng)];
+    expect(randomTray(seededRandom(23))).toEqual(expected);
   });
 
   it("modalità Esperto: shiftQueue fa scorrere la coda e aggiunge un pezzo in fondo", () => {
