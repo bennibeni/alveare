@@ -18,6 +18,7 @@
  */
 import { parseKey } from "./HexGrid.js";
 import { PIECES, SHAPES } from "./pieces.js";
+import { pieceAvailability } from "./positionRisk.js";
 
 const W = { line: 60, cell: 1, dead: -12, hole: -5, fit: 2.5, near: 1.2, empty: 0.3 };
 const LOOKAHEAD = 6;
@@ -114,19 +115,14 @@ function boardValue(g) {
 
 /** Rischio del pezzo ignoto che arriverà dopo i tre noti (con il dettaglio per forma). */
 function unknownPieceDetail(g) {
-  let death = 0;
-  let room = 0;
-  const perShape = [];
-  for (const { shape, p } of SHAPE_P) {
-    let n = 0; // posizioni possibili per questa forma (contate fino a 6)
-    for (const piece of shape.pieces) {
-      n += g.placementsFor(piece.cells).length;
-      if (n >= 6) break;
-    }
-    if (n === 0) death += p;
-    room += (p * Math.min(n, 6)) / 6;
-    perShape.push({ name: shape.name, color: shape.color, p, n: Math.min(n, 6) });
-  }
+  const { death, room, pieces } = pieceAvailability(g);
+  const perShape = SHAPE_P.map(({ shape, p }) => {
+    const orientations = pieces.filter((piece) => piece.name === shape.name);
+    return { name: shape.name, color: shape.color, p,
+      n: orientations.reduce((sum, piece) => sum + Math.min(6, piece.placements), 0) / orientations.length,
+      death: orientations.reduce((sum, piece) => sum + (piece.placements ? 0 : piece.p), 0),
+    };
+  });
   return { death, room, perShape, value: -UNKNOWN_DEATH * death + UNKNOWN_ROOM * room };
 }
 
@@ -246,6 +242,18 @@ export function analyzeMoves(grid, tray, streak = 0, { queue = false } = {}) {
  */
 export function analyzePlayedMove({ grid, tray, streak, expert, idx, q, r }) {
   const analysis = analyzeMoves(grid, tray, streak, { queue: expert });
+  const selectedPiece = tray[idx];
+  if (selectedPiece && (!expert || idx === 0) && grid.canPlace(selectedPiece.cells, q, r)) {
+    const before = boardFeatures(grid);
+    const after = boardFeatures(grid.play(selectedPiece.cells, q, r).grid);
+    const contacts = selectedPiece.cells.map(([dq, dr]) =>
+      grid.getNeighbors(q + dq, r + dr).filter(([nq, nr]) => grid.get(nq, nr) > 0).length);
+    analysis.placementQuality = {
+      touchingCells: contacts.filter((n) => n > 0).length,
+      sharedEdges: contacts.reduce((sum, n) => sum + n, 0),
+      before, after,
+    };
+  }
   const found = analysis.moves.find((m) => m.idx === idx && m.q === q && m.r === r);
   if (found) return { ...analysis, moves: analysis.moves.map((m) => ({ ...m, played: m === found })) };
   const piece = tray[idx];

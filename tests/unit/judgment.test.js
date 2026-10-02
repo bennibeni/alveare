@@ -1,11 +1,76 @@
 import { describe, expect, it } from "vitest";
 import { judgeMove } from "../../game/moveJudgment.js";
+import HexGrid from "../../game/HexGrid.js";
+import { PIECES } from "../../game/pieces.js";
+import { analyzePlayedMove } from "../../game/strategy.js";
 
 function comparison(scores, played, totalMoves = 100) {
   return { totalMoves, moves: scores.map((total, i) => ({ total, played: i === played, next: {} })) };
 }
 
 describe("giudizio qualitativo della mossa", () => {
+  it("riconosce la chiusura produttiva del log anche con alternative più redditizie", () => {
+    const analysis = comparison([243.1, 226.8, 175.5, 174.1, 145.9, 138.2], 2, 26);
+    analysis.moves[2].lines = 2;
+    analysis.placementQuality = {
+      touchingCells: 2, sharedEdges: 3,
+      before: { holes: 4, deadHoles: 3, empty: 22, fitCount: 13 },
+      after: { holes: 3, deadHoles: 1, empty: 32, fitCount: 25 },
+    };
+    expect(judgeMove(analysis)).toMatchObject({ label: "Buona mossa", emphasis: "neutral" });
+    expect(judgeMove(analysis).reason).toContain("2 linee");
+    analysis.moves[2].lines = 1;
+    expect(judgeMove(analysis).reason).toContain("una linea");
+    analysis.placementQuality.after.holes = 5;
+    expect(judgeMove(analysis).label).toBe("Mossa migliorabile");
+    analysis.placementQuality.after.holes = 3;
+    analysis.moves[2].next = null;
+    expect(judgeMove(analysis).label).toBe("Mossa pessima");
+    analysis.moves[2].next = {};
+    analysis.moves[0].total = 400;
+    expect(judgeMove(analysis).label).toBe("Occasione persa");
+  });
+  it("incoraggia l'incastro del log anche fra alternative equivalenti", () => {
+    let grid = new HexGrid(4);
+    for (const [q, r] of [[2, -1], [3, -1], [3, 0], [4, -1]]) grid = grid.place([[0, 0]], q, r, 10);
+    const tray = ["punto-0", "ferro di cavallo-3", "rombo-0"].map((id) => PIECES.find((p) => p.id === id));
+    const analysis = analyzePlayedMove({ grid, tray, streak: 0, expert: false, idx: 1, q: 2, r: -2 });
+    expect(judgeMove(analysis)).toMatchObject({ label: "Buona mossa", score: 78.1, maximum: 79.3,
+      placementQuality: { touchingCells: 4, sharedEdges: 6 } });
+    const quality = analysis.placementQuality;
+    for (const after of [
+      { ...quality.after, holes: quality.before.holes + 1 },
+      { ...quality.after, deadHoles: quality.before.deadHoles + 1 },
+      { ...quality.after, fitCount: quality.before.fitCount - 1 },
+    ]) {
+      expect(judgeMove({ ...analysis, placementQuality: { ...quality, after } }).label).toBe("Una mossa vale l’altra");
+    }
+    expect(judgeMove({ ...analysis, placementQuality: { ...quality, touchingCells: 0, sharedEdges: 0 } }).label).toBe("Una mossa vale l’altra");
+    analysis.moves.find((m) => m.played).next = null;
+    expect(judgeMove(analysis).label).toBe("Mossa pessima");
+  });
+  it("giudica discreta la mossa del log, vicina al gruppo ordinario di alternative", () => {
+    const analysis = comparison([144.9, 139.9, 81.7, 80.5, 80.5, 80.5, 79.3], 6, 145);
+    expect(judgeMove(analysis)).toMatchObject({
+      label: "Mossa discreta", emphasis: "neutral", comparable: 4, better: 2,
+    });
+    analysis.moves[6].next = null;
+    expect(judgeMove(analysis).label).toBe("Mossa pessima");
+  });
+
+  it("la maggioranza comparabile non nasconde un'occasione eccezionale", () => {
+    expect(judgeMove(comparison([160, 81, 80, 79, 79.3], 4)).label).toBe("Occasione persa");
+  });
+  it("non penalizza l'ultima posizione quando il distacco è contenuto", () => {
+    for (const scores of [[100, 99, 98, 97, 90], [100, 99, 98, 97, 96, 95, 90]]) {
+      expect(judgeMove(comparison(scores, scores.length - 1))).toMatchObject({
+        label: "Mossa discreta", emphasis: "neutral", relativeGap: 0.1,
+      });
+    }
+    expect(judgeMove(comparison([100, 99, 98, 97, 96], 4)).label).toBe("Una mossa vale l’altra");
+    expect(judgeMove(comparison([100, 99, 98, 97, 81], 4)).label).toBe("Mossa discreta");
+    expect(judgeMove(comparison([100, 99, 98, 97, 80], 4)).label).toBe("Mossa migliorabile");
+  });
   it("premia una prima scelta nettamente distinta dalle alternative", () => {
     expect(judgeMove(comparison([100, 90, 80, 70], 0))).toMatchObject({
       label: "Ottima mossa", emphasis: "positive", score: 100, maximum: 100, rank: 1,
@@ -71,7 +136,7 @@ describe("giudizio qualitativo della mossa", () => {
         label: "Occasione persa", emphasis: "negative", clearlyBetter: 1, rank: 2,
       });
     }
-    expect(judgeMove(comparison([100, 50.01, 49, 48], 1)).label).toBe("Mossa migliorabile");
+    expect(judgeMove(comparison([100, 50.01, 49, 48], 1)).label).toBe("Mossa discreta");
   });
 
   it("riconosce l'alternativa eccezionale anche con massimo nullo o negativo", () => {

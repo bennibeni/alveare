@@ -28,16 +28,11 @@ test("toast manuale: punteggio coerente, chiusura, annullamento e nessuna sovrap
   expect(log.legalMoves).toContainEqual(log.played);
   expect(log.before.cells).toHaveLength(61);
   const details = feedback.getByRole("button", { name: /^Dettagli del giudizio:/ });
-  if (await feedback.getAttribute("data-emphasis") === "positive") {
-    await expect(details).toHaveCount(0);
-    await expect(page.getByTestId("move-feedback-score")).toBeVisible();
-  } else {
-    await expect(details).toHaveAttribute("aria-expanded", "false");
-    await expect(page.getByTestId("move-feedback-score")).not.toBeVisible();
-    await details.click();
-    await expect(details).toHaveAttribute("aria-expanded", "true");
-    await expect(page.getByTestId("move-feedback-score")).toBeVisible();
-  }
+  await expect(details).toHaveAttribute("aria-expanded", "false");
+  await expect(page.getByTestId("move-feedback-score")).not.toBeVisible();
+  await details.click();
+  await expect(details).toHaveAttribute("aria-expanded", "true");
+  await expect(page.getByTestId("move-feedback-score")).toBeVisible();
   await expect(feedback).toContainText("massimo valutato");
   await expect(feedback).toContainText("Alternative:");
   const after = await page.getByTestId("board").boundingBox();
@@ -56,10 +51,8 @@ test("toast manuale: punteggio coerente, chiusura, annullamento e nessuna sovrap
   await page.mouse.click(target.x, target.y);
   await waitPieces(page, 2);
   await expect(feedback).toBeVisible();
-  if (await feedback.getAttribute("data-emphasis") !== "positive") {
-    await expect(details).toHaveAttribute("aria-expanded", "false");
-    await expect(page.getByTestId("move-feedback-score")).not.toBeVisible();
-  }
+  await expect(details).toHaveAttribute("aria-expanded", "false");
+  await expect(page.getByTestId("move-feedback-score")).not.toBeVisible();
   await page.getByRole("button", { name: "Nuova partita", exact: true }).click();
   await expect(feedback).toHaveCount(0);
   target = await hintTarget(page);

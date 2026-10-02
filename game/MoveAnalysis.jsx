@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import MiniBoard, { fmt, pieceCells } from "./GuideKit.jsx";
 import { PIECE_COLORS } from "./pieces.js";
 import { analyzeMoves, analyzePlayedMove } from "./strategy.js";
+import PositionIndicators from "./PositionIndicators.jsx";
 
 function placementText(grid, move) {
   const rows = new Map();
@@ -19,6 +20,7 @@ function placementText(grid, move) {
 }
 
 function AnalysisContent({ grid, tray, streak, expert, playedMove, playedAnalysis }) {
+  const position = useMemo(() => playedMove || { grid, tray, streak, expert }, [playedMove, grid, tray, streak, expert]);
   const analysis = useMemo(() => playedMove
     ? (playedAnalysis || analyzePlayedMove(playedMove))
     : analyzeMoves(grid, tray, streak, { queue: expert }), [grid, tray, streak, expert, playedMove, playedAnalysis]);
@@ -26,6 +28,7 @@ function AnalysisContent({ grid, tray, streak, expert, playedMove, playedAnalysi
     <div className="mt-3 space-y-3 text-slate-300">
       {playedMove && <p className="font-medium text-emerald-300">Confronto con la posizione prima della tua ultima mossa.</p>}
       <p>{playedMove ? "Mosse giocabili prima della mossa: " : "Mosse giocabili: "}<b data-testid="playable-moves">{analysis.totalMoves}</b>.</p>
+      <PositionIndicators position={position} analysis={analysis} />
       {!analysis.totalMoves ? <p>Nessuna mossa disponibile. Avvia una nuova partita per continuare.</p> : (
         <>
           <p>

@@ -59,8 +59,8 @@ Su desktop occupa una colonna riservata a destra; sotto 1100 px resta nel flusso
 il tabellone, prima degli accordion. Rimane leggibile fino alla mossa successiva o alla
 chiusura e non impila notifiche. `SHOW_MOVE_FEEDBACK` abilita/disabilita questa funzione
 indipendentemente dall’accordion. Durante l’autogioco non valuta né suona.
-I giudizi verdi mostrano subito tutti i dettagli; gli altri mostrano solo il giudizio,
-cliccabile per aprire i dettagli. Ogni nuova mossa non verde parte con i dettagli chiusi.
+Tutti i giudizi mostrano inizialmente solo il titolo, cliccabile per aprire i dettagli.
+Ogni nuova mossa parte con i dettagli chiusi, anche quando il giudizio è positivo.
 
 Il rapporto mostrato è `voto della mossa / massimo fra le mosse valutate`, inclusa
 la mossa aggiunta al confronto: non è una percentuale né il massimo globale di tutte

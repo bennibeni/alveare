@@ -253,7 +253,7 @@ export default function GuideExpert({ snapshot }) {
             </p>
             <p>Il dettaglio del pezzo ignoto per la sequenza scelta:</p>
             <Table
-              head={["Forma", "Probabilità", "Posizioni (max 6)", "Spazio pesato"]}
+              head={["Forma", "Probabilità", "Posizioni medie per orientamento (max 6)", "Spazio pesato"]}
               align={["", "r", "r", "r"]}
               rows={best.unknown.perShape.map((s) => [
                 <span key="n" className="flex items-center gap-2">
@@ -261,10 +261,11 @@ export default function GuideExpert({ snapshot }) {
                   {s.name}
                 </span>,
                 pct(s.p),
-                s.n === 0 ? <b key="z" style={{ color: "#fb7185" }}>0 · non entra</b> : s.n === 6 ? "6+" : s.n,
+                s.n === 0 ? <b key="z" style={{ color: "#fb7185" }}>0 · non entra</b> : s.n === 6 ? "6+" : fmt(s.n, 2),
                 fmt((s.p * s.n) / 6, 3),
               ])}
             />
+            <p>Il rischio pesa ogni orientamento con la sua probabilità di estrazione: una rotazione disponibile non rende giocabili le altre.</p>
             <Note tone={best.unknown.death > 0 ? "warn" : "ok"}>
               Probabilità che il pezzo ignoto non entri: <b>{pct(best.unknown.death)}</b> → −{Q.unknownDeath} ×{" "}
               {fmt(best.unknown.death, 3)} = {fmt(-Q.unknownDeath * best.unknown.death)}

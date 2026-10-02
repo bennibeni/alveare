@@ -61,6 +61,17 @@ export function judgeMove(analysis, knownPieces = 3) {
   const risky = avoidableBlock || riskIncrease + 1e-9 >= JUDGMENT_LIMITS.riskIncrease;
   const enough = others.length >= 2;
   const majority = Math.ceil(others.length / 2);
+  const placementQuality = analysis.placementQuality;
+  const productiveClear = played.lines > 0 && placementQuality
+    && placementQuality.after.empty > placementQuality.before.empty
+    && placementQuality.after.holes <= placementQuality.before.holes
+    && placementQuality.after.deadHoles <= placementQuality.before.deadHoles
+    && placementQuality.after.fitCount >= placementQuality.before.fitCount;
+  const usefulFit = placementQuality && placementQuality.touchingCells >= 2
+    && placementQuality.sharedEdges >= 3
+    && placementQuality.after.holes <= placementQuality.before.holes
+    && placementQuality.after.deadHoles <= placementQuality.before.deadHoles
+    && placementQuality.after.fitCount >= placementQuality.before.fitCount;
   let label = "Mossa migliorabile";
   let emphasis = "neutral";
   let reason = "Il distacco dalle migliori suggerisce che c’erano alternative più efficaci.";
@@ -96,6 +107,14 @@ export function judgeMove(analysis, knownPieces = 3) {
     label = played.added ? "Ottima scoperta" : "Ottima mossa";
     emphasis = "positive";
     reason = "Prima in classifica, con vantaggio significativo sulla mediana e almeno metà delle alternative nettamente inferiori.";
+  } else if (productiveClear && relativeGap <= JUDGMENT_LIMITS.strongGap
+    && !risk.blocked && (risk.death === null || risk.death < JUDGMENT_LIMITS.riskIncrease)) {
+    label = "Buona mossa";
+    reason = `Hai eliminato ${played.lines === 1 ? "una linea" : `${played.lines} linee`}, aumentando lo spazio libero senza peggiorare le cavità difficili o le forme giocabili. ${gap > tolerance ? "Alcune alternative ottengono un voto superiore, ma la tua scelta migliora concretamente la posizione." : "La valutazione resta vicina alle migliori alternative."}`;
+  } else if (usefulFit && relativeGap <= JUDGMENT_LIMITS.comparable
+    && !risk.blocked && (risk.death === null || risk.death < JUDGMENT_LIMITS.riskIncrease)) {
+    label = "Buona mossa";
+    reason = "Il pezzo si incastra con quelli presenti senza aumentare le cavità difficili o ridurre le forme giocabili. La valutazione resta vicina alle migliori alternative.";
   } else if (!better && !worse) {
     label = "Una mossa vale l’altra";
     reason = "Tutte le alternative valutate hanno punteggi comparabili: nessuna differenza merita un segnale speciale.";
@@ -105,9 +124,12 @@ export function judgeMove(analysis, knownPieces = 3) {
   } else if (relativeGap <= JUDGMENT_LIMITS.comparable) {
     label = "Buona mossa";
     reason = "Il punteggio è entro la fascia delle migliori; il distacco è piccolo.";
-  } else if (relativeGap < 0.20 && rank <= Math.ceil(moves.length / 2)) {
+  } else if (enough && comparable > others.length / 2) {
     label = "Mossa discreta";
-    reason = "Resta nella metà superiore della classifica, con un distacco contenuto dal massimo.";
+    reason = "La mossa ha un valore simile alla maggioranza delle alternative valutate, ma alcune scelte offrono un vantaggio maggiore.";
+  } else if (relativeGap < 0.20) {
+    label = "Mossa discreta";
+    reason = "Il distacco dal massimo è contenuto, inferiore al 20% della scala di confronto: la posizione in classifica non penalizza la scelta.";
   }
 
   return {
@@ -116,6 +138,7 @@ export function judgeMove(analysis, knownPieces = 3) {
     better, comparable, worse, tolerance, middle, risk, bestRisk,
     clearlyBetter, clearlyBetterTolerance, requiredClearlyBetter,
     safestDeath: Number.isFinite(safestDeath) ? safestDeath : null,
+    ...(placementQuality ? { placementQuality } : {}),
     added: !!played.added,
   };
 }

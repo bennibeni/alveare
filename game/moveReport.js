@@ -8,7 +8,7 @@ const placement = (move) => ({
 });
 
 /** Generato solo su richiesta: nessuna nuova ricerca e nessun dato di sessione. */
-export function buildMoveReport({ snapshot, analysis, judgment, feedbackText }) {
+export function buildMoveReport({ snapshot, analysis, judgment, feedbackText, positionIndicators = null }) {
   const { grid, tray, streak, expert, idx, q, r } = snapshot;
   const result = grid.play(tray[idx].cells, q, r, tray[idx].color);
   const legalMoves = tray.flatMap((piece, slot) => {
@@ -23,6 +23,7 @@ export function buildMoveReport({ snapshot, analysis, judgment, feedbackText }) 
     played: { idx, q, r },
     after: { ...board(result.grid), clearedLines: result.lines, clearedCells: [...result.clearedCells] },
     judgment,
+    positionIndicators,
     parameters: { judgment: JUDGMENT_LIMITS, weights: WEIGHTS, normalLookahead: NORMAL_LOOKAHEAD, queue: QUEUE_PARAMS },
     totalMoves: analysis.totalMoves,
     legalMoves,

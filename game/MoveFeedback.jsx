@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { fmt } from "./GuideKit.jsx";
 import { buildMoveReport } from "./moveReport.js";
+import { calculatePositionRisk } from "./positionRiskClient.js";
 
 const tones = {
   positive: { border: "#34d399", background: "#052e26", icon: "★" },
@@ -66,7 +67,9 @@ export default function MoveFeedback({ snapshot, judgment, analysis, showCopy = 
       const paragraphs = [...card.current.querySelectorAll("p, li")]
         .filter((element) => !element.closest("[data-copy-exclude]"))
         .map((element) => element.textContent.replace(/\s+/g, " ").trim());
-      const text = buildMoveReport({ snapshot, analysis, judgment,
+      setCopyStatus({ snapshot, loading: true, message: "Calcolo degli indicatori per il log…" });
+      const positionIndicators = await calculatePositionRisk(snapshot, analysis);
+      const text = buildMoveReport({ snapshot, analysis, judgment, positionIndicators,
         feedbackText: [judgment.label, ...paragraphs].join("\n") });
       await navigator.clipboard.writeText(text);
       setCopyStatus({ snapshot, message: "Giudizio e log copiati" });
@@ -77,7 +80,7 @@ export default function MoveFeedback({ snapshot, judgment, analysis, showCopy = 
 
   const visible = judgment && snapshot !== dismissed && !busy;
   const tone = tones[judgment?.emphasis || "neutral"];
-  const detailsOpen = judgment?.emphasis === "positive" || expandedFor === snapshot;
+  const detailsOpen = expandedFor === snapshot;
   return (
     <aside className="hx-feedback-rail" aria-label="Valutazione della mossa" hidden={hidden}>
       <div className="mb-2 flex items-center justify-between gap-2 text-xs text-slate-400">
@@ -92,9 +95,6 @@ export default function MoveFeedback({ snapshot, judgment, analysis, showCopy = 
           data-emphasis={judgment.emphasis} className="hx-feedback-card rounded-2xl border-2 p-4 text-sm text-slate-200 shadow-lg"
           style={{ borderColor: tone.border, backgroundColor: tone.background }}>
           <div className="flex items-start justify-between gap-2" data-copy-exclude>
-            {judgment.emphasis === "positive" ? (
-              <p className="font-semibold text-white">{tone.icon} {judgment.label}</p>
-            ) : (
               <button type="button" className="hx-link flex flex-1 items-center justify-between gap-2 text-left font-semibold"
                 aria-expanded={detailsOpen} aria-controls="move-feedback-details"
                 aria-label={`Dettagli del giudizio: ${judgment.label}`}
@@ -102,8 +102,7 @@ export default function MoveFeedback({ snapshot, judgment, analysis, showCopy = 
                 <span>{tone.icon} {judgment.label}</span>
                 <span aria-hidden="true">{detailsOpen ? "−" : "+"}</span>
               </button>
-            )}
-            {showCopy && <button type="button" onClick={copyReport} disabled={!analysis}
+            {showCopy && <button type="button" onClick={copyReport} disabled={!analysis || (copyStatus?.snapshot === snapshot && copyStatus.loading)}
               className="hx-btn shrink-0 rounded p-1.5" aria-label="Copia giudizio e log della mossa"
               title="Copia giudizio e log della mossa">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
