@@ -134,6 +134,7 @@ export default function MoveFeedback({ snapshot, judgment, analysis, showCopy = 
             <li>Distacco dal massimo: {fmt(judgment.gap, 3)}. Mediana: {fmt(judgment.middle, 3)}.</li>
             <li>Alternative: {judgment.better} migliori, {judgment.comparable} comparabili, {judgment.worse} inferiori.</li>
             <li>Nettamente migliori: {judgment.clearlyBetter} (vantaggio superiore a {fmt(judgment.clearlyBetterTolerance, 3)} punti). Per “Occasione persa” basta una alternativa con un vantaggio di almeno il 50% della scala di confronto; altrimenti ne servono almeno {judgment.requiredClearlyBetter}, con un distacco dal massimo di almeno il 30%.</li>
+            <li>Se la mossa elimina linee, per “Occasione persa” contano solo alternative che ne eliminano subito di più e soddisfano anche i criteri di punteggio.</li>
             <li>Fascia comparabile: ±{fmt(judgment.tolerance, 3)} punti.</li>
             {judgment.risk.death !== null && <li>Rischio stimato del pezzo ignoto: {fmt(judgment.risk.death * 100)}% (migliore valutata: {fmt(judgment.bestRisk.death * 100)}%).</li>}
             {judgment.safestDeath != null && <li>Rischio dell’alternativa più sicura che prosegue con i pezzi noti: {fmt(judgment.safestDeath * 100)}%.</li>}

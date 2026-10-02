@@ -167,12 +167,12 @@ describe("prestazioni e regressioni (simulazioni con seme)", () => {
     expect(playGame({ mode: "normal", seed: 555, maxMoves: 60 })).toEqual({ seed: 555, pieces: 60, points: 493, lines: 30, lost: false });
   });
 
-  it("regressione · Esperto, seme 7097: 119 pezzi, 1025 punti", () => {
+  it("regressione · Esperto con rischio per orientamento, seme 7097: 208 pezzi, 1834 punti", () => {
     expect(playGame({ mode: "expert", seed: seedFor(7000, 1), maxMoves: 5000 })).toEqual({
       seed: 7097,
-      pieces: 119,
-      points: 1025,
-      lines: 61,
+      pieces: 208,
+      points: 1834,
+      lines: 112,
       lost: true,
     });
   });

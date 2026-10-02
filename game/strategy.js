@@ -115,7 +115,7 @@ function boardValue(g) {
 
 /** Rischio del pezzo ignoto che arriverà dopo i tre noti (con il dettaglio per forma). */
 function unknownPieceDetail(g) {
-  const { death, room, pieces } = pieceAvailability(g);
+  const { death, room, pieces } = pieceAvailability(g, 6);
   const perShape = SHAPE_P.map(({ shape, p }) => {
     const orientations = pieces.filter((piece) => piece.name === shape.name);
     return { name: shape.name, color: shape.color, p,
@@ -249,10 +249,37 @@ export function analyzePlayedMove({ grid, tray, streak, expert, idx, q, r }) {
     const contacts = selectedPiece.cells.map(([dq, dr]) =>
       grid.getNeighbors(q + dq, r + dr).filter(([nq, nr]) => grid.get(nq, nr) > 0).length);
     analysis.placementQuality = {
+      cellCount: grid.cells.size,
       touchingCells: contacts.filter((n) => n > 0).length,
       sharedEdges: contacts.reduce((sum, n) => sum + n, 0),
       before, after,
     };
+    if (selectedPiece.cells.length === 1) {
+      const alternatives = rankedMoves(grid, expert ? [tray[0]] : tray, streak)
+        .filter((m) => m.idx !== idx || m.q !== q || m.r !== r);
+      const beforeRisk = pieceAvailability(grid, 1).death;
+      let viable = 0;
+      let canPreservePoint = false;
+      for (const m of alternatives) {
+        // Un altro punto senza chiusura consuma la stessa risorsa e non è
+        // un motivo per criticare una scelta obbligata del tipo di pezzo.
+        if (m.cells.length === 1 && m.lines === 0) continue;
+        const known = expert ? tray.slice(1, 2) : tray.filter((_, i) => i !== m.idx);
+        if (!known.some((p) => p && m.after.fits(p.cells))) continue;
+        if (m.features.deadHoles > before.deadHoles || m.features.holes > before.holes) continue;
+        if (pieceAvailability(m.after, 1).death > Math.min(0.5, beforeRisk + 0.1)) continue;
+        viable++;
+        if (m.cells.length > 1) canPreservePoint = true;
+      }
+      analysis.singleCellUse = {
+        alternativesChecked: alternatives.length,
+        viableAlternatives: viable,
+        canPreservePoint,
+        forcedPiece: !alternatives.some((m) => m.cells.length > 1),
+        netImprovement: after.empty > before.empty && after.fitCount >= before.fitCount
+          && after.deadHoles <= before.deadHoles && after.holes <= before.holes,
+      };
+    }
   }
   const found = analysis.moves.find((m) => m.idx === idx && m.q === q && m.r === r);
   if (found) return { ...analysis, moves: analysis.moves.map((m) => ({ ...m, played: m === found })) };

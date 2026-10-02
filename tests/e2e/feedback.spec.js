@@ -21,12 +21,14 @@ test("toast manuale: punteggio coerente, chiusura, annullamento e nessuna sovrap
     } });
   });
   await copy.click();
-  await expect(feedback).toContainText("Giudizio e log copiati");
+  await expect(feedback).toContainText("Giudizio e log copiati", { timeout: 90_000 });
   const report = await page.evaluate(() => window.__copiedMoveReport);
   expect(report).toContain("Punteggio della mossa / massimo valutato");
   const log = JSON.parse(report.split("--- Log diagnostico Alveare ---\n")[1]);
   expect(log.legalMoves).toContainEqual(log.played);
   expect(log.before.cells).toHaveLength(61);
+  expect(log.positionIndicators.method).toBe("survival-rollout-v1");
+  expect(log.positionIndicators.risk6.probability).toBeGreaterThanOrEqual(log.positionIndicators.risk3.probability);
   const details = feedback.getByRole("button", { name: /^Dettagli del giudizio:/ });
   await expect(details).toHaveAttribute("aria-expanded", "false");
   await expect(page.getByTestId("move-feedback-score")).not.toBeVisible();
@@ -42,6 +44,8 @@ test("toast manuale: punteggio coerente, chiusura, annullamento e nessuna sovrap
   const slot = await page.getByTestId("slot-0").boundingBox();
   expect(card.x).toBeGreaterThan(slot.x + slot.width);
   await page.getByRole("button", { name: "Analisi delle mosse" }).click();
+  await page.getByRole("button", { name: "Calcola indicatori di prosecuzione" }).click();
+  await expect(page.getByTestId("position-indicators-result")).toBeVisible();
   const scores = await page.getByTestId("analyzed-move").evaluateAll((rows) => rows.map((r) => ({ played: r.dataset.played === "true", score: Number(r.dataset.score) })));
   const format = (n) => n.toLocaleString("it-IT", { maximumFractionDigits: 3 });
   await expect(page.getByTestId("move-feedback-score")).toHaveText(`${format(scores.find((s) => s.played).score)} / ${format(Math.max(...scores.map((s) => s.score)))}`);

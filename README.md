@@ -40,6 +40,22 @@ possono confrontare partita per partita (`pairedCompare` in `scripts/sim-lib.mjs
 
 ## Struttura
 
+L’analisi delle mosse contiene il pulsante **Calcola indicatori di prosecuzione**.
+Mostra la probabilità esatta che un pezzo estratto non entri sulla griglia attuale
+(pesata per ogni orientamento), e stime del blocco prima di completare 3 e 6 mosse.
+Le stime usano 128 simulazioni con seme fisso e una politica euristica di sopravvivenza:
+il futuro viene estratto solo dopo ogni scelta, con le regole della modalità attiva
+e cancellazione delle linee. Non sono probabilità con gioco ottimo né previsioni calibrate
+sul giocatore. Gli intervalli Wilson al 95% descrivono solo l’incertezza campionaria.
+
+Il margine riporta le candidate con rischio stimato entro 6 mosse non superiore al 25%,
+su un massimo di 8 candidate approfondite (64 simulazioni ciascuna, includendo sempre
+la mossa giocata). Il totale delle mosse legali resta distinto: il campione non è esaustivo.
+Sono indicate anche le candidate sotto soglia con tutto l’intervallo di confidenza.
+I parametri sono in `game/positionRisk.js`. Il calcolo avviene in un Web Worker su richiesta;
+la copia del giudizio lo esegue o riutilizza il risultato e lo include nel log diagnostico.
+I giudizi non vengono ricalibrati automaticamente su queste stime sperimentali.
+
 L’accordion **Analisi delle mosse**, sopra le istruzioni, è disponibile fuori dall’autogioco.
 Mostra il numero di mosse legali e le candidate approfondite dalla strategia attuale, ordinate
 con il suggerimento in testa: fino a 6 in modalità normale; in Esperto le prime mosse distinte

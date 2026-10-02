@@ -1,7 +1,9 @@
+import { PIECES } from "./pieces.js";
+
 // Soglie descrittive del confronto: non cambiano la strategia di gioco.
 export const JUDGMENT_LIMITS = {
   comparable: 0.05, strongGap: 0.30, exceptionalGap: 0.50, clearlyBetter: 0.20, clearlyBetterShare: 2 / 3,
-  notableLead: 0.10, riskIncrease: 0.20, highRisk: 0.50, extremeRisk: 0.80,
+  notableLead: 0.10, playableGap: 0.10, riskIncrease: 0.20, highRisk: 0.50, extremeRisk: 0.80,
 };
 
 const median = (values) => {
@@ -45,7 +47,12 @@ export function judgeMove(analysis, knownPieces = 3) {
   const clearlyBetterTolerance = lossScale * JUDGMENT_LIMITS.clearlyBetter;
   const clearlyBetter = others.filter((m) => m.total - played.total > clearlyBetterTolerance).length;
   const requiredClearlyBetter = Math.max(2, Math.ceil(others.length * JUDGMENT_LIMITS.clearlyBetterShare));
-  const exceptionalLoss = clearlyBetter >= 1 && gap / lossScale >= JUDGMENT_LIMITS.exceptionalGap;
+  // Se la mossa chiude linee, l'occasione deve essere una chiusura immediata
+  // maggiore della stessa alternativa che offre anche il vantaggio di punteggio.
+  const opportunityMoves = others.filter((m) => !(played.lines > 0) || m.lines > played.lines);
+  const opportunityGap = Math.max(0, ...opportunityMoves.map((m) => m.total - played.total));
+  const opportunityBetter = opportunityMoves.filter((m) => m.total - played.total > clearlyBetterTolerance).length;
+  const exceptionalLoss = opportunityBetter >= 1 && opportunityGap / lossScale >= JUDGMENT_LIMITS.exceptionalGap;
   const rank = 1 + others.filter((m) => m.total - played.total > epsilon).length;
   const tied = others.filter((m) => Math.abs(m.total - played.total) <= epsilon).length;
   const risk = riskOf(played, knownPieces);
@@ -62,6 +69,8 @@ export function judgeMove(analysis, knownPieces = 3) {
   const enough = others.length >= 2;
   const majority = Math.ceil(others.length / 2);
   const placementQuality = analysis.placementQuality;
+  const singleCellUse = analysis.singleCellUse;
+  const isPoint = (played.piece?.cells || played.cells)?.length === 1;
   const productiveClear = played.lines > 0 && placementQuality
     && placementQuality.after.empty > placementQuality.before.empty
     && placementQuality.after.holes <= placementQuality.before.holes
@@ -72,6 +81,14 @@ export function judgeMove(analysis, knownPieces = 3) {
     && placementQuality.after.holes <= placementQuality.before.holes
     && placementQuality.after.deadHoles <= placementQuality.before.deadHoles
     && placementQuality.after.fitCount >= placementQuality.before.fitCount;
+  // Su una griglia molto aperta, il bonus di una sola linea futura non rende
+  // un incastro pulito un errore: contano anche gli effetti concreti.
+  const openFitWithDeferredLine = usefulFit && placementQuality.cellCount > 0
+    && placementQuality.after.empty >= placementQuality.cellCount * 2 / 3
+    && placementQuality.after.holes === 0 && placementQuality.after.deadHoles === 0
+    && placementQuality.after.fitCount === PIECES.length
+    && moves.every((m) => m.lines === 0 && m.next && m.next.lines <= 1)
+    && !risk.blocked && (risk.death === null || risk.death < JUDGMENT_LIMITS.riskIncrease);
   let label = "Mossa migliorabile";
   let emphasis = "neutral";
   let reason = "Il distacco dalle migliori suggerisce che c’erano alternative più efficaci.";
@@ -96,12 +113,25 @@ export function judgeMove(analysis, knownPieces = 3) {
     label = "Mossa rischiosa";
     emphasis = "negative";
     reason = "Aumenta il rischio stimato di blocco di almeno 20 punti percentuali rispetto a un’alternativa più sicura, anche se il punteggio è buono.";
-  } else if (exceptionalLoss || (gap / lossScale >= JUDGMENT_LIMITS.strongGap && clearlyBetter >= requiredClearlyBetter)) {
+  } else if (isPoint && !singleCellUse?.netImprovement && singleCellUse?.viableAlternatives > 0) {
+    label = "Mossa cattiva";
+    emphasis = "negative";
+    reason = singleCellUse.canPreservePoint
+      ? "Hai consumato il pezzo da una cella senza un netto miglioramento della posizione, mentre potevi giocare un altro pezzo mantenendo una prosecuzione e conservare il punto."
+      : "Hai usato il pezzo da una cella senza un netto miglioramento, mentre un’altra sua collocazione permetteva di eliminare linee mantenendo una prosecuzione.";
+  } else if (isPoint && !singleCellUse?.netImprovement && singleCellUse?.forcedPiece) {
+    label = "Migliore disponibile";
+    reason = "Devi usare il pezzo da una cella: non puoi conservarlo giocando un altro pezzo e non emerge una chiusura alternativa praticabile. Il suo consumo non viene premiato come una buona mossa.";
+  } else if (isPoint && !singleCellUse) {
+    label = "Mossa migliorabile";
+    reason = "Per premiare l’uso del pezzo da una cella serve verificare un miglioramento concreto o l’assenza di alternative praticabili.";
+  } else if (!openFitWithDeferredLine && (exceptionalLoss || (opportunityGap / lossScale >= JUDGMENT_LIMITS.strongGap && opportunityBetter >= requiredClearlyBetter))) {
     label = "Occasione persa";
     emphasis = "negative";
     reason = exceptionalLoss
       ? "C’era un’alternativa con un vantaggio di almeno il 50% della scala di confronto: basta questa occasione nettamente superiore, indipendentemente dalla posizione in classifica."
       : "Distacco dal massimo di almeno il 30% della scala di confronto; almeno due alternative, pari ad almeno due terzi delle valutate, superano la mossa di oltre il 20% della stessa scala.";
+    if (played.lines > 0) reason += ` Le alternative considerate eliminano subito più delle ${played.lines} linee della tua mossa.`;
   } else if (gap <= epsilon && enough && worse >= majority && (played.total - middle) / scale >= JUDGMENT_LIMITS.notableLead
     && !risk.blocked && (risk.death === null || risk.death < JUDGMENT_LIMITS.riskIncrease)) {
     label = played.added ? "Ottima scoperta" : "Ottima mossa";
@@ -111,6 +141,9 @@ export function judgeMove(analysis, knownPieces = 3) {
     && !risk.blocked && (risk.death === null || risk.death < JUDGMENT_LIMITS.riskIncrease)) {
     label = "Buona mossa";
     reason = `Hai eliminato ${played.lines === 1 ? "una linea" : `${played.lines} linee`}, aumentando lo spazio libero senza peggiorare le cavità difficili o le forme giocabili. ${gap > tolerance ? "Alcune alternative ottengono un voto superiore, ma la tua scelta migliora concretamente la posizione." : "La valutazione resta vicina alle migliori alternative."}`;
+  } else if (openFitWithDeferredLine) {
+    label = "Buona mossa";
+    reason = "Hai realizzato un incastro senza creare cavità difficili, mantenendo molto spazio e tutti gli orientamenti giocabili. Le alternative preparano al massimo una linea al passo successivo: il loro bonus non rende sbagliata la tua scelta.";
   } else if (usefulFit && relativeGap <= JUDGMENT_LIMITS.comparable
     && !risk.blocked && (risk.death === null || risk.death < JUDGMENT_LIMITS.riskIncrease)) {
     label = "Buona mossa";
@@ -124,6 +157,9 @@ export function judgeMove(analysis, knownPieces = 3) {
   } else if (relativeGap <= JUDGMENT_LIMITS.comparable) {
     label = "Buona mossa";
     reason = "Il punteggio è entro la fascia delle migliori; il distacco è piccolo.";
+  } else if (relativeGap <= JUDGMENT_LIMITS.playableGap) {
+    label = "Mossa giocabile";
+    reason = "La scelta è valida, con un distacco dal massimo entro il 10% della scala di confronto, anche se c’erano alternative più efficaci.";
   } else if (enough && comparable > others.length / 2) {
     label = "Mossa discreta";
     reason = "La mossa ha un valore simile alla maggioranza delle alternative valutate, ma alcune scelte offrono un vantaggio maggiore.";
@@ -139,6 +175,7 @@ export function judgeMove(analysis, knownPieces = 3) {
     clearlyBetter, clearlyBetterTolerance, requiredClearlyBetter,
     safestDeath: Number.isFinite(safestDeath) ? safestDeath : null,
     ...(placementQuality ? { placementQuality } : {}),
+    ...(singleCellUse ? { singleCellUse } : {}),
     added: !!played.added,
   };
 }

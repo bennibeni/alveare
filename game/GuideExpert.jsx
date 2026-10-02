@@ -162,8 +162,8 @@ export default function GuideExpert({ snapshot }) {
           (spazio medio)
           <br />
           <span className="text-slate-400">
-            «Probabilità che non entri» = somma delle probabilità delle forme con 0 posizioni. «Spazio medio» = media, pesata con
-            le probabilità, di (posizioni / 6): vale 1 se ogni forma ha almeno 6 posizioni, 0 se nessuna entra.
+            «Probabilità che non entri» = somma delle probabilità dei singoli orientamenti con 0 posizioni. «Spazio medio» = media, pesata con
+            le probabilità di estrazione, di min(posizioni, 6) / 6: vale 1 se ogni orientamento ha almeno 6 posizioni, 0 se nessuno entra.
           </span>
         </Note>
         <p>

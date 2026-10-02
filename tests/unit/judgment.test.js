@@ -9,6 +9,69 @@ function comparison(scores, played, totalMoves = 100) {
 }
 
 describe("giudizio qualitativo della mossa", () => {
+  it("non scambia l'incastro del log in apertura per una linea futura persa", () => {
+    let grid = new HexGrid(4);
+    for (const [q, r] of [[3, 0], [4, -2], [4, -1], [4, 0]]) grid = grid.place([[0, 0]], q, r, 10);
+    const tray = ["bandiera sinistra-5", "bandiera destra-5", "ferro di cavallo-4"]
+      .map((id) => PIECES.find((p) => p.id === id));
+    const analysis = analyzePlayedMove({ grid, tray, streak: 0, expert: false, idx: 1, q: 2, r: -1 });
+    expect(judgeMove(analysis)).toMatchObject({ label: "Buona mossa", emphasis: "neutral", score: 82 });
+    // La protezione non vale per chiusure immediate o combinazioni più forti.
+    analysis.moves[0].lines = 1;
+    expect(judgeMove(analysis).label).toBe("Occasione persa");
+    analysis.moves[0].lines = 0;
+    analysis.moves[0].next.lines = 2;
+    expect(judgeMove(analysis).label).toBe("Occasione persa");
+    analysis.moves[0].next.lines = 1;
+    analysis.placementQuality.after.holes = 1;
+    expect(judgeMove(analysis).label).toBe("Occasione persa");
+    analysis.placementQuality.after.holes = 0;
+    analysis.placementQuality.after.empty = 30;
+    expect(judgeMove(analysis).label).toBe("Occasione persa");
+    analysis.placementQuality.after.empty = 53;
+    analysis.moves.find((m) => m.played).next = null;
+    expect(judgeMove(analysis).label).toBe("Mossa pessima");
+  });
+  it("penalizza il punto sprecato e verifica anche le alternative non approfondite", () => {
+    const grid = new HexGrid(4);
+    const tray = [PIECES[0], PIECES.find((p) => p.name === "barra 4"), PIECES.find((p) => p.name === "rombo")];
+    const analysis = analyzePlayedMove({ grid, tray, streak: 0, expert: false, idx: 0, q: 0, r: 0 });
+    expect(analysis.singleCellUse.alternativesChecked).toBe(analysis.totalMoves - 1);
+    expect(analysis.singleCellUse.alternativesChecked).toBeGreaterThan(analysis.moves.length);
+    expect(judgeMove(analysis)).toMatchObject({ label: "Mossa cattiva", emphasis: "negative",
+      singleCellUse: { netImprovement: false, canPreservePoint: true } });
+    analysis.moves.find((m) => m.played).total = 100000;
+    expect(judgeMove(analysis).label).toBe("Mossa cattiva");
+    analysis.moves.find((m) => m.played).next = null;
+    expect(judgeMove(analysis).label).toBe("Mossa pessima");
+  });
+
+  it("non condanna il consumo quando il tipo di pezzo è obbligato", () => {
+    const grid = new HexGrid(2);
+    const tray = [PIECES[0], PIECES[0], PIECES[0]];
+    for (const expert of [false, true]) {
+      const analysis = analyzePlayedMove({ grid, tray, streak: 0, expert, idx: 0, q: 0, r: 0 });
+      expect(analysis.singleCellUse).toMatchObject({ forcedPiece: true, viableAlternatives: 0 });
+      expect(judgeMove(analysis).emphasis).not.toBe("negative");
+      expect(judgeMove(analysis).label).not.toBe("Buona mossa");
+    }
+  });
+
+  it("riconosce il punto che chiude una linea e migliora realmente lo spazio", () => {
+    let grid = new HexGrid(2);
+    for (const q of [-2, -1, 1, 2]) grid = grid.place([[0, 0]], q, 0, 2);
+    const tray = [PIECES[0], PIECES[0], PIECES[0]];
+    const analysis = analyzePlayedMove({ grid, tray, streak: 0, expert: false, idx: 0, q: 0, r: 0 });
+    expect(analysis.singleCellUse.netImprovement).toBe(true);
+    expect(judgeMove(analysis).emphasis).not.toBe("negative");
+    // Il punto non deve impedire un buon giudizio quando anche il confronto
+    // strategico è favorevole; la sola chiusura non impone un voto positivo.
+    analysis.moves.find((m) => m.played).total = Math.max(...analysis.moves.map((m) => m.total));
+    expect(["Buona mossa", "Ottima mossa", "Ottima scoperta"]).toContain(judgeMove(analysis).label);
+    const wasted = analyzePlayedMove({ grid, tray, streak: 0, expert: false, idx: 0, q: 0, r: -2 });
+    expect(wasted.singleCellUse.viableAlternatives).toBeGreaterThan(0);
+    expect(judgeMove(wasted).label).toBe("Mossa cattiva");
+  });
   it("riconosce la chiusura produttiva del log anche con alternative più redditizie", () => {
     const analysis = comparison([243.1, 226.8, 175.5, 174.1, 145.9, 138.2], 2, 26);
     analysis.moves[2].lines = 2;
@@ -28,7 +91,31 @@ describe("giudizio qualitativo della mossa", () => {
     expect(judgeMove(analysis).label).toBe("Mossa pessima");
     analysis.moves[2].next = {};
     analysis.moves[0].total = 400;
+    expect(judgeMove(analysis).label).not.toBe("Occasione persa");
+    analysis.moves[0].lines = 2;
     expect(judgeMove(analysis).label).toBe("Occasione persa");
+  });
+
+  it("non segnala occasioni perse per chiusure uguali o minori, né solo future", () => {
+    const analysis = comparison([200, 190, 180, 50], 3);
+    analysis.moves.forEach((move) => { move.lines = 1; move.next = { lines: 3 }; });
+    expect(judgeMove(analysis).label).not.toBe("Occasione persa");
+    analysis.moves[0].lines = 0;
+    expect(judgeMove(analysis).label).not.toBe("Occasione persa");
+    analysis.moves[0].lines = 2;
+    expect(judgeMove(analysis).label).toBe("Occasione persa");
+    analysis.moves[3].lines = 2;
+    expect(judgeMove(analysis).label).not.toBe("Occasione persa");
+  });
+
+  it("richiede vantaggio di punteggio e più linee nella stessa alternativa", () => {
+    const analysis = comparison([200, 51, 50], 2);
+    analysis.moves[0].lines = 1;
+    analysis.moves[1].lines = 2;
+    analysis.moves[2].lines = 1;
+    expect(judgeMove(analysis).label).not.toBe("Occasione persa");
+    analysis.moves[2].next = null;
+    expect(judgeMove(analysis).label).toBe("Mossa pessima");
   });
   it("incoraggia l'incastro del log anche fra alternative equivalenti", () => {
     let grid = new HexGrid(4);
@@ -64,12 +151,20 @@ describe("giudizio qualitativo della mossa", () => {
   it("non penalizza l'ultima posizione quando il distacco è contenuto", () => {
     for (const scores of [[100, 99, 98, 97, 90], [100, 99, 98, 97, 96, 95, 90]]) {
       expect(judgeMove(comparison(scores, scores.length - 1))).toMatchObject({
-        label: "Mossa discreta", emphasis: "neutral", relativeGap: 0.1,
+        label: "Mossa giocabile", emphasis: "neutral", relativeGap: 0.1,
       });
     }
     expect(judgeMove(comparison([100, 99, 98, 97, 96], 4)).label).toBe("Una mossa vale l’altra");
     expect(judgeMove(comparison([100, 99, 98, 97, 81], 4)).label).toBe("Mossa discreta");
     expect(judgeMove(comparison([100, 99, 98, 97, 80], 4)).label).toBe("Mossa migliorabile");
+  });
+  it("separa le mosse giocabili dalle discrete usando il distacco e non il rango", () => {
+    expect(judgeMove(comparison([100, 99, 98, 94], 3)).label).toBe("Mossa giocabile");
+    expect(judgeMove(comparison([100, 99, 98, 90], 3)).label).toBe("Mossa giocabile");
+    expect(judgeMove(comparison([100, 99, 98, 89.9], 3)).label).toBe("Mossa discreta");
+    const risky = comparison([100, 99, 98, 94], 3);
+    risky.moves[3].next = null;
+    expect(judgeMove(risky).label).toBe("Mossa pessima");
   });
   it("premia una prima scelta nettamente distinta dalle alternative", () => {
     expect(judgeMove(comparison([100, 90, 80, 70], 0))).toMatchObject({
