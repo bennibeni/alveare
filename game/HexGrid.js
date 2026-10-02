@@ -138,7 +138,13 @@ export default class HexGrid {
   place(piece, q, r, color = 1) {
     const cells = new Map(this.cells);
     for (const [dq, dr] of piece) cells.set(key(q + dq, r + dr), color);
-    return new HexGrid(this.radius, cells);
+    const next = new HexGrid(this.radius, cells);
+    // l'occupazione si ricava da quella attuale senza rileggere tutte le celle
+    const occ = this.occupancy.slice();
+    const side = 2 * this.radius + 1;
+    for (const [dq, dr] of piece) occ[(q + dq + this.radius) * side + r + dr + this.radius] = color ? 1 : 0;
+    next._occ = occ;
+    return next;
   }
 
   /** Le linee completamente piene, in tutte e tre le direzioni. */
@@ -150,7 +156,17 @@ export default class HexGrid {
   clear(lines) {
     const cells = new Map(this.cells);
     for (const l of lines) for (const k of l.cells) cells.set(k, 0);
-    return new HexGrid(this.radius, cells);
+    const next = new HexGrid(this.radius, cells);
+    const occ = this.occupancy.slice();
+    const side = 2 * this.radius + 1;
+    for (const l of lines) {
+      for (const k of l.cells) {
+        const [q, r] = parseKey(k);
+        occ[(q + this.radius) * side + r + this.radius] = 0;
+      }
+    }
+    next._occ = occ;
+    return next;
   }
 
   /** Tutte le posizioni d'origine in cui il pezzo entra. */

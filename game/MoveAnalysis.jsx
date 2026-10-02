@@ -1,9 +1,9 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import MiniBoard, { fmt, pieceCells } from "./GuideKit.jsx";
 import { PIECE_COLORS } from "./pieces.js";
-import { analyzeMoves, analyzePlayedMove } from "./strategy.js";
+import { requestAnalysis } from "./strategyClient.js";
 import PositionIndicators from "./PositionIndicators.jsx";
 
 function placementText(grid, move) {
@@ -19,11 +19,27 @@ function placementText(grid, move) {
   ).join("; ");
 }
 
+/** Analisi calcolata nel worker; null finché non arriva. */
+function useAnalysis(type, position, provided) {
+  const [state, setState] = useState(null);
+  useEffect(() => {
+    if (provided) return;
+    let current = true;
+    requestAnalysis(type, position)
+      .then(({ analysis }) => { if (current) setState({ position, analysis }); })
+      .catch(() => { if (current) setState({ position, error: true }); });
+    return () => { current = false; };
+  }, [type, position, provided]);
+  if (provided) return { analysis: provided };
+  return state?.position === position ? state : null;
+}
+
 function AnalysisContent({ grid, tray, streak, expert, playedMove, playedAnalysis }) {
   const position = useMemo(() => playedMove || { grid, tray, streak, expert }, [playedMove, grid, tray, streak, expert]);
-  const analysis = useMemo(() => playedMove
-    ? (playedAnalysis || analyzePlayedMove(playedMove))
-    : analyzeMoves(grid, tray, streak, { queue: expert }), [grid, tray, streak, expert, playedMove, playedAnalysis]);
+  const loaded = useAnalysis(playedMove ? "played" : "moves", position, playedMove ? playedAnalysis : null);
+  if (!loaded) return <p className="mt-3 text-slate-400" role="status">Calcolo delle mosse…</p>;
+  if (loaded.error) return <p className="mt-3 text-slate-400" role="status">Analisi non riuscita. Riapri il riquadro per riprovare.</p>;
+  const { analysis } = loaded;
   return (
     <div className="mt-3 space-y-3 text-slate-300">
       {playedMove && <p className="font-medium text-emerald-300">Confronto con la posizione prima della tua ultima mossa.</p>}

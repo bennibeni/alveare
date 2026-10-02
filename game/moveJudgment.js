@@ -17,7 +17,7 @@ function riskOf(move, knownPieces) {
     blocked: move.sequence.path.length < knownPieces,
     death: move.sequence.unknown.death,
   };
-  return { blocked: !move.next, death: null };
+  return { blocked: !move.next, death: move.blockRisk ?? null };
 }
 
 /** Giudica solo le candidate approfondite + la mossa manuale eventualmente aggiunta.
@@ -104,11 +104,11 @@ export function judgeMove(analysis, knownPieces = 3) {
     emphasis = "negative";
     reason = avoidableBlock
       ? "La ricerca non trova una prosecuzione con i pezzi già noti, mentre un’altra mossa la permette. Il rischio di blocco prevale sul punteggio."
-      : "Il rischio stimato di blocco al pezzo ignoto è almeno dell’80%, con un’alternativa più sicura di almeno 20 punti percentuali. Il rischio prevale sul punteggio.";
+      : "Il rischio stimato di blocco subito dopo i pezzi noti è almeno dell’80%, con un’alternativa più sicura di almeno 20 punti percentuali. Il rischio prevale sul punteggio.";
   } else if (risky && risk.death >= JUDGMENT_LIMITS.highRisk) {
     label = "Mossa cattiva";
     emphasis = "negative";
-    reason = "Il rischio stimato di blocco al pezzo ignoto è almeno del 50%, con un’alternativa più sicura di almeno 20 punti percentuali. Il rischio prevale sul punteggio.";
+    reason = "Il rischio stimato di blocco subito dopo i pezzi noti è almeno del 50%, con un’alternativa più sicura di almeno 20 punti percentuali. Il rischio prevale sul punteggio.";
   } else if (risky) {
     label = "Mossa rischiosa";
     emphasis = "negative";
@@ -171,7 +171,7 @@ export function judgeMove(analysis, knownPieces = 3) {
   return {
     label, emphasis, reason, score: played.total, maximum, gap, relativeGap,
     rank, tied, count: moves.length, totalMoves: analysis.totalMoves,
-    better, comparable, worse, tolerance, middle, risk, bestRisk,
+    better, comparable, worse, tolerance, middle, scale, risk, bestRisk,
     clearlyBetter, clearlyBetterTolerance, requiredClearlyBetter,
     safestDeath: Number.isFinite(safestDeath) ? safestDeath : null,
     ...(placementQuality ? { placementQuality } : {}),

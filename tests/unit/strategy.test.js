@@ -1,7 +1,8 @@
 import { describe, expect, it } from "vitest";
 import HexGrid from "../../game/HexGrid.js";
 import { PIECES, randomTray, seededRandom, SHAPES } from "../../game/pieces.js";
-import { analyzeMoves, analyzePlayedMove, bestMove, explainNormal, explainQueue, NORMAL_RISK, QUEUE_PARAMS } from "../../game/strategy.js";
+import { analyzeMoves, analyzePlayedMove, bestMove, explainNormal, explainQueue, NORMAL_RISK, QUEUE_PARAMS, slimAnalysis } from "../../game/strategy.js";
+import { judgeMove } from "../../game/moveJudgment.js";
 import { pairedCompare, playGame, playGames, seedFor } from "../../scripts/sim-lib.mjs";
 
 const byName = (n) => SHAPES.find((s) => s.name === n).pieces;
@@ -121,6 +122,39 @@ describe("Esperto: ogni prima mossa ha il proprio fascio", () => {
     for (const m of moves) expect(m.sequence.blocked).toBe(slot.includes(`${m.q},${m.r}`));
     expect(moves[0].sequence.blocked).toBe(false);
     expect(slot).not.toContain(`${moves[0].q},${moves[0].r}`);
+  });
+});
+
+describe("analisi spedita dal worker", () => {
+  it("la copia senza tabelloni si clona e dà lo stesso giudizio", () => {
+    for (const expert of [false, true]) {
+      for (let seed = 1; seed <= 3; seed++) {
+        const { grid, tray } = midGame(seed);
+        const legal = grid.placementsFor(tray[0].cells);
+        const [q, r] = legal[Math.floor(legal.length / 2)];
+        const analysis = analyzePlayedMove({ grid, tray, streak: 1, expert, idx: 0, q, r });
+        const slim = structuredClone(slimAnalysis(analysis));
+        expect(JSON.stringify(slim)).not.toContain('"cells":{}');
+        expect(judgeMove(slim)).toEqual(judgeMove(analysis));
+        expect(slim.moves.map((m) => m.total)).toEqual(analysis.moves.map((m) => m.total));
+      }
+    }
+  });
+});
+
+describe("modalità normale: rischio di blocco per il giudizio", () => {
+  it("è zero se il pezzo noto rimasto entra, altrimenti una probabilità", () => {
+    for (let seed = 1; seed <= 4; seed++) {
+      const { grid, tray } = midGame(seed, 25);
+      for (const m of analyzeMoves(grid, tray, 0).moves) {
+        if (!m.next) { expect(m.blockRisk).toBeNull(); continue; }
+        expect(m.blockRisk).toBeGreaterThanOrEqual(0);
+        expect(m.blockRisk).toBeLessThanOrEqual(1);
+        const remaining = tray.find((p, i) => i !== m.idx && i !== m.next.idx);
+        if (m.next.after.fits(remaining.cells)) expect(m.blockRisk).toBe(0);
+        else expect(m.blockRisk).toBeCloseTo(m.death * m.death);
+      }
+    }
   });
 });
 

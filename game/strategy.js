@@ -92,7 +92,7 @@ function rankedMoves(grid, tray, streak) {
  * tabellone è diventato stretto. Provata anche la stima "esatta" della fine partita
  * (pezzo noto rimasto che non entra × probabilità al quadrato): rendeva meno. */
 function normalDeath(next) {
-  return pieceAvailability(next.after).death;
+  return pieceAvailability(next.after, 1).death;
 }
 
 /** Totale di una candidata: punti della prima mossa + voto della migliore seconda
@@ -102,7 +102,16 @@ function withLookahead(m, tray) {
   const next = rankedMoves(m.after, rest, m.nextStreak)[0] || null;
   const death = next ? normalDeath(next) : 1;
   const total = m.gain * W.cell + (next ? next.value - NORMAL_DEATH * death : -10000);
-  return { ...m, next, death, total };
+  return { ...m, next, death, blockRisk: next ? blockRisk(m, next, tray, death) : null, total };
+}
+
+/** Per il giudizio: probabilità che dopo le due mosse non entri NESSUN pezzo del vassoio
+ * (il pezzo noto rimasto non entra e nemmeno i due estratti). È l'analogo del rischio del
+ * pezzo ignoto in Esperto: blocco subito dopo i pezzi noti. */
+function blockRisk(m, next, tray, death) {
+  const remaining = tray.find((p, i) => p && i !== m.idx && i !== next.idx);
+  if (remaining && next.after.fits(remaining.cells)) return 0;
+  return death * death;
 }
 
 /** Le LOOKAHEAD mosse migliori per voto, approfondite; byTotal[0] è il suggerimento. */
@@ -349,4 +358,32 @@ export function analyzePlayedMove({ grid, tray, streak, expert, idx, q, r }) {
     move = withLookahead(candidate, tray);
   }
   return { ...analysis, moves: [...analysis.moves, { ...move, played: true, added: true }] };
+}
+
+/** Copia dell'analisi senza i tabelloni intermedi: solo dati semplici, adatti a essere
+ * spediti da un worker. Contiene tutto ciò che usano giudizio, interfaccia e log. */
+export function slimAnalysis(analysis) {
+  if (!analysis) return analysis;
+  const placement = (m) => m && {
+    idx: m.idx, q: m.q, r: m.r, piece: m.piece, cells: m.cells,
+    value: m.value, gain: m.gain, lines: m.lines, features: m.features,
+  };
+  return {
+    totalMoves: analysis.totalMoves,
+    ...(analysis.placementQuality ? { placementQuality: analysis.placementQuality } : {}),
+    ...(analysis.singleCellUse ? { singleCellUse: analysis.singleCellUse } : {}),
+    moves: analysis.moves.map((m) => ({
+      ...placement(m), total: m.total,
+      ...(m.death !== undefined ? { death: m.death } : {}),
+      ...(m.blockRisk !== undefined ? { blockRisk: m.blockRisk } : {}),
+      ...(m.played !== undefined ? { played: m.played } : {}),
+      ...(m.added ? { added: true } : {}),
+      ...(m.next !== undefined ? { next: placement(m.next) } : {}),
+      ...(m.sequence ? { sequence: {
+        path: m.sequence.path.map(({ piece, q, r, gain, lines }) => ({ piece, q, r, gain, lines })),
+        acc: m.sequence.acc, score: m.sequence.score, board: m.sequence.board,
+        unknown: m.sequence.unknown, blocked: m.sequence.blocked, v: m.sequence.v,
+      } } : {}),
+    })),
+  };
 }

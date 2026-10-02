@@ -1,3 +1,4 @@
+import { DIRECTIONS } from "./HexGrid.js";
 import { PIECES, randomPiece, seededRandom } from "./pieces.js";
 
 const totalWeight = PIECES.reduce((sum, p) => sum + p.weight, 0);
@@ -5,10 +6,9 @@ export const RISK_SETTINGS = { samples: 128, choiceSamples: 64, maxChoices: 8, s
 
 /** Probabilità esatta sulla griglia immobile, con l'orientamento realmente estratto. */
 export function pieceAvailability(grid, maxPlacements = Infinity) {
-  const positions = [...grid.cells.keys()].map((key) => key.split(",").map(Number));
   const pieces = PIECES.map((piece) => {
     let placements = 0;
-    for (const [q, r] of positions) {
+    for (const [q, r] of grid.coords) {
       if (grid.canPlace(piece.cells, q, r) && ++placements >= maxPlacements) break;
     }
     return {
@@ -26,21 +26,13 @@ export function legalPlacements(grid, tray, expert) {
     : grid.placementsFor(p.cells).map(([q, r]) => ({ idx, q, r })));
 }
 
-const neighborLayouts = new Map();
-
 function geometry(grid) {
-  if (!neighborLayouts.has(grid.radius)) {
-    neighborLayouts.set(grid.radius, [...grid.cells.keys()].map((key) => {
-      const [q, r] = key.split(",").map(Number);
-      return [key, grid.getNeighbors(q, r).map(([a, b]) => `${a},${b}`)];
-    }));
-  }
   let empty = 0, holes = 0, isolated = 0;
-  for (const [key, neighbors] of neighborLayouts.get(grid.radius)) {
-    if (grid.cells.get(key)) continue;
+  for (const [q, r] of grid.coords) {
+    if (!grid.isEmpty(q, r)) continue;
     empty++;
     let free = 0;
-    for (const neighbor of neighbors) if (grid.cells.get(neighbor) === 0) free++;
+    for (const [dq, dr] of DIRECTIONS) if (grid.isEmpty(q + dq, r + dr)) free++;
     if (!free) isolated++;
     else if (free === 1) holes++;
   }

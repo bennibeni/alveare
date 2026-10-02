@@ -62,7 +62,8 @@ con il suggerimento in testa: fino a 6 in modalità normale; in Esperto fino a 1
 primo pezzo, ciascuna approfondita con la propria ricerca e mostrata con il punteggio della sua
 migliore sequenza.
 Il punteggio è quello della strategia, non i punti aggiunti alla partita. L’analisi viene calcolata
-solo aprendo l’accordion. Per disabilitarlo da codice, impostare `SHOW_MOVE_ANALYSIS = false`
+solo aprendo l’accordion, in un Web Worker (`game/strategy.worker.js`): mentre calcola il riquadro
+mostra «Calcolo delle mosse…» e il gioco resta fluido. Per disabilitarlo da codice, impostare `SHOW_MOVE_ANALYSIS = false`
 in `game/HexBlockPuzzle.jsx`.
 
 Dopo una mossa manuale l’accordion mostra il confronto sulla posizione precedente:
@@ -72,6 +73,9 @@ I pulsanti «Ultima mossa» e «Posizione corrente» permettono di passare dal c
 alle nuove possibilità. Il suggerimento e la sua ricerca restano invariati.
 
 Il **toast di valutazione** compare dopo ogni mossa manuale, anche con l’accordion chiuso.
+Analisi e giudizio della mossa si calcolano nello stesso worker, quindi il toast arriva
+qualche istante dopo la mossa senza bloccare l’interfaccia; il suggerimento e l’autogioco
+restano invece sul thread principale.
 Su desktop occupa una colonna riservata a destra; sotto 1100 px resta nel flusso sotto
 il tabellone, prima degli accordion. Rimane leggibile fino alla mossa successiva o alla
 chiusura e non impila notifiche. `SHOW_MOVE_FEEDBACK` abilita/disabilita questa funzione
@@ -95,6 +99,11 @@ di prosecuzione. I conti sono in `game/moveJudgment.js`:
   inferiore e almeno metà delle alternative è nettamente migliore. Conta anche la perdita
   di una prosecuzione nota o un aumento del rischio stimato di almeno 20 punti percentuali
   rispetto alla migliore, insieme a un distacco significativo dal massimo.
+- Il rischio è la probabilità di blocco subito dopo i pezzi noti. In Esperto: il pezzo
+  ignoto che segue i tre della coda non entra. In normale: dopo la mossa e la migliore
+  seconda mossa, il pezzo noto rimasto non entra e nemmeno i due estratti al posto di quelli
+  giocati (probabilità per un pezzo, al quadrato). È diverso dalla penalità usata dal
+  suggerimento normale, che considera un solo pezzo nuovo.
 - Scelte obbligate, campioni di una sola candidata e alternative tutte comparabili non
   producono segnali speciali. Si tratta di un confronto fra le candidate approfondite,
   non di una valutazione esaustiva o appresa statisticamente.
@@ -110,6 +119,10 @@ game/
   HexGrid.js          tabellone in coordinate assiali: celle, vicini, 27 linee, mosse
   pieces.js           i 25 pezzi (6 forme), colori, estrazione casuale (anche con seme)
   strategy.js         suggerimenti: valutazione del tabellone, sguardo avanti, beam search (Esperto)
+  strategy.worker.js  analisi e giudizio delle mosse fuori dal thread dell’interfaccia
+  strategyClient.js   richieste al worker, con cache per posizione
+  moveJudgment.js     giudizio della mossa giocata
+  positionRisk.js     indicatori di prosecuzione (simulazioni nel worker positionRisk.worker.js)
   GuideNormal.jsx     pagina «Suggerimenti · normale»
   GuideExpert.jsx     pagina «Suggerimenti · Esperto»
   GuideKit.jsx        miniature del tabellone e componenti comuni delle guide
