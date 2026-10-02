@@ -7,7 +7,12 @@ test("toast manuale: punteggio coerente, chiusura, annullamento e nessuna sovrap
   const feedback = page.getByTestId("move-feedback");
   await expect(feedback).toHaveCount(0);
   await expect(page.getByRole("button", { name: "Beep per mosse notevoli" })).toHaveAttribute("aria-pressed", "false");
-  const before = await page.getByTestId("board").boundingBox();
+  // posizione nel documento: cliccare può far scorrere la pagina (è più alta della finestra)
+  const boardPosition = () => page.getByTestId("board").evaluate((el) => {
+    const r = el.getBoundingClientRect();
+    return { x: r.x + window.scrollX, y: r.y + window.scrollY };
+  });
+  const before = await boardPosition();
   let target = await hintTarget(page);
   await page.mouse.click(target.x, target.y);
   await waitPieces(page, 1);
@@ -21,6 +26,7 @@ test("toast manuale: punteggio coerente, chiusura, annullamento e nessuna sovrap
     } });
   });
   await copy.click();
+  // la copia attende gli indicatori di prosecuzione (simulazioni nel worker): su macchine lente servono decine di secondi
   await expect(feedback).toContainText("Giudizio e log copiati", { timeout: 90_000 });
   const report = await page.evaluate(() => window.__copiedMoveReport);
   expect(report).toContain("Punteggio della mossa / massimo valutato");
@@ -37,7 +43,7 @@ test("toast manuale: punteggio coerente, chiusura, annullamento e nessuna sovrap
   await expect(page.getByTestId("move-feedback-score")).toBeVisible();
   await expect(feedback).toContainText("massimo valutato");
   await expect(feedback).toContainText("Alternative:");
-  const after = await page.getByTestId("board").boundingBox();
+  const after = await boardPosition();
   expect(after.x).toBeCloseTo(before.x);
   expect(after.y).toBeCloseTo(before.y);
   const card = await feedback.boundingBox();

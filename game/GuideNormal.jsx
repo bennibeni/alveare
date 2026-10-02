@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import HexGrid, { parseKey } from "./HexGrid.js";
 import MiniBoard, { fmt, Note, pieceCells, Section, Table } from "./GuideKit.jsx";
 import { PIECE_COLORS } from "./pieces.js";
-import { explainNormal, NORMAL_LOOKAHEAD, WEIGHTS as W } from "./strategy.js";
+import { explainNormal, NORMAL_LOOKAHEAD, NORMAL_RISK, WEIGHTS as W } from "./strategy.js";
 
 // --- tabelloni dimostrativi per le illustrazioni -----------------------------
 function fillAllExcept(radius, empty, color = 2) {
@@ -168,8 +168,9 @@ export default function GuideNormal({ snapshot }) {
             per ognuna, sul tabellone che ne risulta, rifà i passi 1–3 con gli altri due pezzi e trova la loro mossa migliore;
           </li>
           <li>
-            assegna a ogni candidata un <b>totale</b> = punti della prima mossa + voto della migliore seconda mossa (se nessuno dei
-            due pezzi entra più: −10.000, cioè scartata);
+            assegna a ogni candidata un <b>totale</b> = punti della prima mossa + voto della migliore seconda mossa − {NORMAL_RISK} ×
+            probabilità che un pezzo estratto a caso non entri nel tabellone dopo le due mosse (se nessuno dei due pezzi entra
+            più: −10.000, cioè scartata);
           </li>
           <li>suggerisce la candidata con il totale più alto.</li>
         </ol>
@@ -189,25 +190,37 @@ export default function GuideNormal({ snapshot }) {
 
       <Section n={5} title="Che cosa non sa">
         <p>
-          Il pezzo che arriva al posto di quello usato è casuale e non viene considerato: il computer guarda solo i tre pezzi che
-          vede. I pesi sono fissi (non imparati) e la ricerca guarda una sola mossa avanti, per restare veloce: un suggerimento
-          richiede circa 30 millisecondi.
+          Il pezzo che arriva al posto di quello usato è casuale: il computer non sa quale sarà, ma sa con che probabilità esce
+          ogni orientamento. Per questo il totale perde {NORMAL_RISK} punti × la probabilità che un pezzo nuovo non trovi posto
+          dopo le due mosse: un tabellone in cui il 10% dei pezzi non entra più costa {fmt(NORMAL_RISK * 0.1, 0)} punti, più
+          di una linea. Non è la probabilità di perdere (nel vassoio restano altri pezzi), ma misura quanto il tabellone è
+          diventato stretto. È stata provata anche una stima «esatta» della fine partita (il pezzo noto rimasto non entra e
+          nemmeno i due nuovi): sulle partite simulate rendeva meno.
+        </p>
+        <p>
+          I pesi sono fissi (non imparati) e la ricerca guarda una sola mossa avanti, per restare veloce: un suggerimento
+          richiede qualche decina di millisecondi.
         </p>
       </Section>
 
       <Section n={6} title="Quanto rende">
-        <p>Misure su partite simulate, con la stessa sequenza di pezzi per le due strategie:</p>
+        <p>
+          Misure su 60 partite simulate (al massimo 1.000 pezzi ciascuna), con la stessa sequenza di pezzi per le due
+          strategie:
+        </p>
         <Table
-          head={["Strategia", "Punti per pezzo", "Partite perse"]}
-          align={["", "r", "r"]}
+          head={["Strategia", "Durata media", "Durata mediana", "Punti medi", "Punti per pezzo", "Arrivate a 1.000"]}
+          align={["", "r", "r", "r", "r", "r"]}
           rows={[
-            ["Prima versione: più linee, poi più celle, poi più incastro", "8,6", "0 su 6.000 pezzi"],
-            ["Attuale: voto del tabellone + una mossa avanti", "10,4", "0 su 6.000 pezzi"],
+            ["Voto del tabellone + una mossa avanti", "311", "266", "3.155", "10,15", "0"],
+            ["Attuale: + rischio del pezzo in arrivo", "382", "307", "3.929", "10,29", "5"],
           ]}
         />
         <p>
-          In modalità normale l&apos;autogioco praticamente non perde mai, perché si può sempre scegliere il pezzo più comodo fra
-          tre: per questo il miglioramento si misura nei punti per pezzo e non nella durata.
+          Anche in modalità normale l&apos;autogioco prima o poi perde: con questi pezzi capita una serie di estrazioni per cui
+          nessuno dei tre pezzi trova posto. Le partite hanno durate molto diverse fra loro (da poche decine a oltre mille
+          pezzi), quindi il confronto va letto con cautela: la strategia attuale dura di più in media, ma partita per partita
+          vince 31 volte e perde 27.
         </p>
       </Section>
 
@@ -223,8 +236,8 @@ export default function GuideNormal({ snapshot }) {
               seconda mossa con gli altri pezzi. La stella indica il suggerimento.
             </p>
             <Table
-              head={["", "Mossa", "Voto", "Seconda mossa", "Voto 2ª", "Totale"]}
-              align={["", "", "r", "", "r", "r"]}
+              head={["", "Mossa", "Voto", "Seconda mossa", "Voto 2ª", "Rischio", "Totale"]}
+              align={["", "", "r", "", "r", "r", "r"]}
               rows={example.byTotal.map((m, i) => [
                 <MiniBoard
                   key="b"
@@ -246,12 +259,14 @@ export default function GuideNormal({ snapshot }) {
                 fmt(m.value),
                 m.next ? m.next.piece.name : "nessuna",
                 m.next ? fmt(m.next.value) : "—",
+                m.next ? sign(-NORMAL_RISK * m.death) : "—",
                 <b key="t">{fmt(m.total)}</b>,
               ])}
             />
             <p>
-              Totale = punti della mossa ({fmt(example.byTotal[0].gain)} per la mossa scelta) + voto della seconda mossa. Ecco
-              come è nato il voto della mossa suggerita e quello della sua seconda mossa:
+              Totale = punti della mossa ({fmt(example.byTotal[0].gain)} per la mossa scelta) + voto della seconda mossa +
+              rischio ({NORMAL_RISK} × probabilità che un pezzo nuovo non entri: {fmt(example.byTotal[0].death * 100, 1)}% per
+              la mossa scelta). Ecco come è nato il voto della mossa suggerita e quello della sua seconda mossa:
             </p>
             <div className="grid gap-4 md:grid-cols-2">
               <div className="space-y-2">

@@ -34,9 +34,16 @@ const AXES = [
 ];
 
 export const key = (q, r) => `${q},${r}`;
-export const parseKey = (k) => k.split(",").map(Number);
+// Le chiavi sono poche (61 celle): le coordinate si calcolano una volta sola.
+const parsed = new Map();
+export const parseKey = (k) => {
+  let c = parsed.get(k);
+  if (!c) parsed.set(k, (c = Object.freeze(k.split(",").map(Number))));
+  return c;
+};
 
 const lineCache = new Map();
+const coordCache = new Map();
 
 export default class HexGrid {
   constructor(radius = 4, cells = null) {
@@ -53,6 +60,10 @@ export default class HexGrid {
       }
     }
     this.lines = HexGrid.linesFor(radius, this.cells);
+    if (!coordCache.has(radius)) coordCache.set(radius, [...this.cells.keys()].map(parseKey));
+    // Dati di supporto non enumerabili: non cambiano confronti né copie della griglia.
+    Object.defineProperty(this, "coords", { value: coordCache.get(radius) });
+    Object.defineProperty(this, "_occ", { value: null, writable: true });
   }
 
   /** Tutte le linee del tabellone (calcolate una sola volta per raggio). */
@@ -73,8 +84,33 @@ export default class HexGrid {
     return lines;
   }
 
+  /**
+   * Occupazione in un array indicizzato per coordinate (-1 fuori dal tabellone,
+   * 0 vuota, 1 piena): evita di costruire una chiave stringa a ogni controllo.
+   * Calcolata alla prima richiesta; la griglia è immutabile, quindi resta valida.
+   */
+  get occupancy() {
+    if (!this._occ) {
+      const side = 2 * this.radius + 1;
+      const occ = new Int8Array(side * side).fill(-1);
+      for (const [k, v] of this.cells) {
+        const [q, r] = parseKey(k);
+        occ[(q + this.radius) * side + r + this.radius] = v ? 1 : 0;
+      }
+      this._occ = occ;
+    }
+    return this._occ;
+  }
+
+  occ(q, r) {
+    const side = 2 * this.radius + 1;
+    const a = q + this.radius;
+    const b = r + this.radius;
+    return a < 0 || b < 0 || a >= side || b >= side ? -1 : this.occupancy[a * side + b];
+  }
+
   has(q, r) {
-    return this.cells.has(key(q, r));
+    return this.occ(q, r) !== -1;
   }
 
   get(q, r) {
@@ -82,7 +118,7 @@ export default class HexGrid {
   }
 
   isEmpty(q, r) {
-    return this.cells.get(key(q, r)) === 0;
+    return this.occ(q, r) === 0;
   }
 
   /** I (fino a) 6 vicini di una cella, già filtrati sui confini. */
@@ -94,7 +130,8 @@ export default class HexGrid {
 
   /** Il pezzo (lista di offset [dq, dr]) entra con l'origine in (q, r)? */
   canPlace(piece, q, r) {
-    return piece.every(([dq, dr]) => this.isEmpty(q + dq, r + dr));
+    for (const [dq, dr] of piece) if (this.occ(q + dq, r + dr) !== 0) return false;
+    return true;
   }
 
   /** Nuovo HexGrid con il pezzo appoggiato (senza cancellare linee). */
@@ -119,18 +156,12 @@ export default class HexGrid {
   /** Tutte le posizioni d'origine in cui il pezzo entra. */
   placementsFor(piece) {
     const out = [];
-    for (const k of this.cells.keys()) {
-      const [q, r] = parseKey(k);
-      if (this.canPlace(piece, q, r)) out.push([q, r]);
-    }
+    for (const [q, r] of this.coords) if (this.canPlace(piece, q, r)) out.push([q, r]);
     return out;
   }
 
   fits(piece) {
-    for (const k of this.cells.keys()) {
-      const [q, r] = parseKey(k);
-      if (this.canPlace(piece, q, r)) return true;
-    }
+    for (const [q, r] of this.coords) if (this.canPlace(piece, q, r)) return true;
     return false;
   }
 

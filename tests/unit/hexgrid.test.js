@@ -68,4 +68,19 @@ describe("HexGrid: mosse", () => {
     expect(g.fits([[0, 0], [1, 0], [2, 0], [3, 0]])).toBe(true);
     expect(key(1, -2)).toBe("1,-2");
   });
+
+  it("i controlli veloci di occupazione coincidono con la mappa delle celle", () => {
+    for (const radius of [1, 4]) {
+      let g = new HexGrid(radius);
+      [...g.cells.keys()].filter((_, i) => i % 3 === 0).forEach((k) => { g = g.place([[0, 0]], ...parseKey(k), 5); });
+      for (let q = -radius - 2; q <= radius + 2; q++) {
+        for (let r = -radius - 2; r <= radius + 2; r++) {
+          expect(g.has(q, r)).toBe(g.cells.has(key(q, r)));
+          expect(g.isEmpty(q, r)).toBe(g.cells.get(key(q, r)) === 0);
+        }
+      }
+      // i campi di supporto non entrano nei confronti fra griglie
+      expect(Object.keys(g)).toEqual(["radius", "cells", "lines"]);
+    }
+  });
 });
