@@ -1,25 +1,8 @@
 import { DIRECTIONS } from "./HexGrid.js";
-import { PIECES, randomPiece, seededRandom } from "./pieces.js";
+import { pieceAvailability } from "./pieceAvailability.js";
+import { randomPiece, seededRandom } from "./pieces.js";
 
-const totalWeight = PIECES.reduce((sum, p) => sum + p.weight, 0);
 export const RISK_SETTINGS = { samples: 128, choiceSamples: 64, maxChoices: 8, seed: 73421, safeRisk: 0.25 };
-
-/** Probabilità esatta sulla griglia immobile, con l'orientamento realmente estratto. */
-export function pieceAvailability(grid, maxPlacements = Infinity) {
-  const pieces = PIECES.map((piece) => {
-    let placements = 0;
-    for (const [q, r] of grid.coords) {
-      if (grid.canPlace(piece.cells, q, r) && ++placements >= maxPlacements) break;
-    }
-    return {
-      id: piece.id, name: piece.name, color: piece.color, p: piece.weight / totalWeight,
-      placements,
-    };
-  });
-  const death = pieces.reduce((sum, p) => sum + (p.placements ? 0 : p.p), 0);
-  const room = pieces.reduce((sum, p) => sum + p.p * Math.min(6, p.placements) / 6, 0);
-  return { death: Math.min(1, death), room, playableOrientations: pieces.filter((p) => p.placements > 0).length, pieces };
-}
 
 export function legalPlacements(grid, tray, expert) {
   return tray.flatMap((p, idx) => !p || (expert && idx !== 0) ? []

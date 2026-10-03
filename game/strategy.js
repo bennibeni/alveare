@@ -18,7 +18,7 @@
  */
 import { DIRECTIONS, parseKey } from "./HexGrid.js";
 import { PIECES, SHAPES } from "./pieces.js";
-import { pieceAvailability } from "./positionRisk.js";
+import { pieceAvailability } from "./pieceAvailability.js";
 
 const W = { line: 60, cell: 1, dead: -12, hole: -5, fit: 2.5, near: 1.2, empty: 0.3 };
 const LOOKAHEAD = 6;

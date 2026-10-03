@@ -122,6 +122,7 @@ game/
   strategy.worker.js  analisi e giudizio delle mosse fuori dal thread dell’interfaccia
   strategyClient.js   richieste al worker, con cache per posizione
   moveJudgment.js     giudizio della mossa giocata
+  pieceAvailability.js probabilità esatta che il prossimo pezzo estratto non entri (usata da strategia e indicatori)
   positionRisk.js     indicatori di prosecuzione (simulazioni nel worker positionRisk.worker.js)
   GuideNormal.jsx     pagina «Suggerimenti · normale»
   GuideExpert.jsx     pagina «Suggerimenti · Esperto»

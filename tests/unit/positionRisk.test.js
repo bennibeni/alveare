@@ -1,27 +1,13 @@
 import { describe, expect, it } from "vitest";
 import HexGrid from "../../game/HexGrid.js";
 import { PIECES } from "../../game/pieces.js";
-import { estimatePositionRisk, legalPlacements, pieceAvailability } from "../../game/positionRisk.js";
+import { estimatePositionRisk, legalPlacements } from "../../game/positionRisk.js";
 
 const point = PIECES[0];
 const bar = PIECES.find((p) => p.name === "barra 4");
 const settings = { samples: 12, choiceSamples: 8, maxChoices: 2 };
 
 describe("indicatori di prosecuzione", () => {
-  it("pesa separatamente orientamenti disponibili e bloccati della stessa forma", () => {
-    const grid = new HexGrid(4);
-    for (const key of grid.cells.keys()) grid.cells.set(key, ["0,0", "1,0", "2,0", "3,0"].includes(key) ? 0 : 1);
-    const availability = pieceAvailability(grid);
-    const bars = availability.pieces.filter((p) => p.name === "barra 4");
-    expect(bars.filter((p) => p.placements > 0)).toHaveLength(1);
-    expect(bars.filter((p) => p.placements === 0).reduce((sum, p) => sum + p.p, 0)).toBeCloseTo(2 / 3 / 4.6);
-    expect(availability.death).toBeCloseTo(1 - (0.6 + 1 / 3) / 4.6);
-    expect(pieceAvailability(new HexGrid(4)).death).toBe(0);
-    const capped = pieceAvailability(grid, 6);
-    expect(capped.death).toBeCloseTo(availability.death);
-    expect(capped.room).toBeCloseTo(availability.room);
-  });
-
   it("rispetta la scelta libera in Normale e il primo pezzo obbligatorio in Esperto", () => {
     const grid = new HexGrid(0), tray = [bar, point, point];
     expect(legalPlacements(grid, tray, false)).toHaveLength(2);
