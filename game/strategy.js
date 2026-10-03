@@ -10,7 +10,8 @@
  * 2. Guarda una mossa avanti: per le 20 mosse migliori prova anche la migliore
  *    mossa successiva con gli altri due pezzi del vassoio, e sceglie la coppia
  *    che rende di più.
- * 3. Toglie al totale 1.600 × la probabilità che un pezzo estratto a caso non entri
+ * 3. Toglie al totale 200 × (1 − posizioni del pezzo noto rimasto / 6, fino a 6) e
+ *    1.600 × la probabilità che un pezzo estratto a caso non entri
  *    nel tabellone dopo le due mosse: i pezzi in arrivo sono ignoti, ma un tabellone
  *    in cui molte forme non entrano più è un tabellone pericoloso.
  *
@@ -28,6 +29,9 @@ const LOOKAHEAD = 20;
 // ricerca trova più combinazioni che rendono punti: 1.600 è il valore che ha reso di più al
 // simulatore (60 partite appaiate; provati 400, 800, 1.600, 2.400, 3.200).
 const NORMAL_DEATH = 1600;
+// Penalità × (1 − posizioni del pezzo noto rimasto / 6) dopo le due mosse: un pezzo che resta nel
+// vassoio con poco spazio sul tabellone è il primo passo verso il blocco (vedi README).
+const NORMAL_ROOM = 200;
 
 // Delle candidate approfondite, l'analisi e il giudizio confrontano le migliori NORMAL_SHOWN per
 // totale (più la mossa giocata): le stesse che vede il giocatore, con la calibrazione del giudizio.
@@ -38,6 +42,7 @@ export const WEIGHTS = W;
 export const NORMAL_LOOKAHEAD = LOOKAHEAD;
 export const NORMAL_ANALYSIS = NORMAL_SHOWN;
 export const NORMAL_RISK = NORMAL_DEATH;
+export const NORMAL_ROOM_PENALTY = NORMAL_ROOM;
 
 function boardFeatures(g) {
   let holes = 0;
@@ -111,8 +116,19 @@ function withLookahead(m, tray) {
   const rest = tray.map((p, i) => (i === m.idx ? null : p));
   const next = rankedMoves(m.after, rest, m.nextStreak)[0] || null;
   const death = next ? normalDeath(next) : 1;
-  const total = m.gain * W.cell + (next ? next.value - NORMAL_DEATH * death : -10000);
-  return { ...m, next, death, blockRisk: next ? blockRisk(m, next, tray, death) : null, total };
+  const room = next ? remainingRoom(m, next, tray) : 0;
+  const roomPenalty = NORMAL_ROOM * (1 - room / 6);
+  const total = m.gain * W.cell + (next ? next.value - NORMAL_DEATH * death - roomPenalty : -10000);
+  return { ...m, next, death, room, roomPenalty, blockRisk: next ? blockRisk(m, next, tray, death) : null, total };
+}
+
+/** Posizioni (fino a 6) del pezzo noto che resta nel vassoio dopo la mossa e la seconda mossa. */
+function remainingRoom(m, next, tray) {
+  const remaining = tray.find((p, i) => p && i !== m.idx && i !== next.idx);
+  if (!remaining) return 6;
+  let n = 0;
+  for (const [q, r] of next.after.coords) if (next.after.canPlace(remaining.cells, q, r) && ++n >= 6) break;
+  return n;
 }
 
 /** Per il giudizio: probabilità che dopo le due mosse non entri NESSUN pezzo del vassoio
@@ -387,6 +403,7 @@ export function slimAnalysis(analysis) {
       ...placement(m), total: m.total,
       ...(m.death !== undefined ? { death: m.death } : {}),
       ...(m.blockRisk !== undefined ? { blockRisk: m.blockRisk } : {}),
+      ...(m.roomPenalty !== undefined ? { room: m.room, roomPenalty: m.roomPenalty } : {}),
       ...(m.played !== undefined ? { played: m.played } : {}),
       ...(m.added ? { added: true } : {}),
       ...(m.next !== undefined ? { next: placement(m.next) } : {}),

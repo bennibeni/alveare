@@ -143,7 +143,8 @@ medie non sono statisticamente significative con questo numero di partite.
 |---|---|---|---|---|---|---|
 | normale | 60, max 1.000 pezzi | originale (6 candidate, senza rischio) | 286 | 219 | 2.896 | 10,13 |
 | normale | 60, max 1.000 pezzi | 6 candidate, rischio 400 | 373 | 301 | 3.834 | 10,29 |
-| normale | 60, max 1.000 pezzi | **attuale** (20 candidate, rischio 1.600) | 433 | 357 | 5.226 | 12,06 |
+| normale | 60, max 1.000 pezzi | 20 candidate, rischio 1.600 | 433 | 357 | 5.226 | 12,06 |
+| normale | 60, max 1.000 pezzi | **attuale** (+ spazio per il pezzo rimasto) | 486 | 349 | 5.938 | 12,21 |
 | Esperto | 50, max 3.000 pezzi | precedente (un fascio per tutte le prime mosse) | 369 | 310 | 3.434 | 9,30 |
 | Esperto | 50, max 3.000 pezzi | **attuale** (un fascio per prima mossa) | 400 | 266 | 4.306 | 10,76 |
 
@@ -158,6 +159,14 @@ combinazioni che rendono punti; la penalità per il pezzo in arrivo è passata d
 accorciare le partite (provati 400, 800, 1.600, 2.400, 3.200: durata media 364, 380, 433, 396, 371).
 Analisi e giudizio mostrano e confrontano le 6 migliori per totale.
 
+Il totale toglie anche 200 × (1 − posizioni del pezzo noto che resta nel vassoio dopo le due mosse / 6).
+Motivo, dai dati di 26.000 posizioni simulate: se i due pezzi tenuti nel vassoio hanno al massimo 3
+posizioni sul tabellone la partita si perde entro 5 mosse nel 1–2% dei casi, contro lo 0,1% con almeno
+4 posizioni; con due pezzi identici (stesso orientamento, non punti) senza posizioni si perde nel 55%
+dei casi (33 posizioni osservate). Su 200 partite appaiate (140 mai usate per la taratura): durata
+media 420 → 481, mediana 347 → 397, meglio in 113 partite e peggio in 83 (test del segno p ≈ 0,03).
+Sui 6 semi del comando rapido, però, va peggio: le singole partite variano moltissimo.
+
 Con la nuova ricerca Esperto la penalità per il pezzo ignoto è passata da 400 a 1.200: con un fascio
 per ogni prima mossa la ricerca trova più sequenze che svuotano linee, e con la penalità a 400 le partite
 si accorciavano (durata media 309 sulle stesse 50 partite). Su 30 partite: 400 → durata media 310,
@@ -166,7 +175,7 @@ si accorciavano (durata media 309 sulle stesse 50 partite). Su 30 partite: 400 �
 Comando rapido (circa 30 secondi):
 
 ```bash
-npm run sim -- --mode normal --games 6 --max 1000   # seme 7000: mediana 722, media 570, 1 partita a 1.000
+npm run sim -- --mode normal --games 6 --max 1000   # seme 7000: mediana 200, media 229 (sei partite sfortunate)
 ```
 
 I test di regressione in `tests/unit/strategy.test.js` bloccano il comportamento attuale della strategia: se la
