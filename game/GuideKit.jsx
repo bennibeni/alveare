@@ -13,8 +13,9 @@ import { PIECE_COLORS } from "./pieces.js";
  *          - stroke: contorno; dashed: contorno tratteggiato
  *          - label: testo scritto al centro di ogni cella (es. "1", "2", "3")
  * dimFilled : se true le celle già occupate vengono attenuate, così risaltano le evidenziazioni
+ * emptyFill : colore delle celle vuote (più chiaro quando la miniatura sta su uno sfondo scuro come le celle)
  */
-export default function MiniBoard({ grid, width = 160, marks = [], dimFilled = false, title }) {
+export default function MiniBoard({ grid, width = 160, marks = [], dimFilled = false, emptyFill = "#1e293b", title }) {
   const S = 10;
   const pad = S + 2;
   const halfW = S * SQRT3 * grid.radius + pad;
@@ -36,7 +37,7 @@ export default function MiniBoard({ grid, width = 160, marks = [], dimFilled = f
           <polygon
             key={k}
             points={hexPoints(x, y, S - 0.9)}
-            fill={v ? PIECE_COLORS[v] : "#1e293b"}
+            fill={v ? PIECE_COLORS[v] : emptyFill}
             opacity={v && dimFilled ? 0.35 : 1}
           />
         );
@@ -80,20 +81,6 @@ export function pieceCells(cells, q, r) {
 }
 
 /** Numero in formato italiano (virgola decimale), con al massimo `d` decimali. */
-/** Dove sta una mossa, in parole: righe dall'alto, celle da sinistra (es. "riga 3, celle 4 e 5"). */
-export function placementText(grid, move) {
-  const rows = new Map();
-  for (const [q, r] of pieceCells(move.cells, move.q, move.r)) {
-    const row = r + grid.radius + 1;
-    const column = q - Math.max(-grid.radius, -r - grid.radius) + 1;
-    if (!rows.has(row)) rows.set(row, []);
-    rows.get(row).push(column);
-  }
-  return [...rows].sort(([a], [b]) => a - b).map(([row, columns]) =>
-    `riga ${row}, ${columns.length === 1 ? "cella" : "celle"} ${columns.sort((a, b) => a - b).join(" e ")}`,
-  ).join("; ");
-}
-
 /** Dove sta una mossa con la numerazione delle celle del tabellone (es. "celle 12, 13, 14"). */
 export function cellNumbersText(grid, move) {
   const numbers = cellNumbers(grid.radius);

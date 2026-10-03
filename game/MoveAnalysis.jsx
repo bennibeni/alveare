@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import MiniBoard, { fmt, pieceCells, placementText } from "./GuideKit.jsx";
+import MiniBoard, { fmt, pieceCells } from "./GuideKit.jsx";
 import { PIECE_COLORS } from "./pieces.js";
 import { requestAnalysis } from "./strategyClient.js";
 import PositionIndicators from "./PositionIndicators.jsx";
@@ -40,7 +40,7 @@ function AnalysisContent({ grid, tray, streak, expert, playedMove, playedAnalysi
               : "Una mossa è un pezzo del vassoio in una posizione libera. Qui trovi le candidate approfondite dal suggerimento, fino a sei."}
             {" "}Il punteggio misura la qualità della scelta, non i punti aggiunti alla partita. Più è alto, meglio è.
           </p>
-          <p className="text-xs text-slate-400">Righe dall’alto verso il basso, celle da sinistra a destra. La miniatura evidenzia dove mettere il pezzo.</p>
+          <p className="text-xs text-slate-400">La miniatura evidenzia dove mettere il pezzo.</p>
           <ol className="space-y-2" aria-label="Mosse approfondite">
             {analysis.moves.map((move, i) => (
               <li
@@ -54,7 +54,7 @@ function AnalysisContent({ grid, tray, streak, expert, playedMove, playedAnalysi
                 data-added={move.added ? "true" : undefined}
                 className={`flex flex-wrap items-center gap-3 rounded-xl p-3 ${move.played ? "bg-emerald-950 ring-2 ring-emerald-400" : "bg-slate-800/60"}`}
               >
-                <MiniBoard grid={grid} width={90} dimFilled title={`Posizione della mossa ${i + 1}`} marks={[
+                <MiniBoard grid={grid} width={90} dimFilled emptyFill="#475569" title={`Posizione della mossa ${i + 1}`} marks={[
                   { cells: pieceCells(move.cells, move.q, move.r), fill: PIECE_COLORS[move.piece.color], stroke: "#ffffff" },
                 ]} />
                 <div className="min-w-0 flex-1 basis-44 space-y-1">
@@ -63,7 +63,6 @@ function AnalysisContent({ grid, tray, streak, expert, playedMove, playedAnalysi
                     {i === 0 ? " · Suggerita" : Math.abs(move.total - analysis.moves[0].total) < 1e-9 ? " · A pari merito" : ""}
                   </p>
                   {move.played && <p className="font-semibold text-emerald-300">✓ Mossa giocata{move.added ? " · aggiunta al confronto" : ""}</p>}
-                  <p>{placementText(grid, move)}.</p>
                   <p>{move.lines ? `Svuota ${move.lines} ${move.lines === 1 ? "linea" : "linee"}.` : "Non svuota linee subito."}</p>
                   <p className="font-semibold text-amber-300">Punteggio: {fmt(move.total, 3)}</p>
                   <p className="text-xs text-slate-400">
