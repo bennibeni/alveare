@@ -117,6 +117,20 @@ describe("giudizio qualitativo della mossa", () => {
     analysis.moves[2].next = null;
     expect(judgeMove(analysis).label).toBe("Mossa pessima");
   });
+  it("non chiama «scoperta» una mossa fra tante equivalenti che il suggerimento aveva scartato (log)", () => {
+    // Tabellone quasi vuoto: 55 mosse su 89 stanno entro il 5% del massimo. Con solo 6 candidate
+    // scelte per voto a un passo, la mossa giocata pareggiava il suggerimento e risultava «Ottima scoperta».
+    let grid = new HexGrid(4);
+    for (const q of [-4, -3, -2, -1]) grid = grid.place([[0, 0]], q, 0, 9);
+    const tray = ["barra 4-2", "bandiera sinistra-1", "bandiera destra-2"].map((id) => PIECES.find((p) => p.id === id));
+    const analysis = analyzePlayedMove({ grid, tray, streak: 0, expert: false, idx: 1, q: -1, r: -1 });
+    const result = judgeMove(analysis);
+    expect(result.label).not.toBe("Ottima scoperta");
+    expect(result.emphasis).toBe("neutral");
+    expect(result.maximum).toBeGreaterThan(result.score);
+    expect(analysis.moves[0].total).toBeCloseTo(148.9, 1);
+  });
+
   it("incoraggia l'incastro del log anche fra alternative equivalenti", () => {
     let grid = new HexGrid(4);
     for (const [q, r] of [[2, -1], [3, -1], [3, 0], [4, -1]]) grid = grid.place([[0, 0]], q, r, 10);
@@ -180,6 +194,17 @@ describe("giudizio qualitativo della mossa", () => {
     expect(judgeMove(comparison([100, 99, 50, 45], 1))).toMatchObject({
       label: "Buona mossa", emphasis: "neutral", rank: 2, comparable: 1, worse: 2,
     });
+  });
+
+  it("elenca le mosse nettamente migliori, dalla migliore, con pezzo e posizione", () => {
+    const analysis = comparison([100, 95, 90, 20], 3);
+    analysis.moves.forEach((m, i) => Object.assign(m, { idx: i % 3, q: i, r: -i, cells: [[0, 0]], piece: { name: `pezzo ${i}`, cells: [[0, 0]] } }));
+    const result = judgeMove(analysis);
+    expect(result.clearlyBetterMoves.map((m) => [m.idx, m.q, m.pieceName, m.advantage])).toEqual([
+      [0, 0, "pezzo 0", 80], [1, 1, "pezzo 1", 75], [2, 2, "pezzo 2", 70],
+    ]);
+    expect(result.clearlyBetterMoves).toHaveLength(result.clearlyBetter);
+    expect(judgeMove(comparison([100, 99, 98, 97], 3)).clearlyBetterMoves).toEqual([]);
   });
 
   it("evidenzia la perdita con un distacco ampio da una maggioranza netta", () => {

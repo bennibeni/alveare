@@ -1,7 +1,8 @@
 import { describe, expect, it } from "vitest";
 import HexGrid from "../../game/HexGrid.js";
 import { PIECES, randomTray, seededRandom, SHAPES } from "../../game/pieces.js";
-import { analyzeMoves, analyzePlayedMove, bestMove, explainNormal, explainQueue, NORMAL_RISK, QUEUE_PARAMS } from "../../game/strategy.js";
+import { analyzeMoves, analyzePlayedMove, bestMove, explainNormal, explainQueue, NORMAL_RISK, NORMAL_ROOM_PENALTY, QUEUE_PARAMS, slimAnalysis } from "../../game/strategy.js";
+import { judgeMove } from "../../game/moveJudgment.js";
 import { pairedCompare, playGame, playGames, seedFor } from "../../scripts/sim-lib.mjs";
 
 const byName = (n) => SHAPES.find((s) => s.name === n).pieces;
@@ -29,7 +30,7 @@ describe("classifica delle mosse approfondite", () => {
         expect(extra.moves.at(-1).total).toBeCloseTo(leaf.acc + leaf.board + leaf.unknown.value);
       } else {
         const m = extra.moves.at(-1);
-        expect(m.total).toBeCloseTo(m.gain + (m.next ? m.next.value - NORMAL_RISK * m.death : -10000));
+        expect(m.total).toBeCloseTo(m.gain + (m.next ? m.next.value - NORMAL_RISK * m.death - m.roomPenalty : -10000));
       }
       expect(bestMove(grid, tray, 2, { queue: expert })).toEqual({ idx: top.idx, q: top.q, r: top.r, cells: top.cells });
     });
@@ -69,7 +70,7 @@ describe("classifica delle mosse approfondite", () => {
     for (const k of grid.cells.keys()) if (k !== "0,0") grid = grid.place([[0, 0]], ...k.split(",").map(Number), 1);
     const point = byName("punto")[0];
     const bar = byName("barra 4")[0];
-    expect(analyzeMoves(grid, [bar, bar, bar])).toEqual({ totalMoves: 0, moves: [] });
+    expect(analyzeMoves(grid, [bar, bar, bar])).toEqual({ totalMoves: 0, evaluated: 0, moves: [] });
     expect(analyzeMoves(grid, [bar, point, point], 0, { queue: true })).toEqual({ totalMoves: 0, moves: [] });
     const result = analyzeMoves(grid, [bar, point, bar]);
     expect(result.totalMoves).toBe(1);
@@ -121,6 +122,53 @@ describe("Esperto: ogni prima mossa ha il proprio fascio", () => {
     for (const m of moves) expect(m.sequence.blocked).toBe(slot.includes(`${m.q},${m.r}`));
     expect(moves[0].sequence.blocked).toBe(false);
     expect(slot).not.toContain(`${moves[0].q},${moves[0].r}`);
+  });
+});
+
+describe("analisi spedita dal worker", () => {
+  it("la copia senza tabelloni si clona e dà lo stesso giudizio", () => {
+    for (const expert of [false, true]) {
+      for (let seed = 1; seed <= 3; seed++) {
+        const { grid, tray } = midGame(seed);
+        const legal = grid.placementsFor(tray[0].cells);
+        const [q, r] = legal[Math.floor(legal.length / 2)];
+        const analysis = analyzePlayedMove({ grid, tray, streak: 1, expert, idx: 0, q, r });
+        const slim = structuredClone(slimAnalysis(analysis));
+        expect(JSON.stringify(slim)).not.toContain('"cells":{}');
+        expect(judgeMove(slim)).toEqual(judgeMove(analysis));
+        expect(slim.moves.map((m) => m.total)).toEqual(analysis.moves.map((m) => m.total));
+      }
+    }
+  });
+});
+
+describe("modalità normale: spazio per il pezzo che resta nel vassoio", () => {
+  it("penalizza le mosse che lasciano al pezzo rimasto poche posizioni", () => {
+    for (let seed = 1; seed <= 4; seed++) {
+      const { grid, tray } = midGame(seed, 25);
+      for (const m of analyzeMoves(grid, tray, 0).moves) {
+        if (!m.next) continue;
+        const remaining = tray.find((p, i) => i !== m.idx && i !== m.next.idx);
+        expect(m.room).toBe(Math.min(6, m.next.after.placementsFor(remaining.cells).length));
+        expect(m.roomPenalty).toBeCloseTo(NORMAL_ROOM_PENALTY * (1 - m.room / 6));
+      }
+    }
+  });
+});
+
+describe("modalità normale: rischio di blocco per il giudizio", () => {
+  it("è zero se il pezzo noto rimasto entra, altrimenti una probabilità", () => {
+    for (let seed = 1; seed <= 4; seed++) {
+      const { grid, tray } = midGame(seed, 25);
+      for (const m of analyzeMoves(grid, tray, 0).moves) {
+        if (!m.next) { expect(m.blockRisk).toBeNull(); continue; }
+        expect(m.blockRisk).toBeGreaterThanOrEqual(0);
+        expect(m.blockRisk).toBeLessThanOrEqual(1);
+        const remaining = tray.find((p, i) => i !== m.idx && i !== m.next.idx);
+        if (m.next.after.fits(remaining.cells)) expect(m.blockRisk).toBe(0);
+        else expect(m.blockRisk).toBeCloseTo(m.death * m.death);
+      }
+    }
   });
 });
 
@@ -208,8 +256,8 @@ describe("prestazioni e regressioni (simulazioni con seme)", () => {
 
   // Valori di riferimento della strategia attuale. Se si cambia la strategia di
   // proposito, questi numeri vanno aggiornati (dopo averla misurata con npm run sim).
-  it("regressione · normale, seme 555, 60 pezzi: 493 punti, 30 linee", () => {
-    expect(playGame({ mode: "normal", seed: 555, maxMoves: 60 })).toEqual({ seed: 555, pieces: 60, points: 493, lines: 30, lost: false });
+  it("regressione · normale, seme 555, 60 pezzi: 559 punti, 29 linee", () => {
+    expect(playGame({ mode: "normal", seed: 555, maxMoves: 60 })).toEqual({ seed: 555, pieces: 60, points: 559, lines: 29, lost: false });
   });
 
   it("regressione · Esperto, seme 7097: 52 pezzi, 561 punti", () => {
@@ -222,10 +270,11 @@ describe("prestazioni e regressioni (simulazioni con seme)", () => {
     });
   });
 
-  // Regressione, non garanzia: con altri semi la modalità normale perde anche prima di 150
-  // pezzi (vedi README). La qualità della strategia si misura con `npm run sim`.
-  it("regressione · normale, semi 1, 98, 195: tutte e tre arrivano a 150 pezzi", () => {
-    expect(playGames({ mode: "normal", games: 3, maxMoves: 150, seed: 1 }).every((r) => !r.lost)).toBe(true);
+  // Fotografia di tre partite, non una misura di qualità: anche la strategia migliore perde
+  // alcune partite presto (vedi README). La qualità si misura con molte partite (`npm run sim`).
+  it("regressione · normale, semi 1, 98, 195: 32 (persa), 146 (persa), 150 pezzi", () => {
+    expect(playGames({ mode: "normal", games: 3, maxMoves: 150, seed: 1 }).map((r) => [r.pieces, r.lost]))
+      .toEqual([[32, true], [146, true], [150, false]]);
   });
 
   it("pairedCompare conta vittorie, sconfitte e pareggi partita per partita", () => {

@@ -1,5 +1,21 @@
 import { expect, test } from "@playwright/test";
 import { collectErrors, hintTarget, openFresh, stat, statNum, waitPieces, watchFlights } from "./helpers.js";
+import HexGrid, { axialToPixel, parseKey } from "../../game/HexGrid.js";
+import { pieceCentroid, PIECES } from "../../game/pieces.js";
+
+/** Orientamento del primo pezzo del vassoio, ricavato dalla geometria del suo disegno. */
+async function firstPiece(page) {
+  const centers = await page.getByTestId("slot-0").locator("svg polygon").evaluateAll((polygons) => polygons.map((p) => {
+    const points = p.getAttribute("points").trim().split(/\s+/).map((v) => v.split(",").map(Number));
+    return [0, 1].map((a) => points.reduce((s, q) => s + q[a], 0) / points.length);
+  }));
+  const piece = PIECES.find((p) => p.cells.length === centers.length && p.cells.every(([q, r], i) => {
+    const [x, y] = axialToPixel(q, r, 22);
+    return Math.hypot(x - centers[i][0], y - centers[i][1]) < 0.02;
+  }));
+  expect(piece).toBeDefined();
+  return piece;
+}
 
 test("la pagina si carica senza errori (idratazione inclusa)", async ({ page }) => {
   const errors = collectErrors(page);
@@ -157,28 +173,40 @@ test("fine partita: solo l'etichetta «Partita finita», senza bottoni né riqua
   test.setTimeout(240_000);
   await openFresh(page);
   await page.getByRole("switch").click(); // in Esperto si perde prima
-  // Gioca male di proposito: mette il pezzo nella prima cella libera seguendo un ordine
+  // Gioca male di proposito: mette il pezzo nella prima posizione libera seguendo un ordine
   // "sparpagliato" (passo 37 su 61, che tocca tutte le celle). Così si lasciano buchi ovunque,
   // si completano poche linee e la partita finisce in fretta. (In ordine di lettura invece si
   // completano continuamente righe e si sopravvive a lungo.)
+  // Il gioco interpreta il clic come baricentro del pezzo: il test calcola una posizione valida
+  // e clicca proprio lì. Cliccare solo i centri delle celle libere non basta: in circa una partita
+  // su cinque l'unica posizione valida ha il baricentro su una cella occupata o fra due celle,
+  // il pezzo non si può mettere con quei clic e la partita non finisce mai.
   const order = Array.from({ length: 61 }, (_, i) => (i * 37) % 61);
+  const keys = [...new HexGrid(4).cells.keys()]; // stesso ordine dei primi 61 poligoni del tabellone
   const board = page.getByTestId("board");
   for (let moves = 0; moves < 120; moves++) {
     if (await page.getByText("Partita finita").count()) break;
-    await page.keyboard.press("1");
     const before = await statNum(page, "Pezzi");
-    const centers = await board.evaluate((svg) =>
-      [...svg.querySelectorAll("polygon")].slice(0, 61).map((c) => {
-        const r = c.getBoundingClientRect();
-        return { x: r.x + r.width / 2, y: r.y + r.height / 2, free: c.getAttribute("fill") === "#1e293b" };
-      }),
-    );
-    for (const c of order.map((i) => centers[i]).filter((c) => c.free)) {
-      await page.mouse.move(c.x, c.y);
-      await page.mouse.click(c.x, c.y);
-      if ((await statNum(page, "Pezzi")) > before) break;
+    const filled = await board.evaluate((svg) =>
+      [...svg.querySelectorAll("polygon")].slice(0, 61).map((c) => c.getAttribute("fill") !== "#1e293b"));
+    let grid = new HexGrid(4);
+    keys.forEach((k, i) => { if (filled[i]) grid = grid.place([[0, 0]], ...parseKey(k), 1); });
+    const piece = await firstPiece(page);
+    const origin = order.map((i) => parseKey(keys[i])).find(([q, r]) => grid.canPlace(piece.cells, q, r));
+    if (!origin) { // il primo pezzo non entra: deve comparire «Partita finita»
+      await expect(page.getByText("Partita finita")).toBeVisible();
+      break;
     }
-    await page.waitForTimeout(800);
+    await page.keyboard.press("1");
+    const [cq, cr] = pieceCentroid(piece.cells);
+    const [x, y] = axialToPixel(origin[0] + cq, origin[1] + cr, 22);
+    const screen = await board.evaluate((svg, p) => {
+      const point = new DOMPoint(p.x, p.y).matrixTransform(svg.getScreenCTM());
+      return { x: point.x, y: point.y };
+    }, { x, y });
+    await page.mouse.click(screen.x, screen.y);
+    await expect.poll(() => statNum(page, "Pezzi")).toBeGreaterThan(before);
+    await page.waitForTimeout(800); // volo, eventuale lampeggio delle linee e nuovo pezzo
   }
   const banner = page.getByRole("status").filter({ hasText: "Partita finita" });
   await expect(banner).toHaveText("Partita finita");

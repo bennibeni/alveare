@@ -1,6 +1,6 @@
 "use client";
 
-import { axialToPixel, hexPoints, parseKey, SQRT3 } from "./HexGrid.js";
+import { axialToPixel, cellNumbers, hexPoints, key, parseKey, SQRT3 } from "./HexGrid.js";
 import { PIECE_COLORS } from "./pieces.js";
 
 /**
@@ -13,8 +13,9 @@ import { PIECE_COLORS } from "./pieces.js";
  *          - stroke: contorno; dashed: contorno tratteggiato
  *          - label: testo scritto al centro di ogni cella (es. "1", "2", "3")
  * dimFilled : se true le celle già occupate vengono attenuate, così risaltano le evidenziazioni
+ * emptyFill : colore delle celle vuote (più chiaro quando la miniatura sta su uno sfondo scuro come le celle)
  */
-export default function MiniBoard({ grid, width = 160, marks = [], dimFilled = false, title }) {
+export default function MiniBoard({ grid, width = 160, marks = [], dimFilled = false, emptyFill = "#1e293b", title }) {
   const S = 10;
   const pad = S + 2;
   const halfW = S * SQRT3 * grid.radius + pad;
@@ -36,7 +37,7 @@ export default function MiniBoard({ grid, width = 160, marks = [], dimFilled = f
           <polygon
             key={k}
             points={hexPoints(x, y, S - 0.9)}
-            fill={v ? PIECE_COLORS[v] : "#1e293b"}
+            fill={v ? PIECE_COLORS[v] : emptyFill}
             opacity={v && dimFilled ? 0.35 : 1}
           />
         );
@@ -80,6 +81,13 @@ export function pieceCells(cells, q, r) {
 }
 
 /** Numero in formato italiano (virgola decimale), con al massimo `d` decimali. */
+/** Dove sta una mossa con la numerazione delle celle del tabellone (es. "celle 12, 13, 14"). */
+export function cellNumbersText(grid, move) {
+  const numbers = cellNumbers(grid.radius);
+  const list = pieceCells(move.cells, move.q, move.r).map(([q, r]) => numbers.get(key(q, r))).sort((a, b) => a - b);
+  return `${list.length === 1 ? "cella" : "celle"} ${list.join(", ")}`;
+}
+
 export function fmt(n, d = 1) {
   const v = Number(n);
   // niente "-0": un contributo nullo si scrive 0

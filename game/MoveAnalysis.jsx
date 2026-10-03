@@ -1,29 +1,32 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import MiniBoard, { fmt, pieceCells } from "./GuideKit.jsx";
 import { PIECE_COLORS } from "./pieces.js";
-import { analyzeMoves, analyzePlayedMove } from "./strategy.js";
+import { requestAnalysis } from "./strategyClient.js";
 import PositionIndicators from "./PositionIndicators.jsx";
 
-function placementText(grid, move) {
-  const rows = new Map();
-  for (const [q, r] of pieceCells(move.cells, move.q, move.r)) {
-    const row = r + grid.radius + 1;
-    const column = q - Math.max(-grid.radius, -r - grid.radius) + 1;
-    if (!rows.has(row)) rows.set(row, []);
-    rows.get(row).push(column);
-  }
-  return [...rows].sort(([a], [b]) => a - b).map(([row, columns]) =>
-    `riga ${row}, ${columns.length === 1 ? "cella" : "celle"} ${columns.sort((a, b) => a - b).join(" e ")}`,
-  ).join("; ");
+/** Analisi calcolata nel worker; null finché non arriva. */
+function useAnalysis(type, position, provided) {
+  const [state, setState] = useState(null);
+  useEffect(() => {
+    if (provided) return;
+    let current = true;
+    requestAnalysis(type, position)
+      .then(({ analysis }) => { if (current) setState({ position, analysis }); })
+      .catch(() => { if (current) setState({ position, error: true }); });
+    return () => { current = false; };
+  }, [type, position, provided]);
+  if (provided) return { analysis: provided };
+  return state?.position === position ? state : null;
 }
 
 function AnalysisContent({ grid, tray, streak, expert, playedMove, playedAnalysis }) {
   const position = useMemo(() => playedMove || { grid, tray, streak, expert }, [playedMove, grid, tray, streak, expert]);
-  const analysis = useMemo(() => playedMove
-    ? (playedAnalysis || analyzePlayedMove(playedMove))
-    : analyzeMoves(grid, tray, streak, { queue: expert }), [grid, tray, streak, expert, playedMove, playedAnalysis]);
+  const loaded = useAnalysis(playedMove ? "played" : "moves", position, playedMove ? playedAnalysis : null);
+  if (!loaded) return <p className="mt-3 text-slate-400" role="status">Calcolo delle mosse…</p>;
+  if (loaded.error) return <p className="mt-3 text-slate-400" role="status">Analisi non riuscita. Riapri il riquadro per riprovare.</p>;
+  const { analysis } = loaded;
   return (
     <div className="mt-3 space-y-3 text-slate-300">
       {playedMove && <p className="font-medium text-emerald-300">Confronto con la posizione prima della tua ultima mossa.</p>}
@@ -34,10 +37,10 @@ function AnalysisContent({ grid, tray, streak, expert, playedMove, playedAnalysi
           <p>
             {expert
               ? "Si può giocare solo il primo pezzo. Qui trovi le sue posizioni approfondite dal suggerimento, fino a dieci, ciascuna con il punteggio della sua migliore sequenza di tre mosse."
-              : "Una mossa è un pezzo del vassoio in una posizione libera. Qui trovi le candidate approfondite dal suggerimento, fino a sei."}
+              : `Una mossa è un pezzo del vassoio in una posizione libera. Il suggerimento ne approfondisce ${analysis.evaluated ?? analysis.moves.length}: qui trovi le migliori, fino a sei.`}
             {" "}Il punteggio misura la qualità della scelta, non i punti aggiunti alla partita. Più è alto, meglio è.
           </p>
-          <p className="text-xs text-slate-400">Righe dall’alto verso il basso, celle da sinistra a destra. La miniatura evidenzia dove mettere il pezzo.</p>
+          <p className="text-xs text-slate-400">La miniatura evidenzia dove mettere il pezzo.</p>
           <ol className="space-y-2" aria-label="Mosse approfondite">
             {analysis.moves.map((move, i) => (
               <li
@@ -51,7 +54,7 @@ function AnalysisContent({ grid, tray, streak, expert, playedMove, playedAnalysi
                 data-added={move.added ? "true" : undefined}
                 className={`flex flex-wrap items-center gap-3 rounded-xl p-3 ${move.played ? "bg-emerald-950 ring-2 ring-emerald-400" : "bg-slate-800/60"}`}
               >
-                <MiniBoard grid={grid} width={90} dimFilled title={`Posizione della mossa ${i + 1}`} marks={[
+                <MiniBoard grid={grid} width={90} dimFilled emptyFill="#475569" title={`Posizione della mossa ${i + 1}`} marks={[
                   { cells: pieceCells(move.cells, move.q, move.r), fill: PIECE_COLORS[move.piece.color], stroke: "#ffffff" },
                 ]} />
                 <div className="min-w-0 flex-1 basis-44 space-y-1">
@@ -60,7 +63,6 @@ function AnalysisContent({ grid, tray, streak, expert, playedMove, playedAnalysi
                     {i === 0 ? " · Suggerita" : Math.abs(move.total - analysis.moves[0].total) < 1e-9 ? " · A pari merito" : ""}
                   </p>
                   {move.played && <p className="font-semibold text-emerald-300">✓ Mossa giocata{move.added ? " · aggiunta al confronto" : ""}</p>}
-                  <p>{placementText(grid, move)}.</p>
                   <p>{move.lines ? `Svuota ${move.lines} ${move.lines === 1 ? "linea" : "linee"}.` : "Non svuota linee subito."}</p>
                   <p className="font-semibold text-amber-300">Punteggio: {fmt(move.total, 3)}</p>
                   <p className="text-xs text-slate-400">

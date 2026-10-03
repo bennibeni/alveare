@@ -11,6 +11,7 @@ test("ultima mossa: evidenzia una candidata e aggiunge una mossa non approfondit
     if (expert) await page.getByRole("switch").click();
     const target = await hintTarget(page);
     const first = page.getByTestId("analyzed-move").first();
+    await expect(panel).not.toContainText("Calcolo delle mosse");
     const originalScore = await first.getAttribute("data-score");
     const count = await page.getByTestId("analyzed-move").count();
     await page.mouse.click(target.x, target.y);
@@ -38,6 +39,9 @@ test("ultima mossa: evidenzia una candidata e aggiunge una mossa non approfondit
       return Math.hypot(x - centers[i][0], y - centers[i][1]) < 0.02;
     }));
     expect(piece).toBeDefined();
+    // l'analisi arriva dal worker: aspetta che la nuova posizione sia calcolata
+    await expect(panel).not.toContainText("Calcolo delle mosse");
+    await expect(page.getByTestId("analyzed-move").first()).toBeVisible();
     const oldRows = await page.getByTestId("analyzed-move").evaluateAll((rows) => rows.map((r) => ({idx:Number(r.dataset.pieceIndex),q:Number(r.dataset.q),r:Number(r.dataset.r),score:r.dataset.score})));
     const [q, r] = new HexGrid(4).placementsFor(piece.cells).find(([q, r]) => !oldRows.some((m) => m.idx === 0 && m.q === q && m.r === r));
     await page.getByTestId("slot-0").press("Enter");

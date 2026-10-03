@@ -1,46 +1,21 @@
-import { PIECES, randomPiece, seededRandom } from "./pieces.js";
+import { DIRECTIONS } from "./HexGrid.js";
+import { pieceAvailability } from "./pieceAvailability.js";
+import { randomPiece, seededRandom } from "./pieces.js";
 
-const totalWeight = PIECES.reduce((sum, p) => sum + p.weight, 0);
 export const RISK_SETTINGS = { samples: 128, choiceSamples: 64, maxChoices: 8, seed: 73421, safeRisk: 0.25 };
-
-/** Probabilità esatta sulla griglia immobile, con l'orientamento realmente estratto. */
-export function pieceAvailability(grid, maxPlacements = Infinity) {
-  const positions = [...grid.cells.keys()].map((key) => key.split(",").map(Number));
-  const pieces = PIECES.map((piece) => {
-    let placements = 0;
-    for (const [q, r] of positions) {
-      if (grid.canPlace(piece.cells, q, r) && ++placements >= maxPlacements) break;
-    }
-    return {
-      id: piece.id, name: piece.name, color: piece.color, p: piece.weight / totalWeight,
-      placements,
-    };
-  });
-  const death = pieces.reduce((sum, p) => sum + (p.placements ? 0 : p.p), 0);
-  const room = pieces.reduce((sum, p) => sum + p.p * Math.min(6, p.placements) / 6, 0);
-  return { death: Math.min(1, death), room, playableOrientations: pieces.filter((p) => p.placements > 0).length, pieces };
-}
 
 export function legalPlacements(grid, tray, expert) {
   return tray.flatMap((p, idx) => !p || (expert && idx !== 0) ? []
     : grid.placementsFor(p.cells).map(([q, r]) => ({ idx, q, r })));
 }
 
-const neighborLayouts = new Map();
-
 function geometry(grid) {
-  if (!neighborLayouts.has(grid.radius)) {
-    neighborLayouts.set(grid.radius, [...grid.cells.keys()].map((key) => {
-      const [q, r] = key.split(",").map(Number);
-      return [key, grid.getNeighbors(q, r).map(([a, b]) => `${a},${b}`)];
-    }));
-  }
   let empty = 0, holes = 0, isolated = 0;
-  for (const [key, neighbors] of neighborLayouts.get(grid.radius)) {
-    if (grid.cells.get(key)) continue;
+  for (const [q, r] of grid.coords) {
+    if (!grid.isEmpty(q, r)) continue;
     empty++;
     let free = 0;
-    for (const neighbor of neighbors) if (grid.cells.get(neighbor) === 0) free++;
+    for (const [dq, dr] of DIRECTIONS) if (grid.isEmpty(q + dq, r + dr)) free++;
     if (!free) isolated++;
     else if (free === 1) holes++;
   }

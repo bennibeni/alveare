@@ -7,10 +7,11 @@
  *    - "libertà": quanti dei 25 pezzi del catalogo entrano ancora da qualche parte;
  *    - linee quasi complete (mancano 1–2 celle): piccolo premio, preparano le combo;
  *    - celle vuote: piccolo premio, un tabellone sgombro è più sicuro.
- * 2. Guarda una mossa avanti: per le 6 mosse migliori prova anche la migliore
+ * 2. Guarda una mossa avanti: per le 20 mosse migliori prova anche la migliore
  *    mossa successiva con gli altri due pezzi del vassoio, e sceglie la coppia
  *    che rende di più.
- * 3. Toglie al totale 400 × la probabilità che un pezzo estratto a caso non entri
+ * 3. Toglie al totale 200 × (1 − posizioni del pezzo noto rimasto / 6, fino a 6) e
+ *    1.600 × la probabilità che un pezzo estratto a caso non entri
  *    nel tabellone dopo le due mosse: i pezzi in arrivo sono ignoti, ma un tabellone
  *    in cui molte forme non entrano più è un tabellone pericoloso.
  *
@@ -18,16 +19,30 @@
  */
 import { DIRECTIONS, parseKey } from "./HexGrid.js";
 import { PIECES, SHAPES } from "./pieces.js";
-import { pieceAvailability } from "./positionRisk.js";
+import { pieceAvailability } from "./pieceAvailability.js";
 
 const W = { line: 60, cell: 1, dead: -12, hole: -5, fit: 2.5, near: 1.2, empty: 0.3 };
-const LOOKAHEAD = 6;
-const NORMAL_DEATH = 400; // penalità × probabilità che un pezzo nuovo non entri dopo le due mosse
+// Candidate approfondite: con 6 il suggerimento era il migliore secondo il suo stesso criterio
+// solo nel 59% delle posizioni (il voto a un passo prevede male il totale); con 20 nell'87%.
+const LOOKAHEAD = 20;
+// Penalità × probabilità che un pezzo nuovo non entri dopo le due mosse. Con più candidate la
+// ricerca trova più combinazioni che rendono punti: 1.600 è il valore che ha reso di più al
+// simulatore (60 partite appaiate; provati 400, 800, 1.600, 2.400, 3.200).
+const NORMAL_DEATH = 1600;
+// Penalità × (1 − posizioni del pezzo noto rimasto / 6) dopo le due mosse: un pezzo che resta nel
+// vassoio con poco spazio sul tabellone è il primo passo verso il blocco (vedi README).
+const NORMAL_ROOM = 200;
+
+// Delle candidate approfondite, l'analisi e il giudizio confrontano le migliori NORMAL_SHOWN per
+// totale (più la mossa giocata): le stesse che vede il giocatore, con la calibrazione del giudizio.
+const NORMAL_SHOWN = 6;
 
 /** Pesi e parametri, esportati per le pagine che spiegano i suggerimenti. */
 export const WEIGHTS = W;
 export const NORMAL_LOOKAHEAD = LOOKAHEAD;
+export const NORMAL_ANALYSIS = NORMAL_SHOWN;
 export const NORMAL_RISK = NORMAL_DEATH;
+export const NORMAL_ROOM_PENALTY = NORMAL_ROOM;
 
 function boardFeatures(g) {
   let holes = 0;
@@ -92,7 +107,7 @@ function rankedMoves(grid, tray, streak) {
  * tabellone è diventato stretto. Provata anche la stima "esatta" della fine partita
  * (pezzo noto rimasto che non entra × probabilità al quadrato): rendeva meno. */
 function normalDeath(next) {
-  return pieceAvailability(next.after).death;
+  return pieceAvailability(next.after, 1).death;
 }
 
 /** Totale di una candidata: punti della prima mossa + voto della migliore seconda
@@ -101,8 +116,28 @@ function withLookahead(m, tray) {
   const rest = tray.map((p, i) => (i === m.idx ? null : p));
   const next = rankedMoves(m.after, rest, m.nextStreak)[0] || null;
   const death = next ? normalDeath(next) : 1;
-  const total = m.gain * W.cell + (next ? next.value - NORMAL_DEATH * death : -10000);
-  return { ...m, next, death, total };
+  const room = next ? remainingRoom(m, next, tray) : 0;
+  const roomPenalty = NORMAL_ROOM * (1 - room / 6);
+  const total = m.gain * W.cell + (next ? next.value - NORMAL_DEATH * death - roomPenalty : -10000);
+  return { ...m, next, death, room, roomPenalty, blockRisk: next ? blockRisk(m, next, tray, death) : null, total };
+}
+
+/** Posizioni (fino a 6) del pezzo noto che resta nel vassoio dopo la mossa e la seconda mossa. */
+function remainingRoom(m, next, tray) {
+  const remaining = tray.find((p, i) => p && i !== m.idx && i !== next.idx);
+  if (!remaining) return 6;
+  let n = 0;
+  for (const [q, r] of next.after.coords) if (next.after.canPlace(remaining.cells, q, r) && ++n >= 6) break;
+  return n;
+}
+
+/** Per il giudizio: probabilità che dopo le due mosse non entri NESSUN pezzo del vassoio
+ * (il pezzo noto rimasto non entra e nemmeno i due estratti). È l'analogo del rischio del
+ * pezzo ignoto in Esperto: blocco subito dopo i pezzi noti. */
+function blockRisk(m, next, tray, death) {
+  const remaining = tray.find((p, i) => p && i !== m.idx && i !== next.idx);
+  if (remaining && next.after.fits(remaining.cells)) return 0;
+  return death * death;
 }
 
 /** Le LOOKAHEAD mosse migliori per voto, approfondite; byTotal[0] è il suggerimento. */
@@ -282,7 +317,7 @@ export function explainNormal(grid, tray, streak = 0) {
 export function analyzeMoves(grid, tray, streak = 0, { queue = false } = {}) {
   if (!queue) {
     const result = normalCandidates(grid, tray, streak);
-    return { totalMoves: result.totalMoves, moves: result.byTotal };
+    return { totalMoves: result.totalMoves, evaluated: result.byTotal.length, moves: result.byTotal.slice(0, NORMAL_SHOWN) };
   }
   const res = cachedQueueCandidates(grid, tray, streak);
   const moves = (res?.moves || []).map(({ q, r, piece, leaf }) => ({
@@ -349,4 +384,34 @@ export function analyzePlayedMove({ grid, tray, streak, expert, idx, q, r }) {
     move = withLookahead(candidate, tray);
   }
   return { ...analysis, moves: [...analysis.moves, { ...move, played: true, added: true }] };
+}
+
+/** Copia dell'analisi senza i tabelloni intermedi: solo dati semplici, adatti a essere
+ * spediti da un worker. Contiene tutto ciò che usano giudizio, interfaccia e log. */
+export function slimAnalysis(analysis) {
+  if (!analysis) return analysis;
+  const placement = (m) => m && {
+    idx: m.idx, q: m.q, r: m.r, piece: m.piece, cells: m.cells,
+    value: m.value, gain: m.gain, lines: m.lines, features: m.features,
+  };
+  return {
+    totalMoves: analysis.totalMoves,
+    ...(analysis.evaluated !== undefined ? { evaluated: analysis.evaluated } : {}),
+    ...(analysis.placementQuality ? { placementQuality: analysis.placementQuality } : {}),
+    ...(analysis.singleCellUse ? { singleCellUse: analysis.singleCellUse } : {}),
+    moves: analysis.moves.map((m) => ({
+      ...placement(m), total: m.total,
+      ...(m.death !== undefined ? { death: m.death } : {}),
+      ...(m.blockRisk !== undefined ? { blockRisk: m.blockRisk } : {}),
+      ...(m.roomPenalty !== undefined ? { room: m.room, roomPenalty: m.roomPenalty } : {}),
+      ...(m.played !== undefined ? { played: m.played } : {}),
+      ...(m.added ? { added: true } : {}),
+      ...(m.next !== undefined ? { next: placement(m.next) } : {}),
+      ...(m.sequence ? { sequence: {
+        path: m.sequence.path.map(({ piece, q, r, gain, lines }) => ({ piece, q, r, gain, lines })),
+        acc: m.sequence.acc, score: m.sequence.score, board: m.sequence.board,
+        unknown: m.sequence.unknown, blocked: m.sequence.blocked, v: m.sequence.v,
+      } } : {}),
+    })),
+  };
 }

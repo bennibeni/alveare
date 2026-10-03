@@ -1,0 +1,81 @@
+npm run sim -- --mode normal --games 6 --max 1000
+
+> alveare@1.0.0 sim
+> node scripts/simulate.mjs --mode normal --games 6 --max 1000
+
+Alveare · simulazione · modalità normal · 6 partite · max 1000 pezzi · seme 7000
+
+  partita   1     54 pezzi     704 punti  (persa)
+  partita   2    513 pezzi    5333 punti  (persa)
+  partita   3    103 pezzi    1217 punti  (persa)
+  partita   4    144 pezzi    1295 punti  (persa)
+  partita   5    894 pezzi    9245 punti  (persa)
+  partita   6     53 pezzi     425 punti  (persa)
+
+Riepilogo
+  partite perse         6 su 6
+  durata (pezzi)        mediana 103 · media 293.5 · 25%–75% 54–144 · max 894
+  punti medi            3037
+  punti per pezzo       10.35
+  tempo                 72.4 s (41.1 ms per mossa)
+
+Per provare la versione della PR, sempre dal terminale di VS Code:
+
+powershell
+git fetch origin
+git checkout fix/suggerimenti-valutazioni
+npm run sim -- --mode normal --games 6 --max 1000
+
+Dovresti ottenere:
+
+Partita	1	2	3	4	5	6
+Pezzi	54	301	300	1000 (limite raggiunto)	770	324
+
+con 5 partite perse su 6, media 458, mediana 301 e 10,69 punti per pezzo. Dovrebbe anche metterci molto meno: da me il tempo per mossa è sceso da 7,5 a 6,2 ms nonostante il controllo in più, quindi da te circa 34 ms per mossa e un minuto scarso in tutto invece di 72 secondi.
+
+Se git checkout si rifiuta perché hai modifiche locali non salvate, fai prima git stash e poi riprendile con git stash pop dopo essere tornato su main con git checkout main.
+
+Ho aperto la PR #2 (https://github.com/bennibeni/alveare/pull/2): risolve tre dei sei problemi, e la lentezza degli indicatori ora è un terzo di prima.
+
+git fetch origin
+git checkout fix/giudizi-e-prestazioni
+npm ci
+npm run dev
+
+PS C:\Users\torre\Desktop\I miei progetti\alveare> npm run sim -- --mode normal --games 6 --max 1000
+
+> alveare@1.0.0 sim
+> node scripts/simulate.mjs --mode normal --games 6 --max 1000
+
+Alveare · simulazione · modalità normal · 6 partite · max 1000 pezzi · seme 7000
+
+  partita   1     54 pezzi     704 punti  (persa)
+  partita   2    301 pezzi    2849 punti  (persa)
+  partita   3    300 pezzi    3282 punti  (persa)
+  partita   4   1000 pezzi   10972 punti  (limite raggiunto)
+  partita   5    770 pezzi    8300 punti  (persa)
+  partita   6    324 pezzi    3288 punti  (persa)
+
+Riepilogo
+  partite perse         5 su 6
+  durata (pezzi)        mediana 301 · media 458.2 · 25%–75% 300–324 · max 1000
+  punti medi            4899
+  punti per pezzo       10.69
+  tempo                 18.2 s (6.6 ms per mossa)
+
+  Velocità: da 41,1 a 6,6 ms per mossa, circa 6 volte. Non dipende dal gioco migliore ma da come il programma legge il tabellone. Prima, per sapere se una cella era libera, costruiva ogni volta un testo come "3,-2" e lo cercava in una tabella, milioni di volte a partita. Ora usa un elenco numerato, che è molto più rapido. Questa modifica da sola non cambia nessuna mossa: l'ho verificato su 12 partite complete, identiche mossa per mossa. Ne beneficia anche il gioco nel browser: suggerimento, autogioco e analisi rispondono più in fretta.
+
+  Bravura: Nelle tue 6 partite:
+  la 1 è identica (54 pezzi);
+  tre migliorano molto (103→300, 144→1000, 53→324);
+  due peggiorano (513→301, 894→770).
+  La media passa da 293 a 458 pezzi.
+
+               	          Vecchia	  Nuova
+  Durata media	              311	    382
+  Durata mediana	          266	    307
+  Punti medi	            3.155	  3.929
+  Pte arrivate a 1.000 pezzi	0	      5
+  
+
+

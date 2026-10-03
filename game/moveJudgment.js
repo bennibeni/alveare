@@ -17,7 +17,7 @@ function riskOf(move, knownPieces) {
     blocked: move.sequence.path.length < knownPieces,
     death: move.sequence.unknown.death,
   };
-  return { blocked: !move.next, death: null };
+  return { blocked: !move.next, death: move.blockRisk ?? null };
 }
 
 /** Giudica solo le candidate approfondite + la mossa manuale eventualmente aggiunta.
@@ -45,7 +45,9 @@ export function judgeMove(analysis, knownPieces = 3) {
   // il massimo è vicino a zero e la mossa giocata ha un punteggio negativo.
   const lossScale = Math.max(scale, Math.abs(played.total));
   const clearlyBetterTolerance = lossScale * JUDGMENT_LIMITS.clearlyBetter;
-  const clearlyBetter = others.filter((m) => m.total - played.total > clearlyBetterTolerance).length;
+  const clearlyBetterList = others.filter((m) => m.total - played.total > clearlyBetterTolerance)
+    .sort((a, b) => b.total - a.total);
+  const clearlyBetter = clearlyBetterList.length;
   const requiredClearlyBetter = Math.max(2, Math.ceil(others.length * JUDGMENT_LIMITS.clearlyBetterShare));
   // Se la mossa chiude linee, l'occasione deve essere una chiusura immediata
   // maggiore della stessa alternativa che offre anche il vantaggio di punteggio.
@@ -104,11 +106,11 @@ export function judgeMove(analysis, knownPieces = 3) {
     emphasis = "negative";
     reason = avoidableBlock
       ? "La ricerca non trova una prosecuzione con i pezzi già noti, mentre un’altra mossa la permette. Il rischio di blocco prevale sul punteggio."
-      : "Il rischio stimato di blocco al pezzo ignoto è almeno dell’80%, con un’alternativa più sicura di almeno 20 punti percentuali. Il rischio prevale sul punteggio.";
+      : "Il rischio stimato di blocco subito dopo i pezzi noti è almeno dell’80%, con un’alternativa più sicura di almeno 20 punti percentuali. Il rischio prevale sul punteggio.";
   } else if (risky && risk.death >= JUDGMENT_LIMITS.highRisk) {
     label = "Mossa cattiva";
     emphasis = "negative";
-    reason = "Il rischio stimato di blocco al pezzo ignoto è almeno del 50%, con un’alternativa più sicura di almeno 20 punti percentuali. Il rischio prevale sul punteggio.";
+    reason = "Il rischio stimato di blocco subito dopo i pezzi noti è almeno del 50%, con un’alternativa più sicura di almeno 20 punti percentuali. Il rischio prevale sul punteggio.";
   } else if (risky) {
     label = "Mossa rischiosa";
     emphasis = "negative";
@@ -171,8 +173,12 @@ export function judgeMove(analysis, knownPieces = 3) {
   return {
     label, emphasis, reason, score: played.total, maximum, gap, relativeGap,
     rank, tied, count: moves.length, totalMoves: analysis.totalMoves,
-    better, comparable, worse, tolerance, middle, risk, bestRisk,
+    better, comparable, worse, tolerance, middle, scale, risk, bestRisk,
     clearlyBetter, clearlyBetterTolerance, requiredClearlyBetter,
+    clearlyBetterMoves: clearlyBetterList.map((m) => ({
+      idx: m.idx, q: m.q, r: m.r, cells: m.cells ?? m.piece?.cells, pieceName: m.piece?.name ?? null,
+      total: m.total, advantage: m.total - played.total,
+    })),
     safestDeath: Number.isFinite(safestDeath) ? safestDeath : null,
     ...(placementQuality ? { placementQuality } : {}),
     ...(singleCellUse ? { singleCellUse } : {}),
