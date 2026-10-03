@@ -182,6 +182,17 @@ describe("giudizio qualitativo della mossa", () => {
     });
   });
 
+  it("elenca le mosse nettamente migliori, dalla migliore, con pezzo e posizione", () => {
+    const analysis = comparison([100, 95, 90, 20], 3);
+    analysis.moves.forEach((m, i) => Object.assign(m, { idx: i % 3, q: i, r: -i, cells: [[0, 0]], piece: { name: `pezzo ${i}`, cells: [[0, 0]] } }));
+    const result = judgeMove(analysis);
+    expect(result.clearlyBetterMoves.map((m) => [m.idx, m.q, m.pieceName, m.advantage])).toEqual([
+      [0, 0, "pezzo 0", 80], [1, 1, "pezzo 1", 75], [2, 2, "pezzo 2", 70],
+    ]);
+    expect(result.clearlyBetterMoves).toHaveLength(result.clearlyBetter);
+    expect(judgeMove(comparison([100, 99, 98, 97], 3)).clearlyBetterMoves).toEqual([]);
+  });
+
   it("evidenzia la perdita con un distacco ampio da una maggioranza netta", () => {
     expect(judgeMove(comparison([100, 95, 90, 20], 3))).toMatchObject({
       label: "Occasione persa", emphasis: "negative", rank: 4, gap: 80, better: 3,

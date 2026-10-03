@@ -80,6 +80,20 @@ export function pieceCells(cells, q, r) {
 }
 
 /** Numero in formato italiano (virgola decimale), con al massimo `d` decimali. */
+/** Dove sta una mossa, in parole: righe dall'alto, celle da sinistra (es. "riga 3, celle 4 e 5"). */
+export function placementText(grid, move) {
+  const rows = new Map();
+  for (const [q, r] of pieceCells(move.cells, move.q, move.r)) {
+    const row = r + grid.radius + 1;
+    const column = q - Math.max(-grid.radius, -r - grid.radius) + 1;
+    if (!rows.has(row)) rows.set(row, []);
+    rows.get(row).push(column);
+  }
+  return [...rows].sort(([a], [b]) => a - b).map(([row, columns]) =>
+    `riga ${row}, ${columns.length === 1 ? "cella" : "celle"} ${columns.sort((a, b) => a - b).join(" e ")}`,
+  ).join("; ");
+}
+
 export function fmt(n, d = 1) {
   const v = Number(n);
   // niente "-0": un contributo nullo si scrive 0

@@ -45,7 +45,9 @@ export function judgeMove(analysis, knownPieces = 3) {
   // il massimo è vicino a zero e la mossa giocata ha un punteggio negativo.
   const lossScale = Math.max(scale, Math.abs(played.total));
   const clearlyBetterTolerance = lossScale * JUDGMENT_LIMITS.clearlyBetter;
-  const clearlyBetter = others.filter((m) => m.total - played.total > clearlyBetterTolerance).length;
+  const clearlyBetterList = others.filter((m) => m.total - played.total > clearlyBetterTolerance)
+    .sort((a, b) => b.total - a.total);
+  const clearlyBetter = clearlyBetterList.length;
   const requiredClearlyBetter = Math.max(2, Math.ceil(others.length * JUDGMENT_LIMITS.clearlyBetterShare));
   // Se la mossa chiude linee, l'occasione deve essere una chiusura immediata
   // maggiore della stessa alternativa che offre anche il vantaggio di punteggio.
@@ -173,6 +175,10 @@ export function judgeMove(analysis, knownPieces = 3) {
     rank, tied, count: moves.length, totalMoves: analysis.totalMoves,
     better, comparable, worse, tolerance, middle, scale, risk, bestRisk,
     clearlyBetter, clearlyBetterTolerance, requiredClearlyBetter,
+    clearlyBetterMoves: clearlyBetterList.map((m) => ({
+      idx: m.idx, q: m.q, r: m.r, cells: m.cells ?? m.piece?.cells, pieceName: m.piece?.name ?? null,
+      total: m.total, advantage: m.total - played.total,
+    })),
     safestDeath: Number.isFinite(safestDeath) ? safestDeath : null,
     ...(placementQuality ? { placementQuality } : {}),
     ...(singleCellUse ? { singleCellUse } : {}),

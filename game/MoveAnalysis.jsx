@@ -1,23 +1,10 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import MiniBoard, { fmt, pieceCells } from "./GuideKit.jsx";
+import MiniBoard, { fmt, pieceCells, placementText } from "./GuideKit.jsx";
 import { PIECE_COLORS } from "./pieces.js";
 import { requestAnalysis } from "./strategyClient.js";
 import PositionIndicators from "./PositionIndicators.jsx";
-
-function placementText(grid, move) {
-  const rows = new Map();
-  for (const [q, r] of pieceCells(move.cells, move.q, move.r)) {
-    const row = r + grid.radius + 1;
-    const column = q - Math.max(-grid.radius, -r - grid.radius) + 1;
-    if (!rows.has(row)) rows.set(row, []);
-    rows.get(row).push(column);
-  }
-  return [...rows].sort(([a], [b]) => a - b).map(([row, columns]) =>
-    `riga ${row}, ${columns.length === 1 ? "cella" : "celle"} ${columns.sort((a, b) => a - b).join(" e ")}`,
-  ).join("; ");
-}
 
 /** Analisi calcolata nel worker; null finché non arriva. */
 function useAnalysis(type, position, provided) {

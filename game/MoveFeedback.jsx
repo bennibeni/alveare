@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { fmt } from "./GuideKit.jsx";
+import { fmt, placementText } from "./GuideKit.jsx";
 import { buildMoveReport } from "./moveReport.js";
 import { calculatePositionRisk } from "./positionRiskClient.js";
 
@@ -133,8 +133,11 @@ export default function MoveFeedback({ snapshot, judgment, analysis, showCopy = 
             <li>Posizione: {judgment.rank}ª su {judgment.count}{judgment.tied ? `, a pari merito con ${judgment.tied} altre` : ""}.</li>
             <li>Distacco dal massimo: {fmt(judgment.gap, 3)}. Mediana: {fmt(judgment.middle, 3)}.</li>
             <li>Alternative: {judgment.better} migliori, {judgment.comparable} comparabili, {judgment.worse} inferiori.</li>
-            <li>Nettamente migliori: {judgment.clearlyBetter} (vantaggio superiore a {fmt(judgment.clearlyBetterTolerance, 3)} punti). Per “Occasione persa” basta una alternativa con un vantaggio di almeno il 50% della scala di confronto; altrimenti ne servono almeno {judgment.requiredClearlyBetter}, con un distacco dal massimo di almeno il 30%.</li>
-            <li>Se la mossa elimina linee, per “Occasione persa” contano solo alternative che ne eliminano subito di più e soddisfano anche i criteri di punteggio.</li>
+            <li>Nettamente migliori: {judgment.clearlyBetter} (vantaggio superiore a {fmt(judgment.clearlyBetterTolerance, 3)} punti){judgment.clearlyBetterMoves?.length ? ":" : "."}</li>
+            {judgment.clearlyBetterMoves?.map((m) => <li key={`${m.idx}:${m.q}:${m.r}`} className="ml-4 list-[circle]" data-testid="clearly-better-move">
+              Pezzo {m.idx + 1}{m.pieceName ? ` (${m.pieceName})` : ""}
+              {snapshot?.grid && m.cells ? `: ${placementText(snapshot.grid, m)}` : ""} · +{fmt(m.advantage, 1)} punti
+            </li>)}
             <li>Fascia comparabile: ±{fmt(judgment.tolerance, 3)} punti.</li>
             {judgment.risk.death !== null && <li>Rischio stimato di blocco subito dopo i pezzi noti
               {snapshot?.expert ? " (il pezzo ignoto non entra)" : " (nessun pezzo del vassoio entra)"}: {fmt(judgment.risk.death * 100)}%
