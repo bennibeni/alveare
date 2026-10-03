@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import HexGrid, { parseKey } from "./HexGrid.js";
 import MiniBoard, { fmt, Note, pieceCells, Section, Table } from "./GuideKit.jsx";
 import { PIECE_COLORS } from "./pieces.js";
-import { explainNormal, NORMAL_LOOKAHEAD, NORMAL_RISK, WEIGHTS as W } from "./strategy.js";
+import { explainNormal, NORMAL_ANALYSIS, NORMAL_LOOKAHEAD, NORMAL_RISK, WEIGHTS as W } from "./strategy.js";
 
 // --- tabelloni dimostrativi per le illustrazioni -----------------------------
 function fillAllExcept(radius, empty, color = 2) {
@@ -186,6 +186,13 @@ export default function GuideNormal({ snapshot }) {
           con gli stessi pezzi i punti per pezzo scendono da 10,3 a 9,3 (peggio in 15 partite su 16). Rimandare permette spesso
           di svuotare più linee insieme e allungare le combo.
         </Note>
+        <p>
+          Perché {NORMAL_LOOKAHEAD} candidate? Il voto a un passo prevede male il totale: la mossa con il voto più alto, per
+          esempio una chiusura immediata, può avere uno dei totali più bassi, e una mossa con un voto modesto può essere la
+          migliore. Con 6 candidate il suggerimento era il migliore secondo il suo stesso criterio solo nel 59% delle posizioni
+          simulate; con {NORMAL_LOOKAHEAD} nell&apos;87%, al prezzo di qualche millisecondo in più. L&apos;analisi delle mosse e il
+          giudizio mostrano e confrontano le {NORMAL_ANALYSIS} migliori per totale.
+        </p>
       </Section>
 
       <Section n={5} title="Che cosa non sa">
@@ -198,6 +205,11 @@ export default function GuideNormal({ snapshot }) {
           nemmeno i due nuovi): sulle partite simulate rendeva meno.
         </p>
         <p>
+          Il peso {NORMAL_RISK} è stato scelto con il simulatore. Con più candidate la ricerca trova più combinazioni che rendono
+          punti, ma con il peso precedente (400) le partite si accorciavano un po&apos;: provati 400, 800, 1.600, 2.400 e 3.200,
+          il migliore è stato 1.600.
+        </p>
+        <p>
           I pesi sono fissi (non imparati) e la ricerca guarda una sola mossa avanti, per restare veloce: un suggerimento
           richiede qualche decina di millisecondi.
         </p>
@@ -205,22 +217,23 @@ export default function GuideNormal({ snapshot }) {
 
       <Section n={6} title="Quanto rende">
         <p>
-          Misure su 60 partite simulate (al massimo 1.000 pezzi ciascuna), con la stessa sequenza di pezzi per le due
-          strategie:
+          Misure su 60 partite simulate (al massimo 1.000 pezzi ciascuna), con la stessa sequenza di pezzi per tutte le
+          versioni:
         </p>
         <Table
           head={["Strategia", "Durata media", "Durata mediana", "Punti medi", "Punti per pezzo", "Arrivate a 1.000"]}
           align={["", "r", "r", "r", "r", "r"]}
           rows={[
-            ["Voto del tabellone + una mossa avanti", "311", "266", "3.155", "10,15", "0"],
-            ["Attuale: + rischio del pezzo in arrivo", "382", "307", "3.929", "10,29", "5"],
+            ["6 candidate, senza rischio", "286", "219", "2.896", "10,13", "0"],
+            ["6 candidate, rischio 400", "373", "301", "3.834", "10,29", "5"],
+            ["Attuale: 20 candidate, rischio 1.600", "433", "357", "5.226", "12,06", "10"],
           ]}
         />
         <p>
-          Anche in modalità normale l&apos;autogioco prima o poi perde: con questi pezzi capita una serie di estrazioni per cui
-          nessuno dei tre pezzi trova posto. Le partite hanno durate molto diverse fra loro (da poche decine a oltre mille
-          pezzi), quindi il confronto va letto con cautela: la strategia attuale dura di più in media, ma partita per partita
-          vince 31 volte e perde 27.
+          Anche in modalità normale l&apos;autogioco prima o poi perde: capita una serie di estrazioni per cui nessuno dei tre
+          pezzi trova posto. Le durate variano moltissimo (da poche decine a oltre mille pezzi), quindi il confronto va letto
+          con cautela. Il dato più solido sono i punti per pezzo, che si misurano mossa per mossa: +19% rispetto alla versione
+          con 6 candidate senza rischio. Partita per partita, la versione attuale dura di più in 38 partite e di meno in 22.
         </p>
       </Section>
 
@@ -230,7 +243,8 @@ export default function GuideNormal({ snapshot }) {
         ) : (
           <>
             <p>
-              Queste sono le {NORMAL_LOOKAHEAD} migliori mosse per voto sul tuo tabellone attuale
+              Queste sono le {NORMAL_ANALYSIS} migliori per totale fra le {NORMAL_LOOKAHEAD} candidate approfondite sul tuo
+              tabellone attuale
               {snapshot.expert ? " (calcolate come se il vassoio fosse libero, anche se stai giocando in modalità Esperto)" : ""}.
               Nella miniatura: il pezzo <b>pieno</b> è la mossa candidata, il contorno <b>tratteggiato «2»</b> è la migliore
               seconda mossa con gli altri pezzi. La stella indica il suggerimento.
@@ -238,7 +252,7 @@ export default function GuideNormal({ snapshot }) {
             <Table
               head={["", "Mossa", "Voto", "Seconda mossa", "Voto 2ª", "Rischio", "Totale"]}
               align={["", "", "r", "", "r", "r", "r"]}
-              rows={example.byTotal.map((m, i) => [
+              rows={example.byTotal.slice(0, NORMAL_ANALYSIS).map((m, i) => [
                 <MiniBoard
                   key="b"
                   grid={snapshot.grid}

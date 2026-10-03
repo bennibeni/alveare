@@ -58,7 +58,8 @@ I giudizi non vengono ricalibrati automaticamente su queste stime sperimentali.
 
 L’accordion **Analisi delle mosse**, sopra le istruzioni, è disponibile fuori dall’autogioco.
 Mostra il numero di mosse legali e le candidate approfondite dalla strategia attuale, ordinate
-con il suggerimento in testa: fino a 6 in modalità normale; in Esperto fino a 10 posizioni del
+con il suggerimento in testa: in modalità normale le 6 migliori per totale fra le 20 approfondite;
+in Esperto fino a 10 posizioni del
 primo pezzo, ciascuna approfondita con la propria ricerca e mostrata con il punteggio della sua
 migliore sequenza.
 Il punteggio è quello della strategia, non i punti aggiunti alla partita. L’analisi viene calcolata
@@ -140,24 +141,32 @@ medie non sono statisticamente significative con questo numero di partite.
 
 | Modalità | Partite | Strategia | Durata media | Durata mediana | Punti medi | Punti per pezzo |
 |---|---|---|---|---|---|---|
-| normale | 60, max 1.000 pezzi | precedente | 311 | 266 | 3.155 | 10,15 |
-| normale | 60, max 1.000 pezzi | **attuale** (+ rischio del pezzo in arrivo) | 382 | 307 | 3.929 | 10,29 |
+| normale | 60, max 1.000 pezzi | originale (6 candidate, senza rischio) | 286 | 219 | 2.896 | 10,13 |
+| normale | 60, max 1.000 pezzi | 6 candidate, rischio 400 | 373 | 301 | 3.834 | 10,29 |
+| normale | 60, max 1.000 pezzi | **attuale** (20 candidate, rischio 1.600) | 433 | 357 | 5.226 | 12,06 |
 | Esperto | 50, max 3.000 pezzi | precedente (un fascio per tutte le prime mosse) | 369 | 310 | 3.434 | 9,30 |
 | Esperto | 50, max 3.000 pezzi | **attuale** (un fascio per prima mossa) | 400 | 266 | 4.306 | 10,76 |
 
-Semi usati: normale `--seed 7000` (12 partite), `9000` e `11000` (24 ciascuno); Esperto `7000` (20) e
-`13000` (30). Nessuna strategia è immortale: anche in modalità normale tutte le partite finiscono,
-tranne 5 su 60 interrotte al limite dei 1.000 pezzi.
+Semi usati: normale `--seed 7000`, `9000` e `11000` (20 partite ciascuno); Esperto `7000` (20) e
+`13000` (30). Nessuna strategia è immortale: anche in modalità normale quasi tutte le partite finiscono
+(la versione attuale ne porta 10 su 60 al limite dei 1.000 pezzi).
+
+In modalità normale il suggerimento approfondisce 20 candidate invece di 6: il voto a un passo, usato
+per sceglierle, prevede male il totale finale, e con 6 il suggerimento era il migliore secondo il suo
+stesso criterio solo nel 59% delle posizioni (87% con 20). Con più candidate la ricerca trova più
+combinazioni che rendono punti; la penalità per il pezzo in arrivo è passata da 400 a 1.600 per non
+accorciare le partite (provati 400, 800, 1.600, 2.400, 3.200: durata media 364, 380, 433, 396, 371).
+Analisi e giudizio mostrano e confrontano le 6 migliori per totale.
 
 Con la nuova ricerca Esperto la penalità per il pezzo ignoto è passata da 400 a 1.200: con un fascio
 per ogni prima mossa la ricerca trova più sequenze che svuotano linee, e con la penalità a 400 le partite
 si accorciavano (durata media 309 sulle stesse 50 partite). Su 30 partite: 400 → durata media 310,
 800 → 378, 1.200 → 434, 1.600 → 428 (precedente: 402).
 
-Comando rapido (circa 20 secondi):
+Comando rapido (circa 30 secondi):
 
 ```bash
-npm run sim -- --mode normal --games 6 --max 1000   # seme 7000: mediana 301, media 458, 1 partita a 1.000
+npm run sim -- --mode normal --games 6 --max 1000   # seme 7000: mediana 722, media 570, 1 partita a 1.000
 ```
 
 I test di regressione in `tests/unit/strategy.test.js` bloccano il comportamento attuale della strategia: se la

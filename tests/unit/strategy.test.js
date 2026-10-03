@@ -70,7 +70,7 @@ describe("classifica delle mosse approfondite", () => {
     for (const k of grid.cells.keys()) if (k !== "0,0") grid = grid.place([[0, 0]], ...k.split(",").map(Number), 1);
     const point = byName("punto")[0];
     const bar = byName("barra 4")[0];
-    expect(analyzeMoves(grid, [bar, bar, bar])).toEqual({ totalMoves: 0, moves: [] });
+    expect(analyzeMoves(grid, [bar, bar, bar])).toEqual({ totalMoves: 0, evaluated: 0, moves: [] });
     expect(analyzeMoves(grid, [bar, point, point], 0, { queue: true })).toEqual({ totalMoves: 0, moves: [] });
     const result = analyzeMoves(grid, [bar, point, bar]);
     expect(result.totalMoves).toBe(1);
@@ -242,8 +242,8 @@ describe("prestazioni e regressioni (simulazioni con seme)", () => {
 
   // Valori di riferimento della strategia attuale. Se si cambia la strategia di
   // proposito, questi numeri vanno aggiornati (dopo averla misurata con npm run sim).
-  it("regressione · normale, seme 555, 60 pezzi: 493 punti, 30 linee", () => {
-    expect(playGame({ mode: "normal", seed: 555, maxMoves: 60 })).toEqual({ seed: 555, pieces: 60, points: 493, lines: 30, lost: false });
+  it("regressione · normale, seme 555, 60 pezzi: 643 punti, 32 linee", () => {
+    expect(playGame({ mode: "normal", seed: 555, maxMoves: 60 })).toEqual({ seed: 555, pieces: 60, points: 643, lines: 32, lost: false });
   });
 
   it("regressione · Esperto, seme 7097: 52 pezzi, 561 punti", () => {
@@ -256,10 +256,11 @@ describe("prestazioni e regressioni (simulazioni con seme)", () => {
     });
   });
 
-  // Regressione, non garanzia: con altri semi la modalità normale perde anche prima di 150
-  // pezzi (vedi README). La qualità della strategia si misura con `npm run sim`.
-  it("regressione · normale, semi 1, 98, 195: tutte e tre arrivano a 150 pezzi", () => {
-    expect(playGames({ mode: "normal", games: 3, maxMoves: 150, seed: 1 }).every((r) => !r.lost)).toBe(true);
+  // Fotografia di tre partite, non una misura di qualità: anche la strategia migliore perde
+  // alcune partite presto (vedi README). La qualità si misura con molte partite (`npm run sim`).
+  it("regressione · normale, semi 1, 98, 195: 150, 143 (persa), 150 pezzi", () => {
+    expect(playGames({ mode: "normal", games: 3, maxMoves: 150, seed: 1 }).map((r) => [r.pieces, r.lost]))
+      .toEqual([[150, false], [143, true], [150, false]]);
   });
 
   it("pairedCompare conta vittorie, sconfitte e pareggi partita per partita", () => {

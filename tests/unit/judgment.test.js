@@ -117,6 +117,20 @@ describe("giudizio qualitativo della mossa", () => {
     analysis.moves[2].next = null;
     expect(judgeMove(analysis).label).toBe("Mossa pessima");
   });
+  it("non chiama «scoperta» una mossa fra tante equivalenti che il suggerimento aveva scartato (log)", () => {
+    // Tabellone quasi vuoto: 55 mosse su 89 stanno entro il 5% del massimo. Con solo 6 candidate
+    // scelte per voto a un passo, la mossa giocata pareggiava il suggerimento e risultava «Ottima scoperta».
+    let grid = new HexGrid(4);
+    for (const q of [-4, -3, -2, -1]) grid = grid.place([[0, 0]], q, 0, 9);
+    const tray = ["barra 4-2", "bandiera sinistra-1", "bandiera destra-2"].map((id) => PIECES.find((p) => p.id === id));
+    const analysis = analyzePlayedMove({ grid, tray, streak: 0, expert: false, idx: 1, q: -1, r: -1 });
+    const result = judgeMove(analysis);
+    expect(result.label).not.toBe("Ottima scoperta");
+    expect(result.emphasis).toBe("neutral");
+    expect(result.maximum).toBeGreaterThan(result.score);
+    expect(analysis.moves[0].total).toBeCloseTo(148.9, 1);
+  });
+
   it("incoraggia l'incastro del log anche fra alternative equivalenti", () => {
     let grid = new HexGrid(4);
     for (const [q, r] of [[2, -1], [3, -1], [3, 0], [4, -1]]) grid = grid.place([[0, 0]], q, r, 10);

@@ -37,7 +37,7 @@ function AnalysisContent({ grid, tray, streak, expert, playedMove, playedAnalysi
           <p>
             {expert
               ? "Si può giocare solo il primo pezzo. Qui trovi le sue posizioni approfondite dal suggerimento, fino a dieci, ciascuna con il punteggio della sua migliore sequenza di tre mosse."
-              : "Una mossa è un pezzo del vassoio in una posizione libera. Qui trovi le candidate approfondite dal suggerimento, fino a sei."}
+              : `Una mossa è un pezzo del vassoio in una posizione libera. Il suggerimento ne approfondisce ${analysis.evaluated ?? analysis.moves.length}: qui trovi le migliori, fino a sei.`}
             {" "}Il punteggio misura la qualità della scelta, non i punti aggiunti alla partita. Più è alto, meglio è.
           </p>
           <p className="text-xs text-slate-400">La miniatura evidenzia dove mettere il pezzo.</p>

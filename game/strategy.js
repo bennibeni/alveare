@@ -7,10 +7,10 @@
  *    - "libertà": quanti dei 25 pezzi del catalogo entrano ancora da qualche parte;
  *    - linee quasi complete (mancano 1–2 celle): piccolo premio, preparano le combo;
  *    - celle vuote: piccolo premio, un tabellone sgombro è più sicuro.
- * 2. Guarda una mossa avanti: per le 6 mosse migliori prova anche la migliore
+ * 2. Guarda una mossa avanti: per le 20 mosse migliori prova anche la migliore
  *    mossa successiva con gli altri due pezzi del vassoio, e sceglie la coppia
  *    che rende di più.
- * 3. Toglie al totale 400 × la probabilità che un pezzo estratto a caso non entri
+ * 3. Toglie al totale 1.600 × la probabilità che un pezzo estratto a caso non entri
  *    nel tabellone dopo le due mosse: i pezzi in arrivo sono ignoti, ma un tabellone
  *    in cui molte forme non entrano più è un tabellone pericoloso.
  *
@@ -21,12 +21,22 @@ import { PIECES, SHAPES } from "./pieces.js";
 import { pieceAvailability } from "./pieceAvailability.js";
 
 const W = { line: 60, cell: 1, dead: -12, hole: -5, fit: 2.5, near: 1.2, empty: 0.3 };
-const LOOKAHEAD = 6;
-const NORMAL_DEATH = 400; // penalità × probabilità che un pezzo nuovo non entri dopo le due mosse
+// Candidate approfondite: con 6 il suggerimento era il migliore secondo il suo stesso criterio
+// solo nel 59% delle posizioni (il voto a un passo prevede male il totale); con 20 nell'87%.
+const LOOKAHEAD = 20;
+// Penalità × probabilità che un pezzo nuovo non entri dopo le due mosse. Con più candidate la
+// ricerca trova più combinazioni che rendono punti: 1.600 è il valore che ha reso di più al
+// simulatore (60 partite appaiate; provati 400, 800, 1.600, 2.400, 3.200).
+const NORMAL_DEATH = 1600;
+
+// Delle candidate approfondite, l'analisi e il giudizio confrontano le migliori NORMAL_SHOWN per
+// totale (più la mossa giocata): le stesse che vede il giocatore, con la calibrazione del giudizio.
+const NORMAL_SHOWN = 6;
 
 /** Pesi e parametri, esportati per le pagine che spiegano i suggerimenti. */
 export const WEIGHTS = W;
 export const NORMAL_LOOKAHEAD = LOOKAHEAD;
+export const NORMAL_ANALYSIS = NORMAL_SHOWN;
 export const NORMAL_RISK = NORMAL_DEATH;
 
 function boardFeatures(g) {
@@ -291,7 +301,7 @@ export function explainNormal(grid, tray, streak = 0) {
 export function analyzeMoves(grid, tray, streak = 0, { queue = false } = {}) {
   if (!queue) {
     const result = normalCandidates(grid, tray, streak);
-    return { totalMoves: result.totalMoves, moves: result.byTotal };
+    return { totalMoves: result.totalMoves, evaluated: result.byTotal.length, moves: result.byTotal.slice(0, NORMAL_SHOWN) };
   }
   const res = cachedQueueCandidates(grid, tray, streak);
   const moves = (res?.moves || []).map(({ q, r, piece, leaf }) => ({
@@ -370,6 +380,7 @@ export function slimAnalysis(analysis) {
   };
   return {
     totalMoves: analysis.totalMoves,
+    ...(analysis.evaluated !== undefined ? { evaluated: analysis.evaluated } : {}),
     ...(analysis.placementQuality ? { placementQuality: analysis.placementQuality } : {}),
     ...(analysis.singleCellUse ? { singleCellUse: analysis.singleCellUse } : {}),
     moves: analysis.moves.map((m) => ({
