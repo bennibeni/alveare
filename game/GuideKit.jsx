@@ -1,6 +1,6 @@
 "use client";
 
-import { axialToPixel, hexPoints, parseKey, SQRT3 } from "./HexGrid.js";
+import { axialToPixel, cellNumbers, hexPoints, key, parseKey, SQRT3 } from "./HexGrid.js";
 import { PIECE_COLORS } from "./pieces.js";
 
 /**
@@ -92,6 +92,13 @@ export function placementText(grid, move) {
   return [...rows].sort(([a], [b]) => a - b).map(([row, columns]) =>
     `riga ${row}, ${columns.length === 1 ? "cella" : "celle"} ${columns.sort((a, b) => a - b).join(" e ")}`,
   ).join("; ");
+}
+
+/** Dove sta una mossa con la numerazione delle celle del tabellone (es. "celle 12, 13, 14"). */
+export function cellNumbersText(grid, move) {
+  const numbers = cellNumbers(grid.radius);
+  const list = pieceCells(move.cells, move.q, move.r).map(([q, r]) => numbers.get(key(q, r))).sort((a, b) => a - b);
+  return `${list.length === 1 ? "cella" : "celle"} ${list.join(", ")}`;
 }
 
 export function fmt(n, d = 1) {

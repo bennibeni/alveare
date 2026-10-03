@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import HexGrid, { axialToPixel, DIRECTIONS, key, parseKey, pixelToAxial } from "../../game/HexGrid.js";
+import HexGrid, { axialToPixel, cellNumbers, DIRECTIONS, key, parseKey, pixelToAxial } from "../../game/HexGrid.js";
 
 const cellsOf = (g) => [...g.cells.keys()].map(parseKey);
 
@@ -67,6 +67,18 @@ describe("HexGrid: mosse", () => {
     expect(g.placementsFor([[0, 0]])).toHaveLength(61);
     expect(g.fits([[0, 0], [1, 0], [2, 0], [3, 0]])).toBe(true);
     expect(key(1, -2)).toBe("1,-2");
+  });
+
+  it("numera le celle da 1 a 61 per righe, dall'alto e da sinistra", () => {
+    const n = cellNumbers(4);
+    expect(n.size).toBe(61);
+    expect(n.get("0,-4")).toBe(1); // prima cella della riga in alto
+    expect(n.get("4,-4")).toBe(5); // la riga in alto ha 5 celle
+    expect(n.get("-1,-3")).toBe(6);
+    expect(n.get("0,0")).toBe(31); // centro
+    expect(n.get("-4,4")).toBe(57);
+    expect(n.get("0,4")).toBe(61);
+    expect(new Set(n.values()).size).toBe(61);
   });
 
   it("i controlli veloci di occupazione coincidono con la mappa delle celle", () => {

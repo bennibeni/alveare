@@ -193,6 +193,24 @@ export default class HexGrid {
   }
 }
 
+/**
+ * Numero di ogni cella in ordine di lettura: righe dall'alto in basso (r crescente),
+ * nella riga da sinistra a destra (q crescente). Con raggio 4: da 1 a 61.
+ * Restituisce una Map "q,r" -> numero (calcolata una volta per raggio).
+ */
+const numberCache = new Map();
+export function cellNumbers(radius) {
+  if (!numberCache.has(radius)) {
+    const keys = [...new HexGrid(radius).cells.keys()].sort((a, b) => {
+      const [qa, ra] = parseKey(a);
+      const [qb, rb] = parseKey(b);
+      return ra - rb || qa - qb;
+    });
+    numberCache.set(radius, new Map(keys.map((k, i) => [k, i + 1])));
+  }
+  return numberCache.get(radius);
+}
+
 // ---- Geometria (esagoni "a punta in su") ----------------------------------
 
 export const SQRT3 = Math.sqrt(3);

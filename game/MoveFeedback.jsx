@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { fmt, placementText } from "./GuideKit.jsx";
+import { cellNumbersText, fmt } from "./GuideKit.jsx";
 import { buildMoveReport } from "./moveReport.js";
 import { calculatePositionRisk } from "./positionRiskClient.js";
 
@@ -31,7 +31,7 @@ function beep(context, positive) {
   });
 }
 
-export default function MoveFeedback({ snapshot, judgment, analysis, showCopy = false, hidden, busy, onUndo, undoDisabled }) {
+export default function MoveFeedback({ snapshot, judgment, analysis, showCopy = false, hidden, busy, onUndo, undoDisabled, onDetailsChange }) {
   const [sound, setSound] = useState(false);
   const [audioUnavailable, setAudioUnavailable] = useState(false);
   const [dismissed, setDismissed] = useState(null);
@@ -70,7 +70,7 @@ export default function MoveFeedback({ snapshot, judgment, analysis, showCopy = 
       setCopyStatus({ snapshot, loading: true, message: "Calcolo degli indicatori per il log…" });
       const positionIndicators = await calculatePositionRisk(snapshot, analysis);
       const text = buildMoveReport({ snapshot, analysis, judgment, positionIndicators,
-        feedbackText: [judgment.label, ...paragraphs].join("\n") });
+        feedbackText: [title, ...paragraphs].join("\n") });
       await navigator.clipboard.writeText(text);
       setCopyStatus({ snapshot, message: "Giudizio e log copiati" });
     } catch {
@@ -81,6 +81,11 @@ export default function MoveFeedback({ snapshot, judgment, analysis, showCopy = 
   const visible = judgment && snapshot !== dismissed && !busy;
   const tone = tones[judgment?.emphasis || "neutral"];
   const detailsOpen = expandedFor === snapshot;
+  // titolo con il numero di mosse nettamente migliori, se ce ne sono
+  const title = judgment ? `${judgment.label}${judgment.clearlyBetter ? ` (${judgment.clearlyBetter})` : ""}` : "";
+  // con i dettagli aperti il tabellone mostra la numerazione delle celle citate nell'elenco
+  const showingDetails = !!visible && detailsOpen && !hidden;
+  useEffect(() => { onDetailsChange?.(showingDetails); }, [showingDetails, onDetailsChange]);
   return (
     <aside className="hx-feedback-rail" aria-label="Valutazione della mossa" hidden={hidden}>
       <div className="mb-2 flex items-center justify-between gap-2 text-xs text-slate-400">
@@ -97,9 +102,9 @@ export default function MoveFeedback({ snapshot, judgment, analysis, showCopy = 
           <div className="flex items-start justify-between gap-2" data-copy-exclude>
               <button type="button" className="hx-link flex flex-1 items-center justify-between gap-2 text-left font-semibold"
                 aria-expanded={detailsOpen} aria-controls="move-feedback-details"
-                aria-label={`Dettagli del giudizio: ${judgment.label}`}
+                aria-label={`Dettagli del giudizio: ${title}`}
                 onClick={() => setExpandedFor(detailsOpen ? null : snapshot)}>
-                <span>{tone.icon} {judgment.label}</span>
+                <span>{tone.icon} {title}</span>
                 <span aria-hidden="true">{detailsOpen ? "−" : "+"}</span>
               </button>
             {showCopy && <button type="button" onClick={copyReport} disabled={!analysis || (copyStatus?.snapshot === snapshot && copyStatus.loading)}
@@ -136,7 +141,7 @@ export default function MoveFeedback({ snapshot, judgment, analysis, showCopy = 
             <li>Nettamente migliori: {judgment.clearlyBetter} (vantaggio superiore a {fmt(judgment.clearlyBetterTolerance, 3)} punti){judgment.clearlyBetterMoves?.length ? ":" : "."}</li>
             {judgment.clearlyBetterMoves?.map((m) => <li key={`${m.idx}:${m.q}:${m.r}`} className="ml-4 list-[circle]" data-testid="clearly-better-move">
               Pezzo {m.idx + 1}{m.pieceName ? ` (${m.pieceName})` : ""}
-              {snapshot?.grid && m.cells ? `: ${placementText(snapshot.grid, m)}` : ""} · +{fmt(m.advantage, 1)} punti
+              {snapshot?.grid && m.cells ? `: ${cellNumbersText(snapshot.grid, m)}` : ""} · +{fmt(m.advantage, 1)} punti
             </li>)}
             <li>Fascia comparabile: ±{fmt(judgment.tolerance, 3)} punti.</li>
             {judgment.risk.death !== null && <li>Rischio stimato di blocco subito dopo i pezzi noti

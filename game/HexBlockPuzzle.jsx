@@ -7,7 +7,7 @@ import GuideExpert from "./GuideExpert.jsx";
 import GuideNormal from "./GuideNormal.jsx";
 import MoveAnalysis from "./MoveAnalysis.jsx";
 import MoveFeedback from "./MoveFeedback.jsx";
-import HexGrid, { axialToPixel, hexPoints, key, parseKey, pixelToAxial, SQRT3 } from "./HexGrid.js";
+import HexGrid, { axialToPixel, cellNumbers, hexPoints, key, parseKey, pixelToAxial, SQRT3 } from "./HexGrid.js";
 import { PIECE_COLORS, pieceCentroid, PIECES, randomTray, replacePiece, SHAPES, shiftQueue } from "./pieces.js";
 import { bestMove } from "./strategy.js";
 import { requestAnalysis } from "./strategyClient.js";
@@ -277,6 +277,8 @@ function Game({ active = true, onSnapshot }) {
   const playedAnalysis = evaluated ? evaluation.analysis : null;
   const moveJudgment = evaluated ? evaluation.judgment : null;
   const evaluating = !!game.lastMove && !evaluated;
+  // numerazione delle celle sul tabellone, mentre sono aperti i dettagli del giudizio
+  const [showCellNumbers, setShowCellNumbers] = useState(false);
 
   // comunica alle guide lo stato attuale (per gli esempi "dal tuo tabellone")
   useEffect(() => {
@@ -809,6 +811,22 @@ function Game({ active = true, onSnapshot }) {
                   );
                 })}
 
+              {/* numerazione delle celle (dettagli del giudizio aperti): righe dall'alto, poi da sinistra */}
+              {showCellNumbers && !autoOn && (
+                <g data-testid="cell-numbers" pointerEvents="none" aria-hidden="true">
+                  {[...cellNumbers(RADIUS)].map(([k, n]) => {
+                    const [q, r] = parseKey(k);
+                    const [x, y] = axialToPixel(q, r, SIZE);
+                    return (
+                      <text key={`n${k}`} x={x} y={y} textAnchor="middle" dominantBaseline="central"
+                        fontSize={10} fontWeight={600} fill={grid.cells.get(k) ? "#0f172a" : "#94a3b8"}>
+                        {n}
+                      </text>
+                    );
+                  })}
+                </g>
+              )}
+
             </svg>
 
             {toast && (
@@ -887,7 +905,8 @@ function Game({ active = true, onSnapshot }) {
         {SHOW_MOVE_FEEDBACK && <MoveFeedback snapshot={game.lastMove} judgment={moveJudgment}
           analysis={playedAnalysis} showCopy={SHOW_JUDGMENT_COPY}
           onUndo={undo} undoDisabled={!history || auto || !!celebrate || !!flying}
-          hidden={autoOn || !active} busy={!!flying || !!celebrate || evaluating} />}
+          hidden={autoOn || !active} busy={!!flying || !!celebrate || evaluating}
+          onDetailsChange={setShowCellNumbers} />}
 
         {/* sotto: istruzioni e spiegazione */}
         <div className="flex flex-col gap-3">
