@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import HexGrid, { parseKey } from "./HexGrid.js";
 import MiniBoard, { fmt, Note, pieceCells, Section, Table } from "./GuideKit.jsx";
 import { PIECE_COLORS } from "./pieces.js";
-import { explainNormal, NORMAL_ANALYSIS, NORMAL_BIG_PENALTY, NORMAL_LOOKAHEAD, NORMAL_RISK, NORMAL_ROOM_PENALTY, WEIGHTS as W } from "./strategy.js";
+import { explainNormal, NORMAL_ANALYSIS, NORMAL_BIG_PENALTY, NORMAL_CLEAR_BONUS, NORMAL_CLOSABLE_BONUS, NORMAL_LOOKAHEAD, NORMAL_RISK, NORMAL_ROOM_PENALTY, WEIGHTS as W } from "./strategy.js";
 
 // --- tabelloni dimostrativi per le illustrazioni -----------------------------
 function fillAllExcept(radius, empty, color = 2) {
@@ -168,7 +168,9 @@ export default function GuideNormal({ snapshot }) {
             per ognuna, sul tabellone che ne risulta, rifà i passi 1–3 con gli altri due pezzi e trova la loro mossa migliore;
           </li>
           <li>
-            assegna a ogni candidata un <b>totale</b> = punti della prima mossa + voto della migliore seconda mossa − {NORMAL_RISK} ×
+            assegna a ogni candidata un <b>totale</b> = punti della prima mossa + {NORMAL_CLEAR_BONUS} × linee svuotate dalla prima
+            mossa × affollamento + voto della migliore seconda mossa + {NORMAL_CLOSABLE_BONUS} × linee chiudibili × affollamento
+            dopo le due mosse − {NORMAL_RISK} ×
             probabilità che un pezzo estratto a caso non entri nel tabellone dopo le due mosse − {NORMAL_ROOM_PENALTY} × (1 −
             posizioni del pezzo che resta nel vassoio / 6) − {NORMAL_BIG_PENALTY} × (1 − spazio per rombo e ferro di cavallo)
             (se nessuno dei due pezzi entra più: −10.000, cioè scartata);
@@ -181,11 +183,21 @@ export default function GuideNormal({ snapshot }) {
           da sola.
         </Note>
         <Note tone="ok">
-          Un dettaglio controintuitivo: della prima mossa il totale conta i punti ma <b>non</b> il premio di +{fmt(W.line)} per le
-          linee svuotate, mentre per la seconda mossa sì. Così a volte il computer preferisce rimandare di una mossa lo
-          svuotamento di una linea. Sembra un difetto, ma è stato verificato: contando anche quel premio, su 16 partite simulate
-          con gli stessi pezzi i punti per pezzo scendono da 10,3 a 9,3 (peggio in 15 partite su 16). Rimandare permette spesso
-          di svuotare più linee insieme e allungare le combo.
+          Quanto conta svuotare subito dipende da quanto è pieno il tabellone. L&apos;<b>affollamento</b> è la quota di celle
+          occupate prima della mossa (0 con il tabellone vuoto, 1 con il tabellone pieno), e ogni linea svuotata dalla prima mossa
+          vale {NORMAL_CLEAR_BONUS} × affollamento: per esempio {fmt(NORMAL_CLEAR_BONUS * 0.3, 0)} con il 30% delle celle occupate,{" "}
+          {fmt(NORMAL_CLEAR_BONUS * 0.6, 0)} con il 60%. Con il tabellone quasi vuoto conviene rimandare lo svuotamento: spesso si
+          svuotano più linee insieme e si allungano le combo. Con il tabellone quasi pieno conviene liberare spazio subito, perché
+          ogni mossa in più con poche celle libere è un rischio di blocco. Il premio fisso di +{fmt(W.line)} per tutte le linee
+          rendeva meno (i punti per pezzo scendevano da 10,3 a 9,3); il premio che cresce con l&apos;affollamento ha allungato
+          molto le partite (vedi «Quanto rende»).
+        </Note>
+        <Note tone="ok">
+          Oltre a svuotare subito conta preparare gli svuotamenti successivi. Le <b>linee chiudibili</b> sono il numero atteso di
+          linee, fra quelle a cui mancano da 1 a 3 celle, che un pezzo estratto a caso potrà chiudere con una sola mossa dopo le
+          due mosse: per ogni orientamento si contano le linee che riesce a completare e si pesa con la sua probabilità di uscita.
+          Anche questo premio ({NORMAL_CLOSABLE_BONUS} × linee chiudibili × affollamento) conta poco a tabellone vuoto e molto a
+          tabellone pieno. Contare invece le linee che può chiudere il pezzo rimasto nel vassoio non ha dato miglioramenti.
         </Note>
         <p>
           Perché {NORMAL_LOOKAHEAD} candidate? Il voto a un passo prevede male il totale: la mossa con il voto più alto, per
@@ -244,16 +256,19 @@ export default function GuideNormal({ snapshot }) {
             ["6 candidate, rischio 400", "373", "301", "3.834", "10,29", "5"],
             ["20 candidate, rischio 1.600", "433", "357", "5.226", "12,06", "10"],
             ["+ spazio per il pezzo rimasto", "486", "349", "5.938", "12,21", "14"],
-            ["Attuale: + spazio per rombo e ferro di cavallo", "670", "735", "8.188", "12,23", "23"],
+            ["+ spazio per rombo e ferro di cavallo", "670", "735", "8.188", "12,23", "23"],
+            ["+ premio per le linee svuotate", "852", "1.000", "8.982", "10,54", "43"],
+            ["Attuale: + premio per le linee chiudibili", "904", "1.000", "9.591", "10,61", "46"],
           ]}
         />
         <p>
           Anche in modalità normale l&apos;autogioco prima o poi perde: capita una serie di estrazioni per cui nessuno dei tre
           pezzi trova posto. Le durate variano moltissimo (da poche decine a oltre mille pezzi), quindi il confronto va letto
-          con cautela. Il dato più solido sono i punti per pezzo, che si misurano mossa per mossa: +19% rispetto alla versione
-          con 6 candidate senza rischio. Le ultime due misure sono state controllate anche su 140 partite mai usate per la taratura:
+          con cautela, su molte partite e confrontando partita per partita con gli stessi pezzi. Le ultime misure sono state controllate anche su 140 partite mai usate per la taratura:
           lo spazio per il pezzo rimasto ha portato la durata media da 414 a 479, lo spazio per rombo e ferro di cavallo da
-          479 a 604 (mediana da 416 a 653, meglio in 73 partite e peggio in 58).
+          479 a 604, i due premi per le linee da 604 a 879 (arrivate a 1.000: da 44 a 110; meglio in 86 partite e peggio in 19).
+          I premi per le linee fanno svuotare prima e quindi fare meno combo: i punti per pezzo scendono da 12,2 a 10,6, ma le
+          partite durano tanto di più che i punti per partita salgono.
         </p>
       </Section>
 
@@ -270,8 +285,8 @@ export default function GuideNormal({ snapshot }) {
               seconda mossa con gli altri pezzi. La stella indica il suggerimento.
             </p>
             <Table
-              head={["", "Mossa", "Voto", "Seconda mossa", "Voto 2ª", "Rischi", "Totale"]}
-              align={["", "", "r", "", "r", "r", "r"]}
+              head={["", "Mossa", "Voto", "Seconda mossa", "Voto 2ª", "Premi linee", "Rischi", "Totale"]}
+              align={["", "", "r", "", "r", "r", "r", "r"]}
               rows={example.byTotal.slice(0, NORMAL_ANALYSIS).map((m, i) => [
                 <MiniBoard
                   key="b"
@@ -293,13 +308,16 @@ export default function GuideNormal({ snapshot }) {
                 fmt(m.value),
                 m.next ? m.next.piece.name : "nessuna",
                 m.next ? fmt(m.next.value) : "—",
+                m.clearBonus || m.closableBonus ? sign(m.clearBonus + m.closableBonus) : "—",
                 m.next ? sign(-(NORMAL_RISK * m.death + m.roomPenalty + m.bigPenalty)) : "—",
                 <b key="t">{fmt(m.total)}</b>,
               ])}
             />
             <p>
-              Totale = punti della mossa ({fmt(example.byTotal[0].gain)} per la mossa scelta) + voto della seconda mossa −
-              rischi. Per la mossa scelta i rischi sono: pezzo nuovo che non entra{" "}
+              Totale = punti della mossa ({fmt(example.byTotal[0].gain)} per la mossa scelta) + voto della seconda mossa + premi
+              per le linee − rischi. Per la mossa scelta i premi sono: linee svuotate {sign(example.byTotal[0].clearBonus)}{" "}
+              (affollamento attuale {fmt(example.byTotal[0].crowd * 100, 0)}%), linee chiudibili{" "}
+              {sign(example.byTotal[0].closableBonus)} ({fmt(example.byTotal[0].closable, 2)} linee attese); i rischi: pezzo nuovo che non entra{" "}
               {sign(-NORMAL_RISK * example.byTotal[0].death)} (probabilità {fmt(example.byTotal[0].death * 100, 1)}%), pezzo rimasto
               nel vassoio {sign(-example.byTotal[0].roomPenalty)} ({example.byTotal[0].room === 6 ? "almeno 6" : example.byTotal[0].room}{" "}
               posizioni), rombo e ferro di cavallo {sign(-example.byTotal[0].bigPenalty)} (spazio{" "}

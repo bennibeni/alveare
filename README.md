@@ -137,7 +137,7 @@ tests/e2e/            test Playwright
 
 Confronto appaiato: con lo stesso seme le strategie ricevono gli stessi pezzi nello stesso ordine.
 Le partite hanno durate molto variabili, da poche decine a oltre mille pezzi, quindi una differenza
-è credibile solo su molte partite; il dato più stabile sono i punti per pezzo.
+è credibile solo su molte partite.
 
 ### Modalità normale
 
@@ -149,17 +149,24 @@ Le partite hanno durate molto variabili, da poche decine a oltre mille pezzi, qu
 | 6 candidate, rischio 400 | 373 | 301 | 3.834 | 10,29 | 5 |
 | 20 candidate, rischio 1.600 | 433 | 357 | 5.226 | 12,06 | 10 |
 | + spazio per il pezzo rimasto | 486 | 349 | 5.938 | 12,21 | 14 |
-| **attuale: + spazio per rombo e ferro di cavallo** | **670** | **735** | **8.188** | **12,23** | **23** |
+| + spazio per rombo e ferro di cavallo | 670 | 735 | 8.188 | 12,23 | 23 |
+| + premio per le linee svuotate | 852 | 1.000 | 8.982 | 10,54 | 43 |
+| **attuale: + premio per le linee chiudibili** | **904** | **1.000** | **9.591** | **10,61** | **46** |
 
 Verifica su 140 partite mai usate per la taratura (semi da `13000` a `25000`):
 
 | Strategia | Durata media | Durata mediana | Arrivate a 1.000 | Meglio / peggio |
 |---|---|---|---|---|
 | + spazio per il pezzo rimasto | 479 | 416 | 24 | — |
-| **attuale** | **604** | **653** | **44** | **73 / 58** |
+| + spazio per rombo e ferro di cavallo | 604 | 653 | 44 | 73 / 58 |
+| + premio per le linee svuotate | 832 | 1.000 | 96 | 87 / 28 |
+| **attuale: + premio per le linee chiudibili** | **879** | **1.000** | **110** | **86 / 19** |
 
-Rispetto all'originale, sulle 60 partite di taratura la versione attuale dura di più in 48 partite e di
-meno in 12. Con un terzo delle partite fermate al limite dei 1.000 pezzi, i guadagni sono sottostimati.
+«Meglio / peggio» confronta ogni riga con la precedente; per l'attuale, con la versione senza i due premi
+per le linee (rapporto delle durate 1,77, intervallo al 95% 1,47–2,13). Il premio per le linee chiudibili,
+aggiunto al premio per le linee svuotate, vale circa +11% su 200 partite (55 meglio, 38 peggio; intervallo
+0,98–1,25: credibile ma non certo). Con tre quarti delle partite fermate al limite dei 1.000 pezzi, i
+guadagni sono sottostimati.
 
 Che cosa fa il suggerimento in modalità normale, e perché:
 
@@ -178,6 +185,16 @@ Che cosa fa il suggerimento in modalità normale, e perché:
   Spazio = media, pesata con le probabilità di uscita, di min(posizioni, 6) / 6 sui loro orientamenti.
   Provati 200, 500, 1.000, 2.000 (durata media 557, 554, 670, 610) e la stessa misura su tutti i
   pezzi (300 e 1.000: 599 e 629).
+- **Premio per le linee svuotate: 180 × linee × affollamento.** Affollamento = celle occupate / 61,
+  prima della mossa. A tabellone vuoto conviene rimandare lo svuotamento per fare combo; a tabellone
+  pieno conviene liberare spazio subito. Provati 60, 180, 240, 300, 500 (durata media 729, 852, 826, 777,
+  770) e 180 solo sotto le 40 celle libere (747). Si fanno meno combo (punti per pezzo da 12,2 a 10,5),
+  ma le partite durano molto di più e i punti per partita salgono.
+- **Premio per le linee chiudibili: 100 × linee chiudibili × affollamento,** dopo le due mosse. Linee
+  chiudibili = numero atteso di linee (a cui mancano da 1 a 3 celle) che un pezzo estratto a caso può
+  chiudere con una sola mossa: premia le mosse che preparano uno svuotamento. Da solo rende poco (100 e
+  300: 705 e 753); insieme al premio per le linee svuotate, 100 rende più di 300 (904 e 830). Contare
+  le linee che può chiudere il pezzo rimasto nel vassoio non ha dato miglioramenti (675).
 
 ### Modalità Esperto
 
@@ -196,8 +213,8 @@ Per un controllo servono decine di partite: con 6 partite il risultato dipende s
 pezzi capitano (sui 6 semi del vecchio comando rapido una versione migliore su 200 partite andava peggio).
 
 ```bash
-npm run sim -- --mode normal --games 30 --seed 19000   # attuale: media 536, mediana 481, 9 a 1.000 (circa 3 minuti)
-npm run sim -- --mode normal --games 6 --max 1000      # prova veloce, seme 7000: 613, 1000, 266, 83, 627, 287
+npm run sim -- --mode normal --games 30 --seed 19000   # attuale: media 829, mediana 1000, 21 a 1.000 (circa 12 minuti)
+npm run sim -- --mode normal --games 6 --max 1000      # prova veloce, seme 7000: tutte e 6 a 1.000 (circa 3 minuti)
 ```
 
 Per confrontare due versioni, lancia lo stesso comando prima e dopo la modifica: con lo stesso seme le

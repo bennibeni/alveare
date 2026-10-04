@@ -4,6 +4,14 @@ import HexGrid from "../../game/HexGrid.js";
 import { PIECES } from "../../game/pieces.js";
 import { analyzePlayedMove } from "../../game/strategy.js";
 
+/** Le posizioni dei log sono state calibrate prima del premio per le linee chiudibili: questi test
+ * verificano le regole del giudizio, quindi usano i totali di allora (gli altri premi valgono zero
+ * su questi tabelloni quasi vuoti, senza linee svuotate). */
+function asInLog(analysis) {
+  for (const m of analysis.moves) m.total -= m.closableBonus ?? 0;
+  return analysis;
+}
+
 function comparison(scores, played, totalMoves = 100) {
   return { totalMoves, moves: scores.map((total, i) => ({ total, played: i === played, next: {} })) };
 }
@@ -14,7 +22,7 @@ describe("giudizio qualitativo della mossa", () => {
     for (const [q, r] of [[3, 0], [4, -2], [4, -1], [4, 0]]) grid = grid.place([[0, 0]], q, r, 10);
     const tray = ["bandiera sinistra-5", "bandiera destra-5", "ferro di cavallo-4"]
       .map((id) => PIECES.find((p) => p.id === id));
-    const analysis = analyzePlayedMove({ grid, tray, streak: 0, expert: false, idx: 1, q: 2, r: -1 });
+    const analysis = asInLog(analyzePlayedMove({ grid, tray, streak: 0, expert: false, idx: 1, q: 2, r: -1 }));
     expect(judgeMove(analysis)).toMatchObject({ label: "Buona mossa", emphasis: "neutral", score: 82 });
     // La protezione non vale per chiusure immediate o combinazioni più forti.
     analysis.moves[0].lines = 1;
@@ -135,7 +143,7 @@ describe("giudizio qualitativo della mossa", () => {
     let grid = new HexGrid(4);
     for (const [q, r] of [[2, -1], [3, -1], [3, 0], [4, -1]]) grid = grid.place([[0, 0]], q, r, 10);
     const tray = ["punto-0", "ferro di cavallo-3", "rombo-0"].map((id) => PIECES.find((p) => p.id === id));
-    const analysis = analyzePlayedMove({ grid, tray, streak: 0, expert: false, idx: 1, q: 2, r: -2 });
+    const analysis = asInLog(analyzePlayedMove({ grid, tray, streak: 0, expert: false, idx: 1, q: 2, r: -2 }));
     expect(judgeMove(analysis)).toMatchObject({ label: "Buona mossa", score: 78.1, maximum: 79.3,
       placementQuality: { touchingCells: 4, sharedEdges: 6 } });
     const quality = analysis.placementQuality;

@@ -39,6 +39,14 @@ const NORMAL_ROOM = 200;
 // min(posizioni, 6) / 6 sui loro orientamenti. Valore scelto con il simulatore (vedi README).
 const NORMAL_BIG = 1000;
 const BIG_SHAPES = new Set(["rombo", "ferro di cavallo"]);
+// Premio × linee svuotate dalla prima mossa × affollamento (celle occupate / celle totali, prima
+// della mossa). Con il tabellone vuoto conviene rimandare lo svuotamento e preparare le combo; con
+// il tabellone pieno conviene liberare spazio subito. Valore scelto con il simulatore (vedi README).
+const NORMAL_CLEAR = 180;
+// Premio × linee chiudibili × affollamento, sul tabellone dopo le due mosse. Linee chiudibili = numero
+// atteso di linee (a cui mancano da 1 a 3 celle) che un pezzo estratto a caso può chiudere con una sola
+// mossa: le mosse che "preparano" uno svuotamento. Valore scelto con il simulatore (vedi README).
+const NORMAL_CLOSABLE = 100;
 
 // Delle candidate approfondite, l'analisi e il giudizio confrontano le migliori NORMAL_SHOWN per
 // totale (più la mossa giocata): le stesse che vede il giocatore, con la calibrazione del giudizio.
@@ -52,6 +60,46 @@ export const NORMAL_RISK = NORMAL_DEATH;
 export const NORMAL_ROOM_PENALTY = NORMAL_ROOM;
 export const NORMAL_BIG_PENALTY = NORMAL_BIG;
 export const NORMAL_BIG_SHAPES = [...BIG_SHAPES];
+export const NORMAL_CLEAR_BONUS = NORMAL_CLEAR;
+export const NORMAL_CLOSABLE_BONUS = NORMAL_CLOSABLE;
+
+const PIECE_WEIGHT = PIECES.reduce((a, p) => a + p.weight, 0);
+
+/** Numero atteso di linee che un pezzo estratto a caso può chiudere con una sola mossa
+ * (contando solo le linee a cui mancano da 1 a 3 celle). */
+export function closableLines(g) {
+  const near = [];
+  const byCell = new Map();
+  for (const l of g.lines) {
+    const miss = l.cells.filter((k) => g.cells.get(k) === 0);
+    if (miss.length < 1 || miss.length > 3) continue;
+    for (const k of miss) {
+      if (!byCell.has(k)) byCell.set(k, []);
+      byCell.get(k).push(near.length);
+    }
+    near.push(miss);
+  }
+  if (!near.length) return 0;
+  let expected = 0;
+  for (const piece of PIECES) {
+    const closed = new Set();
+    for (const [q, r] of g.placementsFor(piece.cells)) {
+      const covered = new Set(piece.cells.map(([dq, dr]) => `${q + dq},${r + dr}`));
+      for (const k of covered) {
+        for (const li of byCell.get(k) || []) if (!closed.has(li) && near[li].every((c) => covered.has(c))) closed.add(li);
+      }
+    }
+    expected += (piece.weight / PIECE_WEIGHT) * closed.size;
+  }
+  return expected;
+}
+
+/** Celle occupate / celle totali: 0 con il tabellone vuoto, 1 con il tabellone pieno. */
+function crowding(g) {
+  let filled = 0;
+  for (const v of g.cells.values()) if (v) filled++;
+  return filled / g.cells.size;
+}
 
 function boardFeatures(g) {
   let holes = 0;
@@ -79,6 +127,7 @@ function boardFeatures(g) {
 /** Tutte le mosse possibili con valutazione a un passo, dalla migliore. */
 function rankedMoves(grid, tray, streak) {
   const moves = [];
+  const crowd = crowding(grid);
   tray.forEach((p, idx) => {
     if (!p) return;
     for (const [q, r] of grid.placementsFor(p.cells)) {
@@ -105,6 +154,7 @@ function rankedMoves(grid, tray, streak) {
         features: f,
         after: res.grid,
         nextStreak: res.lines.length ? streak + 1 : 0,
+        crowd,
       });
     }
   });
@@ -127,8 +177,8 @@ function boardRisk(next) {
   return { death, bigRoom: room / weight };
 }
 
-/** Totale di una candidata: punti della prima mossa + voto della migliore seconda
- * mossa con gli altri due pezzi − rischio che un pezzo nuovo non entri. */
+/** Totale di una candidata: punti della prima mossa + premio per lo svuotamento + voto della migliore
+ * seconda mossa con gli altri due pezzi + premio per le linee chiudibili − rischi. */
 function withLookahead(m, tray) {
   const rest = tray.map((p, i) => (i === m.idx ? null : p));
   const next = rankedMoves(m.after, rest, m.nextStreak)[0] || null;
@@ -136,8 +186,11 @@ function withLookahead(m, tray) {
   const room = next ? remainingRoom(m, next, tray) : 0;
   const roomPenalty = NORMAL_ROOM * (1 - room / 6);
   const bigPenalty = NORMAL_BIG * (1 - bigRoom);
-  const total = m.gain * W.cell + (next ? next.value - NORMAL_DEATH * death - roomPenalty - bigPenalty : -10000);
-  return { ...m, next, death, room, roomPenalty, bigRoom, bigPenalty, blockRisk: next ? blockRisk(m, next, tray, death) : null, total };
+  const clearBonus = NORMAL_CLEAR * m.lines * m.crowd;
+  const closable = next ? closableLines(next.after) : 0;
+  const closableBonus = next ? NORMAL_CLOSABLE * closable * crowding(next.after) : 0;
+  const total = m.gain * W.cell + clearBonus + (next ? next.value + closableBonus - NORMAL_DEATH * death - roomPenalty - bigPenalty : -10000);
+  return { ...m, next, death, room, roomPenalty, bigRoom, bigPenalty, clearBonus, closable, closableBonus, blockRisk: next ? blockRisk(m, next, tray, death) : null, total };
 }
 
 /** Posizioni (fino a 6) del pezzo noto che resta nel vassoio dopo la mossa e la seconda mossa. */
@@ -423,6 +476,7 @@ export function slimAnalysis(analysis) {
       ...(m.blockRisk !== undefined ? { blockRisk: m.blockRisk } : {}),
       ...(m.roomPenalty !== undefined ? { room: m.room, roomPenalty: m.roomPenalty } : {}),
       ...(m.bigPenalty !== undefined ? { bigRoom: m.bigRoom, bigPenalty: m.bigPenalty } : {}),
+      ...(m.clearBonus !== undefined ? { crowd: m.crowd, clearBonus: m.clearBonus, closable: m.closable, closableBonus: m.closableBonus } : {}),
       ...(m.played !== undefined ? { played: m.played } : {}),
       ...(m.added ? { added: true } : {}),
       ...(m.next !== undefined ? { next: placement(m.next) } : {}),

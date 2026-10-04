@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import HexGrid from "../../game/HexGrid.js";
 import { PIECES, randomTray, seededRandom, SHAPES } from "../../game/pieces.js";
-import { analyzeMoves, analyzePlayedMove, bestMove, explainNormal, explainQueue, NORMAL_BIG_PENALTY, NORMAL_BIG_SHAPES, NORMAL_RISK, NORMAL_ROOM_PENALTY, QUEUE_PARAMS, slimAnalysis } from "../../game/strategy.js";
+import { analyzeMoves, closableLines, analyzePlayedMove, bestMove, explainNormal, explainQueue, NORMAL_BIG_PENALTY, NORMAL_BIG_SHAPES, NORMAL_CLEAR_BONUS, NORMAL_CLOSABLE_BONUS, NORMAL_RISK, NORMAL_ROOM_PENALTY, QUEUE_PARAMS, slimAnalysis } from "../../game/strategy.js";
 import { judgeMove } from "../../game/moveJudgment.js";
 import { pairedCompare, playGame, playGames, seedFor } from "../../scripts/sim-lib.mjs";
 
@@ -30,7 +30,7 @@ describe("classifica delle mosse approfondite", () => {
         expect(extra.moves.at(-1).total).toBeCloseTo(leaf.acc + leaf.board + leaf.unknown.value);
       } else {
         const m = extra.moves.at(-1);
-        expect(m.total).toBeCloseTo(m.gain + (m.next ? m.next.value - NORMAL_RISK * m.death - m.roomPenalty - m.bigPenalty : -10000));
+        expect(m.total).toBeCloseTo(m.gain + m.clearBonus + (m.next ? m.next.value + m.closableBonus - NORMAL_RISK * m.death - m.roomPenalty - m.bigPenalty : -10000));
       }
       expect(bestMove(grid, tray, 2, { queue: expert })).toEqual({ idx: top.idx, q: top.q, r: top.r, cells: top.cells });
     });
@@ -181,6 +181,50 @@ describe("modalità normale: spazio per rombo e ferro di cavallo", () => {
   });
 });
 
+describe("modalità normale: premio per lo svuotamento", () => {
+  it("vale premio × linee svuotate × affollamento del tabellone prima della mossa", () => {
+    let withLines = 0;
+    for (let seed = 1; seed <= 6; seed++) {
+      const { grid, tray } = midGame(seed, 30);
+      const filled = [...grid.cells.values()].filter(Boolean).length;
+      for (const m of explainNormal(grid, tray, 0).byTotal) {
+        expect(m.crowd).toBeCloseTo(filled / grid.cells.size);
+        expect(m.clearBonus).toBeCloseTo(NORMAL_CLEAR_BONUS * m.lines * m.crowd);
+        if (m.lines) withLines++;
+      }
+    }
+    expect(withLines).toBeGreaterThan(0);
+  });
+
+  it("sul tabellone vuoto non premia niente", () => {
+    const tray = randomTray(seededRandom(23));
+    for (const m of analyzeMoves(new HexGrid(4), tray, 0).moves) expect(m.clearBonus).toBe(0);
+    expect(closableLines(new HexGrid(4))).toBe(0);
+  });
+
+  it("linee chiudibili: numero atteso di linee che un pezzo nuovo chiude con una mossa", () => {
+    // riga centrale (r = 0, 9 celle) piena tranne una cella: la chiude soltanto un pezzo che copre quella cella
+    let grid = new HexGrid(4);
+    for (let q = -4; q <= 4; q++) if (q !== 0) grid = grid.place([[0, 0]], q, 0, 1);
+    // atteso: probabilità dei pezzi che hanno una posizione sopra la cella (0, 0)
+    const weight = PIECES.reduce((a, p) => a + p.weight, 0);
+    const covering = PIECES.filter((p) => grid.placementsFor(p.cells).some(([q, r]) => p.cells.some(([dq, dr]) => q + dq === 0 && r + dr === 0)));
+    expect(closableLines(grid)).toBeCloseTo(covering.reduce((a, p) => a + p.weight, 0) / weight);
+    let total = 0;
+    for (let seed = 1; seed <= 4; seed++) {
+      const { grid: g, tray } = midGame(seed, 30);
+      for (const m of explainNormal(g, tray, 0).byTotal) {
+        if (!m.next) continue;
+        expect(m.closable).toBeCloseTo(closableLines(m.next.after));
+        const filled = [...m.next.after.cells.values()].filter(Boolean).length;
+        expect(m.closableBonus).toBeCloseTo(NORMAL_CLOSABLE_BONUS * m.closable * filled / 61);
+        total += m.closable;
+      }
+    }
+    expect(total).toBeGreaterThan(0);
+  });
+});
+
 describe("modalità normale: rischio di blocco per il giudizio", () => {
   it("è zero se il pezzo noto rimasto entra, altrimenti una probabilità", () => {
     for (let seed = 1; seed <= 4; seed++) {
@@ -281,8 +325,8 @@ describe("prestazioni e regressioni (simulazioni con seme)", () => {
 
   // Valori di riferimento della strategia attuale. Se si cambia la strategia di
   // proposito, questi numeri vanno aggiornati (dopo averla misurata con npm run sim).
-  it("regressione · normale, seme 555, 60 pezzi: 613 punti, 31 linee", () => {
-    expect(playGame({ mode: "normal", seed: 555, maxMoves: 60 })).toEqual({ seed: 555, pieces: 60, points: 613, lines: 31, lost: false });
+  it("regressione · normale, seme 555, 60 pezzi: 691 punti, 37 linee", () => {
+    expect(playGame({ mode: "normal", seed: 555, maxMoves: 60 })).toEqual({ seed: 555, pieces: 60, points: 691, lines: 37, lost: false });
   });
 
   it("regressione · Esperto, seme 7097: 52 pezzi, 561 punti", () => {
