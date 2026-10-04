@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import HexGrid, { parseKey } from "./HexGrid.js";
 import MiniBoard, { fmt, Note, pieceCells, Section, Table } from "./GuideKit.jsx";
 import { PIECE_COLORS } from "./pieces.js";
-import { explainNormal, NORMAL_ANALYSIS, NORMAL_BIG_PENALTY, NORMAL_CLEAR_BONUS, NORMAL_CLOSABLE_BONUS, NORMAL_LOOKAHEAD, NORMAL_RISK, NORMAL_ROOM_PENALTY, WEIGHTS as W } from "./strategy.js";
+import { explainNormal, NORMAL_ANALYSIS, NORMAL_BIG_PENALTY, NORMAL_CLEAR_BONUS, NORMAL_CLOSABLE_BONUS, NORMAL_DEEP, NORMAL_LOOKAHEAD, NORMAL_RISK, NORMAL_ROOM_PENALTY, WEIGHTS as W } from "./strategy.js";
 
 // --- tabelloni dimostrativi per le illustrazioni -----------------------------
 function fillAllExcept(radius, empty, color = 2) {
@@ -175,6 +175,12 @@ export default function GuideNormal({ snapshot }) {
             posizioni del pezzo che resta nel vassoio / 6) − {NORMAL_BIG_PENALTY} × (1 − spazio per rombo e ferro di cavallo)
             (se nessuno dei due pezzi entra più: −10.000, cioè scartata);
           </li>
+          <li>
+            con meno di {NORMAL_DEEP.free} celle libere (griglia affollata) guarda <b>tutti e tre</b> i pezzi noti: per ogni
+            candidata prova le {NORMAL_DEEP.second} migliori seconde mosse e, per ognuna, le {NORMAL_DEEP.third} migliori terze
+            mosse con il pezzo rimasto. Il totale è quello della sequenza migliore: il tabellone dopo la terza mossa si giudica
+            come quello dopo la seconda, e se il terzo pezzo non entra la penalità è {fmt(NORMAL_DEEP.block, 0)}.
+          </li>
           <li>suggerisce la candidata con il totale più alto.</li>
         </ol>
         <Note>
@@ -282,7 +288,7 @@ export default function GuideNormal({ snapshot }) {
               tabellone attuale
               {snapshot.expert ? " (calcolate come se il vassoio fosse libero, anche se stai giocando in modalità Esperto)" : ""}.
               Nella miniatura: il pezzo <b>pieno</b> è la mossa candidata, il contorno <b>tratteggiato «2»</b> è la migliore
-              seconda mossa con gli altri pezzi. La stella indica il suggerimento.
+              seconda mossa con gli altri pezzi e, con la griglia affollata, «3» è la terza. La stella indica il suggerimento.
             </p>
             <Table
               head={["", "Mossa", "Voto", "Seconda mossa", "Voto 2ª", "Premi linee", "Rischi", "Totale"]}
@@ -297,6 +303,9 @@ export default function GuideNormal({ snapshot }) {
                     { cells: pieceCells(m.cells, m.q, m.r), fill: PIECE_COLORS[m.piece.color], stroke: "#ffffff" },
                     ...(m.next
                       ? [{ cells: pieceCells(m.next.cells, m.next.q, m.next.r), stroke: PIECE_COLORS[m.next.piece.color], dashed: true, label: "2", labelColor: "#e2e8f0" }]
+                      : []),
+                    ...(m.third
+                      ? [{ cells: pieceCells(m.third.cells, m.third.q, m.third.r), stroke: PIECE_COLORS[m.third.piece.color], dashed: true, label: "3", labelColor: "#e2e8f0" }]
                       : []),
                   ]}
                 />,

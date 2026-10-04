@@ -47,6 +47,14 @@ const NORMAL_CLEAR = 180;
 // atteso di linee (a cui mancano da 1 a 3 celle) che un pezzo estratto a caso può chiudere con una sola
 // mossa: le mosse che "preparano" uno svuotamento. Valore scelto con il simulatore (vedi README).
 const NORMAL_CLOSABLE = 100;
+// Con meno di NORMAL_DEEP_FREE celle libere (zona di pericolo: sotto le 36 il rischio di perdere entro
+// 10 mosse sale dallo 0,1% a diversi punti percentuali) si guardano tutti e tre i pezzi noti: per ogni
+// candidata NORMAL_DEEP_SECOND seconde mosse e NORMAL_DEEP_THIRD terze mosse. Se il terzo pezzo non
+// entra, penalità NORMAL_DEEP_BLOCK. Valori scelti con il simulatore (vedi README).
+const NORMAL_DEEP_FREE = 36;
+const NORMAL_DEEP_SECOND = 5;
+const NORMAL_DEEP_THIRD = 3;
+const NORMAL_DEEP_BLOCK = 1000;
 
 // Delle candidate approfondite, l'analisi e il giudizio confrontano le migliori NORMAL_SHOWN per
 // totale (più la mossa giocata): le stesse che vede il giocatore, con la calibrazione del giudizio.
@@ -62,6 +70,7 @@ export const NORMAL_BIG_PENALTY = NORMAL_BIG;
 export const NORMAL_BIG_SHAPES = [...BIG_SHAPES];
 export const NORMAL_CLEAR_BONUS = NORMAL_CLEAR;
 export const NORMAL_CLOSABLE_BONUS = NORMAL_CLOSABLE;
+export const NORMAL_DEEP = { free: NORMAL_DEEP_FREE, second: NORMAL_DEEP_SECOND, third: NORMAL_DEEP_THIRD, block: NORMAL_DEEP_BLOCK };
 
 const PIECE_WEIGHT = PIECES.reduce((a, p) => a + p.weight, 0);
 
@@ -92,6 +101,13 @@ export function closableLines(g) {
     expected += (piece.weight / PIECE_WEIGHT) * closed.size;
   }
   return expected;
+}
+
+/** Zona di pericolo: meno di NORMAL_DEEP_FREE celle libere. */
+function isDeep(g) {
+  let free = 0;
+  for (const v of g.cells.values()) if (!v) free++;
+  return free < NORMAL_DEEP_FREE;
 }
 
 /** Celle occupate / celle totali: 0 con il tabellone vuoto, 1 con il tabellone pieno. */
@@ -179,7 +195,8 @@ function boardRisk(next) {
 
 /** Totale di una candidata: punti della prima mossa + premio per lo svuotamento + voto della migliore
  * seconda mossa con gli altri due pezzi + premio per le linee chiudibili − rischi. */
-function withLookahead(m, tray) {
+function withLookahead(m, tray, deep = false) {
+  if (deep) return withDeepLookahead(m, tray);
   const rest = tray.map((p, i) => (i === m.idx ? null : p));
   const next = rankedMoves(m.after, rest, m.nextStreak)[0] || null;
   const { death, bigRoom } = next ? boardRisk(next) : { death: 1, bigRoom: 0 };
@@ -191,6 +208,38 @@ function withLookahead(m, tray) {
   const closableBonus = next ? NORMAL_CLOSABLE * closable * crowding(next.after) : 0;
   const total = m.gain * W.cell + clearBonus + (next ? next.value + closableBonus - NORMAL_DEATH * death - roomPenalty - bigPenalty : -10000);
   return { ...m, next, death, room, roomPenalty, bigRoom, bigPenalty, clearBonus, closable, closableBonus, blockRisk: next ? blockRisk(m, next, tray, death) : null, total };
+}
+
+/** Zona di pericolo: sequenze con tutti e tre i pezzi noti. Per la mossa m si provano le migliori
+ * seconde mosse (per voto) e, per ognuna, le migliori terze mosse; vince la sequenza con il totale
+ * più alto. Il tabellone finale si giudica come nello sguardo a due passi (voto dell'ultima mossa,
+ * linee chiudibili, rischio del pezzo nuovo, spazio per rombo e ferro di cavallo). Le mosse dopo la
+ * prima contano i loro punti e le loro linee (+60 ciascuna). */
+function withDeepLookahead(m, tray) {
+  const rest = tray.map((p, i) => (i === m.idx ? null : p));
+  const clearBonus = NORMAL_CLEAR * m.lines * m.crowd;
+  let best = null;
+  for (const second of rankedMoves(m.after, rest, m.nextStreak).slice(0, NORMAL_DEEP_SECOND)) {
+    const left = rest.map((p, i) => (i === second.idx ? null : p));
+    const pending = left.some(Boolean);
+    const thirds = pending ? rankedMoves(second.after, left, second.nextStreak).slice(0, NORMAL_DEEP_THIRD) : [];
+    for (const third of thirds.length ? thirds : [null]) {
+      const last = third || second;
+      const middle = third ? second.gain * W.cell + second.lines * W.line : 0;
+      const { death, bigRoom } = boardRisk(last);
+      const closable = closableLines(last.after);
+      const closableBonus = NORMAL_CLOSABLE * closable * crowding(last.after);
+      const roomPenalty = !third && pending ? NORMAL_DEEP_BLOCK : 0;
+      const bigPenalty = NORMAL_BIG * (1 - bigRoom);
+      const total = m.gain * W.cell + clearBonus + middle + last.value + closableBonus - NORMAL_DEATH * death - roomPenalty - bigPenalty;
+      if (!best || total > best.total) {
+        best = { next: second, third, middle, death, bigRoom, bigPenalty, closable, closableBonus, roomPenalty, room: third || !pending ? 6 : 0, total };
+      }
+    }
+  }
+  if (!best) return { ...withLookahead(m, tray), deep: true, third: null };
+  // rischio per il giudizio: zero se i tre pezzi noti trovano posto, altrimenti come a due passi
+  return { ...m, ...best, deep: true, clearBonus, blockRisk: best.third || best.room === 6 ? 0 : best.death * best.death };
 }
 
 /** Posizioni (fino a 6) del pezzo noto che resta nel vassoio dopo la mossa e la seconda mossa. */
@@ -214,8 +263,9 @@ function blockRisk(m, next, tray, death) {
 /** Le LOOKAHEAD mosse migliori per voto, approfondite; byTotal[0] è il suggerimento. */
 function normalCandidates(grid, tray, streak) {
   const moves = rankedMoves(grid, tray, streak);
-  const byValue = moves.slice(0, LOOKAHEAD).map((m) => withLookahead(m, tray));
-  return { totalMoves: moves.length, byValue, byTotal: [...byValue].sort((a, b) => b.total - a.total) };
+  const deep = isDeep(grid);
+  const byValue = moves.slice(0, LOOKAHEAD).map((m) => withLookahead(m, tray, deep));
+  return { totalMoves: moves.length, deep, byValue, byTotal: [...byValue].sort((a, b) => b.total - a.total) };
 }
 
 // ---------------------------------------------------------------------------
@@ -452,7 +502,7 @@ export function analyzePlayedMove({ grid, tray, streak, expert, idx, q, r }) {
     move = { idx, q, r, piece, cells: piece.cells, lines: sequence.path[0].lines, total: sequence.v, sequence };
   } else {
     const candidate = rankedMoves(grid, tray, streak).find((m) => m.idx === idx && m.q === q && m.r === r);
-    move = withLookahead(candidate, tray);
+    move = withLookahead(candidate, tray, isDeep(grid));
   }
   return { ...analysis, moves: [...analysis.moves, { ...move, played: true, added: true }] };
 }
@@ -480,6 +530,7 @@ export function slimAnalysis(analysis) {
       ...(m.played !== undefined ? { played: m.played } : {}),
       ...(m.added ? { added: true } : {}),
       ...(m.next !== undefined ? { next: placement(m.next) } : {}),
+      ...(m.deep ? { deep: true, middle: m.middle, third: placement(m.third) } : {}),
       ...(m.sequence ? { sequence: {
         path: m.sequence.path.map(({ piece, q, r, gain, lines }) => ({ piece, q, r, gain, lines })),
         acc: m.sequence.acc, score: m.sequence.score, board: m.sequence.board,

@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import HexGrid from "../../game/HexGrid.js";
 import { PIECES, randomTray, seededRandom, SHAPES } from "../../game/pieces.js";
-import { analyzeMoves, closableLines, analyzePlayedMove, bestMove, explainNormal, explainQueue, NORMAL_BIG_PENALTY, NORMAL_BIG_SHAPES, NORMAL_CLEAR_BONUS, NORMAL_CLOSABLE_BONUS, NORMAL_RISK, NORMAL_ROOM_PENALTY, QUEUE_PARAMS, slimAnalysis } from "../../game/strategy.js";
+import { analyzeMoves, closableLines, analyzePlayedMove, bestMove, explainNormal, explainQueue, NORMAL_BIG_PENALTY, NORMAL_BIG_SHAPES, NORMAL_CLEAR_BONUS, NORMAL_CLOSABLE_BONUS, NORMAL_DEEP, NORMAL_RISK, NORMAL_ROOM_PENALTY, QUEUE_PARAMS, slimAnalysis } from "../../game/strategy.js";
 import { judgeMove } from "../../game/moveJudgment.js";
 import { pairedCompare, playGame, playGames, seedFor } from "../../scripts/sim-lib.mjs";
 
@@ -215,13 +215,59 @@ describe("modalità normale: premio per lo svuotamento", () => {
       const { grid: g, tray } = midGame(seed, 30);
       for (const m of explainNormal(g, tray, 0).byTotal) {
         if (!m.next) continue;
-        expect(m.closable).toBeCloseTo(closableLines(m.next.after));
-        const filled = [...m.next.after.cells.values()].filter(Boolean).length;
+        // tabellone finale: dopo la seconda mossa, o dopo la terza nella zona di pericolo
+        const final = (m.third || m.next).after;
+        expect(m.closable).toBeCloseTo(closableLines(final));
+        const filled = [...final.cells.values()].filter(Boolean).length;
         expect(m.closableBonus).toBeCloseTo(NORMAL_CLOSABLE_BONUS * m.closable * filled / 61);
         total += m.closable;
       }
     }
     expect(total).toBeGreaterThan(0);
+  });
+});
+
+describe("modalità normale: tre pezzi noti nella zona di pericolo", () => {
+  /** Posizioni affollate da partite con seme: una con meno di NORMAL_DEEP.free celle libere. */
+  function crowded(seed) {
+    for (let moves = 20; moves < 400; moves += 5) {
+      const pos = midGame(seed, moves);
+      const free = [...pos.grid.cells.values()].filter((v) => !v).length;
+      if (free < NORMAL_DEEP.free) return pos;
+    }
+    return null;
+  }
+
+  it("si attiva solo sotto la soglia di celle libere", () => {
+    expect(explainNormal(new HexGrid(4), randomTray(seededRandom(3)), 0).deep).toBe(false);
+    const pos = crowded(2);
+    expect(pos).not.toBeNull();
+    expect(explainNormal(pos.grid, pos.tray, 0).deep).toBe(true);
+  });
+
+  it("il totale è la migliore sequenza di tre mosse, con il tabellone finale giudicato come a due passi", () => {
+    let checked = 0;
+    for (const seed of [2, 5, 8]) {
+      const pos = crowded(seed);
+      if (!pos) continue;
+      for (const m of explainNormal(pos.grid, pos.tray, 0).byTotal) {
+        if (!m.next) continue;
+        expect(m.deep).toBe(true);
+        const last = m.third || m.next;
+        const middle = m.third ? m.next.gain + m.next.lines * 60 : 0;
+        expect(m.middle).toBeCloseTo(middle);
+        expect(m.total).toBeCloseTo(m.gain + m.clearBonus + middle + last.value + m.closableBonus
+          - NORMAL_RISK * m.death - m.roomPenalty - m.bigPenalty);
+        // il terzo pezzo usa il pezzo rimasto del vassoio, e va dove entra
+        if (m.third) {
+          expect(m.third.idx).not.toBe(m.idx);
+          expect(m.third.idx).not.toBe(m.next.idx);
+          expect(m.roomPenalty).toBe(0);
+        } else expect(m.roomPenalty).toBe(NORMAL_DEEP.block);
+        checked++;
+      }
+    }
+    expect(checked).toBeGreaterThan(10);
   });
 });
 

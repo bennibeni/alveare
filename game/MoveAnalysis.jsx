@@ -68,7 +68,9 @@ function AnalysisContent({ grid, tray, streak, expert, playedMove, playedAnalysi
                   <p className="text-xs text-slate-400">
                     {expert
                       ? `Sequenza di ${move.sequence.path.length} mosse: ${fmt(move.sequence.acc, 3)}; tabellone finale: ${fmt(move.sequence.board, 3)}; rischio e spazio per il pezzo successivo: ${fmt(move.sequence.unknown.value, 3)}.`
-                      : `Bonus della prima mossa: ${fmt(move.gain, 3)}; ${move.next ? `valutazione della migliore seconda mossa: ${fmt(move.next.value, 3)}` : "nessuna seconda mossa disponibile: penalità −10.000"}.`}
+                      : move.deep && move.next
+                        ? `Griglia affollata, sequenza con i tre pezzi noti. Bonus della prima mossa: ${fmt(move.gain, 3)}; ${move.third ? `seconda mossa: ${fmt(move.middle, 3)}; valutazione della terza: ${fmt(move.third.value, 3)}` : `valutazione della seconda: ${fmt(move.next.value, 3)}; il terzo pezzo non entra: penalità −1.000`}.`
+                        : `Bonus della prima mossa: ${fmt(move.gain, 3)}; ${move.next ? `valutazione della migliore seconda mossa: ${fmt(move.next.value, 3)}` : "nessuna seconda mossa disponibile: penalità −10.000"}.`}
                   </p>
                 </div>
               </li>
