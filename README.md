@@ -254,6 +254,26 @@ Semi `7000` (20) e `13000` (30). Con un fascio per ogni prima mossa la ricerca t
 svuotano linee, e con la penalità per il pezzo ignoto a 400 le partite si accorciavano: è passata a
 1.200 (su 30 partite: 400 → durata media 310, 800 → 378, 1.200 → 434, 1.600 → 428; precedente 402).
 
+### Archivio di posizioni affollate
+
+`data/archivio-affollate.json` raccoglie 260 posizioni della modalità normale con meno di 36 celle
+libere e un esito che **dipende dalla mossa scelta**: fra le 4 migliori mosse iniziali della strategia,
+con gli stessi pezzi futuri, qualcuna arriva a 20 mosse e qualcuna si blocca prima. Serve per misurare
+in poco tempo, e proprio dove si decidono le partite, se una strategia sceglie meglio.
+
+- **Fonti:** partite della strategia attuale (27 posizioni), della strategia attuale con una mossa su
+  tre casuale (115) e della strategia prima dei premi per le linee (118). Semi diversi da quelli di
+  taratura e verifica delle partite intere.
+- **Taratura e verifica:** divise per partita di origine, una partita su tre in verifica (172 e 88).
+- **Quante servono:** su 3.900 posizioni affollate solo il 7% era decisiva; l'86% si salvava con
+  qualunque delle migliori mosse, il 7% si perdeva comunque.
+- **Riferimento:** con la strategia attuale (commit indicato in `strategyCommit`) la mossa suggerita
+  si salva in 221 posizioni su 260. Gli esiti salvati dipendono dalla strategia usata per continuare.
+
+Ogni posizione ha le celle occupate (coordinate e numeri del giudizio), i tre pezzi del vassoio, la
+combo, il seme dei pezzi futuri (`futureSeed`) e l'esito delle mosse iniziali provate. Per rigenerarlo
+o ingrandirlo: `scripts/crowded-archive.mjs` (istruzioni in testa al file).
+
 ### Come misurare
 
 Per un controllo servono decine di partite: con 6 partite il risultato dipende soprattutto da quali
