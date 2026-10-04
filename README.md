@@ -135,53 +135,75 @@ tests/e2e/            test Playwright
 
 ## Risultati di riferimento (simulatore)
 
-Confronto appaiato (stessi pezzi per le due strategie) fra la versione precedente e quella attuale.
-Le partite hanno durate molto variabili, da poche decine a oltre mille pezzi: le differenze fra le
-medie non sono statisticamente significative con questo numero di partite.
+Confronto appaiato: con lo stesso seme le strategie ricevono gli stessi pezzi nello stesso ordine.
+Le partite hanno durate molto variabili, da poche decine a oltre mille pezzi, quindi una differenza
+è credibile solo su molte partite; il dato più stabile sono i punti per pezzo.
 
-| Modalità | Partite | Strategia | Durata media | Durata mediana | Punti medi | Punti per pezzo |
-|---|---|---|---|---|---|---|
-| normale | 60, max 1.000 pezzi | originale (6 candidate, senza rischio) | 286 | 219 | 2.896 | 10,13 |
-| normale | 60, max 1.000 pezzi | 6 candidate, rischio 400 | 373 | 301 | 3.834 | 10,29 |
-| normale | 60, max 1.000 pezzi | 20 candidate, rischio 1.600 | 433 | 357 | 5.226 | 12,06 |
-| normale | 60, max 1.000 pezzi | **attuale** (+ spazio per il pezzo rimasto) | 486 | 349 | 5.938 | 12,21 |
-| Esperto | 50, max 3.000 pezzi | precedente (un fascio per tutte le prime mosse) | 369 | 310 | 3.434 | 9,30 |
-| Esperto | 50, max 3.000 pezzi | **attuale** (un fascio per prima mossa) | 400 | 266 | 4.306 | 10,76 |
+### Modalità normale
 
-Semi usati: normale `--seed 7000`, `9000` e `11000` (20 partite ciascuno); Esperto `7000` (20) e
-`13000` (30). Nessuna strategia è immortale: anche in modalità normale quasi tutte le partite finiscono
-(la versione attuale ne porta 10 su 60 al limite dei 1.000 pezzi).
+60 partite di taratura (semi `7000`, `9000`, `11000`, 20 ciascuno, al massimo 1.000 pezzi):
 
-In modalità normale il suggerimento approfondisce 20 candidate invece di 6: il voto a un passo, usato
-per sceglierle, prevede male il totale finale, e con 6 il suggerimento era il migliore secondo il suo
-stesso criterio solo nel 59% delle posizioni (87% con 20). Con più candidate la ricerca trova più
-combinazioni che rendono punti; la penalità per il pezzo in arrivo è passata da 400 a 1.600 per non
-accorciare le partite (provati 400, 800, 1.600, 2.400, 3.200: durata media 364, 380, 433, 396, 371).
-Analisi e giudizio mostrano e confrontano le 6 migliori per totale.
+| Strategia | Durata media | Durata mediana | Punti medi | Punti per pezzo | Arrivate a 1.000 |
+|---|---|---|---|---|---|
+| originale (6 candidate, senza rischio) | 286 | 219 | 2.896 | 10,13 | 0 |
+| 6 candidate, rischio 400 | 373 | 301 | 3.834 | 10,29 | 5 |
+| 20 candidate, rischio 1.600 | 433 | 357 | 5.226 | 12,06 | 10 |
+| + spazio per il pezzo rimasto | 486 | 349 | 5.938 | 12,21 | 14 |
+| **attuale: + spazio per rombo e ferro di cavallo** | **670** | **735** | **8.188** | **12,23** | **23** |
 
-Il totale toglie anche 200 × (1 − posizioni del pezzo noto che resta nel vassoio dopo le due mosse / 6).
-Motivo, dai dati di 26.000 posizioni simulate: se i due pezzi tenuti nel vassoio hanno al massimo 3
-posizioni sul tabellone la partita si perde entro 5 mosse nel 1–2% dei casi, contro lo 0,1% con almeno
-4 posizioni; con due pezzi identici (stesso orientamento, non punti) senza posizioni si perde nel 55%
-dei casi (33 posizioni osservate). Su 200 partite appaiate (140 mai usate per la taratura): durata
-media 420 → 481, mediana 347 → 397, meglio in 113 partite e peggio in 83 (test del segno p ≈ 0,03).
-Sui 6 semi del comando rapido, però, va peggio: le singole partite variano moltissimo.
+Verifica su 140 partite mai usate per la taratura (semi da `13000` a `25000`):
 
-Con la nuova ricerca Esperto la penalità per il pezzo ignoto è passata da 400 a 1.200: con un fascio
-per ogni prima mossa la ricerca trova più sequenze che svuotano linee, e con la penalità a 400 le partite
-si accorciavano (durata media 309 sulle stesse 50 partite). Su 30 partite: 400 → durata media 310,
-800 → 378, 1.200 → 434, 1.600 → 428 (precedente: 402).
+| Strategia | Durata media | Durata mediana | Arrivate a 1.000 | Meglio / peggio |
+|---|---|---|---|---|
+| + spazio per il pezzo rimasto | 479 | 416 | 24 | — |
+| **attuale** | **604** | **653** | **44** | **73 / 58** |
 
-Comando rapido (circa 30 secondi):
+Rispetto all'originale, sulle 60 partite di taratura la versione attuale dura di più in 48 partite e di
+meno in 12. Con un terzo delle partite fermate al limite dei 1.000 pezzi, i guadagni sono sottostimati.
+
+Che cosa fa il suggerimento in modalità normale, e perché:
+
+- **20 candidate invece di 6.** Il voto a un passo, usato per sceglierle, prevede male il totale finale:
+  con 6 il suggerimento era il migliore secondo il suo stesso criterio solo nel 59% delle posizioni
+  (87% con 20). Analisi e giudizio mostrano e confrontano le 6 migliori per totale.
+- **Rischio del pezzo in arrivo: 1.600 × probabilità** che un pezzo estratto a caso non entri dopo le
+  due mosse (provati 400, 800, 1.600, 2.400, 3.200: durata media 364, 380, 433, 396, 371).
+- **Spazio per il pezzo che resta nel vassoio: 200 × (1 − posizioni / 6).** Su 26.000 posizioni
+  simulate, se i due pezzi tenuti hanno al massimo 3 posizioni la partita si perde entro 5 mosse nel
+  1–2% dei casi, contro lo 0,1% con almeno 4; con due pezzi identici (stesso orientamento, non punti)
+  senza posizioni si perde nel 55% dei casi. Su 200 partite: durata media 420 → 481 (113 meglio, 83 peggio).
+- **Spazio per rombo e ferro di cavallo: 1.000 × (1 − spazio).** Nel vassoio a fine partita queste due
+  forme sono il 31–32% dei pezzi, contro il 22% con cui escono (98 partite perse): sono compatte e
+  servono buchi «a blocco», mentre alla fine restano in media 25 celle libere ma sparpagliate.
+  Spazio = media, pesata con le probabilità di uscita, di min(posizioni, 6) / 6 sui loro orientamenti.
+  Provati 200, 500, 1.000, 2.000 (durata media 557, 554, 670, 610) e la stessa misura su tutti i
+  pezzi (300 e 1.000: 599 e 629).
+
+### Modalità Esperto
+
+| Partite | Strategia | Durata media | Durata mediana | Punti medi | Punti per pezzo |
+|---|---|---|---|---|---|
+| 50, max 3.000 pezzi | precedente (un fascio per tutte le prime mosse) | 369 | 310 | 3.434 | 9,30 |
+| 50, max 3.000 pezzi | **attuale** (un fascio per prima mossa) | 400 | 266 | 4.306 | 10,76 |
+
+Semi `7000` (20) e `13000` (30). Con un fascio per ogni prima mossa la ricerca trova più sequenze che
+svuotano linee, e con la penalità per il pezzo ignoto a 400 le partite si accorciavano: è passata a
+1.200 (su 30 partite: 400 → durata media 310, 800 → 378, 1.200 → 434, 1.600 → 428; precedente 402).
+
+### Come misurare
+
+Per un controllo servono decine di partite: con 6 partite il risultato dipende soprattutto da quali
+pezzi capitano (sui 6 semi del vecchio comando rapido una versione migliore su 200 partite andava peggio).
 
 ```bash
-npm run sim -- --mode normal --games 6 --max 1000   # seme 7000: mediana 200, media 229 (sei partite sfortunate)
+npm run sim -- --mode normal --games 30 --seed 19000   # attuale: media 536, mediana 481, 9 a 1.000 (circa 3 minuti)
+npm run sim -- --mode normal --games 6 --max 1000      # prova veloce, seme 7000: 613, 1000, 266, 83, 627, 287
 ```
 
-I test di regressione in `tests/unit/strategy.test.js` bloccano il comportamento attuale della strategia: se la
-si modifica di proposito, si misurano i nuovi risultati con `npm run sim` e si aggiornano i valori attesi.
-Sono fotografie di poche partite, non misure di qualità: per confrontare due strategie servono molte
-partite appaiate (`pairedCompare` in `scripts/sim-lib.mjs`).
+Per confrontare due versioni, lancia lo stesso comando prima e dopo la modifica: con lo stesso seme le
+partite sono appaiate. I test di regressione in `tests/unit/strategy.test.js` bloccano il comportamento
+attuale: se si cambia la strategia di proposito, si aggiornano i valori attesi. Sono fotografie di poche
+partite, non misure di qualità (`pairedCompare` in `scripts/sim-lib.mjs` confronta partita per partita).
 
 ## Nota
 

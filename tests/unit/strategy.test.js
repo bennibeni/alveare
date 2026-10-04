@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import HexGrid from "../../game/HexGrid.js";
 import { PIECES, randomTray, seededRandom, SHAPES } from "../../game/pieces.js";
-import { analyzeMoves, analyzePlayedMove, bestMove, explainNormal, explainQueue, NORMAL_RISK, NORMAL_ROOM_PENALTY, QUEUE_PARAMS, slimAnalysis } from "../../game/strategy.js";
+import { analyzeMoves, analyzePlayedMove, bestMove, explainNormal, explainQueue, NORMAL_BIG_PENALTY, NORMAL_BIG_SHAPES, NORMAL_RISK, NORMAL_ROOM_PENALTY, QUEUE_PARAMS, slimAnalysis } from "../../game/strategy.js";
 import { judgeMove } from "../../game/moveJudgment.js";
 import { pairedCompare, playGame, playGames, seedFor } from "../../scripts/sim-lib.mjs";
 
@@ -30,7 +30,7 @@ describe("classifica delle mosse approfondite", () => {
         expect(extra.moves.at(-1).total).toBeCloseTo(leaf.acc + leaf.board + leaf.unknown.value);
       } else {
         const m = extra.moves.at(-1);
-        expect(m.total).toBeCloseTo(m.gain + (m.next ? m.next.value - NORMAL_RISK * m.death - m.roomPenalty : -10000));
+        expect(m.total).toBeCloseTo(m.gain + (m.next ? m.next.value - NORMAL_RISK * m.death - m.roomPenalty - m.bigPenalty : -10000));
       }
       expect(bestMove(grid, tray, 2, { queue: expert })).toEqual({ idx: top.idx, q: top.q, r: top.r, cells: top.cells });
     });
@@ -88,6 +88,9 @@ function midGame(seed, moves = 15) {
     grid = grid.play(tray[m.idx].cells, m.q, m.r).grid;
     tray = tray.map((p, j) => (j === m.idx ? PIECES[Math.floor(rng() * PIECES.length)] : p));
   }
+  // i test Esperto giocano il primo pezzo: mette in testa un pezzo che entra
+  const first = tray.findIndex((p) => grid.fits(p.cells));
+  if (first > 0) tray = [tray[first], ...tray.filter((_, j) => j !== first)];
   return { grid, tray };
 }
 
@@ -153,6 +156,28 @@ describe("modalità normale: spazio per il pezzo che resta nel vassoio", () => {
         expect(m.roomPenalty).toBeCloseTo(NORMAL_ROOM_PENALTY * (1 - m.room / 6));
       }
     }
+  });
+});
+
+describe("modalità normale: spazio per rombo e ferro di cavallo", () => {
+  it("è la media pesata di min(posizioni, 6) / 6 sugli orientamenti di rombo e ferro di cavallo", () => {
+    const weight = (p) => p.weight;
+    for (let seed = 1; seed <= 3; seed++) {
+      const { grid, tray } = midGame(seed, 25);
+      for (const m of analyzeMoves(grid, tray, 0).moves) {
+        if (!m.next) continue;
+        const big = PIECES.filter((p) => NORMAL_BIG_SHAPES.includes(p.name));
+        const expected = big.reduce((s, p) => s + weight(p) * Math.min(6, m.next.after.placementsFor(p.cells).length) / 6, 0)
+          / big.reduce((s, p) => s + weight(p), 0);
+        expect(m.bigRoom).toBeCloseTo(expected);
+        expect(m.bigPenalty).toBeCloseTo(NORMAL_BIG_PENALTY * (1 - expected));
+      }
+    }
+  });
+
+  it("su un tabellone vuoto non penalizza: rombi e ferri hanno spazio ovunque", () => {
+    const tray = randomTray(seededRandom(23));
+    for (const m of analyzeMoves(new HexGrid(4), tray, 0).moves) expect(m.bigPenalty).toBeCloseTo(0);
   });
 });
 
@@ -256,8 +281,8 @@ describe("prestazioni e regressioni (simulazioni con seme)", () => {
 
   // Valori di riferimento della strategia attuale. Se si cambia la strategia di
   // proposito, questi numeri vanno aggiornati (dopo averla misurata con npm run sim).
-  it("regressione · normale, seme 555, 60 pezzi: 559 punti, 29 linee", () => {
-    expect(playGame({ mode: "normal", seed: 555, maxMoves: 60 })).toEqual({ seed: 555, pieces: 60, points: 559, lines: 29, lost: false });
+  it("regressione · normale, seme 555, 60 pezzi: 613 punti, 31 linee", () => {
+    expect(playGame({ mode: "normal", seed: 555, maxMoves: 60 })).toEqual({ seed: 555, pieces: 60, points: 613, lines: 31, lost: false });
   });
 
   it("regressione · Esperto, seme 7097: 52 pezzi, 561 punti", () => {
@@ -272,9 +297,9 @@ describe("prestazioni e regressioni (simulazioni con seme)", () => {
 
   // Fotografia di tre partite, non una misura di qualità: anche la strategia migliore perde
   // alcune partite presto (vedi README). La qualità si misura con molte partite (`npm run sim`).
-  it("regressione · normale, semi 1, 98, 195: 32 (persa), 146 (persa), 150 pezzi", () => {
+  it("regressione · normale, semi 1, 98, 195: tutte e tre a 150 pezzi", () => {
     expect(playGames({ mode: "normal", games: 3, maxMoves: 150, seed: 1 }).map((r) => [r.pieces, r.lost]))
-      .toEqual([[32, true], [146, true], [150, false]]);
+      .toEqual([[150, false], [150, false], [150, false]]);
   });
 
   it("pairedCompare conta vittorie, sconfitte e pareggi partita per partita", () => {

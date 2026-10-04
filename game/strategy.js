@@ -10,7 +10,8 @@
  * 2. Guarda una mossa avanti: per le 20 mosse migliori prova anche la migliore
  *    mossa successiva con gli altri due pezzi del vassoio, e sceglie la coppia
  *    che rende di più.
- * 3. Toglie al totale 200 × (1 − posizioni del pezzo noto rimasto / 6, fino a 6) e
+ * 3. Toglie al totale 1.000 × (1 − spazio per rombo e ferro di cavallo), 200 × (1 −
+ *    posizioni del pezzo noto rimasto / 6, fino a 6) e
  *    1.600 × la probabilità che un pezzo estratto a caso non entri
  *    nel tabellone dopo le due mosse: i pezzi in arrivo sono ignoti, ma un tabellone
  *    in cui molte forme non entrano più è un tabellone pericoloso.
@@ -32,6 +33,12 @@ const NORMAL_DEATH = 1600;
 // Penalità × (1 − posizioni del pezzo noto rimasto / 6) dopo le due mosse: un pezzo che resta nel
 // vassoio con poco spazio sul tabellone è il primo passo verso il blocco (vedi README).
 const NORMAL_ROOM = 200;
+// Penalità × (1 − spazio per rombo e ferro di cavallo) dopo le due mosse. Sono le forme compatte
+// che fanno perdere più spesso (31–32% dei pezzi nel vassoio a fine partita, contro il 22% di
+// uscita): servono buchi "a blocco". Spazio = media pesata con le probabilità di uscita di
+// min(posizioni, 6) / 6 sui loro orientamenti. Valore scelto con il simulatore (vedi README).
+const NORMAL_BIG = 1000;
+const BIG_SHAPES = new Set(["rombo", "ferro di cavallo"]);
 
 // Delle candidate approfondite, l'analisi e il giudizio confrontano le migliori NORMAL_SHOWN per
 // totale (più la mossa giocata): le stesse che vede il giocatore, con la calibrazione del giudizio.
@@ -43,6 +50,8 @@ export const NORMAL_LOOKAHEAD = LOOKAHEAD;
 export const NORMAL_ANALYSIS = NORMAL_SHOWN;
 export const NORMAL_RISK = NORMAL_DEATH;
 export const NORMAL_ROOM_PENALTY = NORMAL_ROOM;
+export const NORMAL_BIG_PENALTY = NORMAL_BIG;
+export const NORMAL_BIG_SHAPES = [...BIG_SHAPES];
 
 function boardFeatures(g) {
   let holes = 0;
@@ -102,12 +111,20 @@ function rankedMoves(grid, tray, streak) {
   return moves.sort((a, b) => b.value - a.value);
 }
 
-/** Probabilità che un pezzo estratto a caso non entri nel tabellone dopo le due mosse.
- * Non è la probabilità di fine partita (il vassoio ha tre pezzi), ma misura quanto il
- * tabellone è diventato stretto. Provata anche la stima "esatta" della fine partita
- * (pezzo noto rimasto che non entra × probabilità al quadrato): rendeva meno. */
-function normalDeath(next) {
-  return pieceAvailability(next.after, 1).death;
+/** Dopo le due mosse: probabilità che un pezzo estratto a caso non entri (death) e spazio per
+ * rombo e ferro di cavallo (bigRoom, 0..1). death non è la probabilità di fine partita (il vassoio
+ * ha tre pezzi), ma misura quanto il tabellone è diventato stretto. Provata anche la stima
+ * "esatta" della fine partita (pezzo noto rimasto che non entra × probabilità al quadrato):
+ * rendeva meno. */
+function boardRisk(next) {
+  const { death, pieces } = pieceAvailability(next.after, 6);
+  let weight = 0, room = 0;
+  for (const p of pieces) {
+    if (!BIG_SHAPES.has(p.name)) continue;
+    weight += p.p;
+    room += p.p * Math.min(6, p.placements) / 6;
+  }
+  return { death, bigRoom: room / weight };
 }
 
 /** Totale di una candidata: punti della prima mossa + voto della migliore seconda
@@ -115,11 +132,12 @@ function normalDeath(next) {
 function withLookahead(m, tray) {
   const rest = tray.map((p, i) => (i === m.idx ? null : p));
   const next = rankedMoves(m.after, rest, m.nextStreak)[0] || null;
-  const death = next ? normalDeath(next) : 1;
+  const { death, bigRoom } = next ? boardRisk(next) : { death: 1, bigRoom: 0 };
   const room = next ? remainingRoom(m, next, tray) : 0;
   const roomPenalty = NORMAL_ROOM * (1 - room / 6);
-  const total = m.gain * W.cell + (next ? next.value - NORMAL_DEATH * death - roomPenalty : -10000);
-  return { ...m, next, death, room, roomPenalty, blockRisk: next ? blockRisk(m, next, tray, death) : null, total };
+  const bigPenalty = NORMAL_BIG * (1 - bigRoom);
+  const total = m.gain * W.cell + (next ? next.value - NORMAL_DEATH * death - roomPenalty - bigPenalty : -10000);
+  return { ...m, next, death, room, roomPenalty, bigRoom, bigPenalty, blockRisk: next ? blockRisk(m, next, tray, death) : null, total };
 }
 
 /** Posizioni (fino a 6) del pezzo noto che resta nel vassoio dopo la mossa e la seconda mossa. */
@@ -404,6 +422,7 @@ export function slimAnalysis(analysis) {
       ...(m.death !== undefined ? { death: m.death } : {}),
       ...(m.blockRisk !== undefined ? { blockRisk: m.blockRisk } : {}),
       ...(m.roomPenalty !== undefined ? { room: m.room, roomPenalty: m.roomPenalty } : {}),
+      ...(m.bigPenalty !== undefined ? { bigRoom: m.bigRoom, bigPenalty: m.bigPenalty } : {}),
       ...(m.played !== undefined ? { played: m.played } : {}),
       ...(m.added ? { added: true } : {}),
       ...(m.next !== undefined ? { next: placement(m.next) } : {}),
