@@ -179,7 +179,8 @@ Le partite hanno durate molto variabili, da poche decine a oltre mille pezzi, qu
 | + spazio per il pezzo rimasto | 486 | 349 | 5.938 | 12,21 | 14 |
 | + spazio per rombo e ferro di cavallo | 670 | 735 | 8.188 | 12,23 | 23 |
 | + premio per le linee svuotate | 852 | 1.000 | 8.982 | 10,54 | 43 |
-| **attuale: + premio per le linee chiudibili** | **904** | **1.000** | **9.591** | **10,61** | **46** |
+| + premio per le linee chiudibili | 904 | 1.000 | 9.591 | 10,61 | 46 |
+| **attuale: + tre pezzi noti con la griglia affollata** | **966** | **1.000** | **10.312** | **10,68** | **56** |
 
 Verifica su 140 partite mai usate per la taratura (semi da `13000` a `25000`):
 
@@ -188,13 +189,20 @@ Verifica su 140 partite mai usate per la taratura (semi da `13000` a `25000`):
 | + spazio per il pezzo rimasto | 479 | 416 | 24 | — |
 | + spazio per rombo e ferro di cavallo | 604 | 653 | 44 | 73 / 58 |
 | + premio per le linee svuotate | 832 | 1.000 | 96 | 87 / 28 |
-| **attuale: + premio per le linee chiudibili** | **879** | **1.000** | **110** | **86 / 19** |
+| + premio per le linee chiudibili | 879 | 1.000 | 110 | 86 / 19 |
+| **attuale: + tre pezzi noti con la griglia affollata** (100 partite) | **952** | **1.000** | **88 su 100** | **19 / 11** |
 
-«Meglio / peggio» confronta ogni riga con la precedente; per l'attuale, con la versione senza i due premi
-per le linee (rapporto delle durate 1,77, intervallo al 95% 1,47–2,13). Il premio per le linee chiudibili,
+«Meglio / peggio» confronta ogni riga con la precedente; per i due premi per le linee, con la versione
+senza (rapporto delle durate 1,77, intervallo al 95% 1,47–2,13). Il premio per le linee chiudibili,
 aggiunto al premio per le linee svuotate, vale circa +11% su 200 partite (55 meglio, 38 peggio; intervallo
 0,98–1,25: credibile ma non certo). Con tre quarti delle partite fermate al limite dei 1.000 pezzi, i
 guadagni sono sottostimati.
+
+I tre pezzi noti sono stati verificati su 100 delle 140 partite nuove (semi `13000`, `15000`, `17000`,
+`21000`, `23000`): partite perse da 19 a 12, meglio in 19 e peggio in 11 (rapporto delle durate 1,12,
+intervallo 0,98–1,29). Con le 60 partite di taratura (perse da 14 a 4, meglio 13, peggio 4): 32 meglio e
+15 peggio su 160 partite, test dei segni p ≈ 0,02. Sulle 30 partite del seme `19000`, rimaste fuori dalla
+verifica interrotta, le partite perse sono passate da 9 a 1.
 
 Che cosa fa il suggerimento in modalità normale, e perché:
 
@@ -223,6 +231,17 @@ Che cosa fa il suggerimento in modalità normale, e perché:
   chiudere con una sola mossa: premia le mosse che preparano uno svuotamento. Da solo rende poco (100 e
   300: 705 e 753); insieme al premio per le linee svuotate, 100 rende più di 300 (904 e 830). Contare
   le linee che può chiudere il pezzo rimasto nel vassoio non ha dato miglioramenti (675).
+- **Tre pezzi noti con la griglia affollata (meno di 36 celle libere).** Su 26.000 mosse simulate il
+  rischio di perdere entro 10 mosse è ≤ 0,1% con almeno 40 celle libere, 0,4% con 36–39, 1,8% con
+  32–35, 5% con 28–31, 12% con 24–27. Sotto le 36 la strategia prova, per ogni candidata, le 5 migliori
+  seconde mosse e per ognuna le 3 migliori terze mosse con il pezzo rimasto; il tabellone finale si
+  giudica come quello dopo la seconda mossa, con penalità 1.000 se il terzo pezzo non entra. Sono meno
+  di una mossa su dieci, quindi il tempo per mossa cresce poco. Provati: soglia 40 (952, 7 perse),
+  ricerca più larga 8 × 5 (941, 6 perse), penalità 300 (941, 6 perse) e 1.000 (966, 4 perse).
+- **Provati e scartati:** premio per le celle libere dopo le due mosse (854 e 811), linee della
+  seconda mossa premiate con l'affollamento (726 e 612), premio esponenziale con le celle libere al
+  posto di quello lineare (851 e 850). Tenere la griglia vuota non è un obiettivo in sé, e premiare lo
+  svuotamento alla mossa successiva fa rimandare.
 
 ### Modalità Esperto
 
@@ -238,11 +257,12 @@ svuotano linee, e con la penalità per il pezzo ignoto a 400 le partite si accor
 ### Come misurare
 
 Per un controllo servono decine di partite: con 6 partite il risultato dipende soprattutto da quali
-pezzi capitano (sui 6 semi del vecchio comando rapido una versione migliore su 200 partite andava peggio).
+pezzi capitano. Succede anche ora: sui 6 semi del comando rapido la versione con i tre pezzi noti perde due
+partite che la versione precedente portava a 1.000, ma su 160 partite ne perde la metà.
 
 ```bash
-npm run sim -- --mode normal --games 30 --seed 19000   # attuale: media 829, mediana 1000, 21 a 1.000 (circa 12 minuti)
-npm run sim -- --mode normal --games 6 --max 1000      # prova veloce, seme 7000: tutte e 6 a 1.000 (circa 3 minuti)
+npm run sim -- --mode normal --games 30 --seed 19000   # attuale: media 981, 29 a 1.000, 1 persa (circa 15 minuti)
+npm run sim -- --mode normal --games 6 --max 1000      # prova veloce, seme 7000: 1000, 299, 1000, 1000, 1000, 860
 ```
 
 Per confrontare due versioni, lancia lo stesso comando prima e dopo la modifica: con lo stesso seme le

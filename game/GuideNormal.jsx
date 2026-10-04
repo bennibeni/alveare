@@ -264,7 +264,8 @@ export default function GuideNormal({ snapshot }) {
             ["+ spazio per il pezzo rimasto", "486", "349", "5.938", "12,21", "14"],
             ["+ spazio per rombo e ferro di cavallo", "670", "735", "8.188", "12,23", "23"],
             ["+ premio per le linee svuotate", "852", "1.000", "8.982", "10,54", "43"],
-            ["Attuale: + premio per le linee chiudibili", "904", "1.000", "9.591", "10,61", "46"],
+            ["+ premio per le linee chiudibili", "904", "1.000", "9.591", "10,61", "46"],
+            ["Attuale: + tre pezzi noti con la griglia affollata", "966", "1.000", "10.312", "10,68", "56"],
           ]}
         />
         <p>
@@ -273,6 +274,7 @@ export default function GuideNormal({ snapshot }) {
           con cautela, su molte partite e confrontando partita per partita con gli stessi pezzi. Le ultime misure sono state controllate anche su 140 partite mai usate per la taratura:
           lo spazio per il pezzo rimasto ha portato la durata media da 414 a 479, lo spazio per rombo e ferro di cavallo da
           479 a 604, i due premi per le linee da 604 a 879 (arrivate a 1.000: da 44 a 110; meglio in 86 partite e peggio in 19).
+          I tre pezzi noti con la griglia affollata, controllati su 100 partite nuove, hanno ridotto le partite perse da 19 a 12.
           I premi per le linee fanno svuotare prima e quindi fare meno combo: i punti per pezzo scendono da 12,2 a 10,6, ma le
           partite durano tanto di più che i punti per partita salgono.
         </p>
