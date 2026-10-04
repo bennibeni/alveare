@@ -9,6 +9,8 @@
  *   node scripts/audit-judgment.mjs [--mode normal|expert] [--positions 200] [--seed 1] [--extra 3] [--json file]
  */
 import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { judgeMove, JUDGMENT_LIMITS } from "../game/moveJudgment.js";
 import { randomTray, replacePiece, seededRandom, shiftQueue } from "../game/pieces.js";
 import HexGrid from "../game/HexGrid.js";
@@ -153,7 +155,7 @@ export function checkSuggestion(pos) {
   return { hint, analysis, issues };
 }
 
-export function audit({ expert, count, seed, extra = 3 }) {
+export function audit({ expert, count, seed, extra = 3, onProgress = null }) {
   const out = { mode: expert ? "expert" : "normal", positions: 0, judged: 0, labels: {}, suggestedLabels: {}, issues: {}, examples: {} };
   out.pairs = {};
   const note = (issue, ctx) => {
@@ -163,6 +165,7 @@ export function audit({ expert, count, seed, extra = 3 }) {
   };
   for (const pos of positions({ expert, count, seed })) {
     out.positions++;
+    onProgress?.(out.positions);
     const ctx = { cells: [...pos.grid.cells].filter(([, v]) => v).map(([k]) => k), tray: pos.tray.map((p) => p?.id), streak: pos.streak, expert };
     const { hint, analysis, issues } = checkSuggestion(pos);
     issues.forEach((i) => note(i, ctx));
@@ -196,12 +199,20 @@ export function audit({ expert, count, seed, extra = 3 }) {
   return out;
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+// lanciato da riga di comando (confronto fra percorsi: funziona anche su Windows)
+const isMain = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
+if (isMain) {
   const mode = arg("mode", "normal");
-  const res = audit({ expert: mode === "expert", count: +arg("positions", 200), seed: +arg("seed", 1), extra: +arg("extra", 3) });
+  const count = +arg("positions", 200);
+  console.log(`Controllo di congruenza · modalità ${mode} · ${count} posizioni…`);
+  const started = Date.now();
+  const res = audit({
+    expert: mode === "expert", count, seed: +arg("seed", 1), extra: +arg("extra", 3),
+    onProgress: (n) => { if (n % 50 === 0 && n < count) console.log(`  ${n} posizioni controllate`); },
+  });
   const json = arg("json", null);
   if (json) fs.writeFileSync(json, JSON.stringify(res, null, 1));
-  console.log(`modalità ${res.mode} · ${res.positions} posizioni · ${res.judged} mosse giudicate`);
+  console.log(`modalità ${res.mode} · ${res.positions} posizioni · ${res.judged} mosse giudicate · ${((Date.now() - started) / 1000).toFixed(0)} s`);
   console.log("etichette:", res.labels);
   console.log("etichette del suggerimento:", res.suggestedLabels);
   console.log("mosse casuali nettamente migliori del suggerimento (non approfondite):", res.missed || 0);
