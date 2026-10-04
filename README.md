@@ -23,6 +23,7 @@ npm run dev          # http://localhost:3000
 | `npm test` | test unitari (Vitest): griglia, pezzi, strategia, regressioni |
 | `npm run test:e2e` | test nel browser (Playwright): avvia da solo build e server |
 | `npm run sim -- …` | simulatore: fa giocare l'autogioco e riassume i risultati |
+| `npm run audit -- …` | controllo di congruenza di suggerimenti e giudizi su posizioni simulate |
 
 Per i test nel browser serve Chromium di Playwright (`npx playwright install chromium`), oppure un Chromium già
 installato indicato con `PW_CHROMIUM=/percorso/chrome`.
@@ -86,28 +87,55 @@ Ogni nuova mossa parte con i dettagli chiusi, anche quando il giudizio è positi
 
 Il rapporto mostrato è `voto della mossa / massimo fra le mosse valutate`, inclusa
 la mossa aggiunta al confronto: non è una percentuale né il massimo globale di tutte
-le mosse legali. Il giudizio è euristico e considera distacco dal massimo, rango con
-ex aequo, mediana, quante alternative sono migliori/comparabili/inferiori e rischio
-di prosecuzione. I conti sono in `game/moveJudgment.js`:
+le mosse legali. Il giudizio usa **lo stesso metro del suggerimento**: l’etichetta dipende solo
+dai voti delle mosse valutate e dal rischio di blocco. Così una mossa con un voto più alto e
+non più rischio non riceve mai un giudizio peggiore di un’altra, e il suggerimento non viene
+mai criticato. I conti sono in `game/moveJudgment.js`.
 
 - La scala di confronto è il massimo fra 1, valore assoluto del massimo e della mediana;
   in questo modo anche voti zero o negativi hanno un confronto definito.
-- Alternative entro ±5% della scala sono comparabili. Il rango usa invece i punteggi
-  effettivi con una piccola tolleranza numerica per gli ex aequo.
-- Una prima scelta è notevole se almeno metà delle alternative è inferiore, il vantaggio
-  sulla mediana raggiunge il 10% della scala e non emerge un rischio elevato di prosecuzione.
-- Una scelta è segnalata negativamente se perde almeno il 30% della scala, è nella metà
-  inferiore e almeno metà delle alternative è nettamente migliore. Conta anche la perdita
-  di una prosecuzione nota o un aumento del rischio stimato di almeno 20 punti percentuali
-  rispetto alla migliore, insieme a un distacco significativo dal massimo.
+- Alternative entro ±5% della scala sono comparabili; «nettamente migliori» sono quelle con un
+  vantaggio oltre il 20% (della scala, o del valore della mossa se più grande). Il rango usa i
+  punteggi effettivi con una piccola tolleranza numerica per gli ex aequo.
 - Il rischio è la probabilità di blocco subito dopo i pezzi noti. In Esperto: il pezzo
   ignoto che segue i tre della coda non entra. In normale: dopo la mossa e la migliore
   seconda mossa, il pezzo noto rimasto non entra e nemmeno i due estratti al posto di quelli
-  giocati (probabilità per un pezzo, al quadrato). È diverso dalla penalità usata dal
-  suggerimento normale, che considera un solo pezzo nuovo.
-- Scelte obbligate, campioni di una sola candidata e alternative tutte comparabili non
-  producono segnali speciali. Si tratta di un confronto fra le candidate approfondite,
-  non di una valutazione esaustiva o appresa statisticamente.
+  giocati (probabilità per un pezzo, al quadrato).
+
+Le etichette, nell’ordine in cui si controllano:
+
+| Etichetta | Quando |
+|---|---|
+| Mossa obbligata | era l’unica mossa legale |
+| Mossa pessima / cattiva / rischiosa | rischio di blocco più alto di almeno 20 punti percentuali rispetto all’alternativa più sicura (pessima: blocco con i pezzi noti, o rischio ≥ 80%; cattiva: ≥ 50%) |
+| Occasione persa | un’alternativa vale almeno il 50% della scala in più, oppure distacco ≥ 30% con almeno due alternative nettamente migliori (e almeno due terzi delle valutate) |
+| Ottima mossa / Ottima scoperta | prima, almeno metà delle alternative inferiori, vantaggio sulla mediana ≥ 10%, rischio sotto il 20% («scoperta»: mossa che il suggerimento non aveva fra le candidate) |
+| Una mossa vale l’altra | tutte le alternative sono comparabili |
+| Migliore disponibile | prima, ma con rischio di blocco ≥ 20% |
+| Buona mossa | distacco ≤ 5% e rischio sotto il 20% |
+| Mossa giocabile | distacco ≤ 10% |
+| Mossa discreta | la maggioranza delle alternative non è migliore, oppure distacco < 20% |
+| Mossa migliorabile | tutti gli altri casi |
+
+Le osservazioni sulla posizione compaiono come **note** nei dettagli, senza cambiare l’etichetta:
+linea eliminata aumentando lo spazio, incastro pulito, pezzo da una cella consumato senza un
+netto miglioramento. Quest’ultima compare solo se un’alternativa con un voto migliore conservava
+il punto (o lo collocava eliminando linee): penalizzare nella strategia il consumo del punto senza
+linee, provato con 30 e 100 su 60 partite, non migliora (durata media 882 e 865 contro 904).
+Prima queste osservazioni potevano scavalcare il voto: un incastro o una linea eliminata
+diventavano «Buona mossa» anche con alternative nettamente migliori, e il punto consumato
+diventava «Mossa cattiva» anche quando era il suggerimento. Ora che la strategia premia già le
+linee svuotate e quelle preparate, quelle eccezioni producevano giudizi incoerenti.
+
+`npm run audit` controlla la congruenza su posizioni simulate (in parte con mosse casuali): in
+ogni posizione giudica le candidate e alcune mosse casuali e verifica che suggerimento, etichetta,
+motivazione, note e mosse nettamente migliori siano coerenti con i dati. Una versione corta gira
+fra i test (`tests/unit/coherence.test.js`).
+
+```bash
+npm run audit -- --mode normal --positions 400   # circa 2 minuti
+npm run audit -- --mode expert --positions 150
+```
 
 Il **beep è disattivato inizialmente** e si può attivare dal riquadro. Produce due brevi
 toni ascendenti/discendenti solo per le mosse evidenziate positivamente/negativamente;

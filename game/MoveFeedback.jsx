@@ -134,6 +134,7 @@ export default function MoveFeedback({ snapshot, judgment, analysis, showCopy = 
           </p>
           <p className="text-xs text-slate-400">Punteggio della mossa / massimo valutato</p>
           <p className="mt-3">{judgment.reason}</p>
+          {judgment.notes?.map((note) => <p key={note} className="mt-2 text-slate-300" data-testid="judgment-note">{note}</p>)}
           <ul className="mt-3 list-disc space-y-1 pl-4 text-xs">
             <li>Posizione: {judgment.rank}ª su {judgment.count}{judgment.tied ? `, a pari merito con ${judgment.tied} altre` : ""}.</li>
             <li>Distacco dal massimo: {fmt(judgment.gap, 3)}. Mediana: {fmt(judgment.middle, 3)}.</li>

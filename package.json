@@ -12,7 +12,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
-    "sim": "node scripts/simulate.mjs"
+    "sim": "node scripts/simulate.mjs",
+    "audit": "node scripts/audit-judgment.mjs"
   },
   "dependencies": {
     "next": "16.3.8",
