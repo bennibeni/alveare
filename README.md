@@ -133,7 +133,7 @@ motivazione, note e mosse nettamente migliori siano coerenti con i dati. Una ver
 fra i test (`tests/unit/coherence.test.js`).
 
 ```bash
-npm run audit -- --mode normal --positions 400   # circa 2 minuti
+npm run audit -- --mode normal --positions 400   # da 2 a 5 minuti, secondo il computer
 npm run audit -- --mode expert --positions 150
 ```
 
