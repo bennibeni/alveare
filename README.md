@@ -251,6 +251,15 @@ Che cosa fa il suggerimento in modalità normale, e perché:
   grandi uguali, 9 contro 4. Sull'archivio delle posizioni affollate la seconda sembrava utile (226 posizioni
   salvate contro 221): la misura sull'archivio guarda solo 20 mosse e posizioni scelte con la strategia
   attuale, quindi va sempre confermata sulle partite intere.
+- **Celle vuote che solo il punto può riempire.** Con la griglia affollata l'83% delle posizioni ha almeno
+  un gruppo isolato di 1–3 celle vuote (3,3 celle in media) e in media 4,6 celle che nessun pezzo da 4 può
+  coprire. Penalità per cella nei gruppi di 1–3: 5 e 15 (perse su 60: 4 e 10, contro 4); penalità per cella
+  non coperta da nessun pezzo da 4 (calcolo veloce con le posizioni precalcolate, 43 µs per tabellone): 10 e
+  20 (8 e 4). Nessun miglioramento: buchi, celle isolate, pezzi che entrano e sguardo a tre pezzi coprono già
+  questa debolezza. Sull'archivio la penalità 10 sembrava utile (229 posizioni salvate contro 221).
+- **Quanto si può ancora misurare.** La strategia attuale perde 4 partite su 60 di taratura (al massimo
+  1.000 pezzi): per riconoscere una riduzione di un terzo delle sconfitte servirebbero centinaia di partite,
+  oppure partite più lunghe.
 
 ### Modalità Esperto
 
