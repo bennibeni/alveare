@@ -242,6 +242,15 @@ Che cosa fa il suggerimento in modalità normale, e perché:
   seconda mossa premiate con l'affollamento (726 e 612), premio esponenziale con le celle libere al
   posto di quello lineare (851 e 850). Tenere la griglia vuota non è un obiettivo in sé, e premiare lo
   svuotamento alla mossa successiva fa rimandare.
+- **Classificazione dei vassoi** (320 partite, 205.000 mosse; sconfitte entro 10 mosse osservate contro
+  attese, con la griglia affollata): con il punto nel vassoio il rischio è molto più basso di quanto la
+  strategia stimi (punto tenuto: 0 sconfitte contro 4,8 attese; coppie tenute con il punto: rapporto
+  0,15–0,6), e due ferri di cavallo tenuti sono più pericolosi (rapporto 1,3–1,5). Trasformati in correzioni
+  della strategia con la griglia affollata (meno di 40 celle libere), questi segnali **peggiorano**: penalità
+  300 per consumare l'ultimo punto, 9 partite perse su 60 contro 4; penalità 100 per tenere due pezzi
+  grandi uguali, 9 contro 4. Sull'archivio delle posizioni affollate la seconda sembrava utile (226 posizioni
+  salvate contro 221): la misura sull'archivio guarda solo 20 mosse e posizioni scelte con la strategia
+  attuale, quindi va sempre confermata sulle partite intere.
 
 ### Modalità Esperto
 
