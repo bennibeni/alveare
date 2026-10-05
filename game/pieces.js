@@ -8,14 +8,64 @@
 // Colori: punto e barra verdi, rombo azzurro, ferro di cavallo giallo, bandiera destra rosa, sinistra arancione.
 const BASE_SHAPES = [
   { name: "punto", color: 9, weight: 0.6, cells: [[0, 0]] },
-  { name: "barra 4", color: 9, weight: 1, cells: [[0, 0], [1, 0], [2, 0], [3, 0]] },
-  { name: "rombo", color: 2, weight: 1, cells: [[0, 0], [1, 0], [0, 1], [1, 1]] },
-  { name: "ferro di cavallo", color: 7, weight: 1, cells: [[0, 0], [1, 0], [1, 1], [0, 2]] },
+  {
+    name: "barra 4",
+    color: 9,
+    weight: 1,
+    cells: [
+      [0, 0],
+      [1, 0],
+      [2, 0],
+      [3, 0],
+    ],
+  },
+  {
+    name: "rombo",
+    color: 2,
+    weight: 1,
+    cells: [
+      [0, 0],
+      [1, 0],
+      [0, 1],
+      [1, 1],
+    ],
+  },
+  {
+    name: "ferro di cavallo",
+    color: 7,
+    weight: 1,
+    cells: [
+      [0, 0],
+      [1, 0],
+      [1, 1],
+      [0, 2],
+    ],
+  },
   // Bandiera: 3 celle allineate + una quarta adiacente a due di esse (l'ultima e la penultima).
   // È chirale, quindi forma due classi di simmetria distinte (una è lo specchio dell'altra),
   // ciascuna con 6 rotazioni. Le due classi si dividono il peso di una forma.
-  { name: "bandiera destra", color: 4, weight: 0.5, cells: [[0, 0], [1, 0], [2, 0], [2, -1]] },
-  { name: "bandiera sinistra", color: 10, weight: 0.5, cells: [[0, 0], [-1, 1], [-2, 2], [0, 1]] },
+  {
+    name: "bandiera destra",
+    color: 4,
+    weight: 0.5,
+    cells: [
+      [0, 0],
+      [1, 0],
+      [2, 0],
+      [2, -1],
+    ],
+  },
+  {
+    name: "bandiera sinistra",
+    color: 10,
+    weight: 0.5,
+    cells: [
+      [0, 0],
+      [-1, 1],
+      [-2, 2],
+      [0, 1],
+    ],
+  },
 ];
 
 export const PIECE_COLORS = [
@@ -45,7 +95,10 @@ export function normalize(cells) {
   return sorted.map(([q, r]) => [q - oq + 0, r - or + 0]);
 }
 
-const sig = (cells) => normalize(cells).map((c) => c.join(",")).join(";");
+const sig = (cells) =>
+  normalize(cells)
+    .map((c) => c.join(","))
+    .join(";");
 
 export function rotations(cells) {
   const out = [];
@@ -115,7 +168,10 @@ export function randomTray(rng = Math.random) {
 /** Centro geometrico di un pezzo in coordinate assiali frazionarie. */
 export function pieceCentroid(cells) {
   const n = cells.length;
-  return [cells.reduce((a, c) => a + c[0], 0) / n, cells.reduce((a, c) => a + c[1], 0) / n];
+  return [
+    cells.reduce((a, c) => a + c[0], 0) / n,
+    cells.reduce((a, c) => a + c[1], 0) / n,
+  ];
 }
 
 /**

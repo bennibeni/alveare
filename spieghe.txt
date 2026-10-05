@@ -76,6 +76,110 @@ Riepilogo
   Durata mediana	          266	    307
   Punti medi	            3.155	  3.929
   Pte arrivate a 1.000 pezzi	0	      5
-  
 
+In modalità normale approfondire 20 candidate invece di 6, con la penalità del pezzo in arrivo a 1.600.
+Il giudizio confronta la tua mossa con tutte le 20, così sa quando molte mosse si equivalgono.
+L'analisi delle mosse continua a mostrarne al massimo 6, le migliori per totale, per non diventare troppo lunga.
 
+Alveare · simulazione · modalità normal · 6 partite · max 1000 pezzi · seme 7000
+
+  partita   1    765 pezzi    9228 punti  (persa)
+  partita   2     42 pezzi     391 punti  (persa)
+  partita   3   1000 pezzi   13063 punti  (limite raggiunto)
+  partita   4     65 pezzi     609 punti  (persa)
+  partita   5    826 pezzi    9962 punti  (persa)
+  partita   6    722 pezzi    8567 punti  (persa)
+
+Riepilogo
+  partite perse         5 su 6
+  durata (pezzi)        mediana 722 · media 570 · 25%–75% 65–765 · max 1000
+  punti medi            6970
+  punti per pezzo       12.23
+  tempo                 38.3 s (11.2 ms per mossa)
+
+Aggiunta al totale una misura dello spazio per i pezzi che restano nel vassoio
+
+Alveare · simulazione · modalità normal · 6 partite · max 1000 pezzi · seme 7000
+
+  partita   1    287 pezzi    3518 punti  (persa)
+  partita   2    529 pezzi    6381 punti  (persa)
+  partita   3    217 pezzi    2755 punti  (persa)
+  partita   4     66 pezzi     665 punti  (persa)
+  partita   5     75 pezzi     779 punti  (persa)
+  partita   6    200 pezzi    2284 punti  (persa)
+
+Riepilogo
+  partite perse         6 su 6
+  durata (pezzi)        mediana 200 · media 229 · 25%–75% 75–217 · max 529
+  punti medi            2730
+  punti per pezzo       11.92
+  tempo                 23.1 s (16.8 ms per mossa)
+
+  Alveare · simulazione · modalità normal · 30 partite · max 1000 pezzi · seme 19000
+
+  partita   1    109 pezzi    1170 punti  (persa)
+  partita   2    888 pezzi   11323 punti  (persa)
+  partita   3    140 pezzi    1590 punti  (persa)
+  partita   4    307 pezzi    3998 punti  (persa)
+  partita   5   1000 pezzi   12521 punti  (limite raggiunto)
+  partita   6    111 pezzi    1202 punti  (persa)
+  partita   7    186 pezzi    2161 punti  (persa)
+  partita   8    838 pezzi   10261 punti  (persa)
+  partita   9    147 pezzi    1709 punti  (persa)
+  partita  10    244 pezzi    2999 punti  (persa)
+  partita  11    346 pezzi    3909 punti  (persa)
+  partita  12     60 pezzi     603 punti  (persa)
+  partita  13    963 pezzi   11932 punti  (persa)
+  partita  14    140 pezzi    1837 punti  (persa)
+  partita  15    174 pezzi    2066 punti  (persa)
+  partita  16     87 pezzi     922 punti  (persa)
+  partita  17    168 pezzi    1969 punti  (persa)
+  partita  18   1000 pezzi   12785 punti  (limite raggiunto)
+  partita  19     49 pezzi     466 punti  (persa)
+  partita  20    771 pezzi    9142 punti  (persa)
+  partita  21     86 pezzi     938 punti  (persa)
+  partita  22    224 pezzi    2731 punti  (persa)
+  partita  23    197 pezzi    2592 punti  (persa)
+  partita  24   1000 pezzi   12672 punti  (limite raggiunto)
+  partita  25    198 pezzi    2507 punti  (persa)
+  partita  26    593 pezzi    7485 punti  (persa)
+  partita  27    362 pezzi    4687 punti  (persa)
+  partita  28    761 pezzi    9174 punti  (persa)
+  partita  29    163 pezzi    2146 punti  (persa)
+  partita  30    816 pezzi   10328 punti  (persa)
+
+Riepilogo
+  partite perse         27 su 30
+  durata (pezzi)        mediana 198 · media 404.3 · 25%–75% 140–761 · max 1000
+  punti medi            4994
+  punti per pezzo       12.35
+  tempo                 160.7 s (13.2 ms per mossa)
+
+Ora dopo la mossa e la seconda mossa, la strategia conta per ogni orientamento di rombo e ferro di cavallo quante posizioni libere ci sono, fino a 6.
+
+npm run sim -- --mode normal --games 6 --max 1000      # prova veloce: 613, 1000, 266, 83, 627, 287
+
+Alveare · simulazione · modalità normal · 6 partite · max 1000 pezzi · seme 7000
+
+  partita   1    613 pezzi    7514 punti  (persa)
+  partita   2   1000 pezzi   12688 punti  (limite raggiunto)
+  partita   3    266 pezzi    3310 punti  (persa)
+  partita   4     83 pezzi    1081 punti  (persa)
+  partita   5    627 pezzi    7665 punti  (persa)
+  partita   6    287 pezzi    3387 punti  (persa)
+
+Riepilogo
+  partite perse         5 su 6
+  durata (pezzi)        mediana 287 · media 479.3 · 25%–75% 266–613 · max 1000
+  punti medi            5941
+  punti per pezzo       12.39
+  tempo                 41.7 s (14.5 ms per mossa)
+
+npm run sim -- --mode normal --games 30 --seed 19000   # ora: media 536, mediana 481, 9 partite a 1.000 (circa 3 minuti)
+
+partite perse         9 su 30
+durata (pezzi)        mediana 1000 · media 828.8 · 25%–75% 686–1000 · max 1000
+punti medi            8722
+punti per pezzo       10.52
+
+Il README spiega perché Con lo sguardo a tre pezzi l'algoritmo migliora nonostante i risultati del controllo veloce

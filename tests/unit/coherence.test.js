@@ -10,7 +10,17 @@ describe("congruenza di suggerimenti e giudizi", () => {
     expect(res.judged).toBeGreaterThan(150);
     expect(res.issues).toEqual({});
     // il suggerimento non riceve mai un giudizio critico
-    expect(Object.keys(res.suggestedLabels).every((l) => ["Ottima mossa", "Buona mossa", "Una mossa vale l’altra", "Migliore disponibile", "Mossa obbligata"].includes(l))).toBe(true);
+    expect(
+      Object.keys(res.suggestedLabels).every((l) =>
+        [
+          "Ottima mossa",
+          "Buona mossa",
+          "Una mossa vale l’altra",
+          "Migliore disponibile",
+          "Mossa obbligata",
+        ].includes(l),
+      ),
+    ).toBe(true);
   }, 120000);
 
   it("modalità Esperto: nessuna incongruenza", () => {

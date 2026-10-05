@@ -11,9 +11,16 @@ self.onmessage = ({ data }) => {
     let result;
     if (type === "played") {
       const analysis = analyzePlayedMove(pos);
-      result = { analysis: slimAnalysis(analysis), judgment: judgeMove(analysis, pos.tray.filter(Boolean).length) };
+      result = {
+        analysis: slimAnalysis(analysis),
+        judgment: judgeMove(analysis, pos.tray.filter(Boolean).length),
+      };
     } else {
-      result = { analysis: slimAnalysis(analyzeMoves(grid, pos.tray, pos.streak, { queue: pos.expert })) };
+      result = {
+        analysis: slimAnalysis(
+          analyzeMoves(grid, pos.tray, pos.streak, { queue: pos.expert }),
+        ),
+      };
     }
     self.postMessage({ id, result });
   } catch (error) {

@@ -12,9 +12,19 @@ export default defineConfig({
     baseURL: `http://localhost:${PORT}`,
     viewport: { width: 1100, height: 950 },
     // facoltativo: un Chromium già installato (PW_CHROMIUM=/percorso/chrome)
-    launchOptions: process.env.PW_CHROMIUM ? { executablePath: process.env.PW_CHROMIUM } : {},
+    launchOptions: process.env.PW_CHROMIUM
+      ? { executablePath: process.env.PW_CHROMIUM }
+      : {},
   },
-  projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"], viewport: { width: 1100, height: 950 } } }],
+  projects: [
+    {
+      name: "chromium",
+      use: {
+        ...devices["Desktop Chrome"],
+        viewport: { width: 1100, height: 950 },
+      },
+    },
+  ],
   webServer: {
     command: `npm run build && npm run start -- --port ${PORT}`,
     port: PORT,

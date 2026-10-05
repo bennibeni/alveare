@@ -10,9 +10,18 @@ const cache = new WeakMap(); // posizione (immutabile) -> Map(tipo -> Promise)
 function local(type, position) {
   if (type === "played") {
     const analysis = analyzePlayedMove(position);
-    return { analysis: slimAnalysis(analysis), judgment: judgeMove(analysis, position.tray.filter(Boolean).length) };
+    return {
+      analysis: slimAnalysis(analysis),
+      judgment: judgeMove(analysis, position.tray.filter(Boolean).length),
+    };
   }
-  return { analysis: slimAnalysis(analyzeMoves(position.grid, position.tray, position.streak, { queue: position.expert })) };
+  return {
+    analysis: slimAnalysis(
+      analyzeMoves(position.grid, position.tray, position.streak, {
+        queue: position.expert,
+      }),
+    ),
+  };
 }
 
 function getWorker() {
@@ -44,11 +53,31 @@ function run(type, position) {
   if (!w) return Promise.resolve().then(() => local(type, position));
   return new Promise((resolve, reject) => {
     const id = nextId++;
-    waiting.set(id, { resolve, reject, fallback: () => { try { resolve(local(type, position)); } catch (e) { reject(e); } } });
-    w.postMessage({ id, type, position: {
-      radius: position.grid.radius, cells: [...position.grid.cells], tray: position.tray,
-      streak: position.streak, expert: position.expert, idx: position.idx, q: position.q, r: position.r,
-    } });
+    waiting.set(id, {
+      resolve,
+      reject,
+      fallback: () => {
+        try {
+          resolve(local(type, position));
+        } catch (e) {
+          reject(e);
+        }
+      },
+    });
+    w.postMessage({
+      id,
+      type,
+      position: {
+        radius: position.grid.radius,
+        cells: [...position.grid.cells],
+        tray: position.tray,
+        streak: position.streak,
+        expert: position.expert,
+        idx: position.idx,
+        q: position.q,
+        r: position.r,
+      },
+    });
   });
 }
 

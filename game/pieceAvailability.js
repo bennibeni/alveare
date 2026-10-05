@@ -31,14 +31,26 @@ export function pieceAvailability(grid, maxPlacements = Infinity) {
   const pieces = PIECES.map((piece) => {
     let placements = 0;
     for (const [q, r] of grid.coords) {
-      if (grid.canPlace(piece.cells, q, r) && ++placements >= maxPlacements) break;
+      if (grid.canPlace(piece.cells, q, r) && ++placements >= maxPlacements)
+        break;
     }
     return {
-      id: piece.id, name: piece.name, color: piece.color, p: piece.weight / totalWeight,
+      id: piece.id,
+      name: piece.name,
+      color: piece.color,
+      p: piece.weight / totalWeight,
       placements,
     };
   });
   const death = pieces.reduce((sum, p) => sum + (p.placements ? 0 : p.p), 0);
-  const room = pieces.reduce((sum, p) => sum + p.p * Math.min(6, p.placements) / 6, 0);
-  return { death: Math.min(1, death), room, playableOrientations: pieces.filter((p) => p.placements > 0).length, pieces };
+  const room = pieces.reduce(
+    (sum, p) => sum + (p.p * Math.min(6, p.placements)) / 6,
+    0,
+  );
+  return {
+    death: Math.min(1, death),
+    room,
+    playableOrientations: pieces.filter((p) => p.placements > 0).length,
+    pieces,
+  };
 }

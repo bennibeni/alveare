@@ -15,15 +15,15 @@ npm run dev          # http://localhost:3000
 
 ## Comandi
 
-| Comando | Cosa fa |
-|---|---|
-| `npm run dev` | server di sviluppo |
-| `npm run build` / `npm start` | build di produzione e avvio |
-| `npm run lint` | ESLint (regole Next.js) |
-| `npm test` | test unitari (Vitest): griglia, pezzi, strategia, regressioni |
-| `npm run test:e2e` | test nel browser (Playwright): avvia da solo build e server |
-| `npm run sim -- …` | simulatore: fa giocare l'autogioco e riassume i risultati |
-| `npm run audit -- …` | controllo di congruenza di suggerimenti e giudizi su posizioni simulate |
+| Comando                       | Cosa fa                                                                 |
+| ----------------------------- | ----------------------------------------------------------------------- |
+| `npm run dev`                 | server di sviluppo                                                      |
+| `npm run build` / `npm start` | build di produzione e avvio                                             |
+| `npm run lint`                | ESLint (regole Next.js)                                                 |
+| `npm test`                    | test unitari (Vitest): griglia, pezzi, strategia, regressioni           |
+| `npm run test:e2e`            | test nel browser (Playwright): avvia da solo build e server             |
+| `npm run sim -- …`            | simulatore: fa giocare l'autogioco e riassume i risultati               |
+| `npm run audit -- …`          | controllo di congruenza di suggerimenti e giudizi su posizioni simulate |
 
 Per i test nel browser serve Chromium di Playwright (`npx playwright install chromium`), oppure un Chromium già
 installato indicato con `PW_CHROMIUM=/percorso/chrome`.
@@ -104,18 +104,18 @@ mai criticato. I conti sono in `game/moveJudgment.js`.
 
 Le etichette, nell’ordine in cui si controllano:
 
-| Etichetta | Quando |
-|---|---|
-| Mossa obbligata | era l’unica mossa legale |
-| Mossa pessima / cattiva / rischiosa | rischio di blocco più alto di almeno 20 punti percentuali rispetto all’alternativa più sicura (pessima: blocco con i pezzi noti, o rischio ≥ 80%; cattiva: ≥ 50%) |
-| Occasione persa | un’alternativa vale almeno il 50% della scala in più, oppure distacco ≥ 30% con almeno due alternative nettamente migliori (e almeno due terzi delle valutate) |
-| Ottima mossa / Ottima scoperta | prima, almeno metà delle alternative inferiori, vantaggio sulla mediana ≥ 10%, rischio sotto il 20% («scoperta»: mossa che il suggerimento non aveva fra le candidate) |
-| Una mossa vale l’altra | tutte le alternative sono comparabili |
-| Migliore disponibile | prima, ma con rischio di blocco ≥ 20% |
-| Buona mossa | distacco ≤ 5% e rischio sotto il 20% |
-| Mossa giocabile | distacco ≤ 10% |
-| Mossa discreta | la maggioranza delle alternative non è migliore, oppure distacco < 20% |
-| Mossa migliorabile | tutti gli altri casi |
+| Etichetta                           | Quando                                                                                                                                                                 |
+| ----------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Mossa obbligata                     | era l’unica mossa legale                                                                                                                                               |
+| Mossa pessima / cattiva / rischiosa | rischio di blocco più alto di almeno 20 punti percentuali rispetto all’alternativa più sicura (pessima: blocco con i pezzi noti, o rischio ≥ 80%; cattiva: ≥ 50%)      |
+| Occasione persa                     | un’alternativa vale almeno il 50% della scala in più, oppure distacco ≥ 30% con almeno due alternative nettamente migliori (e almeno due terzi delle valutate)         |
+| Ottima mossa / Ottima scoperta      | prima, almeno metà delle alternative inferiori, vantaggio sulla mediana ≥ 10%, rischio sotto il 20% («scoperta»: mossa che il suggerimento non aveva fra le candidate) |
+| Una mossa vale l’altra              | tutte le alternative sono comparabili                                                                                                                                  |
+| Migliore disponibile                | prima, ma con rischio di blocco ≥ 20%                                                                                                                                  |
+| Buona mossa                         | distacco ≤ 5% e rischio sotto il 20%                                                                                                                                   |
+| Mossa giocabile                     | distacco ≤ 10%                                                                                                                                                         |
+| Mossa discreta                      | la maggioranza delle alternative non è migliore, oppure distacco < 20%                                                                                                 |
+| Mossa migliorabile                  | tutti gli altri casi                                                                                                                                                   |
 
 Le osservazioni sulla posizione compaiono come **note** nei dettagli, senza cambiare l’etichetta:
 linea eliminata aumentando lo spazio, incastro pulito, pezzo da una cella consumato senza un
@@ -171,26 +171,26 @@ Le partite hanno durate molto variabili, da poche decine a oltre mille pezzi, qu
 
 60 partite di taratura (semi `7000`, `9000`, `11000`, 20 ciascuno, al massimo 1.000 pezzi):
 
-| Strategia | Durata media | Durata mediana | Punti medi | Punti per pezzo | Arrivate a 1.000 |
-|---|---|---|---|---|---|
-| originale (6 candidate, senza rischio) | 286 | 219 | 2.896 | 10,13 | 0 |
-| 6 candidate, rischio 400 | 373 | 301 | 3.834 | 10,29 | 5 |
-| 20 candidate, rischio 1.600 | 433 | 357 | 5.226 | 12,06 | 10 |
-| + spazio per il pezzo rimasto | 486 | 349 | 5.938 | 12,21 | 14 |
-| + spazio per rombo e ferro di cavallo | 670 | 735 | 8.188 | 12,23 | 23 |
-| + premio per le linee svuotate | 852 | 1.000 | 8.982 | 10,54 | 43 |
-| + premio per le linee chiudibili | 904 | 1.000 | 9.591 | 10,61 | 46 |
-| **attuale: + tre pezzi noti con la griglia affollata** | **966** | **1.000** | **10.312** | **10,68** | **56** |
+| Strategia                                              | Durata media | Durata mediana | Punti medi | Punti per pezzo | Arrivate a 1.000 |
+| ------------------------------------------------------ | ------------ | -------------- | ---------- | --------------- | ---------------- |
+| originale (6 candidate, senza rischio)                 | 286          | 219            | 2.896      | 10,13           | 0                |
+| 6 candidate, rischio 400                               | 373          | 301            | 3.834      | 10,29           | 5                |
+| 20 candidate, rischio 1.600                            | 433          | 357            | 5.226      | 12,06           | 10               |
+| + spazio per il pezzo rimasto                          | 486          | 349            | 5.938      | 12,21           | 14               |
+| + spazio per rombo e ferro di cavallo                  | 670          | 735            | 8.188      | 12,23           | 23               |
+| + premio per le linee svuotate                         | 852          | 1.000          | 8.982      | 10,54           | 43               |
+| + premio per le linee chiudibili                       | 904          | 1.000          | 9.591      | 10,61           | 46               |
+| **attuale: + tre pezzi noti con la griglia affollata** | **966**      | **1.000**      | **10.312** | **10,68**       | **56**           |
 
 Verifica su 140 partite mai usate per la taratura (semi da `13000` a `25000`):
 
-| Strategia | Durata media | Durata mediana | Arrivate a 1.000 | Meglio / peggio |
-|---|---|---|---|---|
-| + spazio per il pezzo rimasto | 479 | 416 | 24 | — |
-| + spazio per rombo e ferro di cavallo | 604 | 653 | 44 | 73 / 58 |
-| + premio per le linee svuotate | 832 | 1.000 | 96 | 87 / 28 |
-| + premio per le linee chiudibili | 879 | 1.000 | 110 | 86 / 19 |
-| **attuale: + tre pezzi noti con la griglia affollata** (100 partite) | **952** | **1.000** | **88 su 100** | **19 / 11** |
+| Strategia                                                            | Durata media | Durata mediana | Arrivate a 1.000 | Meglio / peggio |
+| -------------------------------------------------------------------- | ------------ | -------------- | ---------------- | --------------- |
+| + spazio per il pezzo rimasto                                        | 479          | 416            | 24               | —               |
+| + spazio per rombo e ferro di cavallo                                | 604          | 653            | 44               | 73 / 58         |
+| + premio per le linee svuotate                                       | 832          | 1.000          | 96               | 87 / 28         |
+| + premio per le linee chiudibili                                     | 879          | 1.000          | 110              | 86 / 19         |
+| **attuale: + tre pezzi noti con la griglia affollata** (100 partite) | **952**      | **1.000**      | **88 su 100**    | **19 / 11**     |
 
 «Meglio / peggio» confronta ogni riga con la precedente; per i due premi per le linee, con la versione
 senza (rapporto delle durate 1,77, intervallo al 95% 1,47–2,13). Il premio per le linee chiudibili,
@@ -223,8 +223,7 @@ Che cosa fa il suggerimento in modalità normale, e perché:
   pezzi (300 e 1.000: 599 e 629).
 - **Premio per le linee svuotate: 180 × linee × affollamento.** Affollamento = celle occupate / 61,
   prima della mossa. A tabellone vuoto conviene rimandare lo svuotamento per fare combo; a tabellone
-  pieno conviene liberare spazio subito. Provati 60, 180, 240, 300, 500 (durata media 729, 852, 826, 777,
-  770) e 180 solo sotto le 40 celle libere (747). Si fanno meno combo (punti per pezzo da 12,2 a 10,5),
+  pieno conviene liberare spazio subito. Provati 60, 180, 240, 300, 500 (durata media 729, 852, 826, 777, 770) e 180 solo sotto le 40 celle libere (747). Si fanno meno combo (punti per pezzo da 12,2 a 10,5),
   ma le partite durano molto di più e i punti per partita salgono.
 - **Premio per le linee chiudibili: 100 × linee chiudibili × affollamento,** dopo le due mosse. Linee
   chiudibili = numero atteso di linee (a cui mancano da 1 a 3 celle) che un pezzo estratto a caso può
@@ -263,10 +262,10 @@ Che cosa fa il suggerimento in modalità normale, e perché:
 
 ### Modalità Esperto
 
-| Partite | Strategia | Durata media | Durata mediana | Punti medi | Punti per pezzo |
-|---|---|---|---|---|---|
-| 50, max 3.000 pezzi | precedente (un fascio per tutte le prime mosse) | 369 | 310 | 3.434 | 9,30 |
-| 50, max 3.000 pezzi | **attuale** (un fascio per prima mossa) | 400 | 266 | 4.306 | 10,76 |
+| Partite             | Strategia                                       | Durata media | Durata mediana | Punti medi | Punti per pezzo |
+| ------------------- | ----------------------------------------------- | ------------ | -------------- | ---------- | --------------- |
+| 50, max 3.000 pezzi | precedente (un fascio per tutte le prime mosse) | 369          | 310            | 3.434      | 9,30            |
+| 50, max 3.000 pezzi | **attuale** (un fascio per prima mossa)         | 400          | 266            | 4.306      | 10,76           |
 
 Semi `7000` (20) e `13000` (30). Con un fascio per ogni prima mossa la ricerca trova più sequenze che
 svuotano linee, e con la penalità per il pezzo ignoto a 400 le partite si accorciavano: è passata a

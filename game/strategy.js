@@ -22,7 +22,15 @@ import { DIRECTIONS, parseKey } from "./HexGrid.js";
 import { PIECES, SHAPES } from "./pieces.js";
 import { pieceAvailability } from "./pieceAvailability.js";
 
-const W = { line: 60, cell: 1, dead: -12, hole: -5, fit: 2.5, near: 1.2, empty: 0.3 };
+const W = {
+  line: 60,
+  cell: 1,
+  dead: -12,
+  hole: -5,
+  fit: 2.5,
+  near: 1.2,
+  empty: 0.3,
+};
 // Candidate approfondite: con 6 il suggerimento era il migliore secondo il suo stesso criterio
 // solo nel 59% delle posizioni (il voto a un passo prevede male il totale); con 20 nell'87%.
 const LOOKAHEAD = 20;
@@ -70,7 +78,12 @@ export const NORMAL_BIG_PENALTY = NORMAL_BIG;
 export const NORMAL_BIG_SHAPES = [...BIG_SHAPES];
 export const NORMAL_CLEAR_BONUS = NORMAL_CLEAR;
 export const NORMAL_CLOSABLE_BONUS = NORMAL_CLOSABLE;
-export const NORMAL_DEEP = { free: NORMAL_DEEP_FREE, second: NORMAL_DEEP_SECOND, third: NORMAL_DEEP_THIRD, block: NORMAL_DEEP_BLOCK };
+export const NORMAL_DEEP = {
+  free: NORMAL_DEEP_FREE,
+  second: NORMAL_DEEP_SECOND,
+  third: NORMAL_DEEP_THIRD,
+  block: NORMAL_DEEP_BLOCK,
+};
 
 const PIECE_WEIGHT = PIECES.reduce((a, p) => a + p.weight, 0);
 
@@ -93,9 +106,13 @@ export function closableLines(g) {
   for (const piece of PIECES) {
     const closed = new Set();
     for (const [q, r] of g.placementsFor(piece.cells)) {
-      const covered = new Set(piece.cells.map(([dq, dr]) => `${q + dq},${r + dr}`));
+      const covered = new Set(
+        piece.cells.map(([dq, dr]) => `${q + dq},${r + dr}`),
+      );
       for (const k of covered) {
-        for (const li of byCell.get(k) || []) if (!closed.has(li) && near[li].every((c) => covered.has(c))) closed.add(li);
+        for (const li of byCell.get(k) || [])
+          if (!closed.has(li) && near[li].every((c) => covered.has(c)))
+            closed.add(li);
       }
     }
     expected += (piece.weight / PIECE_WEIGHT) * closed.size;
@@ -149,7 +166,9 @@ function rankedMoves(grid, tray, streak) {
     for (const [q, r] of grid.placementsFor(p.cells)) {
       const res = grid.play(p.cells, q, r);
       const f = boardFeatures(res.grid);
-      const gain = res.lines.length ? res.clearedCells.size * res.lines.length * (1 + 0.5 * streak) : 0;
+      const gain = res.lines.length
+        ? res.clearedCells.size * res.lines.length * (1 + 0.5 * streak)
+        : 0;
       const value =
         gain * W.cell +
         res.lines.length * W.line +
@@ -184,11 +203,12 @@ function rankedMoves(grid, tray, streak) {
  * rendeva meno. */
 function boardRisk(next) {
   const { death, pieces } = pieceAvailability(next.after, 6);
-  let weight = 0, room = 0;
+  let weight = 0,
+    room = 0;
   for (const p of pieces) {
     if (!BIG_SHAPES.has(p.name)) continue;
     weight += p.p;
-    room += p.p * Math.min(6, p.placements) / 6;
+    room += (p.p * Math.min(6, p.placements)) / 6;
   }
   return { death, bigRoom: room / weight };
 }
@@ -205,9 +225,33 @@ function withLookahead(m, tray, deep = false) {
   const bigPenalty = NORMAL_BIG * (1 - bigRoom);
   const clearBonus = NORMAL_CLEAR * m.lines * m.crowd;
   const closable = next ? closableLines(next.after) : 0;
-  const closableBonus = next ? NORMAL_CLOSABLE * closable * crowding(next.after) : 0;
-  const total = m.gain * W.cell + clearBonus + (next ? next.value + closableBonus - NORMAL_DEATH * death - roomPenalty - bigPenalty : -10000);
-  return { ...m, next, death, room, roomPenalty, bigRoom, bigPenalty, clearBonus, closable, closableBonus, blockRisk: next ? blockRisk(m, next, tray, death) : null, total };
+  const closableBonus = next
+    ? NORMAL_CLOSABLE * closable * crowding(next.after)
+    : 0;
+  const total =
+    m.gain * W.cell +
+    clearBonus +
+    (next
+      ? next.value +
+        closableBonus -
+        NORMAL_DEATH * death -
+        roomPenalty -
+        bigPenalty
+      : -10000);
+  return {
+    ...m,
+    next,
+    death,
+    room,
+    roomPenalty,
+    bigRoom,
+    bigPenalty,
+    clearBonus,
+    closable,
+    closableBonus,
+    blockRisk: next ? blockRisk(m, next, tray, death) : null,
+    total,
+  };
 }
 
 /** Zona di pericolo: sequenze con tutti e tre i pezzi noti. Per la mossa m si provano le migliori
@@ -219,10 +263,18 @@ function withDeepLookahead(m, tray) {
   const rest = tray.map((p, i) => (i === m.idx ? null : p));
   const clearBonus = NORMAL_CLEAR * m.lines * m.crowd;
   let best = null;
-  for (const second of rankedMoves(m.after, rest, m.nextStreak).slice(0, NORMAL_DEEP_SECOND)) {
+  for (const second of rankedMoves(m.after, rest, m.nextStreak).slice(
+    0,
+    NORMAL_DEEP_SECOND,
+  )) {
     const left = rest.map((p, i) => (i === second.idx ? null : p));
     const pending = left.some(Boolean);
-    const thirds = pending ? rankedMoves(second.after, left, second.nextStreak).slice(0, NORMAL_DEEP_THIRD) : [];
+    const thirds = pending
+      ? rankedMoves(second.after, left, second.nextStreak).slice(
+          0,
+          NORMAL_DEEP_THIRD,
+        )
+      : [];
     for (const third of thirds.length ? thirds : [null]) {
       const last = third || second;
       const middle = third ? second.gain * W.cell + second.lines * W.line : 0;
@@ -231,15 +283,41 @@ function withDeepLookahead(m, tray) {
       const closableBonus = NORMAL_CLOSABLE * closable * crowding(last.after);
       const roomPenalty = !third && pending ? NORMAL_DEEP_BLOCK : 0;
       const bigPenalty = NORMAL_BIG * (1 - bigRoom);
-      const total = m.gain * W.cell + clearBonus + middle + last.value + closableBonus - NORMAL_DEATH * death - roomPenalty - bigPenalty;
+      const total =
+        m.gain * W.cell +
+        clearBonus +
+        middle +
+        last.value +
+        closableBonus -
+        NORMAL_DEATH * death -
+        roomPenalty -
+        bigPenalty;
       if (!best || total > best.total) {
-        best = { next: second, third, middle, death, bigRoom, bigPenalty, closable, closableBonus, roomPenalty, room: third || !pending ? 6 : 0, total };
+        best = {
+          next: second,
+          third,
+          middle,
+          death,
+          bigRoom,
+          bigPenalty,
+          closable,
+          closableBonus,
+          roomPenalty,
+          room: third || !pending ? 6 : 0,
+          total,
+        };
       }
     }
   }
   if (!best) return { ...withLookahead(m, tray), deep: true, third: null };
   // rischio per il giudizio: zero se i tre pezzi noti trovano posto, altrimenti come a due passi
-  return { ...m, ...best, deep: true, clearBonus, blockRisk: best.third || best.room === 6 ? 0 : best.death * best.death };
+  return {
+    ...m,
+    ...best,
+    deep: true,
+    clearBonus,
+    blockRisk: best.third || best.room === 6 ? 0 : best.death * best.death,
+  };
 }
 
 /** Posizioni (fino a 6) del pezzo noto che resta nel vassoio dopo la mossa e la seconda mossa. */
@@ -247,7 +325,8 @@ function remainingRoom(m, next, tray) {
   const remaining = tray.find((p, i) => p && i !== m.idx && i !== next.idx);
   if (!remaining) return 6;
   let n = 0;
-  for (const [q, r] of next.after.coords) if (next.after.canPlace(remaining.cells, q, r) && ++n >= 6) break;
+  for (const [q, r] of next.after.coords)
+    if (next.after.canPlace(remaining.cells, q, r) && ++n >= 6) break;
   return n;
 }
 
@@ -264,8 +343,15 @@ function blockRisk(m, next, tray, death) {
 function normalCandidates(grid, tray, streak) {
   const moves = rankedMoves(grid, tray, streak);
   const deep = isDeep(grid);
-  const byValue = moves.slice(0, LOOKAHEAD).map((m) => withLookahead(m, tray, deep));
-  return { totalMoves: moves.length, deep, byValue, byTotal: [...byValue].sort((a, b) => b.total - a.total) };
+  const byValue = moves
+    .slice(0, LOOKAHEAD)
+    .map((m) => withLookahead(m, tray, deep));
+  return {
+    totalMoves: moves.length,
+    deep,
+    byValue,
+    byTotal: [...byValue].sort((a, b) => b.total - a.total),
+  };
 }
 
 // ---------------------------------------------------------------------------
@@ -287,8 +373,12 @@ const UNKNOWN_DEATH = 1200; // penalità × probabilità che il pezzo ignoto non
 const UNKNOWN_ROOM = 40; // premio × spazio medio per il pezzo ignoto (0..1)
 const BLOCKED = 10000; // penalità per una sequenza che non colloca tutti i pezzi noti
 export const QUEUE_PARAMS = {
-  beam: QUEUE_BEAM, first: QUEUE_FIRST, gain: QUEUE_GAIN,
-  unknownDeath: UNKNOWN_DEATH, unknownRoom: UNKNOWN_ROOM, blocked: BLOCKED,
+  beam: QUEUE_BEAM,
+  first: QUEUE_FIRST,
+  gain: QUEUE_GAIN,
+  unknownDeath: UNKNOWN_DEATH,
+  unknownRoom: UNKNOWN_ROOM,
+  blocked: BLOCKED,
 };
 
 // probabilità di uscita di ogni forma (dai pesi di pieces.js)
@@ -301,7 +391,13 @@ const SHAPE_P = (() => {
 /** Valutazione del tabellone (senza i punti): buchi, libertà, linee quasi piene, spazio. */
 function boardValue(g) {
   const f = boardFeatures(g);
-  return f.deadHoles * W.dead + f.holes * W.hole + f.fitCount * W.fit + f.near * W.near + f.empty * W.empty;
+  return (
+    f.deadHoles * W.dead +
+    f.holes * W.hole +
+    f.fitCount * W.fit +
+    f.near * W.near +
+    f.empty * W.empty
+  );
 }
 
 /** Rischio del pezzo ignoto che arriverà dopo i tre noti (con il dettaglio per forma). */
@@ -309,24 +405,44 @@ function unknownPieceDetail(g) {
   const { death, room, pieces } = pieceAvailability(g, 6);
   const perShape = SHAPE_P.map(({ shape, p }) => {
     const orientations = pieces.filter((piece) => piece.name === shape.name);
-    return { name: shape.name, color: shape.color, p,
-      n: orientations.reduce((sum, piece) => sum + Math.min(6, piece.placements), 0) / orientations.length,
-      death: orientations.reduce((sum, piece) => sum + (piece.placements ? 0 : piece.p), 0),
+    return {
+      name: shape.name,
+      color: shape.color,
+      p,
+      n:
+        orientations.reduce(
+          (sum, piece) => sum + Math.min(6, piece.placements),
+          0,
+        ) / orientations.length,
+      death: orientations.reduce(
+        (sum, piece) => sum + (piece.placements ? 0 : piece.p),
+        0,
+      ),
     };
   });
-  return { death, room, perShape, value: -UNKNOWN_DEATH * death + UNKNOWN_ROOM * room };
+  return {
+    death,
+    room,
+    perShape,
+    value: -UNKNOWN_DEATH * death + UNKNOWN_ROOM * room,
+  };
 }
 
 /** Un passo della sequenza: gioca il pezzo e aggiorna punti, combo e punteggio. */
 function expand(node, piece, q, r) {
   const res = node.grid.play(piece.cells, q, r);
-  const gain = res.lines.length ? res.clearedCells.size * res.lines.length * (1 + 0.5 * node.streak) : 0;
+  const gain = res.lines.length
+    ? res.clearedCells.size * res.lines.length * (1 + 0.5 * node.streak)
+    : 0;
   const acc = node.acc + gain * QUEUE_GAIN + res.lines.length * W.line;
   return {
     grid: res.grid,
     streak: res.lines.length ? node.streak + 1 : 0,
     acc,
-    path: [...node.path, { piece, q, r, gain, lines: res.lines.length, before: node.grid }],
+    path: [
+      ...node.path,
+      { piece, q, r, gain, lines: res.lines.length, before: node.grid },
+    ],
     score: acc + boardValue(res.grid),
   };
 }
@@ -339,25 +455,47 @@ function expand(node, piece, q, r) {
  */
 function queueSearch(grid, tray, streak, firstMove) {
   const pieces = tray.filter(Boolean);
-  if (!pieces.length || !grid.canPlace(pieces[0].cells, firstMove.q, firstMove.r)) return null;
-  let beam = [expand({ grid, streak, acc: 0, path: [] }, pieces[0], firstMove.q, firstMove.r)];
+  if (
+    !pieces.length ||
+    !grid.canPlace(pieces[0].cells, firstMove.q, firstMove.r)
+  )
+    return null;
+  let beam = [
+    expand(
+      { grid, streak, acc: 0, path: [] },
+      pieces[0],
+      firstMove.q,
+      firstMove.r,
+    ),
+  ];
   const levels = [];
   for (let level = 1; level < pieces.length; level++) {
     const next = [];
     for (const node of beam) {
-      for (const [q, r] of node.grid.placementsFor(pieces[level].cells)) next.push(expand(node, pieces[level], q, r));
+      for (const [q, r] of node.grid.placementsFor(pieces[level].cells))
+        next.push(expand(node, pieces[level], q, r));
     }
     if (!next.length) break; // questo pezzo non entra più: la sequenza resta bloccata
     next.sort((a, b) => b.score - a.score);
     const keep = level === pieces.length - 1 ? QUEUE_BEAM * 2 : QUEUE_BEAM;
-    levels.push({ piece: pieces[level], generated: next.length, kept: Math.min(keep, next.length) });
+    levels.push({
+      piece: pieces[level],
+      generated: next.length,
+      kept: Math.min(keep, next.length),
+    });
     beam = next.slice(0, keep);
   }
   const leaves = beam
     .map((n) => {
       const unknown = unknownPieceDetail(n.grid);
       const blocked = n.path.length < pieces.length;
-      return { ...n, board: boardValue(n.grid), unknown, blocked, v: n.score + unknown.value - (blocked ? BLOCKED : 0) };
+      return {
+        ...n,
+        board: boardValue(n.grid),
+        unknown,
+        blocked,
+        v: n.score + unknown.value - (blocked ? BLOCKED : 0),
+      };
     })
     .sort((a, b) => b.v - a.v);
   return { leaves, levels };
@@ -371,14 +509,23 @@ function queueCandidates(grid, tray, streak) {
   const first = tray.find(Boolean);
   if (!first) return null;
   const root = { grid, streak, acc: 0, path: [] };
-  const firsts = grid.placementsFor(first.cells)
+  const firsts = grid
+    .placementsFor(first.cells)
     .map(([q, r]) => ({ q, r, score: expand(root, first, q, r).score }))
     .sort((a, b) => b.score - a.score);
   if (!firsts.length) return null;
-  const moves = firsts.slice(0, QUEUE_FIRST)
+  const moves = firsts
+    .slice(0, QUEUE_FIRST)
     .map(({ q, r }, order) => {
       const search = queueSearch(grid, tray, streak, { q, r });
-      return { q, r, order, piece: first, leaf: search.leaves[0], levels: search.levels };
+      return {
+        q,
+        r,
+        order,
+        piece: first,
+        leaf: search.leaves[0],
+        levels: search.levels,
+      };
     })
     .sort((a, b) => b.leaf.v - a.leaf.v || a.order - b.order);
   return { totalMoves: firsts.length, moves };
@@ -408,7 +555,10 @@ export function explainQueue(grid, tray, streak = 0, top = 5) {
   if (!res) return null;
   const best = res.moves[0];
   return {
-    levels: [{ piece: best.piece, generated: res.totalMoves, kept: res.moves.length }, ...best.levels],
+    levels: [
+      { piece: best.piece, generated: res.totalMoves, kept: res.moves.length },
+      ...best.levels,
+    ],
     leaves: res.moves.slice(0, top).map((m) => m.leaf),
     firstMoves: res.moves.length,
     totalMoves: res.totalMoves,
@@ -423,7 +573,9 @@ export function explainQueue(grid, tray, streak = 0, top = 5) {
 export function bestMove(grid, tray, streak = 0, { queue = false } = {}) {
   if (queue) return bestQueueMove(grid, tray, streak);
   const best = normalCandidates(grid, tray, streak).byTotal[0];
-  return best ? { idx: best.idx, q: best.q, r: best.r, cells: best.cells } : null;
+  return best
+    ? { idx: best.idx, q: best.q, r: best.r, cells: best.cells }
+    : null;
 }
 
 /** Per la pagina "Suggerimenti · normale": le mosse candidate col dettaglio dei conti. */
@@ -438,13 +590,29 @@ export function explainNormal(grid, tray, streak = 0) {
 export function analyzeMoves(grid, tray, streak = 0, { queue = false } = {}) {
   if (!queue) {
     const result = normalCandidates(grid, tray, streak);
-    return { totalMoves: result.totalMoves, evaluated: result.byTotal.length, moves: result.byTotal.slice(0, NORMAL_SHOWN) };
+    return {
+      totalMoves: result.totalMoves,
+      evaluated: result.byTotal.length,
+      moves: result.byTotal.slice(0, NORMAL_SHOWN),
+    };
   }
   const res = cachedQueueCandidates(grid, tray, streak);
   const moves = (res?.moves || []).map(({ q, r, piece, leaf }) => ({
-    idx: 0, q, r, piece, cells: piece.cells, lines: leaf.path[0].lines, total: leaf.v, sequence: leaf,
+    idx: 0,
+    q,
+    r,
+    piece,
+    cells: piece.cells,
+    lines: leaf.path[0].lines,
+    total: leaf.v,
+    sequence: leaf,
   }));
-  return { totalMoves: res?.totalMoves ?? (tray[0] ? grid.placementsFor(tray[0].cells).length : 0), moves };
+  return {
+    totalMoves:
+      res?.totalMoves ??
+      (tray[0] ? grid.placementsFor(tray[0].cells).length : 0),
+    moves,
+  };
 }
 
 /** Confronto retrospettivo: usa esclusivamente i pezzi e il tabellone PRIMA
@@ -454,20 +622,32 @@ export function analyzeMoves(grid, tray, streak = 0, { queue = false } = {}) {
 export function analyzePlayedMove({ grid, tray, streak, expert, idx, q, r }) {
   const analysis = analyzeMoves(grid, tray, streak, { queue: expert });
   const selectedPiece = tray[idx];
-  if (selectedPiece && (!expert || idx === 0) && grid.canPlace(selectedPiece.cells, q, r)) {
+  if (
+    selectedPiece &&
+    (!expert || idx === 0) &&
+    grid.canPlace(selectedPiece.cells, q, r)
+  ) {
     const before = boardFeatures(grid);
     const after = boardFeatures(grid.play(selectedPiece.cells, q, r).grid);
-    const contacts = selectedPiece.cells.map(([dq, dr]) =>
-      grid.getNeighbors(q + dq, r + dr).filter(([nq, nr]) => grid.get(nq, nr) > 0).length);
+    const contacts = selectedPiece.cells.map(
+      ([dq, dr]) =>
+        grid
+          .getNeighbors(q + dq, r + dr)
+          .filter(([nq, nr]) => grid.get(nq, nr) > 0).length,
+    );
     analysis.placementQuality = {
       cellCount: grid.cells.size,
       touchingCells: contacts.filter((n) => n > 0).length,
       sharedEdges: contacts.reduce((sum, n) => sum + n, 0),
-      before, after,
+      before,
+      after,
     };
     if (selectedPiece.cells.length === 1) {
-      const alternatives = rankedMoves(grid, expert ? [tray[0]] : tray, streak)
-        .filter((m) => m.idx !== idx || m.q !== q || m.r !== r);
+      const alternatives = rankedMoves(
+        grid,
+        expert ? [tray[0]] : tray,
+        streak,
+      ).filter((m) => m.idx !== idx || m.q !== q || m.r !== r);
       const beforeRisk = pieceAvailability(grid, 1).death;
       let viable = 0;
       let canPreservePoint = false;
@@ -475,10 +655,19 @@ export function analyzePlayedMove({ grid, tray, streak, expert, idx, q, r }) {
         // Un altro punto senza chiusura consuma la stessa risorsa e non è
         // un motivo per criticare una scelta obbligata del tipo di pezzo.
         if (m.cells.length === 1 && m.lines === 0) continue;
-        const known = expert ? tray.slice(1, 2) : tray.filter((_, i) => i !== m.idx);
+        const known = expert
+          ? tray.slice(1, 2)
+          : tray.filter((_, i) => i !== m.idx);
         if (!known.some((p) => p && m.after.fits(p.cells))) continue;
-        if (m.features.deadHoles > before.deadHoles || m.features.holes > before.holes) continue;
-        if (pieceAvailability(m.after, 1).death > Math.min(0.5, beforeRisk + 0.1)) continue;
+        if (
+          m.features.deadHoles > before.deadHoles ||
+          m.features.holes > before.holes
+        )
+          continue;
+        if (
+          pieceAvailability(m.after, 1).death > Math.min(0.5, beforeRisk + 0.1)
+        )
+          continue;
         viable++;
         if (m.cells.length > 1) canPreservePoint = true;
       }
@@ -487,55 +676,121 @@ export function analyzePlayedMove({ grid, tray, streak, expert, idx, q, r }) {
         viableAlternatives: viable,
         canPreservePoint,
         forcedPiece: !alternatives.some((m) => m.cells.length > 1),
-        netImprovement: after.empty > before.empty && after.fitCount >= before.fitCount
-          && after.deadHoles <= before.deadHoles && after.holes <= before.holes,
+        netImprovement:
+          after.empty > before.empty &&
+          after.fitCount >= before.fitCount &&
+          after.deadHoles <= before.deadHoles &&
+          after.holes <= before.holes,
       };
     }
   }
-  const found = analysis.moves.find((m) => m.idx === idx && m.q === q && m.r === r);
-  if (found) return { ...analysis, moves: analysis.moves.map((m) => ({ ...m, played: m === found })) };
+  const found = analysis.moves.find(
+    (m) => m.idx === idx && m.q === q && m.r === r,
+  );
+  if (found)
+    return {
+      ...analysis,
+      moves: analysis.moves.map((m) => ({ ...m, played: m === found })),
+    };
   const piece = tray[idx];
-  if (!piece || (expert && idx !== 0) || !grid.canPlace(piece.cells, q, r)) return analysis;
+  if (!piece || (expert && idx !== 0) || !grid.canPlace(piece.cells, q, r))
+    return analysis;
   let move;
   if (expert) {
     const sequence = queueSearch(grid, tray, streak, { q, r }).leaves[0];
-    move = { idx, q, r, piece, cells: piece.cells, lines: sequence.path[0].lines, total: sequence.v, sequence };
+    move = {
+      idx,
+      q,
+      r,
+      piece,
+      cells: piece.cells,
+      lines: sequence.path[0].lines,
+      total: sequence.v,
+      sequence,
+    };
   } else {
-    const candidate = rankedMoves(grid, tray, streak).find((m) => m.idx === idx && m.q === q && m.r === r);
+    const candidate = rankedMoves(grid, tray, streak).find(
+      (m) => m.idx === idx && m.q === q && m.r === r,
+    );
     move = withLookahead(candidate, tray, isDeep(grid));
   }
-  return { ...analysis, moves: [...analysis.moves, { ...move, played: true, added: true }] };
+  return {
+    ...analysis,
+    moves: [...analysis.moves, { ...move, played: true, added: true }],
+  };
 }
 
 /** Copia dell'analisi senza i tabelloni intermedi: solo dati semplici, adatti a essere
  * spediti da un worker. Contiene tutto ciò che usano giudizio, interfaccia e log. */
 export function slimAnalysis(analysis) {
   if (!analysis) return analysis;
-  const placement = (m) => m && {
-    idx: m.idx, q: m.q, r: m.r, piece: m.piece, cells: m.cells,
-    value: m.value, gain: m.gain, lines: m.lines, features: m.features,
-  };
+  const placement = (m) =>
+    m && {
+      idx: m.idx,
+      q: m.q,
+      r: m.r,
+      piece: m.piece,
+      cells: m.cells,
+      value: m.value,
+      gain: m.gain,
+      lines: m.lines,
+      features: m.features,
+    };
   return {
     totalMoves: analysis.totalMoves,
-    ...(analysis.evaluated !== undefined ? { evaluated: analysis.evaluated } : {}),
-    ...(analysis.placementQuality ? { placementQuality: analysis.placementQuality } : {}),
-    ...(analysis.singleCellUse ? { singleCellUse: analysis.singleCellUse } : {}),
+    ...(analysis.evaluated !== undefined
+      ? { evaluated: analysis.evaluated }
+      : {}),
+    ...(analysis.placementQuality
+      ? { placementQuality: analysis.placementQuality }
+      : {}),
+    ...(analysis.singleCellUse
+      ? { singleCellUse: analysis.singleCellUse }
+      : {}),
     moves: analysis.moves.map((m) => ({
-      ...placement(m), total: m.total,
+      ...placement(m),
+      total: m.total,
       ...(m.death !== undefined ? { death: m.death } : {}),
       ...(m.blockRisk !== undefined ? { blockRisk: m.blockRisk } : {}),
-      ...(m.roomPenalty !== undefined ? { room: m.room, roomPenalty: m.roomPenalty } : {}),
-      ...(m.bigPenalty !== undefined ? { bigRoom: m.bigRoom, bigPenalty: m.bigPenalty } : {}),
-      ...(m.clearBonus !== undefined ? { crowd: m.crowd, clearBonus: m.clearBonus, closable: m.closable, closableBonus: m.closableBonus } : {}),
+      ...(m.roomPenalty !== undefined
+        ? { room: m.room, roomPenalty: m.roomPenalty }
+        : {}),
+      ...(m.bigPenalty !== undefined
+        ? { bigRoom: m.bigRoom, bigPenalty: m.bigPenalty }
+        : {}),
+      ...(m.clearBonus !== undefined
+        ? {
+            crowd: m.crowd,
+            clearBonus: m.clearBonus,
+            closable: m.closable,
+            closableBonus: m.closableBonus,
+          }
+        : {}),
       ...(m.played !== undefined ? { played: m.played } : {}),
       ...(m.added ? { added: true } : {}),
       ...(m.next !== undefined ? { next: placement(m.next) } : {}),
-      ...(m.deep ? { deep: true, middle: m.middle, third: placement(m.third) } : {}),
-      ...(m.sequence ? { sequence: {
-        path: m.sequence.path.map(({ piece, q, r, gain, lines }) => ({ piece, q, r, gain, lines })),
-        acc: m.sequence.acc, score: m.sequence.score, board: m.sequence.board,
-        unknown: m.sequence.unknown, blocked: m.sequence.blocked, v: m.sequence.v,
-      } } : {}),
+      ...(m.deep
+        ? { deep: true, middle: m.middle, third: placement(m.third) }
+        : {}),
+      ...(m.sequence
+        ? {
+            sequence: {
+              path: m.sequence.path.map(({ piece, q, r, gain, lines }) => ({
+                piece,
+                q,
+                r,
+                gain,
+                lines,
+              })),
+              acc: m.sequence.acc,
+              score: m.sequence.score,
+              board: m.sequence.board,
+              unknown: m.sequence.unknown,
+              blocked: m.sequence.blocked,
+              v: m.sequence.v,
+            },
+          }
+        : {}),
     })),
   };
 }

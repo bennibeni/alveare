@@ -5,7 +5,8 @@ export function collectErrors(page) {
   const errors = [];
   page.on("pageerror", (e) => errors.push(e.message));
   page.on("console", (m) => {
-    if (m.type() === "error" && !/favicon|404/.test(m.text())) errors.push(m.text());
+    if (m.type() === "error" && !/favicon|404/.test(m.text()))
+      errors.push(m.text());
   });
   return errors;
 }
@@ -13,7 +14,9 @@ export function collectErrors(page) {
 /** Valore di un riquadro del punteggio ("Punti", "Pezzi", "Record", ...). */
 export async function stat(page, label) {
   return page.evaluate((l) => {
-    const p = [...document.querySelectorAll("p")].find((x) => x.textContent === l);
+    const p = [...document.querySelectorAll("p")].find(
+      (x) => x.textContent === l,
+    );
     return p ? p.nextElementSibling.textContent : null;
   }, label);
 }
@@ -43,13 +46,18 @@ export async function hintTarget(page) {
       const r = h.getBoundingClientRect();
       return [r.x + r.width / 2, r.y + r.height / 2];
     });
-    return { x: cs.reduce((a, c) => a + c[0], 0) / cs.length, y: cs.reduce((a, c) => a + c[1], 0) / cs.length };
+    return {
+      x: cs.reduce((a, c) => a + c[0], 0) / cs.length,
+      y: cs.reduce((a, c) => a + c[1], 0) / cs.length,
+    };
   });
 }
 
 /** Aspetta che il numero di pezzi inseriti arrivi a n. */
 export async function waitPieces(page, n, timeout = 10_000) {
-  await expect.poll(() => statNum(page, "Pezzi"), { timeout }).toBeGreaterThanOrEqual(n);
+  await expect
+    .poll(() => statNum(page, "Pezzi"), { timeout })
+    .toBeGreaterThanOrEqual(n);
 }
 
 /**
@@ -62,13 +70,22 @@ export async function watchFlights(page) {
     const w = (window.__flights = { early: 0, landings: [] });
     const board = () => document.querySelector('[data-testid="board"]');
     const cells = () => [...board().querySelectorAll("polygon")].slice(0, 61);
-    const filled = () => new Set(cells().map((c, i) => (c.getAttribute("fill") !== "#1e293b" ? i : -1)).filter((i) => i >= 0));
+    const filled = () =>
+      new Set(
+        cells()
+          .map((c, i) => (c.getAttribute("fill") !== "#1e293b" ? i : -1))
+          .filter((i) => i >= 0),
+      );
     let last = null;
     let before = null;
     const tick = () => {
       const fly = document.querySelector('[data-testid="moving-piece"]');
       if (fly) {
-        if (board().querySelector('polygon[opacity="0.6"]') || board().querySelector(".hx-hint")) w.early++;
+        if (
+          board().querySelector('polygon[opacity="0.6"]') ||
+          board().querySelector(".hx-hint")
+        )
+          w.early++;
         const r = fly.querySelector("svg").getBoundingClientRect();
         last = { x: r.x + r.width / 2, y: r.y + r.height / 2 };
         if (!before) before = filled();
@@ -76,8 +93,14 @@ export async function watchFlights(page) {
         const added = [...filled()].filter((i) => !before.has(i));
         if (added.length) {
           const rs = added.map((i) => cells()[i].getBoundingClientRect());
-          const cx = (Math.min(...rs.map((r) => r.left)) + Math.max(...rs.map((r) => r.right))) / 2;
-          const cy = (Math.min(...rs.map((r) => r.top)) + Math.max(...rs.map((r) => r.bottom))) / 2;
+          const cx =
+            (Math.min(...rs.map((r) => r.left)) +
+              Math.max(...rs.map((r) => r.right))) /
+            2;
+          const cy =
+            (Math.min(...rs.map((r) => r.top)) +
+              Math.max(...rs.map((r) => r.bottom))) /
+            2;
           w.landings.push(Math.hypot(cx - last.x, cy - last.y));
         }
         last = null;

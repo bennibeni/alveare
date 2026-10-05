@@ -60,7 +60,8 @@ export default class HexGrid {
       }
     }
     this.lines = HexGrid.linesFor(radius, this.cells);
-    if (!coordCache.has(radius)) coordCache.set(radius, [...this.cells.keys()].map(parseKey));
+    if (!coordCache.has(radius))
+      coordCache.set(radius, [...this.cells.keys()].map(parseKey));
     // Dati di supporto non enumerabili: non cambiano confronti né copie della griglia.
     Object.defineProperty(this, "coords", { value: coordCache.get(radius) });
     Object.defineProperty(this, "_occ", { value: null, writable: true });
@@ -77,7 +78,12 @@ export default class HexGrid {
           const [q, r] = parseKey(k);
           if (axis.coord(q, r) === v) members.push(k);
         }
-        lines.push({ id: `${axis.id}${v}`, axis: axis.id, value: v, cells: members });
+        lines.push({
+          id: `${axis.id}${v}`,
+          axis: axis.id,
+          value: v,
+          cells: members,
+        });
       }
     }
     lineCache.set(radius, lines);
@@ -106,7 +112,9 @@ export default class HexGrid {
     const side = 2 * this.radius + 1;
     const a = q + this.radius;
     const b = r + this.radius;
-    return a < 0 || b < 0 || a >= side || b >= side ? -1 : this.occupancy[a * side + b];
+    return a < 0 || b < 0 || a >= side || b >= side
+      ? -1
+      : this.occupancy[a * side + b];
   }
 
   has(q, r) {
@@ -130,7 +138,8 @@ export default class HexGrid {
 
   /** Il pezzo (lista di offset [dq, dr]) entra con l'origine in (q, r)? */
   canPlace(piece, q, r) {
-    for (const [dq, dr] of piece) if (this.occ(q + dq, r + dr) !== 0) return false;
+    for (const [dq, dr] of piece)
+      if (this.occ(q + dq, r + dr) !== 0) return false;
     return true;
   }
 
@@ -142,14 +151,17 @@ export default class HexGrid {
     // l'occupazione si ricava da quella attuale senza rileggere tutte le celle
     const occ = this.occupancy.slice();
     const side = 2 * this.radius + 1;
-    for (const [dq, dr] of piece) occ[(q + dq + this.radius) * side + r + dr + this.radius] = color ? 1 : 0;
+    for (const [dq, dr] of piece)
+      occ[(q + dq + this.radius) * side + r + dr + this.radius] = color ? 1 : 0;
     next._occ = occ;
     return next;
   }
 
   /** Le linee completamente piene, in tutte e tre le direzioni. */
   fullLines() {
-    return this.lines.filter((l) => l.cells.every((k) => this.cells.get(k) !== 0));
+    return this.lines.filter((l) =>
+      l.cells.every((k) => this.cells.get(k) !== 0),
+    );
   }
 
   /** Nuovo HexGrid con le celle delle linee indicate svuotate. */
@@ -172,12 +184,14 @@ export default class HexGrid {
   /** Tutte le posizioni d'origine in cui il pezzo entra. */
   placementsFor(piece) {
     const out = [];
-    for (const [q, r] of this.coords) if (this.canPlace(piece, q, r)) out.push([q, r]);
+    for (const [q, r] of this.coords)
+      if (this.canPlace(piece, q, r)) out.push([q, r]);
     return out;
   }
 
   fits(piece) {
-    for (const [q, r] of this.coords) if (this.canPlace(piece, q, r)) return true;
+    for (const [q, r] of this.coords)
+      if (this.canPlace(piece, q, r)) return true;
     return false;
   }
 
@@ -189,7 +203,12 @@ export default class HexGrid {
     const placed = this.place(piece, q, r, color);
     const lines = placed.fullLines();
     const clearedCells = new Set(lines.flatMap((l) => l.cells));
-    return { placed, grid: lines.length ? placed.clear(lines) : placed, lines, clearedCells };
+    return {
+      placed,
+      grid: lines.length ? placed.clear(lines) : placed,
+      lines,
+      clearedCells,
+    };
   }
 }
 
@@ -242,7 +261,9 @@ export function hexPoints(cx, cy, size) {
   const pts = [];
   for (let i = 0; i < 6; i++) {
     const a = (Math.PI / 180) * (60 * i - 30);
-    pts.push(`${(cx + size * Math.cos(a)).toFixed(2)},${(cy + size * Math.sin(a)).toFixed(2)}`);
+    pts.push(
+      `${(cx + size * Math.cos(a)).toFixed(2)},${(cy + size * Math.sin(a)).toFixed(2)}`,
+    );
   }
   return pts.join(" ");
 }
