@@ -64,6 +64,18 @@ const NORMAL_DEEP_SECOND = 5;
 const NORMAL_DEEP_THIRD = 3;
 const NORMAL_DEEP_BLOCK = 1000;
 
+// Pezzo nuovo alla seconda mossa. Dopo la prima mossa entra nel vassoio un pezzo nuovo, quindi la
+// seconda mossa si può fare con uno dei due pezzi noti rimasti OPPURE con quello. Con meno di
+// NORMAL_NEW_FREE celle libere (e almeno NORMAL_DEEP_FREE, dove vale lo sguardo a tre pezzi) le
+// NORMAL_NEW_TOP migliori candidate per totale si rivalutano così: per ognuno dei 25 pezzi
+// possibili, pesato con la sua probabilità di uscita, si prende la migliore seconda mossa (per voto)
+// fra i tre pezzi e si fa la media della coda (voto della seconda mossa, linee chiudibili, rischi).
+// Su 300 partite con lo sdoppiamento: ingressi in pericolo −22% (intervallo 0,74–0,82), partite
+// perse 43 → 29 (rapporto 0,66, intervallo 0,41–1,04): miglioramento probabile, non dimostrato.
+// Costo: circa 21 ms per mossa invece di 6.
+const NORMAL_NEW_FREE = 45;
+const NORMAL_NEW_TOP = 8;
+
 // Delle candidate approfondite, l'analisi e il giudizio confrontano le migliori NORMAL_SHOWN per
 // totale (più la mossa giocata): le stesse che vede il giocatore, con la calibrazione del giudizio.
 const NORMAL_SHOWN = 6;
@@ -78,6 +90,7 @@ export const NORMAL_BIG_PENALTY = NORMAL_BIG;
 export const NORMAL_BIG_SHAPES = [...BIG_SHAPES];
 export const NORMAL_CLEAR_BONUS = NORMAL_CLEAR;
 export const NORMAL_CLOSABLE_BONUS = NORMAL_CLOSABLE;
+export const NORMAL_NEW_PIECE = { free: NORMAL_NEW_FREE, top: NORMAL_NEW_TOP };
 export const NORMAL_DEEP = {
   free: NORMAL_DEEP_FREE,
   second: NORMAL_DEEP_SECOND,
@@ -259,6 +272,65 @@ function withLookahead(m, tray, deep = false) {
   };
 }
 
+/** Celle libere del tabellone. */
+function freeCells(g) {
+  let n = 0;
+  for (const v of g.cells.values()) if (!v) n++;
+  return n;
+}
+
+/** Il pezzo nuovo alla seconda mossa si considera solo fra NORMAL_NEW_FREE e NORMAL_DEEP_FREE. */
+function usesNewPiece(grid) {
+  const free = freeCells(grid);
+  return free < NORMAL_NEW_FREE && free >= NORMAL_DEEP_FREE;
+}
+
+/** Coda di una candidata dopo la seconda mossa `next`, come in withLookahead: voto della seconda
+ * mossa + linee chiudibili − rischi; `remaining` sono i pezzi noti rimasti nel vassoio. */
+function tailValue(next, remaining) {
+  if (!next) return -10000;
+  const { death, bigRoom } = boardRisk(next);
+  let room = 6;
+  for (const p of remaining)
+    room = Math.min(room, next.after.countPlacements(p.cells, 6));
+  return (
+    next.value +
+    NORMAL_CLOSABLE * closableLines(next.after) * crowding(next.after) -
+    NORMAL_DEATH * death -
+    NORMAL_ROOM * (1 - room / 6) -
+    NORMAL_BIG * (1 - bigRoom)
+  );
+}
+
+/** Totale di una candidata con il pezzo nuovo alla seconda mossa (vedi NORMAL_NEW_FREE): media,
+ * sui 25 pezzi che possono arrivare, della coda con la migliore seconda mossa fra i tre pezzi.
+ * `base` è la candidata già valutata da withLookahead (seconda mossa con i soli pezzi noti). */
+function withNewPiece(base, tray) {
+  const rest = tray.filter((p, i) => p && i !== base.idx);
+  const known = base.next;
+  const knownTail = known
+    ? tailValue(
+        known,
+        rest.filter((p, i) => i !== rest.indexOf(known.piece)),
+      )
+    : -10000;
+  let expected = 0;
+  for (const p of PIECES) {
+    const nw = rankedMoves(base.after, [p], base.nextStreak)[0] || null;
+    const tail =
+      nw && (!known || nw.value > known.value)
+        ? tailValue(nw, rest)
+        : knownTail;
+    expected += (p.weight / PIECE_WEIGHT) * tail;
+  }
+  return {
+    ...base,
+    newPiece: true,
+    knownTotal: base.total, // totale con i soli pezzi noti, per guida e confronti
+    total: base.gain * W.cell + base.clearBonus + expected,
+  };
+}
+
 /** Zona di pericolo: sequenze con tutti e tre i pezzi noti. Per la mossa m si provano le migliori
  * seconde mosse (per voto) e, per ognuna, le migliori terze mosse; vince la sequenza con il totale
  * più alto. Il tabellone finale si giudica come nello sguardo a due passi (voto dell'ultima mossa,
@@ -345,14 +417,27 @@ function blockRisk(m, next, tray, death) {
 function normalCandidates(grid, tray, streak) {
   const moves = rankedMoves(grid, tray, streak);
   const deep = isDeep(grid);
-  const byValue = moves
+  let byValue = moves
     .slice(0, LOOKAHEAD)
     .map((m) => withLookahead(m, tray, deep));
+  let byTotal = [...byValue].sort((a, b) => b.total - a.total);
+  const newPiece = !deep && usesNewPiece(grid);
+  if (newPiece) {
+    // le migliori NORMAL_NEW_TOP si rivalutano col pezzo nuovo e restano davanti alle altre
+    const top = byTotal.slice(0, NORMAL_NEW_TOP);
+    const redone = new Map(top.map((m) => [m, withNewPiece(m, tray)]));
+    byValue = byValue.map((m) => redone.get(m) || m);
+    byTotal = [
+      ...[...redone.values()].sort((a, b) => b.total - a.total),
+      ...byTotal.slice(NORMAL_NEW_TOP),
+    ];
+  }
   return {
     totalMoves: moves.length,
     deep,
+    newPiece,
     byValue,
-    byTotal: [...byValue].sort((a, b) => b.total - a.total),
+    byTotal,
   };
 }
 
@@ -715,6 +800,8 @@ export function analyzePlayedMove({ grid, tray, streak, expert, idx, q, r }) {
       (m) => m.idx === idx && m.q === q && m.r === r,
     );
     move = withLookahead(candidate, tray, isDeep(grid));
+    // stesso metro delle candidate mostrate: col pezzo nuovo alla seconda mossa, se vale qui
+    if (!isDeep(grid) && usesNewPiece(grid)) move = withNewPiece(move, tray);
   }
   return {
     ...analysis,

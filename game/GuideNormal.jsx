@@ -18,6 +18,7 @@ import {
   NORMAL_CLOSABLE_BONUS,
   NORMAL_DEEP,
   NORMAL_LOOKAHEAD,
+  NORMAL_NEW_PIECE,
   NORMAL_RISK,
   NORMAL_ROOM_PENALTY,
   WEIGHTS as W,
@@ -296,6 +297,16 @@ export default function GuideNormal({ snapshot }) {
             totale è quello della sequenza migliore: il tabellone dopo la terza
             mossa si giudica come quello dopo la seconda, e se il terzo pezzo
             non entra la penalità è {fmt(NORMAL_DEEP.block, 0)}.
+          </li>
+          <li>
+            fra {NORMAL_DEEP.free} e {NORMAL_NEW_PIECE.free - 1} celle libere
+            tiene conto anche del <b>pezzo nuovo</b>: dopo la prima mossa ne
+            entra uno nel vassoio, e la seconda mossa si può fare anche con
+            quello. Le {NORMAL_NEW_PIECE.top} migliori candidate si rivalutano
+            provando tutti i 25 pezzi che possono arrivare: per ognuno la
+            seconda mossa è la migliore fra i due pezzi noti e quello nuovo, e
+            il totale è la media pesata con le probabilità di uscita. Restano
+            davanti alle altre candidate.
           </li>
           <li>suggerisce la candidata con il totale più alto.</li>
         </ol>
@@ -588,8 +599,11 @@ export default function GuideNormal({ snapshot }) {
                 : example.byTotal[0].room}{" "}
               posizioni), rombo e ferro di cavallo{" "}
               {sign(-example.byTotal[0].bigPenalty)} (spazio{" "}
-              {fmt(example.byTotal[0].bigRoom * 100, 0)}%). Ecco come è nato il
-              voto della mossa suggerita e quello della sua seconda mossa:
+              {fmt(example.byTotal[0].bigRoom * 100, 0)}%).
+              {example.byTotal[0].newPiece &&
+                ` Qui le celle libere sono meno di ${NORMAL_NEW_PIECE.free}: i totali delle prime ${NORMAL_NEW_PIECE.top} candidate sono la media sui 25 pezzi che possono arrivare, non la somma delle voci della tabella (con i soli pezzi noti la mossa scelta varrebbe ${fmt(example.byTotal[0].knownTotal)}).`}{" "}
+              Ecco come è nato il voto della mossa suggerita e quello della sua
+              seconda mossa:
             </p>
             <div className="grid gap-4 md:grid-cols-2">
               <div className="space-y-2">

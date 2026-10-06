@@ -64,6 +64,11 @@ Su 40 partite (4 copie per ingresso): 493 ingressi in pericolo (13 ogni 1000 pez
 1.972, tasso 0,165 ogni 1000 pezzi (intervallo 0,084–0,265); conteggio diretto 4 partite perse su 37.790
 pezzi (0,106). Per riconoscere un miglioramento di un terzo servono circa 300 partite.
 
+Su 300 partite (semi da `7000`, strategia prima del pezzo nuovo alla seconda mossa): 3.660 ingressi
+in pericolo (12,9 ogni 1000 pezzi), 144 copie bloccate su 14.640, tasso 0,127 ogni 1000 pezzi
+(intervallo 0,098–0,157); conteggio diretto 43 partite perse su 282.953 pezzi (0,152). La misura è
+riproducibile: lo stesso comando su un altro computer ha dato esattamente gli stessi numeri.
+
 ## Struttura
 
 L’analisi delle mosse contiene il pulsante **Calcola indicatori di prosecuzione**.
@@ -262,6 +267,17 @@ Che cosa fa il suggerimento in modalità normale, e perché:
   giudica come quello dopo la seconda mossa, con penalità 1.000 se il terzo pezzo non entra. Sono meno
   di una mossa su dieci, quindi il tempo per mossa cresce poco. Provati: soglia 40 (952, 7 perse),
   ricerca più larga 8 × 5 (941, 6 perse), penalità 300 (941, 6 perse) e 1.000 (966, 4 perse).
+- **Pezzo nuovo alla seconda mossa (fra 36 e 44 celle libere).** Dopo la prima mossa entra un pezzo
+  nuovo, e la seconda mossa si può fare anche con quello: lo sguardo a due pezzi lo ignorava. Le 8
+  migliori candidate si rivalutano provando i 25 pezzi che possono arrivare (per ognuno, la migliore
+  seconda mossa fra i due noti e il nuovo) e prendendo la media pesata. Su 300 partite con lo
+  sdoppiamento, stessi semi: ingressi in pericolo da 12,9 a 10,1 ogni 1000 pezzi (rapporto 0,78,
+  intervallo 0,74–0,82), copie bloccate per ingresso da 0,98% a 1,09% (1,11, intervallo 0,77–1,56),
+  tasso 0,127 → 0,110 (0,86, intervallo 0,60–1,22), partite perse 43 → 29 (38 perse solo prima, 24
+  solo dopo; test dei segni p ≈ 0,10). Miglioramento probabile ma non dimostrato: adottato perché
+  le 300 partite vanno tutte nella stessa direzione; sulle 30
+  partite del seme `19000` va invece peggio (4 perse contro 1, durata media 953 contro 981). Costo: circa 22 ms per mossa invece di 6. Sotto le 36
+  celle libere la ricerca a tre pezzi ignora ancora i pezzi in arrivo.
 - **Provati e scartati:** premio per le celle libere dopo le due mosse (854 e 811), linee della
   seconda mossa premiate con l'affollamento (726 e 612), premio esponenziale con le celle libere al
   posto di quello lineare (851 e 850). Tenere la griglia vuota non è un obiettivo in sé, e premiare lo
@@ -323,8 +339,8 @@ pezzi capitano. Succede anche ora: sui 6 semi del comando rapido la versione con
 partite che la versione precedente portava a 1.000, ma su 160 partite ne perde la metà.
 
 ```bash
-npm run sim -- --mode normal --games 30 --seed 19000   # attuale: media 981, 29 a 1.000, 1 persa (circa 2–3 minuti)
-npm run sim -- --mode normal --games 6 --max 1000      # prova veloce, seme 7000: 1000, 299, 1000, 1000, 1000, 860
+npm run sim -- --mode normal --games 30 --seed 19000   # attuale: media 953, 26 a 1.000, 4 perse (prima del pezzo nuovo: 981, 1 persa; circa 10 minuti)
+npm run sim -- --mode normal --games 6 --max 1000      # prova veloce, seme 7000: 1000, 603, 802, 1000, 1000, 1000
 ```
 
 Per confrontare due versioni, lancia lo stesso comando prima e dopo la modifica: con lo stesso seme le
@@ -337,7 +353,8 @@ interi da 32 bit e ogni posizione di ogni pezzo è una maschera precalcolata (`H
 stesso vale per linee chiudibili, buchi e linee quasi piene in `strategy.js`. Le partite sono
 identiche a prima, mossa per mossa (`tests/unit/hexgrid-masks.test.js` confronta le maschere con il
 controllo cella per cella); una mossa costa circa 5 ms invece di 42 in modalità normale e 7 invece
-di 50 in Esperto. La prova veloce qui sopra passa da circa 4 minuti a meno di 30 secondi.
+di 50 in Esperto. Con il pezzo nuovo alla seconda mossa la modalità normale è risalita a circa 22 ms
+per mossa: la prova veloce qui sopra richiede circa 2 minuti (prima delle maschere erano circa 4).
 
 ## Nota
 
