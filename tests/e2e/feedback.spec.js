@@ -72,14 +72,12 @@ test("toast manuale: punteggio coerente, chiusura, annullamento e nessuna sovrap
     .getByRole("button", { name: "Calcola indicatori di prosecuzione" })
     .click();
   await expect(page.getByTestId("position-indicators-result")).toBeVisible();
-  const scores = await page
-    .getByTestId("analyzed-move")
-    .evaluateAll((rows) =>
-      rows.map((r) => ({
-        played: r.dataset.played === "true",
-        score: Number(r.dataset.score),
-      })),
-    );
+  const scores = await page.getByTestId("analyzed-move").evaluateAll((rows) =>
+    rows.map((r) => ({
+      played: r.dataset.played === "true",
+      score: Number(r.dataset.score),
+    })),
+  );
   const format = (n) => n.toLocaleString("it-IT", { maximumFractionDigits: 3 });
   await expect(page.getByTestId("move-feedback-score")).toHaveText(
     `${format(scores.find((s) => s.played).score)} / ${format(Math.max(...scores.map((s) => s.score)))}`,

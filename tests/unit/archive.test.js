@@ -1,9 +1,18 @@
 import fs from "node:fs";
 import { describe, expect, it } from "vitest";
 import { cellNumbers } from "../../game/HexGrid.js";
-import { ARCHIVE, loadPosition, rollout } from "../../scripts/crowded-archive.mjs";
+import {
+  ARCHIVE,
+  loadPosition,
+  rollout,
+} from "../../scripts/crowded-archive.mjs";
 
-const archive = JSON.parse(fs.readFileSync(new URL("../../data/archivio-affollate.json", import.meta.url), "utf8"));
+const archive = JSON.parse(
+  fs.readFileSync(
+    new URL("../../data/archivio-affollate.json", import.meta.url),
+    "utf8",
+  ),
+);
 
 describe("archivio di posizioni affollate e decisive", () => {
   it("ha posizioni in taratura e in verifica, divise per partita di origine", () => {
@@ -25,11 +34,14 @@ describe("archivio di posizioni affollate e decisive", () => {
       const free = [...grid.cells.values()].filter((v) => !v).length;
       expect(free).toBe(p.free);
       expect(free).toBeLessThan(ARCHIVE.free);
-      expect(p.cellNumbers).toEqual(p.cells.map(([q, r]) => numbers.get(`${q},${r}`)).sort((a, b) => a - b));
+      expect(p.cellNumbers).toEqual(
+        p.cells.map(([q, r]) => numbers.get(`${q},${r}`)).sort((a, b) => a - b),
+      );
       expect(tray.every(Boolean)).toBe(true);
       expect(p.survived).toBeGreaterThan(0);
       expect(p.survived).toBeLessThan(p.outcomes.length);
-      for (const o of p.outcomes) expect(grid.canPlace(tray[o.idx].cells, o.q, o.r)).toBe(true);
+      for (const o of p.outcomes)
+        expect(grid.canPlace(tray[o.idx].cells, o.q, o.r)).toBe(true);
     }
   });
 
