@@ -23,6 +23,7 @@ npm run dev          # http://localhost:3000
 | `npm test`                    | test unitari (Vitest): griglia, pezzi, strategia, regressioni           |
 | `npm run test:e2e`            | test nel browser (Playwright): avvia da solo build e server             |
 | `npm run sim -- …`            | simulatore: fa giocare l'autogioco e riassume i risultati               |
+| `npm run pericolo -- …`       | tasso di sconfitta con lo sdoppiamento nei momenti di pericolo          |
 | `npm run audit -- …`          | controllo di congruenza di suggerimenti e giudizi su posizioni simulate |
 
 Per i test nel browser serve Chromium di Playwright (`npx playwright install chromium`), oppure un Chromium già
@@ -38,6 +39,30 @@ npm run sim -- --mode expert --seed 123 --json risultati.json
 
 Ogni partita usa un seme: con gli stessi semi due strategie ricevono **esattamente gli stessi pezzi**, quindi si
 possono confrontare partita per partita (`pairedCompare` in `scripts/sim-lib.mjs`).
+
+### Misura con lo sdoppiamento
+
+La strategia perde circa una volta ogni 10.000 pezzi: per confrontare due versioni contando le partite
+perse servirebbero decine di ore. `scripts/pericolo.mjs` gioca le partite normalmente e, ogni volta che una
+scende sotto 32 celle libere (dopo essere stata ad almeno 40), gioca quella posizione altre K volte con
+pezzi futuri diversi, finché torna a 40 celle libere o si blocca. Tasso di sconfitta = ingressi in pericolo
+ogni 1000 pezzi × frazione di copie bloccate. Così il calcolo si concentra dove si decidono le partite. Le
+partite girano in parallelo, una per core.
+
+```bash
+npm run pericolo -- --games 300 --json base.json                          # strategia attuale
+npm run pericolo -- --games 300 --game ../game-prova --json prova.json    # copia modificata di game/
+npm run pericolo -- --confronta base.json prova.json                      # rapporto dei tassi, intervallo 95%
+```
+
+Per provare una modifica si copia `game/` in `game-prova/` (ignorata da git), si cambia
+`game-prova/strategy.js` (o `pieceAvailability.js`) e si misura con gli stessi semi. Se l'intervallo del
+rapporto comprende 1, la differenza non è dimostrata. I file salvati elencano anche le trappole: ingressi
+in pericolo con almeno una copia bloccata (seme e pezzo).
+
+Su 40 partite (4 copie per ingresso): 493 ingressi in pericolo (13 ogni 1000 pezzi), 25 copie bloccate su
+1.972, tasso 0,165 ogni 1000 pezzi (intervallo 0,084–0,265); conteggio diretto 4 partite perse su 37.790
+pezzi (0,106). Per riconoscere un miglioramento di un terzo servono circa 300 partite.
 
 ## Struttura
 
