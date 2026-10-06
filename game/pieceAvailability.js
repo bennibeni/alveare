@@ -29,11 +29,7 @@ const totalWeight = PIECES.reduce((sum, p) => sum + p.weight, 0);
  */
 export function pieceAvailability(grid, maxPlacements = Infinity) {
   const pieces = PIECES.map((piece) => {
-    let placements = 0;
-    for (const [q, r] of grid.coords) {
-      if (grid.canPlace(piece.cells, q, r) && ++placements >= maxPlacements)
-        break;
-    }
+    const placements = grid.countPlacements(piece.cells, maxPlacements);
     return {
       id: piece.id,
       name: piece.name,

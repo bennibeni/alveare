@@ -298,7 +298,7 @@ pezzi capitano. Succede anche ora: sui 6 semi del comando rapido la versione con
 partite che la versione precedente portava a 1.000, ma su 160 partite ne perde la metà.
 
 ```bash
-npm run sim -- --mode normal --games 30 --seed 19000   # attuale: media 981, 29 a 1.000, 1 persa (circa 15 minuti)
+npm run sim -- --mode normal --games 30 --seed 19000   # attuale: media 981, 29 a 1.000, 1 persa (circa 2–3 minuti)
 npm run sim -- --mode normal --games 6 --max 1000      # prova veloce, seme 7000: 1000, 299, 1000, 1000, 1000, 860
 ```
 
@@ -306,6 +306,13 @@ Per confrontare due versioni, lancia lo stesso comando prima e dopo la modifica:
 partite sono appaiate. I test di regressione in `tests/unit/strategy.test.js` bloccano il comportamento
 attuale: se si cambia la strategia di proposito, si aggiornano i valori attesi. Sono fotografie di poche
 partite, non misure di qualità (`pairedCompare` in `scripts/sim-lib.mjs` confronta partita per partita).
+
+**Velocità.** I controlli «il pezzo entra qui?» usano maschere di bit: le 61 celle stanno in due
+interi da 32 bit e ogni posizione di ogni pezzo è una maschera precalcolata (`HexGrid.js`). Lo
+stesso vale per linee chiudibili, buchi e linee quasi piene in `strategy.js`. Le partite sono
+identiche a prima, mossa per mossa (`tests/unit/hexgrid-masks.test.js` confronta le maschere con il
+controllo cella per cella); una mossa costa circa 5 ms invece di 42 in modalità normale e 7 invece
+di 50 in Esperto. La prova veloce qui sopra passa da circa 4 minuti a meno di 30 secondi.
 
 ## Nota
 

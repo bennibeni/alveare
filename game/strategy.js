@@ -18,7 +18,7 @@
  *
  * In modalità Esperto (coda) la ricerca è diversa: vedi queueCandidates più sotto.
  */
-import { DIRECTIONS, parseKey } from "./HexGrid.js";
+import { gridMasks, popcount } from "./HexGrid.js";
 import { PIECES, SHAPES } from "./pieces.js";
 import { pieceAvailability } from "./pieceAvailability.js";
 
@@ -90,32 +90,36 @@ const PIECE_WEIGHT = PIECES.reduce((a, p) => a + p.weight, 0);
 /** Numero atteso di linee che un pezzo estratto a caso può chiudere con una sola mossa
  * (contando solo le linee a cui mancano da 1 a 3 celle). */
 export function closableLines(g) {
-  const near = [];
-  const byCell = new Map();
-  for (const l of g.lines) {
-    const miss = l.cells.filter((k) => g.cells.get(k) === 0);
-    if (miss.length < 1 || miss.length > 3) continue;
-    for (const k of miss) {
-      if (!byCell.has(k)) byCell.set(k, []);
-      byCell.get(k).push(near.length);
-    }
-    near.push(miss);
+  // celle mancanti di ogni linea come maschere di bit (vedi HexGrid): una linea si chiude con
+  // una posizione del pezzo se le celle mancanti sono tutte coperte dal pezzo
+  const { lineLo, lineHi } = gridMasks(g);
+  const [el, eh] = g.emptyBits;
+  const missLo = [];
+  const missHi = [];
+  for (let i = 0; i < lineLo.length; i++) {
+    const ml = lineLo[i] & el;
+    const mh = lineHi[i] & eh;
+    const miss = popcount(ml) + popcount(mh);
+    if (miss < 1 || miss > 3) continue;
+    missLo.push(ml);
+    missHi.push(mh);
   }
-  if (!near.length) return 0;
+  if (!missLo.length) return 0;
   let expected = 0;
   for (const piece of PIECES) {
-    const closed = new Set();
-    for (const [q, r] of g.placementsFor(piece.cells)) {
-      const covered = new Set(
-        piece.cells.map(([dq, dr]) => `${q + dq},${r + dr}`),
-      );
-      for (const k of covered) {
-        for (const li of byCell.get(k) || [])
-          if (!closed.has(li) && near[li].every((c) => covered.has(c)))
-            closed.add(li);
+    const masks = g.placementMasksFor(piece.cells);
+    let closed = 0;
+    for (let li = 0; li < missLo.length; li++) {
+      const ml = missLo[li];
+      const mh = missHi[li];
+      for (let j = 0; j < masks.length; j += 2) {
+        if ((ml & ~masks[j]) === 0 && (mh & ~masks[j + 1]) === 0) {
+          closed++;
+          break;
+        }
       }
     }
-    expected += (piece.weight / PIECE_WEIGHT) * closed.size;
+    expected += (piece.weight / PIECE_WEIGHT) * closed;
   }
   return expected;
 }
@@ -135,23 +139,24 @@ function crowding(g) {
 }
 
 function boardFeatures(g) {
+  // conteggi con le maschere di bit di HexGrid: celle vuote, vicini vuoti, celle mancanti per linea
+  const { lineLo, lineHi, nbLo, nbHi } = gridMasks(g);
+  const [el, eh] = g.emptyBits;
   let holes = 0;
   let deadHoles = 0;
-  let empty = 0;
-  for (const [k, v] of g.cells) {
-    if (v) continue;
-    empty++;
-    const [q, r] = parseKey(k);
-    let free = 0;
-    for (const [dq, dr] of DIRECTIONS) if (g.isEmpty(q + dq, r + dr)) free++;
+  const empty = popcount(el) + popcount(eh);
+  for (let i = 0; i < nbLo.length; i++) {
+    const isEmpty = i < 32 ? (el >>> i) & 1 : (eh >>> (i - 32)) & 1;
+    if (!isEmpty) continue;
+    const free = popcount(nbLo[i] & el) + popcount(nbHi[i] & eh);
     if (free === 0) deadHoles++;
     else if (free === 1) holes++;
   }
   let fitCount = 0;
   for (const p of PIECES) if (g.fits(p.cells)) fitCount++;
   let near = 0;
-  for (const l of g.lines) {
-    const miss = l.cells.filter((k) => g.cells.get(k) === 0).length;
+  for (let i = 0; i < lineLo.length; i++) {
+    const miss = popcount(lineLo[i] & el) + popcount(lineHi[i] & eh);
     if (miss > 0 && miss <= 2) near += 3 - miss;
   }
   return { holes, deadHoles, empty, fitCount, near };
@@ -324,10 +329,7 @@ function withDeepLookahead(m, tray) {
 function remainingRoom(m, next, tray) {
   const remaining = tray.find((p, i) => p && i !== m.idx && i !== next.idx);
   if (!remaining) return 6;
-  let n = 0;
-  for (const [q, r] of next.after.coords)
-    if (next.after.canPlace(remaining.cells, q, r) && ++n >= 6) break;
-  return n;
+  return next.after.countPlacements(remaining.cells, 6);
 }
 
 /** Per il giudizio: probabilità che dopo le due mosse non entri NESSUN pezzo del vassoio
