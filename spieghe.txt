@@ -183,3 +183,49 @@ punti medi            8722
 punti per pezzo       10.52
 
 Il README spiega perché Con lo sguardo a tre pezzi l'algoritmo migliora nonostante i risultati del controllo veloce
+
+ node scripts/simulate.mjs --mode normal --games 6 --max 1000
+
+Alveare · simulazione · modalità normal · 6 partite · max 1000 pezzi · seme 7000
+
+  partita   1   1000 pezzi   10580 punti  (limite raggiunto)
+  partita   2    299 pezzi    3035 punti  (persa)
+  partita   3   1000 pezzi   10781 punti  (limite raggiunto)
+  partita   4   1000 pezzi   10453 punti  (limite raggiunto)
+  partita   5   1000 pezzi   10603 punti  (limite raggiunto)
+  partita   6    860 pezzi    9086 punti  (persa)
+
+Riepilogo
+  partite perse         2 su 6
+  durata (pezzi)        mediana 1000 · media 859.8 · 25%–75% 860–1000 · max 1000
+  punti medi            9090
+  punti per pezzo       10.57
+  tempo                 31.7 s (6.1 ms per mossa)
+
+Per provare una modifica:
+
+copia la cartella game in game-prova, accanto a game;
+cambia game-prova/strategy.js;
+lancia:
+npm run pericolo -- --games 300 --game ../game-prova --json prova.json
+npm run pericolo -- --confronta base300.json prova.json
+
+PS C:\Users\torre\Desktop\I miei progetti\alveare>    npm run pericolo -- --games 300 --seed 40000 --json base-40000.json
+
+> alveare@1.0.0 pericolo
+> node scripts/pericolo.mjs --games 300 --seed 40000 --json base-40000.json
+
+Alveare · sdoppiamento · 300 partite · max 1000 pezzi · 4 copie per ingresso · seme 40000 · 7 processi
+  strategia: game
+
+Riepilogo
+  pezzi giocati            282772 · partite perse 33 (0,117 ogni 1000 pezzi, conteggio diretto)
+  ingressi in pericolo     3681 (13,0 ogni 1000 pezzi)
+  copie                    14724, bloccate 154 (1,05%)
+  trappole                 93 (ingressi con almeno una copia bloccata)
+  tasso di sconfitta       0,136 ogni 1000 pezzi, intervallo 95% 0,106–0,167
+  tempo                    13.8 min
+
+Risultati salvati in base-40000.json
+
+
