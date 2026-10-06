@@ -274,9 +274,12 @@ Che cosa fa il suggerimento in modalità normale, e perché:
   sdoppiamento, stessi semi: ingressi in pericolo da 12,9 a 10,1 ogni 1000 pezzi (rapporto 0,78,
   intervallo 0,74–0,82), copie bloccate per ingresso da 0,98% a 1,09% (1,11, intervallo 0,77–1,56),
   tasso 0,127 → 0,110 (0,86, intervallo 0,60–1,22), partite perse 43 → 29 (38 perse solo prima, 24
-  solo dopo; test dei segni p ≈ 0,10). Miglioramento probabile ma non dimostrato: adottato perché
-  le 300 partite vanno tutte nella stessa direzione; sulle 30
-  partite del seme `19000` va invece peggio (4 perse contro 1, durata media 953 contro 981). Costo: circa 22 ms per mossa invece di 6. Sotto le 36
+  solo dopo; test dei segni p ≈ 0,10). Verifica su altri 300 semi (da `40000`): tasso 0,136 → 0,097
+  (0,71, intervallo 0,50–1,03), partite perse 33 → 29. Sulle 600 partite insieme: ingressi in pericolo
+  0,77 (0,74–0,79), copie bloccate per ingresso 1,02 (0,80–1,31), tasso 0,132 → 0,103 (0,78,
+  intervallo 0,61–1,00), partite perse 76 → 58 (70 solo prima, 52 solo dopo; p ≈ 0,12). Circa −22%
+  di sconfitte, al limite della significatività ma uguale sui due gruppi di semi; sulle 30 partite
+  del seme `19000` va invece peggio (4 perse contro 1, durata media 953 contro 981). Costo: circa 22 ms per mossa invece di 6. Sotto le 36
   celle libere la ricerca a tre pezzi ignora ancora i pezzi in arrivo.
 - **Provati e scartati:** premio per le celle libere dopo le due mosse (854 e 811), linee della
   seconda mossa premiate con l'affollamento (726 e 612), premio esponenziale con le celle libere al
