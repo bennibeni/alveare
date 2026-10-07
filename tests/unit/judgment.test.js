@@ -16,6 +16,20 @@ function comparison(scores, played, totalMoves = 100) {
 }
 
 describe("giudizio qualitativo della mossa", () => {
+  it("«Occasione persa» solo se la migliore delle valutate è «Ottima mossa»", () => {
+    for (const scores of [
+      [100, 60, 55, 20],
+      [100, 95, 90, 20],
+      [200, 190, 180, 50],
+      [100, 20, 19],
+    ]) {
+      const analysis = comparison(scores, scores.length - 1);
+      const best = judgeMove(comparison(scores, 0));
+      const label = judgeMove(analysis).label;
+      if (label === "Occasione persa") expect(best.label).toBe("Ottima mossa");
+    }
+  });
+
   it("l'incastro del log in apertura: l'etichetta segue il punteggio, l'incastro resta nelle note", () => {
     let grid = new HexGrid(4);
     for (const [q, r] of [
@@ -39,12 +53,11 @@ describe("giudizio qualitativo della mossa", () => {
       q: 2,
       r: -1,
     });
-    // le alternative preparano linee da svuotare: per la strategia valgono nettamente di più
+    // le alternative preparano linee da svuotare: per la strategia valgono nettamente di più, ma
+    // sono cinque mosse quasi equivalenti (la migliore è solo «Buona mossa»): nessuna occasione
+    // che spicca, quindi non «Occasione persa»
     const result = judgeMove(analysis);
-    expect(result).toMatchObject({
-      label: "Occasione persa",
-      emphasis: "negative",
-    });
+    expect(result.label).toBe("Mossa migliorabile");
     expect(result.clearlyBetter).toBeGreaterThanOrEqual(
       result.requiredClearlyBetter,
     );
@@ -187,7 +200,11 @@ describe("giudizio qualitativo della mossa", () => {
 
   it("l'occasione persa segue il punteggio anche fra mosse che svuotano linee", () => {
     // la strategia premia già le linee svuotate e preparate: nessuna eccezione per le chiusure
-    const analysis = comparison([200, 190, 180, 50], 3);
+    // più mosse migliori quasi equivalenti: la migliore non spicca, nessuna occasione persa
+    expect(judgeMove(comparison([200, 190, 180, 50], 3)).label).toBe(
+      "Mossa migliorabile",
+    );
+    const analysis = comparison([200, 120, 110, 50], 3);
     analysis.moves.forEach((move) => {
       move.lines = 1;
       move.next = { lines: 3 };
@@ -387,13 +404,17 @@ describe("giudizio qualitativo della mossa", () => {
   });
 
   it("evidenzia la perdita con un distacco ampio da una maggioranza netta", () => {
-    expect(judgeMove(comparison([100, 95, 90, 20], 3))).toMatchObject({
+    expect(judgeMove(comparison([100, 60, 55, 20], 3))).toMatchObject({
       label: "Occasione persa",
       emphasis: "negative",
       rank: 4,
       gap: 80,
       better: 3,
     });
+    // con tre mosse migliori quasi equivalenti la migliore non è «Ottima»: niente occasione persa
+    expect(judgeMove(comparison([100, 95, 90, 20], 3)).label).toBe(
+      "Mossa migliorabile",
+    );
     expect(judgeMove(comparison([100, 99, 98, 97], 3)).emphasis).toBe(
       "neutral",
     );
@@ -453,8 +474,12 @@ describe("giudizio qualitativo della mossa", () => {
   });
 
   it("basta una sola alternativa eccezionale anche se la mossa giocata è seconda", () => {
+    // con una sola alternativa la migliore non può essere «Ottima»: niente occasione persa
+    expect(judgeMove(comparison([100, 20], 1)).label).not.toBe(
+      "Occasione persa",
+    );
     for (const scores of [
-      [100, 20],
+      [100, 20, 19],
       [100, 50, 49, 48, 47, 46],
       [49, 48, 100, 50, 47, 46],
     ]) {

@@ -134,18 +134,18 @@ mai criticato. I conti sono in `game/moveJudgment.js`.
 
 Le etichette, nell’ordine in cui si controllano:
 
-| Etichetta                           | Quando                                                                                                                                                                 |
-| ----------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Mossa obbligata                     | era l’unica mossa legale                                                                                                                                               |
-| Mossa pessima / cattiva / rischiosa | rischio di blocco più alto di almeno 20 punti percentuali rispetto all’alternativa più sicura (pessima: blocco con i pezzi noti, o rischio ≥ 80%; cattiva: ≥ 50%)      |
-| Occasione persa                     | un’alternativa vale almeno il 50% della scala in più, oppure distacco ≥ 30% con almeno due alternative nettamente migliori (e almeno due terzi delle valutate)         |
-| Ottima mossa / Ottima scoperta      | prima, almeno metà delle alternative inferiori, vantaggio sulla mediana ≥ 10%, rischio sotto il 20% («scoperta»: mossa che il suggerimento non aveva fra le candidate) |
-| Una mossa vale l’altra              | tutte le alternative sono comparabili                                                                                                                                  |
-| Migliore disponibile                | prima, ma con rischio di blocco ≥ 20%                                                                                                                                  |
-| Buona mossa                         | distacco ≤ 5% e rischio sotto il 20%                                                                                                                                   |
-| Mossa giocabile                     | distacco ≤ 10%                                                                                                                                                         |
-| Mossa discreta                      | la maggioranza delle alternative non è migliore, oppure distacco < 20%                                                                                                 |
-| Mossa migliorabile                  | tutti gli altri casi                                                                                                                                                   |
+| Etichetta                           | Quando                                                                                                                                                                                                                                 |
+| ----------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Mossa obbligata                     | era l’unica mossa legale                                                                                                                                                                                                               |
+| Mossa pessima / cattiva / rischiosa | rischio di blocco più alto di almeno 20 punti percentuali rispetto all’alternativa più sicura (pessima: blocco con i pezzi noti, o rischio ≥ 80%; cattiva: ≥ 50%)                                                                      |
+| Occasione persa                     | un’alternativa vale almeno il 50% della scala in più, oppure distacco ≥ 30% con almeno due alternative nettamente migliori (e almeno due terzi delle valutate); in entrambi i casi solo se la migliore delle valutate è «Ottima mossa» |
+| Ottima mossa / Ottima scoperta      | prima, almeno metà delle alternative inferiori, vantaggio sulla mediana ≥ 10%, rischio sotto il 20% («scoperta»: mossa che il suggerimento non aveva fra le candidate)                                                                 |
+| Una mossa vale l’altra              | tutte le alternative sono comparabili                                                                                                                                                                                                  |
+| Migliore disponibile                | prima, ma con rischio di blocco ≥ 20%                                                                                                                                                                                                  |
+| Buona mossa                         | distacco ≤ 5% e rischio sotto il 20%                                                                                                                                                                                                   |
+| Mossa giocabile                     | distacco ≤ 10%                                                                                                                                                                                                                         |
+| Mossa discreta                      | la maggioranza delle alternative non è migliore, oppure distacco < 20%                                                                                                                                                                 |
+| Mossa migliorabile                  | tutti gli altri casi                                                                                                                                                                                                                   |
 
 Le osservazioni sulla posizione compaiono come **note** nei dettagli, senza cambiare l’etichetta:
 linea eliminata aumentando lo spazio, incastro pulito, pezzo da una cella consumato senza un

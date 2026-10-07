@@ -67,6 +67,21 @@ export function judgeMove(analysis, knownPieces = 3) {
   // linee svuotate e quelle preparate).
   const exceptionalLoss =
     clearlyBetter >= 1 && gap / lossScale >= JUDGMENT_LIMITS.exceptionalGap;
+  // «Occasione persa» solo se la migliore delle valutate è un'«Ottima mossa»: un'occasione è una
+  // mossa che spicca. Se le migliori sono più mosse equivalenti (la prima è solo «Buona mossa»),
+  // la mossa riceve il giudizio successivo della scala. Il giudizio della migliore non può a sua
+  // volta passare di qui (il suo distacco è zero), quindi la chiamata non si ripete.
+  const bestIsExcellent = () =>
+    best !== played &&
+    /^Ottima/.test(
+      judgeMove(
+        {
+          ...analysis,
+          moves: moves.map((m) => ({ ...m, played: m === best })),
+        },
+        knownPieces,
+      )?.label ?? "",
+    );
   const rank =
     1 + others.filter((m) => m.total - played.total > epsilon).length;
   const tied = others.filter(
@@ -177,9 +192,10 @@ export function judgeMove(analysis, knownPieces = 3) {
     reason =
       "Aumenta il rischio stimato di blocco di almeno 20 punti percentuali rispetto a un’alternativa più sicura, anche se il punteggio è buono.";
   } else if (
-    exceptionalLoss ||
-    (gap / lossScale >= JUDGMENT_LIMITS.strongGap &&
-      clearlyBetter >= requiredClearlyBetter)
+    (exceptionalLoss ||
+      (gap / lossScale >= JUDGMENT_LIMITS.strongGap &&
+        clearlyBetter >= requiredClearlyBetter)) &&
+    bestIsExcellent()
   ) {
     label = "Occasione persa";
     emphasis = "negative";
