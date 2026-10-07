@@ -347,8 +347,8 @@ pezzi capitano. Succede anche ora: sui 6 semi del comando rapido la versione con
 partite che la versione precedente portava a 1.000, ma su 160 partite ne perde la metà.
 
 ```bash
-npm run sim -- --mode normal --games 30 --seed 19000   # attuale: media 953, 26 a 1.000, 4 perse (prima del pezzo nuovo: 981, 1 persa; circa 10 minuti)
-npm run sim -- --mode normal --games 6 --max 1000      # prova veloce, seme 7000: 1000, 603, 802, 1000, 1000, 1000
+npm run sim -- --mode normal --games 30 --seed 19000   # attuale: media 975, 28 a 1.000, 2 perse (prima del pezzo nuovo: 981, 1 persa; circa 10 minuti)
+npm run sim -- --mode normal --games 6 --max 1000      # prova veloce, seme 7000: tutte a 1000; punti 10225, 10487, 10670, 10637, 10565, 10335
 ```
 
 Per confrontare due versioni, lancia lo stesso comando prima e dopo la modifica: con lo stesso seme le
