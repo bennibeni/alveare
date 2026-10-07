@@ -281,6 +281,11 @@ Che cosa fa il suggerimento in modalità normale, e perché:
   di sconfitte, al limite della significatività ma uguale sui due gruppi di semi; sulle 30 partite
   del seme `19000` va invece peggio (4 perse contro 1, durata media 953 contro 981). Costo: circa 22 ms per mossa invece di 6. Sotto le 36
   celle libere la ricerca a tre pezzi ignora ancora i pezzi in arrivo.
+- **Pezzi identici nel vassoio** (stessa forma e stesso orientamento, in circa un vassoio su sei): le
+  loro mosse si generano una volta sola. Prima la stessa mossa poteva occupare due posti fra le 20
+  candidate approfondite e comparire due volte fra le 6 mostrate (in 168 posizioni su 1.000). Su 300
+  partite con lo sdoppiamento (semi da `40000`) la forza non cambia: tasso 0,097 → 0,106 (1,09,
+  intervallo 0,76–1,59), partite perse 29 e 29, ingressi in pericolo 0,97 (0,92–1,02).
 - **Provati e scartati:** premio per le celle libere dopo le due mosse (854 e 811), linee della
   seconda mossa premiate con l'affollamento (726 e 612), premio esponenziale con le celle libere al
   posto di quello lineare (851 e 850). Tenere la griglia vuota non è un obiettivo in sé, e premiare lo

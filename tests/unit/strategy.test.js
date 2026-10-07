@@ -97,7 +97,11 @@ describe("classifica delle mosse approfondite", () => {
       const grid = new HexGrid(4);
       const tray = randomTray(seededRandom(23));
       const result = analyzeMoves(grid, tray, 2, { queue });
-      const playable = (queue ? tray.slice(0, 1) : tray).reduce(
+      // pezzi identici contano una volta sola
+      const distinct = (queue ? tray.slice(0, 1) : tray).filter(
+        (p, i, all) => all.findIndex((o) => o.id === p.id) === i,
+      );
+      const playable = distinct.reduce(
         (n, p) => n + grid.placementsFor(p.cells).length,
         0,
       );
@@ -543,12 +547,12 @@ describe("prestazioni e regressioni (simulazioni con seme)", () => {
 
   // Valori di riferimento della strategia attuale. Se si cambia la strategia di
   // proposito, questi numeri vanno aggiornati (dopo averla misurata con npm run sim).
-  it("regressione · normale, seme 555, 60 pezzi: 622 punti, 36 linee", () => {
+  it("regressione · normale, seme 555, 60 pezzi: 613 punti, 35 linee", () => {
     expect(playGame({ mode: "normal", seed: 555, maxMoves: 60 })).toEqual({
       seed: 555,
       pieces: 60,
-      points: 622,
-      lines: 36,
+      points: 613,
+      lines: 35,
       lost: false,
     });
   });

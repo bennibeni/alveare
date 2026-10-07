@@ -72,3 +72,19 @@ describe("pezzo nuovo alla seconda mossa", () => {
     }
   });
 });
+
+describe("pezzi identici nel vassoio", () => {
+  it("generano le mosse una volta sola, e la mossa giocata col secondo vale come col primo", () => {
+    const grid = new HexGrid(4);
+    const p = PIECES[1];
+    const tray = [p, p, PIECES[5]];
+    const a = analyzeMoves(grid, tray, 0);
+    const keys = a.moves.map((m) => `${m.piece.id}@${m.q},${m.r}`);
+    expect(new Set(keys).size).toBe(keys.length);
+    expect(a.moves.every((m) => m.idx !== 1)).toBe(true);
+    const distinct =
+      grid.placementsFor(p.cells).length +
+      grid.placementsFor(PIECES[5].cells).length;
+    expect(a.totalMoves).toBe(distinct);
+  });
+});

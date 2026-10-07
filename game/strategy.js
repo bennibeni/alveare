@@ -181,6 +181,8 @@ function rankedMoves(grid, tray, streak) {
   const crowd = crowding(grid);
   tray.forEach((p, idx) => {
     if (!p) return;
+    // pezzi identici (stessa forma e orientamento) danno le stesse mosse: solo il primo le genera
+    if (tray.slice(0, idx).some((o) => o && o.id === p.id)) return;
     for (const [q, r] of grid.placementsFor(p.cells)) {
       const res = grid.play(p.cells, q, r);
       const f = boardFeatures(res.grid);
@@ -707,6 +709,10 @@ export function analyzeMoves(grid, tray, streak = 0, { queue = false } = {}) {
  * riguarda solo la mossa giocata e non modifica mai il suggerimento.
  */
 export function analyzePlayedMove({ grid, tray, streak, expert, idx, q, r }) {
+  // in modalità normale un pezzo identico a uno precedente nel vassoio vale come quello:
+  // le candidate usano il primo dei pezzi identici
+  if (!expert && tray[idx])
+    idx = tray.findIndex((p) => p && p.id === tray[idx].id);
   const analysis = analyzeMoves(grid, tray, streak, { queue: expert });
   const selectedPiece = tray[idx];
   if (

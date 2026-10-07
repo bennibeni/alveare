@@ -30,6 +30,9 @@ export function buildMoveReport({
   const result = grid.play(tray[idx].cells, q, r, tray[idx].color);
   const legalMoves = tray.flatMap((piece, slot) => {
     if (!piece || (expert && slot !== 0)) return [];
+    // pezzi identici danno le stesse mosse: come nella strategia, le genera solo il primo
+    if (!expert && tray.slice(0, slot).some((o) => o && o.id === piece.id))
+      return [];
     return grid
       .placementsFor(piece.cells)
       .map(([q, r]) => ({ idx: slot, q, r }));
@@ -38,10 +41,15 @@ export function buildMoveReport({
     format: "alveare-move-report",
     version: 1,
     notes:
-      "Coordinate assiali q,r; idx parte da 0. Celle: [chiave q,r, colore], 0 = vuota. Posizione precedente all’estrazione del nuovo pezzo. legalMoves contiene tutte le mosse legali; evaluatedMoves solo quelle approfondite, senza inventare voti per le altre.",
+      "Coordinate assiali q,r; idx parte da 0. Celle: [chiave q,r, colore], 0 = vuota. Posizione precedente all’estrazione del nuovo pezzo. legalMoves contiene tutte le mosse legali (con pezzi identici nel vassoio, una volta sola: idx è quello del primo); evaluatedMoves solo quelle approfondite, senza inventare voti per le altre.",
     mode: expert ? "expert" : "normal",
     before: { ...board(grid), tray, streak },
-    played: { idx, q, r },
+    // in modalità normale un pezzo identico vale come il primo dei pezzi uguali
+    played: {
+      idx: expert ? idx : tray.findIndex((p) => p && p.id === tray[idx].id),
+      q,
+      r,
+    },
     after: {
       ...board(result.grid),
       clearedLines: result.lines,
