@@ -286,6 +286,16 @@ Che cosa fa il suggerimento in modalità normale, e perché:
   candidate approfondite e comparire due volte fra le 6 mostrate (in 168 posizioni su 1.000). Su 300
   partite con lo sdoppiamento (semi da `40000`) la forza non cambia: tasso 0,097 → 0,106 (1,09,
   intervallo 0,76–1,59), partite perse 29 e 29, ingressi in pericolo 0,97 (0,92–1,02).
+- **Pari merito nella zona di pericolo** (sotto 36 celle libere): con i tre pezzi noti giocati in
+  ordine diverso più prime mosse portano spesso allo stesso tabellone finale, e lo sguardo a tre pezzi
+  dà a tutte lo stesso totale; vinceva la prima della lista. Ma fra la prima e la seconda mossa arriva
+  un pezzo nuovo, e il tabellone dopo la prima mossa conta (celle isolate, spazio per i pezzi). Ora le
+  pari merito si ordinano con il pezzo nuovo alla seconda mossa (media sui 25 pezzi, come fra 36 e 44
+  celle libere), e il loro totale scende della differenza: il giudizio le distingue. Esempio: seme
+  7000, pezzo 2891: rombo, ferro e ferro avevano −703 tutti e tre ed era suggerito il rombo che isola
+  la cella 61 (bloccato nel 16% di 2000 futuri, i ferri nel 14%); ora vince il ferro in 45-51-57-58.
+  Su 300 partite con lo sdoppiamento (semi da `40000`): tasso 0,106 → 0,101 (0,95, intervallo
+  0,68–1,31), partite perse 29 → 19, stesso tempo di calcolo.
 - **Provati e scartati:** premio per le celle libere dopo le due mosse (854 e 811), linee della
   seconda mossa premiate con l'affollamento (726 e 612), premio esponenziale con le celle libere al
   posto di quello lineare (851 e 850). Tenere la griglia vuota non è un obiettivo in sé, e premiare lo
@@ -347,8 +357,8 @@ pezzi capitano. Succede anche ora: sui 6 semi del comando rapido la versione con
 partite che la versione precedente portava a 1.000, ma su 160 partite ne perde la metà.
 
 ```bash
-npm run sim -- --mode normal --games 30 --seed 19000   # attuale: media 975, 28 a 1.000, 2 perse (prima del pezzo nuovo: 981, 1 persa; circa 10 minuti)
-npm run sim -- --mode normal --games 6 --max 1000      # prova veloce, seme 7000: tutte a 1000; punti 10225, 10487, 10670, 10637, 10565, 10335
+npm run sim -- --mode normal --games 30 --seed 19000   # attuale: media 991, 29 a 1.000, 1 persa (prima dei pari merito: 975, 2 perse; circa 10 minuti)
+npm run sim -- --mode normal --games 6 --max 1000      # prova veloce, seme 7000: tutte a 1000; punti 10350, 10351, 10798, 10408, 10620, 10206
 ```
 
 Per confrontare due versioni, lancia lo stesso comando prima e dopo la modifica: con lo stesso seme le

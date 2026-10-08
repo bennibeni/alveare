@@ -415,6 +415,39 @@ function blockRisk(m, next, tray, death) {
   return death * death;
 }
 
+/** Zona di pericolo: candidate a pari merito con la migliore. Succede spesso: tre mosse con i tre
+ * pezzi noti in ordine diverso portano allo stesso tabellone finale, e lo sguardo a tre pezzi dà a
+ * tutte lo stesso totale. Ma fra la prima e la seconda mossa arriva un pezzo nuovo, e il tabellone
+ * dopo la prima mossa conta (celle isolate, spazio per i pezzi). Le pari merito si ordinano quindi
+ * con il pezzo nuovo alla seconda mossa (media sui 25 pezzi, come in withNewPiece): chi rende meno
+ * perde dal totale la differenza, senza scendere sotto la prima candidata non a pari merito.
+ * Misura con lo sdoppiamento (300 partite, semi 40000): rapporto 0,95 (0,68–1,31), partite perse
+ * da 29 a 19, stesso tempo di calcolo; nei futuri della posizione seme 7000 pezzo 2891 sceglie la
+ * mossa che si blocca meno. */
+const DEEP_TIE = 1e-6;
+function breakDeepTies(byTotal, tray) {
+  const top = byTotal[0].total;
+  const tol = DEEP_TIE * Math.max(1, Math.abs(top));
+  const n = byTotal.findIndex((m) => top - m.total > tol);
+  const tied = n < 0 ? byTotal.length : n;
+  if (tied < 2) return byTotal;
+  const keyed = byTotal
+    .slice(0, tied)
+    .map((m) => ({
+      m,
+      key: withNewPiece(withLookahead(m, tray, false), tray).total,
+    }))
+    .sort((a, b) => b.key - a.key);
+  const floor = n < 0 ? -Infinity : byTotal[n].total + tol;
+  const redone = keyed.map(({ m, key }) => ({
+    ...m,
+    tieTotal: m.total, // totale dello sguardo a tre pezzi, uguale per tutte le pari merito
+    tieBreak: key,
+    total: Math.max(floor, top - (keyed[0].key - key)),
+  }));
+  return [...redone, ...byTotal.slice(tied)];
+}
+
 /** Le LOOKAHEAD mosse migliori per voto, approfondite; byTotal[0] è il suggerimento. */
 function normalCandidates(grid, tray, streak) {
   const moves = rankedMoves(grid, tray, streak);
@@ -423,6 +456,11 @@ function normalCandidates(grid, tray, streak) {
     .slice(0, LOOKAHEAD)
     .map((m) => withLookahead(m, tray, deep));
   let byTotal = [...byValue].sort((a, b) => b.total - a.total);
+  if (deep && byTotal.length > 1) {
+    byTotal = breakDeepTies(byTotal, tray);
+    const redone = new Map(byTotal.filter((m) => m.tieBreak !== undefined).map((m) => [m.idx + ":" + m.q + ":" + m.r, m]));
+    byValue = byValue.map((m) => redone.get(m.idx + ":" + m.q + ":" + m.r) || m);
+  }
   const newPiece = !deep && usesNewPiece(grid);
   if (newPiece) {
     // le migliori NORMAL_NEW_TOP si rivalutano col pezzo nuovo e restano davanti alle altre
