@@ -332,6 +332,12 @@ Che cosa fa il suggerimento in modalità normale, e perché:
   Sdoppiamento, 300 partite (semi da `40000`): tasso 0,051 come la preselezione (1,00, intervallo
   0,56–1,73), ingressi in pericolo 5,6 -> 6,9 ogni 1000 pezzi, copie bloccate per ingresso 0,93% ->
   0,74%.
+  Secondo giro, anche su tabelloni poco affollati (al massimo 45 celle libere: 3.348 posizioni,
+  10.044 tabelloni, 80.352 futuri) e con un'altra domanda, «si blocca entro 40 mosse?» (`valori.mjs
+  --safe 99 --orizzonte 40`; modello in `docs/modello-sgombri.json`). Sdoppiamento, 300 partite (semi
+  da `40000`): con penalità 1.600 tasso 0,051 -> 0,040 (0,78, intervallo 0,45–1,29), partite perse
+  19 -> 10; con penalità 3.200 tasso 0,035 (0,68, intervallo 0,35–1,20), partite perse 17. Migliori
+  ma non ancora dimostrati: da confermare su altri semi.
 - **Provati e scartati:** premio per le celle libere dopo le due mosse (854 e 811), linee della
   seconda mossa premiate con l'affollamento (726 e 612), premio esponenziale con le celle libere al
   posto di quello lineare (851 e 850). Tenere la griglia vuota non è un obiettivo in sé, e premiare lo

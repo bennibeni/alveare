@@ -13,13 +13,20 @@
  */
 import fs from "node:fs";
 import os from "node:os";
-import { Worker, isMainThread, parentPort, workerData } from "node:worker_threads";
+import {
+  Worker,
+  isMainThread,
+  parentPort,
+  workerData,
+} from "node:worker_threads";
 import { randomTray, replacePiece, seededRandom } from "../../game/pieces.js";
 import { features, LEARNED_MODEL } from "../../game/learnedRisk.js";
 import { greedyMove, stateOf } from "./giocatore.mjs";
 
-const SAFE = 46;
-const HORIZON = 60;
+// salvo se torna ad almeno SAFE celle libere; altrimenti si gioca fino a HORIZON mosse (--safe 99:
+// conta solo il blocco entro HORIZON mosse, utile anche per tabelloni poco affollati)
+let SAFE = 46;
+let HORIZON = 60;
 const freeOf = (g) => {
   let n = 0;
   for (const v of g.cells.values()) if (!v) n++;
@@ -68,11 +75,19 @@ function label(pos, pi, model, K, moves) {
 }
 
 if (!isMainThread) {
+  SAFE = workerData.safe;
+  HORIZON = workerData.horizon;
   const positions = JSON.parse(fs.readFileSync(workerData.posFile, "utf8"));
   parentPort.on("message", (pi) => {
     if (pi === null) process.exit(0);
     parentPort.postMessage(
-      label(positions[pi], pi, workerData.model, workerData.K, workerData.moves),
+      label(
+        positions[pi],
+        pi,
+        workerData.model,
+        workerData.K,
+        workerData.moves,
+      ),
     );
   });
 } else {
@@ -94,11 +109,21 @@ if (!isMainThread) {
   const n = Number(args.workers ?? os.cpus().length);
   for (let k = 0; k < n; k++) {
     const wk = new Worker(new URL(import.meta.url), {
-      workerData: { posFile, model, K, moves },
+      workerData: {
+        posFile,
+        model,
+        K,
+        moves,
+        safe: Number(args.safe ?? 46),
+        horizon: Number(args.orizzonte ?? 60),
+      },
     });
     const feed = () => wk.postMessage(next < positions.length ? next++ : null);
     wk.on("message", (rows) => {
-      fs.appendFileSync(out, rows.map((r) => JSON.stringify(r)).join("\n") + "\n");
+      fs.appendFileSync(
+        out,
+        rows.map((r) => JSON.stringify(r)).join("\n") + "\n",
+      );
       if (++done % 100 === 0 || done === positions.length)
         console.log(
           `${done}/${positions.length} posizioni · ${((Date.now() - t0) / 60000).toFixed(1)} min`,

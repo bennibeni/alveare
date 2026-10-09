@@ -35,7 +35,8 @@ export function greedyMove(g, tray, streak, model, C = 1600) {
       const gain = res.lines.length
         ? res.clearedCells.size * res.lines.length * (1 + 0.5 * streak)
         : 0;
-      const v = 60 * res.lines.length + gain - C * riskOf(model, features(res.grid));
+      const v =
+        60 * res.lines.length + gain - C * riskOf(model, features(res.grid));
       if (v > bestV) {
         bestV = v;
         best = { idx, q, r, res };
