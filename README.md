@@ -318,8 +318,10 @@ Che cosa fa il suggerimento in modalità normale, e perché:
   un passo si approfondiscono le 3 migliori di ogni pezzo diverso del vassoio. A voti quasi uguali un
   pezzo intero restava fuori: a tabellone vuoto, con bandiera e due ferri, le 20 approfondite erano
   tutte mosse della bandiera (voto 80,8 contro 79,6), mentre due mosse del ferro pareggiano con la
-  migliore. Prova su 10 partite (semi da `40000`): tutte a 1000 pezzi, nessun problema; non misurata
-  sulla forza (aggiunge candidate, non ne toglie).
+  migliore. Sdoppiamento, 300 partite (semi da `40000`): tasso 0,068 -> 0,051 rispetto al solo rischio
+  imparato (0,76, intervallo 0,46–1,24), 0,101 -> 0,051 rispetto allo spareggio (0,51, intervallo
+  0,32–0,79), partite perse 19. Provata e scartata con essa una soglia (rischio imparato solo sotto 45
+  celle libere): tasso 0,074 (1,44 rispetto alla preselezione).
 - **Provati e scartati:** premio per le celle libere dopo le due mosse (854 e 811), linee della
   seconda mossa premiate con l'affollamento (726 e 612), premio esponenziale con le celle libere al
   posto di quello lineare (851 e 850). Tenere la griglia vuota non è un obiettivo in sé, e premiare lo
