@@ -7,3 +7,5 @@ test-results/
 .vercel
 .env*.local
 .DS_Store
+/game-prova/
+/var-*/

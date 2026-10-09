@@ -1,0 +1,231 @@
+npm run sim -- --mode normal --games 6 --max 1000
+
+> alveare@1.0.0 sim
+> node scripts/simulate.mjs --mode normal --games 6 --max 1000
+
+Alveare · simulazione · modalità normal · 6 partite · max 1000 pezzi · seme 7000
+
+  partita   1     54 pezzi     704 punti  (persa)
+  partita   2    513 pezzi    5333 punti  (persa)
+  partita   3    103 pezzi    1217 punti  (persa)
+  partita   4    144 pezzi    1295 punti  (persa)
+  partita   5    894 pezzi    9245 punti  (persa)
+  partita   6     53 pezzi     425 punti  (persa)
+
+Riepilogo
+  partite perse         6 su 6
+  durata (pezzi)        mediana 103 · media 293.5 · 25%–75% 54–144 · max 894
+  punti medi            3037
+  punti per pezzo       10.35
+  tempo                 72.4 s (41.1 ms per mossa)
+
+Per provare la versione della PR, sempre dal terminale di VS Code:
+
+powershell
+git fetch origin
+git checkout fix/suggerimenti-valutazioni
+npm run sim -- --mode normal --games 6 --max 1000
+
+Dovresti ottenere:
+
+Partita	1	2	3	4	5	6
+Pezzi	54	301	300	1000 (limite raggiunto)	770	324
+
+con 5 partite perse su 6, media 458, mediana 301 e 10,69 punti per pezzo. Dovrebbe anche metterci molto meno: da me il tempo per mossa è sceso da 7,5 a 6,2 ms nonostante il controllo in più, quindi da te circa 34 ms per mossa e un minuto scarso in tutto invece di 72 secondi.
+
+Se git checkout si rifiuta perché hai modifiche locali non salvate, fai prima git stash e poi riprendile con git stash pop dopo essere tornato su main con git checkout main.
+
+Ho aperto la PR #2 (https://github.com/bennibeni/alveare/pull/2): risolve tre dei sei problemi, e la lentezza degli indicatori ora è un terzo di prima.
+
+git fetch origin
+git checkout fix/giudizi-e-prestazioni
+npm ci
+npm run dev
+
+PS C:\Users\torre\Desktop\I miei progetti\alveare> npm run sim -- --mode normal --games 6 --max 1000
+
+> alveare@1.0.0 sim
+> node scripts/simulate.mjs --mode normal --games 6 --max 1000
+
+Alveare · simulazione · modalità normal · 6 partite · max 1000 pezzi · seme 7000
+
+  partita   1     54 pezzi     704 punti  (persa)
+  partita   2    301 pezzi    2849 punti  (persa)
+  partita   3    300 pezzi    3282 punti  (persa)
+  partita   4   1000 pezzi   10972 punti  (limite raggiunto)
+  partita   5    770 pezzi    8300 punti  (persa)
+  partita   6    324 pezzi    3288 punti  (persa)
+
+Riepilogo
+  partite perse         5 su 6
+  durata (pezzi)        mediana 301 · media 458.2 · 25%–75% 300–324 · max 1000
+  punti medi            4899
+  punti per pezzo       10.69
+  tempo                 18.2 s (6.6 ms per mossa)
+
+  Velocità: da 41,1 a 6,6 ms per mossa, circa 6 volte. Non dipende dal gioco migliore ma da come il programma legge il tabellone. Prima, per sapere se una cella era libera, costruiva ogni volta un testo come "3,-2" e lo cercava in una tabella, milioni di volte a partita. Ora usa un elenco numerato, che è molto più rapido. Questa modifica da sola non cambia nessuna mossa: l'ho verificato su 12 partite complete, identiche mossa per mossa. Ne beneficia anche il gioco nel browser: suggerimento, autogioco e analisi rispondono più in fretta.
+
+  Bravura: Nelle tue 6 partite:
+  la 1 è identica (54 pezzi);
+  tre migliorano molto (103→300, 144→1000, 53→324);
+  due peggiorano (513→301, 894→770).
+  La media passa da 293 a 458 pezzi.
+
+               	          Vecchia	  Nuova
+  Durata media	              311	    382
+  Durata mediana	          266	    307
+  Punti medi	            3.155	  3.929
+  Pte arrivate a 1.000 pezzi	0	      5
+
+In modalità normale approfondire 20 candidate invece di 6, con la penalità del pezzo in arrivo a 1.600.
+Il giudizio confronta la tua mossa con tutte le 20, così sa quando molte mosse si equivalgono.
+L'analisi delle mosse continua a mostrarne al massimo 6, le migliori per totale, per non diventare troppo lunga.
+
+Alveare · simulazione · modalità normal · 6 partite · max 1000 pezzi · seme 7000
+
+  partita   1    765 pezzi    9228 punti  (persa)
+  partita   2     42 pezzi     391 punti  (persa)
+  partita   3   1000 pezzi   13063 punti  (limite raggiunto)
+  partita   4     65 pezzi     609 punti  (persa)
+  partita   5    826 pezzi    9962 punti  (persa)
+  partita   6    722 pezzi    8567 punti  (persa)
+
+Riepilogo
+  partite perse         5 su 6
+  durata (pezzi)        mediana 722 · media 570 · 25%–75% 65–765 · max 1000
+  punti medi            6970
+  punti per pezzo       12.23
+  tempo                 38.3 s (11.2 ms per mossa)
+
+Aggiunta al totale una misura dello spazio per i pezzi che restano nel vassoio
+
+Alveare · simulazione · modalità normal · 6 partite · max 1000 pezzi · seme 7000
+
+  partita   1    287 pezzi    3518 punti  (persa)
+  partita   2    529 pezzi    6381 punti  (persa)
+  partita   3    217 pezzi    2755 punti  (persa)
+  partita   4     66 pezzi     665 punti  (persa)
+  partita   5     75 pezzi     779 punti  (persa)
+  partita   6    200 pezzi    2284 punti  (persa)
+
+Riepilogo
+  partite perse         6 su 6
+  durata (pezzi)        mediana 200 · media 229 · 25%–75% 75–217 · max 529
+  punti medi            2730
+  punti per pezzo       11.92
+  tempo                 23.1 s (16.8 ms per mossa)
+
+  Alveare · simulazione · modalità normal · 30 partite · max 1000 pezzi · seme 19000
+
+  partita   1    109 pezzi    1170 punti  (persa)
+  partita   2    888 pezzi   11323 punti  (persa)
+  partita   3    140 pezzi    1590 punti  (persa)
+  partita   4    307 pezzi    3998 punti  (persa)
+  partita   5   1000 pezzi   12521 punti  (limite raggiunto)
+  partita   6    111 pezzi    1202 punti  (persa)
+  partita   7    186 pezzi    2161 punti  (persa)
+  partita   8    838 pezzi   10261 punti  (persa)
+  partita   9    147 pezzi    1709 punti  (persa)
+  partita  10    244 pezzi    2999 punti  (persa)
+  partita  11    346 pezzi    3909 punti  (persa)
+  partita  12     60 pezzi     603 punti  (persa)
+  partita  13    963 pezzi   11932 punti  (persa)
+  partita  14    140 pezzi    1837 punti  (persa)
+  partita  15    174 pezzi    2066 punti  (persa)
+  partita  16     87 pezzi     922 punti  (persa)
+  partita  17    168 pezzi    1969 punti  (persa)
+  partita  18   1000 pezzi   12785 punti  (limite raggiunto)
+  partita  19     49 pezzi     466 punti  (persa)
+  partita  20    771 pezzi    9142 punti  (persa)
+  partita  21     86 pezzi     938 punti  (persa)
+  partita  22    224 pezzi    2731 punti  (persa)
+  partita  23    197 pezzi    2592 punti  (persa)
+  partita  24   1000 pezzi   12672 punti  (limite raggiunto)
+  partita  25    198 pezzi    2507 punti  (persa)
+  partita  26    593 pezzi    7485 punti  (persa)
+  partita  27    362 pezzi    4687 punti  (persa)
+  partita  28    761 pezzi    9174 punti  (persa)
+  partita  29    163 pezzi    2146 punti  (persa)
+  partita  30    816 pezzi   10328 punti  (persa)
+
+Riepilogo
+  partite perse         27 su 30
+  durata (pezzi)        mediana 198 · media 404.3 · 25%–75% 140–761 · max 1000
+  punti medi            4994
+  punti per pezzo       12.35
+  tempo                 160.7 s (13.2 ms per mossa)
+
+Ora dopo la mossa e la seconda mossa, la strategia conta per ogni orientamento di rombo e ferro di cavallo quante posizioni libere ci sono, fino a 6.
+
+npm run sim -- --mode normal --games 6 --max 1000      # prova veloce: 613, 1000, 266, 83, 627, 287
+
+Alveare · simulazione · modalità normal · 6 partite · max 1000 pezzi · seme 7000
+
+  partita   1    613 pezzi    7514 punti  (persa)
+  partita   2   1000 pezzi   12688 punti  (limite raggiunto)
+  partita   3    266 pezzi    3310 punti  (persa)
+  partita   4     83 pezzi    1081 punti  (persa)
+  partita   5    627 pezzi    7665 punti  (persa)
+  partita   6    287 pezzi    3387 punti  (persa)
+
+Riepilogo
+  partite perse         5 su 6
+  durata (pezzi)        mediana 287 · media 479.3 · 25%–75% 266–613 · max 1000
+  punti medi            5941
+  punti per pezzo       12.39
+  tempo                 41.7 s (14.5 ms per mossa)
+
+npm run sim -- --mode normal --games 30 --seed 19000   # ora: media 536, mediana 481, 9 partite a 1.000 (circa 3 minuti)
+
+partite perse         9 su 30
+durata (pezzi)        mediana 1000 · media 828.8 · 25%–75% 686–1000 · max 1000
+punti medi            8722
+punti per pezzo       10.52
+
+Il README spiega perché Con lo sguardo a tre pezzi l'algoritmo migliora nonostante i risultati del controllo veloce
+
+ node scripts/simulate.mjs --mode normal --games 6 --max 1000
+
+Alveare · simulazione · modalità normal · 6 partite · max 1000 pezzi · seme 7000
+
+  partita   1   1000 pezzi   10580 punti  (limite raggiunto)
+  partita   2    299 pezzi    3035 punti  (persa)
+  partita   3   1000 pezzi   10781 punti  (limite raggiunto)
+  partita   4   1000 pezzi   10453 punti  (limite raggiunto)
+  partita   5   1000 pezzi   10603 punti  (limite raggiunto)
+  partita   6    860 pezzi    9086 punti  (persa)
+
+Riepilogo
+  partite perse         2 su 6
+  durata (pezzi)        mediana 1000 · media 859.8 · 25%–75% 860–1000 · max 1000
+  punti medi            9090
+  punti per pezzo       10.57
+  tempo                 31.7 s (6.1 ms per mossa)
+
+Per provare una modifica:
+
+copia la cartella game in game-prova, accanto a game;
+cambia game-prova/strategy.js;
+lancia:
+npm run pericolo -- --games 300 --game ../game-prova --json prova.json
+npm run pericolo -- --confronta base300.json prova.json
+
+PS C:\Users\torre\Desktop\I miei progetti\alveare>    npm run pericolo -- --games 300 --seed 40000 --json base-40000.json
+
+> alveare@1.0.0 pericolo
+> node scripts/pericolo.mjs --games 300 --seed 40000 --json base-40000.json
+
+Alveare · sdoppiamento · 300 partite · max 1000 pezzi · 4 copie per ingresso · seme 40000 · 7 processi
+  strategia: game
+
+Riepilogo
+  pezzi giocati            282772 · partite perse 33 (0,117 ogni 1000 pezzi, conteggio diretto)
+  ingressi in pericolo     3681 (13,0 ogni 1000 pezzi)
+  copie                    14724, bloccate 154 (1,05%)
+  trappole                 93 (ingressi con almeno una copia bloccata)
+  tasso di sconfitta       0,136 ogni 1000 pezzi, intervallo 95% 0,106–0,167
+  tempo                    13.8 min
+
+Risultati salvati in base-40000.json
+
+

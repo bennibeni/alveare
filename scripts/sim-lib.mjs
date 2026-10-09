@@ -5,13 +5,20 @@
  * confronto fra strategie è quindi "appaiato", partita per partita.
  */
 import HexGrid from "../game/HexGrid.js";
-import { randomTray, replacePiece, seededRandom, shiftQueue } from "../game/pieces.js";
+import {
+  randomTray,
+  replacePiece,
+  seededRandom,
+  shiftQueue,
+} from "../game/pieces.js";
 import { bestMove } from "../game/strategy.js";
 
 /** Stesso calcolo del gioco: +1 per cella appoggiata, più il bonus delle linee con combo. */
 export function scoreMove(pieceSize, linesCleared, clearedCells, streak) {
   if (!linesCleared) return pieceSize;
-  return pieceSize + Math.round(clearedCells * linesCleared * (1 + 0.5 * streak));
+  return (
+    pieceSize + Math.round(clearedCells * linesCleared * (1 + 0.5 * streak))
+  );
 }
 
 /**
@@ -19,7 +26,12 @@ export function scoreMove(pieceSize, linesCleared, clearedCells, streak) {
  * mode: "normal" (vassoio libero) o "expert" (coda FIFO)
  * strategy: (grid, tray, streak, { queue }) => { idx, q, r } | null   (default: bestMove del gioco)
  */
-export function playGame({ mode = "normal", seed = 1, maxMoves = 1000, strategy = bestMove } = {}) {
+export function playGame({
+  mode = "normal",
+  seed = 1,
+  maxMoves = 1000,
+  strategy = bestMove,
+} = {}) {
   const rng = seededRandom(seed);
   const queue = mode === "expert";
   let grid = new HexGrid(4);
@@ -32,12 +44,22 @@ export function playGame({ mode = "normal", seed = 1, maxMoves = 1000, strategy 
   for (; pieces < maxMoves; pieces++) {
     const m = strategy(grid, tray, streak, { queue });
     const piece = m && tray[m.idx];
-    if (!m || !piece || (queue && m.idx !== 0) || !grid.canPlace(piece.cells, m.q, m.r)) {
+    if (
+      !m ||
+      !piece ||
+      (queue && m.idx !== 0) ||
+      !grid.canPlace(piece.cells, m.q, m.r)
+    ) {
       lost = true;
       break;
     }
     const res = grid.play(piece.cells, m.q, m.r);
-    points += scoreMove(piece.cells.length, res.lines.length, res.clearedCells.size, streak);
+    points += scoreMove(
+      piece.cells.length,
+      res.lines.length,
+      res.clearedCells.size,
+      streak,
+    );
     lines += res.lines.length;
     streak = res.lines.length ? streak + 1 : 0;
     grid = res.grid;
@@ -51,7 +73,8 @@ export const seedFor = (base, i) => base + i * 97;
 
 export function playGames({ games = 20, seed = 7000, ...opts } = {}) {
   const out = [];
-  for (let i = 0; i < games; i++) out.push(playGame({ ...opts, seed: seedFor(seed, i) }));
+  for (let i = 0; i < games; i++)
+    out.push(playGame({ ...opts, seed: seedFor(seed, i) }));
   return out;
 }
 
@@ -84,7 +107,8 @@ function signTest(wins, losses) {
     return r;
   };
   let p = 0;
-  for (let i = 0; i <= n; i++) if (Math.abs(i - n / 2) >= Math.abs(wins - n / 2)) p += c(n, i);
+  for (let i = 0; i <= n; i++)
+    if (Math.abs(i - n / 2) >= Math.abs(wins - n / 2)) p += c(n, i);
   return Math.min(1, p / 2 ** n);
 }
 
@@ -99,5 +123,10 @@ export function pairedCompare(a, b, metric = "pieces") {
     if (b[i][metric] > ra[metric]) better++;
     else if (b[i][metric] < ra[metric]) worse++;
   });
-  return { better, worse, ties: a.length - better - worse, p: signTest(better, worse) };
+  return {
+    better,
+    worse,
+    ties: a.length - better - worse,
+    p: signTest(better, worse),
+  };
 }

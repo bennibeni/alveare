@@ -1,6 +1,13 @@
 "use client";
 
-import { axialToPixel, hexPoints, parseKey, SQRT3 } from "./HexGrid.js";
+import {
+  axialToPixel,
+  cellNumbers,
+  hexPoints,
+  key,
+  parseKey,
+  SQRT3,
+} from "./HexGrid.js";
 import { PIECE_COLORS } from "./pieces.js";
 
 /**
@@ -13,8 +20,16 @@ import { PIECE_COLORS } from "./pieces.js";
  *          - stroke: contorno; dashed: contorno tratteggiato
  *          - label: testo scritto al centro di ogni cella (es. "1", "2", "3")
  * dimFilled : se true le celle già occupate vengono attenuate, così risaltano le evidenziazioni
+ * emptyFill : colore delle celle vuote (più chiaro quando la miniatura sta su uno sfondo scuro come le celle)
  */
-export default function MiniBoard({ grid, width = 160, marks = [], dimFilled = false, title }) {
+export default function MiniBoard({
+  grid,
+  width = 160,
+  marks = [],
+  dimFilled = false,
+  emptyFill = "#1e293b",
+  title,
+}) {
   const S = 10;
   const pad = S + 2;
   const halfW = S * SQRT3 * grid.radius + pad;
@@ -36,7 +51,7 @@ export default function MiniBoard({ grid, width = 160, marks = [], dimFilled = f
           <polygon
             key={k}
             points={hexPoints(x, y, S - 0.9)}
-            fill={v ? PIECE_COLORS[v] : "#1e293b"}
+            fill={v ? PIECE_COLORS[v] : emptyFill}
             opacity={v && dimFilled ? 0.35 : 1}
           />
         );
@@ -80,6 +95,15 @@ export function pieceCells(cells, q, r) {
 }
 
 /** Numero in formato italiano (virgola decimale), con al massimo `d` decimali. */
+/** Dove sta una mossa con la numerazione delle celle del tabellone (es. "celle 12, 13, 14"). */
+export function cellNumbersText(grid, move) {
+  const numbers = cellNumbers(grid.radius);
+  const list = pieceCells(move.cells, move.q, move.r)
+    .map(([q, r]) => numbers.get(key(q, r)))
+    .sort((a, b) => a - b);
+  return `${list.length === 1 ? "cella" : "celle"} ${list.join(", ")}`;
+}
+
 export function fmt(n, d = 1) {
   const v = Number(n);
   // niente "-0": un contributo nullo si scrive 0
@@ -109,9 +133,13 @@ export function Section({ n, title, children }) {
 
 /** Riquadro evidenziato per formule e osservazioni. */
 export function Note({ children, tone = "info" }) {
-  const border = tone === "warn" ? "#fb7185" : tone === "ok" ? "#4ade80" : "#38bdf8";
+  const border =
+    tone === "warn" ? "#fb7185" : tone === "ok" ? "#4ade80" : "#38bdf8";
   return (
-    <div className="rounded-xl bg-slate-900/80 px-4 py-3 text-sm text-slate-200" style={{ borderLeft: `3px solid ${border}` }}>
+    <div
+      className="rounded-xl bg-slate-900/80 px-4 py-3 text-sm text-slate-200"
+      style={{ borderLeft: `3px solid ${border}` }}
+    >
       {children}
     </div>
   );
@@ -125,7 +153,10 @@ export function Table({ head, rows, align = [] }) {
         <thead className="bg-slate-900 text-left text-xs uppercase tracking-wider text-slate-400">
           <tr>
             {head.map((h, i) => (
-              <th key={i} className={`px-3 py-2 font-medium ${align[i] === "r" ? "text-right" : ""}`}>
+              <th
+                key={i}
+                className={`px-3 py-2 font-medium ${align[i] === "r" ? "text-right" : ""}`}
+              >
                 {h}
               </th>
             ))}
@@ -135,7 +166,10 @@ export function Table({ head, rows, align = [] }) {
           {rows.map((row, ri) => (
             <tr key={ri} className="bg-slate-950/40">
               {row.map((c, ci) => (
-                <td key={ci} className={`px-3 py-2 align-middle text-slate-200 ${align[ci] === "r" ? "text-right tabular-nums" : ""}`}>
+                <td
+                  key={ci}
+                  className={`px-3 py-2 align-middle text-slate-200 ${align[ci] === "r" ? "text-right tabular-nums" : ""}`}
+                >
                   {c}
                 </td>
               ))}

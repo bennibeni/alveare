@@ -15,14 +15,16 @@ npm run dev          # http://localhost:3000
 
 ## Comandi
 
-| Comando | Cosa fa |
-|---|---|
-| `npm run dev` | server di sviluppo |
-| `npm run build` / `npm start` | build di produzione e avvio |
-| `npm run lint` | ESLint (regole Next.js) |
-| `npm test` | test unitari (Vitest): griglia, pezzi, strategia, regressioni |
-| `npm run test:e2e` | test nel browser (Playwright): avvia da solo build e server |
-| `npm run sim -- …` | simulatore: fa giocare l'autogioco e riassume i risultati |
+| Comando                       | Cosa fa                                                                 |
+| ----------------------------- | ----------------------------------------------------------------------- |
+| `npm run dev`                 | server di sviluppo                                                      |
+| `npm run build` / `npm start` | build di produzione e avvio                                             |
+| `npm run lint`                | ESLint (regole Next.js)                                                 |
+| `npm test`                    | test unitari (Vitest): griglia, pezzi, strategia, regressioni           |
+| `npm run test:e2e`            | test nel browser (Playwright): avvia da solo build e server             |
+| `npm run sim -- …`            | simulatore: fa giocare l'autogioco e riassume i risultati               |
+| `npm run pericolo -- …`       | tasso di sconfitta con lo sdoppiamento nei momenti di pericolo          |
+| `npm run audit -- …`          | controllo di congruenza di suggerimenti e giudizi su posizioni simulate |
 
 Per i test nel browser serve Chromium di Playwright (`npx playwright install chromium`), oppure un Chromium già
 installato indicato con `PW_CHROMIUM=/percorso/chrome`.
@@ -37,6 +39,35 @@ npm run sim -- --mode expert --seed 123 --json risultati.json
 
 Ogni partita usa un seme: con gli stessi semi due strategie ricevono **esattamente gli stessi pezzi**, quindi si
 possono confrontare partita per partita (`pairedCompare` in `scripts/sim-lib.mjs`).
+
+### Misura con lo sdoppiamento
+
+La strategia perde circa una volta ogni 10.000 pezzi: per confrontare due versioni contando le partite
+perse servirebbero decine di ore. `scripts/pericolo.mjs` gioca le partite normalmente e, ogni volta che una
+scende sotto 32 celle libere (dopo essere stata ad almeno 40), gioca quella posizione altre K volte con
+pezzi futuri diversi, finché torna a 40 celle libere o si blocca. Tasso di sconfitta = ingressi in pericolo
+ogni 1000 pezzi × frazione di copie bloccate. Così il calcolo si concentra dove si decidono le partite. Le
+partite girano in parallelo, una per core.
+
+```bash
+npm run pericolo -- --games 300 --json base.json                          # strategia attuale
+npm run pericolo -- --games 300 --game ../game-prova --json prova.json    # copia modificata di game/
+npm run pericolo -- --confronta base.json prova.json                      # rapporto dei tassi, intervallo 95%
+```
+
+Per provare una modifica si copia `game/` in `game-prova/` (ignorata da git), si cambia
+`game-prova/strategy.js` (o `pieceAvailability.js`) e si misura con gli stessi semi. Se l'intervallo del
+rapporto comprende 1, la differenza non è dimostrata. I file salvati elencano anche le trappole: ingressi
+in pericolo con almeno una copia bloccata (seme e pezzo).
+
+Su 40 partite (4 copie per ingresso): 493 ingressi in pericolo (13 ogni 1000 pezzi), 25 copie bloccate su
+1.972, tasso 0,165 ogni 1000 pezzi (intervallo 0,084–0,265); conteggio diretto 4 partite perse su 37.790
+pezzi (0,106). Per riconoscere un miglioramento di un terzo servono circa 300 partite.
+
+Su 300 partite (semi da `7000`, strategia prima del pezzo nuovo alla seconda mossa): 3.660 ingressi
+in pericolo (12,9 ogni 1000 pezzi), 144 copie bloccate su 14.640, tasso 0,127 ogni 1000 pezzi
+(intervallo 0,098–0,157); conteggio diretto 43 partite perse su 282.953 pezzi (0,152). La misura è
+riproducibile: lo stesso comando su un altro computer ha dato esattamente gli stessi numeri.
 
 ## Struttura
 
@@ -58,11 +89,13 @@ I giudizi non vengono ricalibrati automaticamente su queste stime sperimentali.
 
 L’accordion **Analisi delle mosse**, sopra le istruzioni, è disponibile fuori dall’autogioco.
 Mostra il numero di mosse legali e le candidate approfondite dalla strategia attuale, ordinate
-con il suggerimento in testa: fino a 6 in modalità normale; in Esperto fino a 10 posizioni del
+con il suggerimento in testa: in modalità normale le 6 migliori per totale fra le 20 approfondite;
+in Esperto fino a 10 posizioni del
 primo pezzo, ciascuna approfondita con la propria ricerca e mostrata con il punteggio della sua
 migliore sequenza.
 Il punteggio è quello della strategia, non i punti aggiunti alla partita. L’analisi viene calcolata
-solo aprendo l’accordion. Per disabilitarlo da codice, impostare `SHOW_MOVE_ANALYSIS = false`
+solo aprendo l’accordion, in un Web Worker (`game/strategy.worker.js`): mentre calcola il riquadro
+mostra «Calcolo delle mosse…» e il gioco resta fluido. Per disabilitarlo da codice, impostare `SHOW_MOVE_ANALYSIS = false`
 in `game/HexBlockPuzzle.jsx`.
 
 Dopo una mossa manuale l’accordion mostra il confronto sulla posizione precedente:
@@ -72,6 +105,9 @@ I pulsanti «Ultima mossa» e «Posizione corrente» permettono di passare dal c
 alle nuove possibilità. Il suggerimento e la sua ricerca restano invariati.
 
 Il **toast di valutazione** compare dopo ogni mossa manuale, anche con l’accordion chiuso.
+Analisi e giudizio della mossa si calcolano nello stesso worker, quindi il toast arriva
+qualche istante dopo la mossa senza bloccare l’interfaccia; il suggerimento e l’autogioco
+restano invece sul thread principale.
 Su desktop occupa una colonna riservata a destra; sotto 1100 px resta nel flusso sotto
 il tabellone, prima degli accordion. Rimane leggibile fino alla mossa successiva o alla
 chiusura e non impila notifiche. `SHOW_MOVE_FEEDBACK` abilita/disabilita questa funzione
@@ -81,23 +117,55 @@ Ogni nuova mossa parte con i dettagli chiusi, anche quando il giudizio è positi
 
 Il rapporto mostrato è `voto della mossa / massimo fra le mosse valutate`, inclusa
 la mossa aggiunta al confronto: non è una percentuale né il massimo globale di tutte
-le mosse legali. Il giudizio è euristico e considera distacco dal massimo, rango con
-ex aequo, mediana, quante alternative sono migliori/comparabili/inferiori e rischio
-di prosecuzione. I conti sono in `game/moveJudgment.js`:
+le mosse legali. Il giudizio usa **lo stesso metro del suggerimento**: l’etichetta dipende solo
+dai voti delle mosse valutate e dal rischio di blocco. Così una mossa con un voto più alto e
+non più rischio non riceve mai un giudizio peggiore di un’altra, e il suggerimento non viene
+mai criticato. I conti sono in `game/moveJudgment.js`.
 
 - La scala di confronto è il massimo fra 1, valore assoluto del massimo e della mediana;
   in questo modo anche voti zero o negativi hanno un confronto definito.
-- Alternative entro ±5% della scala sono comparabili. Il rango usa invece i punteggi
-  effettivi con una piccola tolleranza numerica per gli ex aequo.
-- Una prima scelta è notevole se almeno metà delle alternative è inferiore, il vantaggio
-  sulla mediana raggiunge il 10% della scala e non emerge un rischio elevato di prosecuzione.
-- Una scelta è segnalata negativamente se perde almeno il 30% della scala, è nella metà
-  inferiore e almeno metà delle alternative è nettamente migliore. Conta anche la perdita
-  di una prosecuzione nota o un aumento del rischio stimato di almeno 20 punti percentuali
-  rispetto alla migliore, insieme a un distacco significativo dal massimo.
-- Scelte obbligate, campioni di una sola candidata e alternative tutte comparabili non
-  producono segnali speciali. Si tratta di un confronto fra le candidate approfondite,
-  non di una valutazione esaustiva o appresa statisticamente.
+- Alternative entro ±5% della scala sono comparabili; «nettamente migliori» sono quelle con un
+  vantaggio oltre il 20% (della scala, o del valore della mossa se più grande). Il rango usa i
+  punteggi effettivi con una piccola tolleranza numerica per gli ex aequo.
+- Il rischio è la probabilità di blocco subito dopo i pezzi noti. In Esperto: il pezzo
+  ignoto che segue i tre della coda non entra. In normale: dopo la mossa e la migliore
+  seconda mossa, il pezzo noto rimasto non entra e nemmeno i due estratti al posto di quelli
+  giocati (probabilità per un pezzo, al quadrato).
+
+Le etichette, nell’ordine in cui si controllano:
+
+| Etichetta                           | Quando                                                                                                                                                                                                                                 |
+| ----------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Mossa obbligata                     | era l’unica mossa legale                                                                                                                                                                                                               |
+| Mossa pessima / cattiva / rischiosa | rischio di blocco più alto di almeno 20 punti percentuali rispetto all’alternativa più sicura (pessima: blocco con i pezzi noti, o rischio ≥ 80%; cattiva: ≥ 50%)                                                                      |
+| Occasione persa                     | un’alternativa vale almeno il 50% della scala in più, oppure distacco ≥ 30% con almeno due alternative nettamente migliori (e almeno due terzi delle valutate); in entrambi i casi solo se la migliore delle valutate è «Ottima mossa» |
+| Ottima mossa / Ottima scoperta      | prima, almeno metà delle alternative inferiori, vantaggio sulla mediana ≥ 10%, rischio sotto il 20% («scoperta»: mossa che il suggerimento non aveva fra le candidate)                                                                 |
+| Una mossa vale l’altra              | tutte le alternative sono comparabili                                                                                                                                                                                                  |
+| Migliore disponibile                | prima, ma con rischio di blocco ≥ 20%                                                                                                                                                                                                  |
+| Buona mossa                         | distacco ≤ 5% e rischio sotto il 20%                                                                                                                                                                                                   |
+| Mossa giocabile                     | distacco ≤ 10%                                                                                                                                                                                                                         |
+| Mossa discreta                      | la maggioranza delle alternative non è migliore, oppure distacco < 20%                                                                                                                                                                 |
+| Mossa migliorabile                  | tutti gli altri casi                                                                                                                                                                                                                   |
+
+Le osservazioni sulla posizione compaiono come **note** nei dettagli, senza cambiare l’etichetta:
+linea eliminata aumentando lo spazio, incastro pulito, pezzo da una cella consumato senza un
+netto miglioramento. Quest’ultima compare solo se un’alternativa con un voto migliore conservava
+il punto (o lo collocava eliminando linee): penalizzare nella strategia il consumo del punto senza
+linee, provato con 30 e 100 su 60 partite, non migliora (durata media 882 e 865 contro 904).
+Prima queste osservazioni potevano scavalcare il voto: un incastro o una linea eliminata
+diventavano «Buona mossa» anche con alternative nettamente migliori, e il punto consumato
+diventava «Mossa cattiva» anche quando era il suggerimento. Ora che la strategia premia già le
+linee svuotate e quelle preparate, quelle eccezioni producevano giudizi incoerenti.
+
+`npm run audit` controlla la congruenza su posizioni simulate (in parte con mosse casuali): in
+ogni posizione giudica le candidate e alcune mosse casuali e verifica che suggerimento, etichetta,
+motivazione, note e mosse nettamente migliori siano coerenti con i dati. Una versione corta gira
+fra i test (`tests/unit/coherence.test.js`).
+
+```bash
+npm run audit -- --mode normal --positions 400   # da 2 a 5 minuti, secondo il computer
+npm run audit -- --mode expert --positions 150
+```
 
 Il **beep è disattivato inizialmente** e si può attivare dal riquadro. Produce due brevi
 toni ascendenti/discendenti solo per le mosse evidenziate positivamente/negativamente;
@@ -110,6 +178,11 @@ game/
   HexGrid.js          tabellone in coordinate assiali: celle, vicini, 27 linee, mosse
   pieces.js           i 25 pezzi (6 forme), colori, estrazione casuale (anche con seme)
   strategy.js         suggerimenti: valutazione del tabellone, sguardo avanti, beam search (Esperto)
+  strategy.worker.js  analisi e giudizio delle mosse fuori dal thread dell’interfaccia
+  strategyClient.js   richieste al worker, con cache per posizione
+  moveJudgment.js     giudizio della mossa giocata
+  pieceAvailability.js probabilità esatta che il prossimo pezzo estratto non entri (usata da strategia e indicatori)
+  positionRisk.js     indicatori di prosecuzione (simulazioni nel worker positionRisk.worker.js)
   GuideNormal.jsx     pagina «Suggerimenti · normale»
   GuideExpert.jsx     pagina «Suggerimenti · Esperto»
   GuideKit.jsx        miniature del tabellone e componenti comuni delle guide
@@ -120,36 +193,212 @@ tests/e2e/            test Playwright
 
 ## Risultati di riferimento (simulatore)
 
-Confronto appaiato (stessi pezzi per le due strategie) fra la versione precedente e quella attuale.
-Le partite hanno durate molto variabili, da poche decine a oltre mille pezzi: le differenze fra le
-medie non sono statisticamente significative con questo numero di partite.
+Confronto appaiato: con lo stesso seme le strategie ricevono gli stessi pezzi nello stesso ordine.
+Le partite hanno durate molto variabili, da poche decine a oltre mille pezzi, quindi una differenza
+è credibile solo su molte partite.
 
-| Modalità | Partite | Strategia | Durata media | Durata mediana | Punti medi | Punti per pezzo |
-|---|---|---|---|---|---|---|
-| normale | 60, max 1.000 pezzi | precedente | 311 | 266 | 3.155 | 10,15 |
-| normale | 60, max 1.000 pezzi | **attuale** (+ rischio del pezzo in arrivo) | 382 | 307 | 3.929 | 10,29 |
-| Esperto | 50, max 3.000 pezzi | precedente (un fascio per tutte le prime mosse) | 369 | 310 | 3.434 | 9,30 |
-| Esperto | 50, max 3.000 pezzi | **attuale** (un fascio per prima mossa) | 400 | 266 | 4.306 | 10,76 |
+### Modalità normale
 
-Semi usati: normale `--seed 7000` (12 partite), `9000` e `11000` (24 ciascuno); Esperto `7000` (20) e
-`13000` (30). Nessuna strategia è immortale: anche in modalità normale tutte le partite finiscono,
-tranne 5 su 60 interrotte al limite dei 1.000 pezzi.
+60 partite di taratura (semi `7000`, `9000`, `11000`, 20 ciascuno, al massimo 1.000 pezzi):
 
-Con la nuova ricerca Esperto la penalità per il pezzo ignoto è passata da 400 a 1.200: con un fascio
-per ogni prima mossa la ricerca trova più sequenze che svuotano linee, e con la penalità a 400 le partite
-si accorciavano (durata media 309 sulle stesse 50 partite). Su 30 partite: 400 → durata media 310,
-800 → 378, 1.200 → 434, 1.600 → 428 (precedente: 402).
+| Strategia                                              | Durata media | Durata mediana | Punti medi | Punti per pezzo | Arrivate a 1.000 |
+| ------------------------------------------------------ | ------------ | -------------- | ---------- | --------------- | ---------------- |
+| originale (6 candidate, senza rischio)                 | 286          | 219            | 2.896      | 10,13           | 0                |
+| 6 candidate, rischio 400                               | 373          | 301            | 3.834      | 10,29           | 5                |
+| 20 candidate, rischio 1.600                            | 433          | 357            | 5.226      | 12,06           | 10               |
+| + spazio per il pezzo rimasto                          | 486          | 349            | 5.938      | 12,21           | 14               |
+| + spazio per rombo e ferro di cavallo                  | 670          | 735            | 8.188      | 12,23           | 23               |
+| + premio per le linee svuotate                         | 852          | 1.000          | 8.982      | 10,54           | 43               |
+| + premio per le linee chiudibili                       | 904          | 1.000          | 9.591      | 10,61           | 46               |
+| **attuale: + tre pezzi noti con la griglia affollata** | **966**      | **1.000**      | **10.312** | **10,68**       | **56**           |
 
-Comando rapido (circa 20 secondi):
+Verifica su 140 partite mai usate per la taratura (semi da `13000` a `25000`):
+
+| Strategia                                                            | Durata media | Durata mediana | Arrivate a 1.000 | Meglio / peggio |
+| -------------------------------------------------------------------- | ------------ | -------------- | ---------------- | --------------- |
+| + spazio per il pezzo rimasto                                        | 479          | 416            | 24               | —               |
+| + spazio per rombo e ferro di cavallo                                | 604          | 653            | 44               | 73 / 58         |
+| + premio per le linee svuotate                                       | 832          | 1.000          | 96               | 87 / 28         |
+| + premio per le linee chiudibili                                     | 879          | 1.000          | 110              | 86 / 19         |
+| **attuale: + tre pezzi noti con la griglia affollata** (100 partite) | **952**      | **1.000**      | **88 su 100**    | **19 / 11**     |
+
+«Meglio / peggio» confronta ogni riga con la precedente; per i due premi per le linee, con la versione
+senza (rapporto delle durate 1,77, intervallo al 95% 1,47–2,13). Il premio per le linee chiudibili,
+aggiunto al premio per le linee svuotate, vale circa +11% su 200 partite (55 meglio, 38 peggio; intervallo
+0,98–1,25: credibile ma non certo). Con tre quarti delle partite fermate al limite dei 1.000 pezzi, i
+guadagni sono sottostimati.
+
+I tre pezzi noti sono stati verificati su 100 delle 140 partite nuove (semi `13000`, `15000`, `17000`,
+`21000`, `23000`): partite perse da 19 a 12, meglio in 19 e peggio in 11 (rapporto delle durate 1,12,
+intervallo 0,98–1,29). Con le 60 partite di taratura (perse da 14 a 4, meglio 13, peggio 4): 32 meglio e
+15 peggio su 160 partite, test dei segni p ≈ 0,02. Sulle 30 partite del seme `19000`, rimaste fuori dalla
+verifica interrotta, le partite perse sono passate da 9 a 1.
+
+Che cosa fa il suggerimento in modalità normale, e perché:
+
+- **20 candidate invece di 6.** Il voto a un passo, usato per sceglierle, prevede male il totale finale:
+  con 6 il suggerimento era il migliore secondo il suo stesso criterio solo nel 59% delle posizioni
+  (87% con 20). Analisi e giudizio mostrano e confrontano le 6 migliori per totale.
+- **Rischio del pezzo in arrivo: 1.600 × probabilità** che un pezzo estratto a caso non entri dopo le
+  due mosse (provati 400, 800, 1.600, 2.400, 3.200: durata media 364, 380, 433, 396, 371).
+- **Spazio per il pezzo che resta nel vassoio: 200 × (1 − posizioni / 6).** Su 26.000 posizioni
+  simulate, se i due pezzi tenuti hanno al massimo 3 posizioni la partita si perde entro 5 mosse nel
+  1–2% dei casi, contro lo 0,1% con almeno 4; con due pezzi identici (stesso orientamento, non punti)
+  senza posizioni si perde nel 55% dei casi. Su 200 partite: durata media 420 → 481 (113 meglio, 83 peggio).
+- **Spazio per rombo e ferro di cavallo: 1.000 × (1 − spazio).** Nel vassoio a fine partita queste due
+  forme sono il 31–32% dei pezzi, contro il 22% con cui escono (98 partite perse): sono compatte e
+  servono buchi «a blocco», mentre alla fine restano in media 25 celle libere ma sparpagliate.
+  Spazio = media, pesata con le probabilità di uscita, di min(posizioni, 6) / 6 sui loro orientamenti.
+  Provati 200, 500, 1.000, 2.000 (durata media 557, 554, 670, 610) e la stessa misura su tutti i
+  pezzi (300 e 1.000: 599 e 629).
+- **Premio per le linee svuotate: 180 × linee × affollamento.** Affollamento = celle occupate / 61,
+  prima della mossa. A tabellone vuoto conviene rimandare lo svuotamento per fare combo; a tabellone
+  pieno conviene liberare spazio subito. Provati 60, 180, 240, 300, 500 (durata media 729, 852, 826, 777, 770) e 180 solo sotto le 40 celle libere (747). Si fanno meno combo (punti per pezzo da 12,2 a 10,5),
+  ma le partite durano molto di più e i punti per partita salgono.
+- **Premio per le linee chiudibili: 100 × linee chiudibili × affollamento,** dopo le due mosse. Linee
+  chiudibili = numero atteso di linee (a cui mancano da 1 a 3 celle) che un pezzo estratto a caso può
+  chiudere con una sola mossa: premia le mosse che preparano uno svuotamento. Da solo rende poco (100 e
+  300: 705 e 753); insieme al premio per le linee svuotate, 100 rende più di 300 (904 e 830). Contare
+  le linee che può chiudere il pezzo rimasto nel vassoio non ha dato miglioramenti (675).
+- **Tre pezzi noti con la griglia affollata (meno di 36 celle libere).** Su 26.000 mosse simulate il
+  rischio di perdere entro 10 mosse è ≤ 0,1% con almeno 40 celle libere, 0,4% con 36–39, 1,8% con
+  32–35, 5% con 28–31, 12% con 24–27. Sotto le 36 la strategia prova, per ogni candidata, le 5 migliori
+  seconde mosse e per ognuna le 3 migliori terze mosse con il pezzo rimasto; il tabellone finale si
+  giudica come quello dopo la seconda mossa, con penalità 1.000 se il terzo pezzo non entra. Sono meno
+  di una mossa su dieci, quindi il tempo per mossa cresce poco. Provati: soglia 40 (952, 7 perse),
+  ricerca più larga 8 × 5 (941, 6 perse), penalità 300 (941, 6 perse) e 1.000 (966, 4 perse).
+- **Pezzo nuovo alla seconda mossa (fra 36 e 44 celle libere).** Dopo la prima mossa entra un pezzo
+  nuovo, e la seconda mossa si può fare anche con quello: lo sguardo a due pezzi lo ignorava. Le 8
+  migliori candidate si rivalutano provando i 25 pezzi che possono arrivare (per ognuno, la migliore
+  seconda mossa fra i due noti e il nuovo) e prendendo la media pesata. Su 300 partite con lo
+  sdoppiamento, stessi semi: ingressi in pericolo da 12,9 a 10,1 ogni 1000 pezzi (rapporto 0,78,
+  intervallo 0,74–0,82), copie bloccate per ingresso da 0,98% a 1,09% (1,11, intervallo 0,77–1,56),
+  tasso 0,127 → 0,110 (0,86, intervallo 0,60–1,22), partite perse 43 → 29 (38 perse solo prima, 24
+  solo dopo; test dei segni p ≈ 0,10). Verifica su altri 300 semi (da `40000`): tasso 0,136 → 0,097
+  (0,71, intervallo 0,50–1,03), partite perse 33 → 29. Sulle 600 partite insieme: ingressi in pericolo
+  0,77 (0,74–0,79), copie bloccate per ingresso 1,02 (0,80–1,31), tasso 0,132 → 0,103 (0,78,
+  intervallo 0,61–1,00), partite perse 76 → 58 (70 solo prima, 52 solo dopo; p ≈ 0,12). Circa −22%
+  di sconfitte, al limite della significatività ma uguale sui due gruppi di semi; sulle 30 partite
+  del seme `19000` va invece peggio (4 perse contro 1, durata media 953 contro 981). Costo: circa 22 ms per mossa invece di 6. Sotto le 36
+  celle libere la ricerca a tre pezzi ignora ancora i pezzi in arrivo.
+- **Pezzi identici nel vassoio** (stessa forma e stesso orientamento, in circa un vassoio su sei): le
+  loro mosse si generano una volta sola. Prima la stessa mossa poteva occupare due posti fra le 20
+  candidate approfondite e comparire due volte fra le 6 mostrate (in 168 posizioni su 1.000). Su 300
+  partite con lo sdoppiamento (semi da `40000`) la forza non cambia: tasso 0,097 → 0,106 (1,09,
+  intervallo 0,76–1,59), partite perse 29 e 29, ingressi in pericolo 0,97 (0,92–1,02).
+- **Pari merito nella zona di pericolo** (sotto 36 celle libere): con i tre pezzi noti giocati in
+  ordine diverso più prime mosse portano spesso allo stesso tabellone finale, e lo sguardo a tre pezzi
+  dà a tutte lo stesso totale; vinceva la prima della lista. Ma fra la prima e la seconda mossa arriva
+  un pezzo nuovo, e il tabellone dopo la prima mossa conta (celle isolate, spazio per i pezzi). Ora le
+  pari merito si ordinano con il pezzo nuovo alla seconda mossa (media sui 25 pezzi, come fra 36 e 44
+  celle libere), e il loro totale scende della differenza: il giudizio le distingue. Esempio: seme
+  7000, pezzo 2891: rombo, ferro e ferro avevano −703 tutti e tre ed era suggerito il rombo che isola
+  la cella 61 (bloccato nel 16% di 2000 futuri, i ferri nel 14%); ora vince il ferro in 45-51-57-58.
+  Su 300 partite con lo sdoppiamento (semi da `40000`): tasso 0,106 → 0,101 (0,95, intervallo
+  0,68–1,31), partite perse 29 → 19, stesso tempo di calcolo.
+- **Rischio imparato (autoapprendimento)**, in prova sul ramo `prova/rischio-imparato`: il voto del
+  tabellone finale dello sguardo avanti non usa più pesi e penalità scritti a mano (celle isolate,
+  pezzi che entrano, linee quasi piene, pezzo nuovo che non entra, spazio per rombo e ferro, linee
+  chiudibili), ma punti e linee dell'ultima mossa − 1.600 × la probabilità di blocco imparata dal
+  programma (`game/learnedRisk.js`). Come si impara (`scripts/apprendimento`): 1.819 posizioni
+  affollate dalle partite della strategia, più 5 tabelloni da ciascuna con mosse a caso; per ognuno
+  16 futuri con un vassoio a caso giocati da un giocatore veloce, contando quanti si bloccano prima di
+  tornare a 46 celle libere; regressione logistica su 19 misure (celle vuote, celle morte che nessun
+  pezzo da 4 copre, buchi, zone da 1–3 celle, linee a cui mancano 1–3 celle, pezzi che entrano,
+  rischio del pezzo nuovo, spazio per ogni forma, linee chiudibili). Sdoppiamento, 600 partite (semi
+  `40000` e `70000`): tasso 0,094 → 0,065 (0,69, intervallo 0,50–0,93), ingressi in pericolo 9,5 →
+  5,5 ogni 1000 pezzi (0,58, 0,56–0,61), partite perse 42 → 37, stesso tempo di calcolo. Un secondo
+  giro (posizioni e futuri giocati con il modello appena imparato) non ha migliorato oltre: tasso
+  0,079 contro 0,068 sui semi `40000`. Effetto collaterale da sistemare: su tabelloni sgombri i totali
+  sono piccoli e il giudizio è più severo («Occasione persa» per il 44% delle mosse giudicate dal
+  controllo di congruenza, contro il 25%). Provato e scartato prima: scegliere i pesi del voto a forza
+  di partite (entropia incrociata, come per Tetris); le differenze fra serie di pesi erano più piccole
+  del caso.
+- **Preselezione per pezzo** (ramo `prova/rischio-imparato`): oltre alle 20 mosse migliori per voto a
+  un passo si approfondiscono le 3 migliori di ogni pezzo diverso del vassoio. A voti quasi uguali un
+  pezzo intero restava fuori: a tabellone vuoto, con bandiera e due ferri, le 20 approfondite erano
+  tutte mosse della bandiera (voto 80,8 contro 79,6), mentre due mosse del ferro pareggiano con la
+  migliore. Sdoppiamento, 300 partite (semi da `40000`): tasso 0,068 -> 0,051 rispetto al solo rischio
+  imparato (0,76, intervallo 0,46–1,24), 0,101 -> 0,051 rispetto allo spareggio (0,51, intervallo
+  0,32–0,79), partite perse 19. Provata e scartata con essa una soglia (rischio imparato solo sotto 45
+  celle libere): tasso 0,074 (1,44 rispetto alla preselezione).
+- **Provati e scartati:** premio per le celle libere dopo le due mosse (854 e 811), linee della
+  seconda mossa premiate con l'affollamento (726 e 612), premio esponenziale con le celle libere al
+  posto di quello lineare (851 e 850). Tenere la griglia vuota non è un obiettivo in sé, e premiare lo
+  svuotamento alla mossa successiva fa rimandare.
+- **Classificazione dei vassoi** (320 partite, 205.000 mosse; sconfitte entro 10 mosse osservate contro
+  attese, con la griglia affollata): con il punto nel vassoio il rischio è molto più basso di quanto la
+  strategia stimi (punto tenuto: 0 sconfitte contro 4,8 attese; coppie tenute con il punto: rapporto
+  0,15–0,6), e due ferri di cavallo tenuti sono più pericolosi (rapporto 1,3–1,5). Trasformati in correzioni
+  della strategia con la griglia affollata (meno di 40 celle libere), questi segnali **peggiorano**: penalità
+  300 per consumare l'ultimo punto, 9 partite perse su 60 contro 4; penalità 100 per tenere due pezzi
+  grandi uguali, 9 contro 4. Sull'archivio delle posizioni affollate la seconda sembrava utile (226 posizioni
+  salvate contro 221): la misura sull'archivio guarda solo 20 mosse e posizioni scelte con la strategia
+  attuale, quindi va sempre confermata sulle partite intere.
+- **Celle vuote che solo il punto può riempire.** Con la griglia affollata l'83% delle posizioni ha almeno
+  un gruppo isolato di 1–3 celle vuote (3,3 celle in media) e in media 4,6 celle che nessun pezzo da 4 può
+  coprire. Penalità per cella nei gruppi di 1–3: 5 e 15 (perse su 60: 4 e 10, contro 4); penalità per cella
+  non coperta da nessun pezzo da 4 (calcolo veloce con le posizioni precalcolate, 43 µs per tabellone): 10 e
+  20 (8 e 4). Nessun miglioramento: buchi, celle isolate, pezzi che entrano e sguardo a tre pezzi coprono già
+  questa debolezza. Sull'archivio la penalità 10 sembrava utile (229 posizioni salvate contro 221).
+- **Quanto si può ancora misurare.** La strategia attuale perde 4 partite su 60 di taratura (al massimo
+  1.000 pezzi): per riconoscere una riduzione di un terzo delle sconfitte servirebbero centinaia di partite,
+  oppure partite più lunghe.
+
+### Modalità Esperto
+
+| Partite             | Strategia                                       | Durata media | Durata mediana | Punti medi | Punti per pezzo |
+| ------------------- | ----------------------------------------------- | ------------ | -------------- | ---------- | --------------- |
+| 50, max 3.000 pezzi | precedente (un fascio per tutte le prime mosse) | 369          | 310            | 3.434      | 9,30            |
+| 50, max 3.000 pezzi | **attuale** (un fascio per prima mossa)         | 400          | 266            | 4.306      | 10,76           |
+
+Semi `7000` (20) e `13000` (30). Con un fascio per ogni prima mossa la ricerca trova più sequenze che
+svuotano linee, e con la penalità per il pezzo ignoto a 400 le partite si accorciavano: è passata a
+1.200 (su 30 partite: 400 → durata media 310, 800 → 378, 1.200 → 434, 1.600 → 428; precedente 402).
+
+### Archivio di posizioni affollate
+
+`data/archivio-affollate.json` raccoglie 260 posizioni della modalità normale con meno di 36 celle
+libere e un esito che **dipende dalla mossa scelta**: fra le 4 migliori mosse iniziali della strategia,
+con gli stessi pezzi futuri, qualcuna arriva a 20 mosse e qualcuna si blocca prima. Serve per misurare
+in poco tempo, e proprio dove si decidono le partite, se una strategia sceglie meglio.
+
+- **Fonti:** partite della strategia attuale (27 posizioni), della strategia attuale con una mossa su
+  tre casuale (115) e della strategia prima dei premi per le linee (118). Semi diversi da quelli di
+  taratura e verifica delle partite intere.
+- **Taratura e verifica:** divise per partita di origine, una partita su tre in verifica (172 e 88).
+- **Quante servono:** su 3.900 posizioni affollate solo il 7% era decisiva; l'86% si salvava con
+  qualunque delle migliori mosse, il 7% si perdeva comunque.
+- **Riferimento:** con la strategia attuale (commit indicato in `strategyCommit`) la mossa suggerita
+  si salva in 221 posizioni su 260. Gli esiti salvati dipendono dalla strategia usata per continuare.
+
+Ogni posizione ha le celle occupate (coordinate e numeri del giudizio), i tre pezzi del vassoio, la
+combo, il seme dei pezzi futuri (`futureSeed`) e l'esito delle mosse iniziali provate. Per rigenerarlo
+o ingrandirlo: `scripts/crowded-archive.mjs` (istruzioni in testa al file).
+
+### Come misurare
+
+Per un controllo servono decine di partite: con 6 partite il risultato dipende soprattutto da quali
+pezzi capitano. Succede anche ora: sui 6 semi del comando rapido la versione con i tre pezzi noti perde due
+partite che la versione precedente portava a 1.000, ma su 160 partite ne perde la metà.
 
 ```bash
-npm run sim -- --mode normal --games 6 --max 1000   # seme 7000: mediana 301, media 458, 1 partita a 1.000
+npm run sim -- --mode normal --games 30 --seed 19000   # attuale: media 991, 29 a 1.000, 1 persa (prima dei pari merito: 975, 2 perse; circa 10 minuti)
+npm run sim -- --mode normal --games 6 --max 1000      # prova veloce, seme 7000: tutte a 1000; punti 10350, 10351, 10798, 10408, 10620, 10206
 ```
 
-I test di regressione in `tests/unit/strategy.test.js` bloccano il comportamento attuale della strategia: se la
-si modifica di proposito, si misurano i nuovi risultati con `npm run sim` e si aggiornano i valori attesi.
-Sono fotografie di poche partite, non misure di qualità: per confrontare due strategie servono molte
-partite appaiate (`pairedCompare` in `scripts/sim-lib.mjs`).
+Per confrontare due versioni, lancia lo stesso comando prima e dopo la modifica: con lo stesso seme le
+partite sono appaiate. I test di regressione in `tests/unit/strategy.test.js` bloccano il comportamento
+attuale: se si cambia la strategia di proposito, si aggiornano i valori attesi. Sono fotografie di poche
+partite, non misure di qualità (`pairedCompare` in `scripts/sim-lib.mjs` confronta partita per partita).
+
+**Velocità.** I controlli «il pezzo entra qui?» usano maschere di bit: le 61 celle stanno in due
+interi da 32 bit e ogni posizione di ogni pezzo è una maschera precalcolata (`HexGrid.js`). Lo
+stesso vale per linee chiudibili, buchi e linee quasi piene in `strategy.js`. Le partite sono
+identiche a prima, mossa per mossa (`tests/unit/hexgrid-masks.test.js` confronta le maschere con il
+controllo cella per cella); una mossa costa circa 5 ms invece di 42 in modalità normale e 7 invece
+di 50 in Esperto. Con il pezzo nuovo alla seconda mossa la modalità normale è risalita a circa 22 ms
+per mossa: la prova veloce qui sopra richiede circa 2 minuti (prima delle maschere erano circa 4).
 
 ## Nota
 
