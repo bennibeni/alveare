@@ -36,6 +36,10 @@ export const FEATURES = [
   "zona2",
   "zona3",
   "chiudibili", // linee chiudibili attese con un pezzo a caso
+  // copertura di una cella vuota: probabilità che un pezzo da 4 estratto a caso abbia una posizione
+  // libera che la copre; «bassa» = sotto il 15% (di solito solo la barra parallela a un lato)
+  "bassaBordo", // celle vuote sul bordo con copertura bassa (ma non morte) / 10
+  "bassaInterno", // celle vuote interne con copertura bassa (ma non morte) / 10
 ];
 export const N_FEATURES = FEATURES.length;
 
@@ -55,6 +59,7 @@ const PIECE_SHAPE = PIECES.map(
 );
 
 const bit = (lo, hi, i) => (i < 32 ? (lo >>> i) & 1 : (hi >>> (i - 32)) & 1);
+const LOW_COVER = 0.15;
 
 export function features(g, lines = 0, gain = 0) {
   const f = new Float64Array(N_FEATURES);
@@ -101,6 +106,7 @@ export function features(g, lines = 0, gain = 0) {
   f[7] = q2 / 5;
   f[8] = q3 / 5;
   let closable = 0;
+  const cover = new Float64Array(n);
   for (let k = 0; k < PIECES.length; k++) {
     const p = PIECES[k];
     const m = g.placementMasksFor(p.cells);
@@ -110,11 +116,18 @@ export function features(g, lines = 0, gain = 0) {
     const si = SHAPE_INDEX.get(PIECE_SHAPE[k]);
     if (si !== undefined)
       f[si] += (p.weight * Math.min(6, c)) / 6 / SHAPE_W.get(PIECE_SHAPE[k]);
-    if (p.cells.length === 4)
+    if (p.cells.length === 4) {
+      let pl = 0;
+      let ph = 0;
       for (let j = 0; j < m.length; j += 2) {
-        cl |= m[j];
-        ch |= m[j + 1];
+        pl |= m[j];
+        ph |= m[j + 1];
       }
+      cl |= pl;
+      ch |= ph;
+      const w = p.weight / W_TOTAL;
+      for (let i = 0; i < n; i++) if (bit(pl, ph, i)) cover[i] += w;
+    }
     if (missLo.length && c) {
       let closed = 0;
       for (let li = 0; li < missLo.length; li++)
@@ -130,6 +143,15 @@ export function features(g, lines = 0, gain = 0) {
   f[9] = fit / 25;
   f[10] = death / W_TOTAL;
   f[20] = closable;
+  let lowBorder = 0;
+  let lowInner = 0;
+  for (let i = 0; i < n; i++) {
+    if (!bit(el, eh, i) || cover[i] === 0 || cover[i] >= LOW_COVER) continue;
+    if (popcount(nbLo[i]) + popcount(nbHi[i]) < 6) lowBorder++;
+    else lowInner++;
+  }
+  f[21] = lowBorder / 10;
+  f[22] = lowInner / 10;
   // zone vuote: riempimento per maschere
   let rl = el;
   let rh = eh;

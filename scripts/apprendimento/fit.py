@@ -9,7 +9,7 @@ from sklearn.linear_model import LogisticRegression
 
 FEATURES = ['linee', 'punti', 'vuote', 'buchi1', 'buchi0', 'morte', 'quasi1', 'quasi2', 'quasi3', 'entrano',
             'nonEntra', 'barra', 'rombo', 'ferro', 'bandieraD', 'bandieraS', 'zone', 'zona1', 'zona2', 'zona3',
-            'chiudibili']
+            'chiudibili', 'bassaBordo', 'bassaInterno']
 USE = list(range(2, len(FEATURES)))  # le misure del tabellone (non linee e punti della mossa)
 
 rows = [json.loads(l) for l in open(sys.argv[1])]

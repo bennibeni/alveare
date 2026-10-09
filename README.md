@@ -322,6 +322,16 @@ Che cosa fa il suggerimento in modalità normale, e perché:
   imparato (0,76, intervallo 0,46–1,24), 0,101 -> 0,051 rispetto allo spareggio (0,51, intervallo
   0,32–0,79), partite perse 19. Provata e scartata con essa una soglia (rischio imparato solo sotto 45
   celle libere): tasso 0,074 (1,44 rispetto alla preselezione).
+- **Copertura dei bordi** (ramo `prova/copertura-bordo`, non adottata): due misure in più per il
+  rischio imparato, le celle vuote a copertura bassa (sotto il 15% di probabilità che un pezzo da 4
+  estratto a caso le copra, di solito solo la barra parallela al lato) sul bordo e all'interno.
+  Analisi su 8.226 posizioni: una cella di bordo a copertura bassa pesa quanto una cella morta (circa
+  una cella libera in meno), una interna quasi nulla. Riaddestrato su 2.044 posizioni della strategia
+  attuale (12.000 tabelloni, 192.000 futuri; modello in `docs/modello-copertura.json`): previsione
+  appena migliore (log-loss 0,2120 -> 0,2116, l'informazione c'era già nello spazio per forma).
+  Sdoppiamento, 300 partite (semi da `40000`): tasso 0,051 come la preselezione (1,00, intervallo
+  0,56–1,73), ingressi in pericolo 5,6 -> 6,9 ogni 1000 pezzi, copie bloccate per ingresso 0,93% ->
+  0,74%.
 - **Provati e scartati:** premio per le celle libere dopo le due mosse (854 e 811), linee della
   seconda mossa premiate con l'affollamento (726 e 612), premio esponenziale con le celle libere al
   posto di quello lineare (851 e 850). Tenere la griglia vuota non è un obiettivo in sé, e premiare lo
