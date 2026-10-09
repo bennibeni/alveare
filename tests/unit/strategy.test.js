@@ -384,11 +384,30 @@ describe("modalità normale: premio per lo svuotamento", () => {
 
 describe("modalità normale: tre pezzi noti nella zona di pericolo", () => {
   /** Posizioni affollate da partite con seme: una con meno di NORMAL_DEEP.free celle libere. */
+  // stessa partita di midGame(seed, mosse) con mosse = 20, 25, 30, …: la prima posizione affollata
+  // (una sola partita, invece di ricominciare da capo per ogni numero di mosse)
   function crowded(seed) {
-    for (let moves = 20; moves < 400; moves += 5) {
-      const pos = midGame(seed, moves);
-      const free = [...pos.grid.cells.values()].filter((v) => !v).length;
-      if (free < NORMAL_DEEP.free) return pos;
+    const rng = seededRandom(seed);
+    let grid = new HexGrid(4);
+    let tray = randomTray(rng);
+    for (let i = 0; i < 400; i++) {
+      if (i >= 20 && i % 5 === 0) {
+        const free = [...grid.cells.values()].filter((v) => !v).length;
+        if (free < NORMAL_DEEP.free) {
+          const first = tray.findIndex((p) => grid.fits(p.cells));
+          const t =
+            first > 0
+              ? [tray[first], ...tray.filter((_, j) => j !== first)]
+              : tray;
+          return { grid, tray: t };
+        }
+      }
+      const m = bestMove(grid, tray, 0);
+      if (!m) return null;
+      grid = grid.play(tray[m.idx].cells, m.q, m.r).grid;
+      tray = tray.map((p, j) =>
+        j === m.idx ? PIECES[Math.floor(rng() * PIECES.length)] : p,
+      );
     }
     return null;
   }
@@ -546,12 +565,12 @@ describe("prestazioni e regressioni (simulazioni con seme)", () => {
 
   // Valori di riferimento della strategia attuale. Se si cambia la strategia di
   // proposito, questi numeri vanno aggiornati (dopo averla misurata con npm run sim).
-  it("regressione · normale, seme 555, 60 pezzi: 597 punti, 34 linee", () => {
+  it("regressione · normale, seme 555, 60 pezzi: 623 punti, 36 linee", () => {
     expect(playGame({ mode: "normal", seed: 555, maxMoves: 60 })).toEqual({
       seed: 555,
       pieces: 60,
-      points: 597,
-      lines: 34,
+      points: 623,
+      lines: 36,
       lost: false,
     });
   });

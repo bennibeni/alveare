@@ -39,6 +39,8 @@ const W = {
 // Candidate approfondite: con 6 il suggerimento era il migliore secondo il suo stesso criterio
 // solo nel 59% delle posizioni (il voto a un passo prevede male il totale); con 20 nell'87%.
 const LOOKAHEAD = 20;
+// Mosse approfondite in più per ogni pezzo diverso del vassoio (vedi normalCandidates).
+const PER_PIECE = 3;
 // Penalità × probabilità che un pezzo nuovo non entri dopo le due mosse. Con più candidate la
 // ricerca trova più combinazioni che rendono punti: 1.600 è il valore che ha reso di più al
 // simulatore (60 partite appaiate; provati 400, 800, 1.600, 2.400, 3.200).
@@ -454,9 +456,23 @@ function breakDeepTies(byTotal, tray) {
 function normalCandidates(grid, tray, streak) {
   const moves = rankedMoves(grid, tray, streak);
   const deep = isDeep(grid);
-  let byValue = moves
-    .slice(0, LOOKAHEAD)
-    .map((m) => withLookahead(m, tray, deep));
+  // le LOOKAHEAD migliori per voto, più le PER_PIECE migliori di ogni pezzo diverso del vassoio:
+  // a voti quasi uguali un pezzo intero poteva restare fuori (tabellone vuoto: le mosse della
+  // bandiera 80,8, quelle dei ferri 79,6, e nessun ferro fra le 20 approfondite)
+  const chosen = moves.slice(0, LOOKAHEAD);
+  const seen = new Set(chosen);
+  for (const id of new Set(moves.map((m) => m.piece.id))) {
+    let k = 0;
+    for (const m of moves) {
+      if (m.piece.id !== id) continue;
+      if (!seen.has(m)) {
+        chosen.push(m);
+        seen.add(m);
+      }
+      if (++k >= PER_PIECE) break;
+    }
+  }
+  let byValue = chosen.map((m) => withLookahead(m, tray, deep));
   let byTotal = [...byValue].sort((a, b) => b.total - a.total);
   if (deep && byTotal.length > 1) {
     byTotal = breakDeepTies(byTotal, tray);

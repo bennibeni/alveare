@@ -314,6 +314,12 @@ Che cosa fa il suggerimento in modalità normale, e perché:
   controllo di congruenza, contro il 25%). Provato e scartato prima: scegliere i pesi del voto a forza
   di partite (entropia incrociata, come per Tetris); le differenze fra serie di pesi erano più piccole
   del caso.
+- **Preselezione per pezzo** (ramo `prova/rischio-imparato`): oltre alle 20 mosse migliori per voto a
+  un passo si approfondiscono le 3 migliori di ogni pezzo diverso del vassoio. A voti quasi uguali un
+  pezzo intero restava fuori: a tabellone vuoto, con bandiera e due ferri, le 20 approfondite erano
+  tutte mosse della bandiera (voto 80,8 contro 79,6), mentre due mosse del ferro pareggiano con la
+  migliore. Prova su 10 partite (semi da `40000`): tutte a 1000 pezzi, nessun problema; non misurata
+  sulla forza (aggiunge candidate, non ne toglie).
 - **Provati e scartati:** premio per le celle libere dopo le due mosse (854 e 811), linee della
   seconda mossa premiate con l'affollamento (726 e 612), premio esponenziale con le celle libere al
   posto di quello lineare (851 e 850). Tenere la griglia vuota non è un obiettivo in sé, e premiare lo
