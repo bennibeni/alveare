@@ -296,6 +296,24 @@ Che cosa fa il suggerimento in modalità normale, e perché:
   la cella 61 (bloccato nel 16% di 2000 futuri, i ferri nel 14%); ora vince il ferro in 45-51-57-58.
   Su 300 partite con lo sdoppiamento (semi da `40000`): tasso 0,106 → 0,101 (0,95, intervallo
   0,68–1,31), partite perse 29 → 19, stesso tempo di calcolo.
+- **Rischio imparato (autoapprendimento)**, in prova sul ramo `prova/rischio-imparato`: il voto del
+  tabellone finale dello sguardo avanti non usa più pesi e penalità scritti a mano (celle isolate,
+  pezzi che entrano, linee quasi piene, pezzo nuovo che non entra, spazio per rombo e ferro, linee
+  chiudibili), ma punti e linee dell'ultima mossa − 1.600 × la probabilità di blocco imparata dal
+  programma (`game/learnedRisk.js`). Come si impara (`scripts/apprendimento`): 1.819 posizioni
+  affollate dalle partite della strategia, più 5 tabelloni da ciascuna con mosse a caso; per ognuno
+  16 futuri con un vassoio a caso giocati da un giocatore veloce, contando quanti si bloccano prima di
+  tornare a 46 celle libere; regressione logistica su 19 misure (celle vuote, celle morte che nessun
+  pezzo da 4 copre, buchi, zone da 1–3 celle, linee a cui mancano 1–3 celle, pezzi che entrano,
+  rischio del pezzo nuovo, spazio per ogni forma, linee chiudibili). Sdoppiamento, 600 partite (semi
+  `40000` e `70000`): tasso 0,094 → 0,065 (0,69, intervallo 0,50–0,93), ingressi in pericolo 9,5 →
+  5,5 ogni 1000 pezzi (0,58, 0,56–0,61), partite perse 42 → 37, stesso tempo di calcolo. Un secondo
+  giro (posizioni e futuri giocati con il modello appena imparato) non ha migliorato oltre: tasso
+  0,079 contro 0,068 sui semi `40000`. Effetto collaterale da sistemare: su tabelloni sgombri i totali
+  sono piccoli e il giudizio è più severo («Occasione persa» per il 44% delle mosse giudicate dal
+  controllo di congruenza, contro il 25%). Provato e scartato prima: scegliere i pesi del voto a forza
+  di partite (entropia incrociata, come per Tetris); le differenze fra serie di pesi erano più piccole
+  del caso.
 - **Provati e scartati:** premio per le celle libere dopo le due mosse (854 e 811), linee della
   seconda mossa premiate con l'affollamento (726 e 612), premio esponenziale con le celle libere al
   posto di quello lineare (851 e 850). Tenere la griglia vuota non è un obiettivo in sé, e premiare lo

@@ -13,6 +13,7 @@ import {
   NORMAL_CLEAR_BONUS,
   NORMAL_CLOSABLE_BONUS,
   NORMAL_DEEP,
+  NORMAL_LEARNED_PENALTY,
   NORMAL_RISK,
   NORMAL_ROOM_PENALTY,
   QUEUE_PARAMS,
@@ -76,11 +77,10 @@ describe("classifica delle mosse approfondite", () => {
           m.gain +
             m.clearBonus +
             (m.next
-              ? m.next.value +
-                m.closableBonus -
-                NORMAL_RISK * m.death -
-                m.roomPenalty -
-                m.bigPenalty
+              ? m.next.gain +
+                m.next.lines * 60 -
+                NORMAL_LEARNED_PENALTY * m.learned -
+                m.roomPenalty
               : -10000),
         );
       }
@@ -402,7 +402,7 @@ describe("modalità normale: tre pezzi noti nella zona di pericolo", () => {
     expect(explainNormal(pos.grid, pos.tray, 0).deep).toBe(true);
   });
 
-  it("il totale è la migliore sequenza di tre mosse, con il tabellone finale giudicato come a due passi", () => {
+  it("il totale è la migliore sequenza di tre mosse, con il tabellone finale giudicato dal rischio imparato", () => {
     let checked = 0;
     for (const seed of [2, 5, 8]) {
       const pos = crowded(seed);
@@ -417,11 +417,10 @@ describe("modalità normale: tre pezzi noti nella zona di pericolo", () => {
           m.gain +
             m.clearBonus +
             middle +
-            last.value +
-            m.closableBonus -
-            NORMAL_RISK * m.death -
-            m.roomPenalty -
-            m.bigPenalty,
+            last.gain +
+            last.lines * 60 -
+            NORMAL_LEARNED_PENALTY * m.learned -
+            m.roomPenalty,
         );
         // il terzo pezzo usa il pezzo rimasto del vassoio, e va dove entra
         if (m.third) {
@@ -547,12 +546,12 @@ describe("prestazioni e regressioni (simulazioni con seme)", () => {
 
   // Valori di riferimento della strategia attuale. Se si cambia la strategia di
   // proposito, questi numeri vanno aggiornati (dopo averla misurata con npm run sim).
-  it("regressione · normale, seme 555, 60 pezzi: 613 punti, 35 linee", () => {
+  it("regressione · normale, seme 555, 60 pezzi: 597 punti, 34 linee", () => {
     expect(playGame({ mode: "normal", seed: 555, maxMoves: 60 })).toEqual({
       seed: 555,
       pieces: 60,
-      points: 613,
-      lines: 35,
+      points: 597,
+      lines: 34,
       lost: false,
     });
   });

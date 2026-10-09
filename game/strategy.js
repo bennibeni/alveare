@@ -16,11 +16,16 @@
  *    nel tabellone dopo le due mosse: i pezzi in arrivo sono ignoti, ma un tabellone
  *    in cui molte forme non entrano più è un tabellone pericoloso.
  *
+ * Dal rischio imparato (learnedRisk.js): il tabellone finale dello sguardo avanti si giudica con
+ * punti e linee dell'ultima mossa − 1.600 × la probabilità di blocco imparata, al posto del voto a
+ * un passo e delle penalità del punto 3 (che restano calcolate per guida e giudizi).
+ *
  * In modalità Esperto (coda) la ricerca è diversa: vedi queueCandidates più sotto.
  */
 import { gridMasks, popcount } from "./HexGrid.js";
 import { PIECES, SHAPES } from "./pieces.js";
 import { pieceAvailability } from "./pieceAvailability.js";
+import { learnedRisk } from "./learnedRisk.js";
 
 const W = {
   line: 60,
@@ -47,6 +52,21 @@ const NORMAL_ROOM = 200;
 // min(posizioni, 6) / 6 sui loro orientamenti. Valore scelto con il simulatore (vedi README).
 const NORMAL_BIG = 1000;
 const BIG_SHAPES = new Set(["rombo", "ferro di cavallo"]);
+// Voto del tabellone finale dello sguardo avanti (autoapprendimento, vedi learnedRisk.js): punti e
+// linee dell'ultima mossa − NORMAL_LEARNED × probabilità imparata di blocco. Sostituisce il voto a
+// un passo e le penalità scritte a mano (pezzo nuovo che non entra, spazio per rombo e ferro, linee
+// chiudibili). Sdoppiamento, 600 partite (semi 40000 e 70000): tasso di sconfitta 0,094 -> 0,065
+// (rapporto 0,69, intervallo 0,50–0,93), ingressi in pericolo 9,5 -> 5,5 ogni 1000 pezzi.
+const NORMAL_LEARNED = 1600;
+export const NORMAL_LEARNED_PENALTY = NORMAL_LEARNED;
+/** Voto imparato del tabellone dopo la mossa mv (una voce di rankedMoves). */
+function leafValue(mv) {
+  return (
+    mv.gain * W.cell +
+    mv.lines * W.line -
+    NORMAL_LEARNED * learnedRisk(mv.after)
+  );
+}
 // Premio × linee svuotate dalla prima mossa × affollamento (celle occupate / celle totali, prima
 // della mossa). Con il tabellone vuoto conviene rimandare lo svuotamento e preparare le combo; con
 // il tabellone pieno conviene liberare spazio subito. Valore scelto con il simulatore (vedi README).
@@ -251,13 +271,7 @@ function withLookahead(m, tray, deep = false) {
   const total =
     m.gain * W.cell +
     clearBonus +
-    (next
-      ? next.value +
-        closableBonus -
-        NORMAL_DEATH * death -
-        roomPenalty -
-        bigPenalty
-      : -10000);
+    (next ? leafValue(next) - roomPenalty : -10000);
   return {
     ...m,
     next,
@@ -270,6 +284,7 @@ function withLookahead(m, tray, deep = false) {
     closable,
     closableBonus,
     blockRisk: next ? blockRisk(m, next, tray, death) : null,
+    learned: next ? learnedRisk(next.after) : null, // rischio imparato del tabellone finale
     total,
   };
 }
@@ -291,17 +306,10 @@ function usesNewPiece(grid) {
  * mossa + linee chiudibili − rischi; `remaining` sono i pezzi noti rimasti nel vassoio. */
 function tailValue(next, remaining) {
   if (!next) return -10000;
-  const { death, bigRoom } = boardRisk(next);
   let room = 6;
   for (const p of remaining)
     room = Math.min(room, next.after.countPlacements(p.cells, 6));
-  return (
-    next.value +
-    NORMAL_CLOSABLE * closableLines(next.after) * crowding(next.after) -
-    NORMAL_DEATH * death -
-    NORMAL_ROOM * (1 - room / 6) -
-    NORMAL_BIG * (1 - bigRoom)
-  );
+  return leafValue(next) - NORMAL_ROOM * (1 - room / 6);
 }
 
 /** Totale di una candidata con il pezzo nuovo alla seconda mossa (vedi NORMAL_NEW_FREE): media,
@@ -363,14 +371,7 @@ function withDeepLookahead(m, tray) {
       const roomPenalty = !third && pending ? NORMAL_DEEP_BLOCK : 0;
       const bigPenalty = NORMAL_BIG * (1 - bigRoom);
       const total =
-        m.gain * W.cell +
-        clearBonus +
-        middle +
-        last.value +
-        closableBonus -
-        NORMAL_DEATH * death -
-        roomPenalty -
-        bigPenalty;
+        m.gain * W.cell + clearBonus + middle + leafValue(last) - roomPenalty;
       if (!best || total > best.total) {
         best = {
           next: second,
@@ -396,6 +397,7 @@ function withDeepLookahead(m, tray) {
     deep: true,
     clearBonus,
     blockRisk: best.third || best.room === 6 ? 0 : best.death * best.death,
+    learned: learnedRisk((best.third || best.next).after), // rischio imparato del tabellone finale
   };
 }
 
@@ -458,8 +460,14 @@ function normalCandidates(grid, tray, streak) {
   let byTotal = [...byValue].sort((a, b) => b.total - a.total);
   if (deep && byTotal.length > 1) {
     byTotal = breakDeepTies(byTotal, tray);
-    const redone = new Map(byTotal.filter((m) => m.tieBreak !== undefined).map((m) => [m.idx + ":" + m.q + ":" + m.r, m]));
-    byValue = byValue.map((m) => redone.get(m.idx + ":" + m.q + ":" + m.r) || m);
+    const redone = new Map(
+      byTotal
+        .filter((m) => m.tieBreak !== undefined)
+        .map((m) => [m.idx + ":" + m.q + ":" + m.r, m]),
+    );
+    byValue = byValue.map(
+      (m) => redone.get(m.idx + ":" + m.q + ":" + m.r) || m,
+    );
   }
   const newPiece = !deep && usesNewPiece(grid);
   if (newPiece) {
