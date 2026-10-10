@@ -428,6 +428,9 @@ identiche a prima, mossa per mossa (`tests/unit/hexgrid-masks.test.js` confronta
 controllo cella per cella); una mossa costa circa 5 ms invece di 42 in modalità normale e 7 invece
 di 50 in Esperto. Con il pezzo nuovo alla seconda mossa la modalità normale è risalita a circa 22 ms
 per mossa: la prova veloce qui sopra richiede circa 2 minuti (prima delle maschere erano circa 4).
+Dal 10 ottobre anche le linee piene si trovano con le maschere (`fullLines`), e dopo una mossa o uno
+svuotamento la maschera delle celle piene si aggiorna solo nelle celle toccate (`place`, `clear`):
+stesse mosse (semi 7000, 7097, 7194, 2.000 pezzi), circa 17% più veloce (seme 7000: 40,7 s -> 33,6 s).
 
 ## Nota
 
