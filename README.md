@@ -322,7 +322,7 @@ Che cosa fa il suggerimento in modalità normale, e perché:
   imparato (0,76, intervallo 0,46–1,24), 0,101 -> 0,051 rispetto allo spareggio (0,51, intervallo
   0,32–0,79), partite perse 19. Provata e scartata con essa una soglia (rischio imparato solo sotto 45
   celle libere): tasso 0,074 (1,44 rispetto alla preselezione).
-- **Copertura dei bordi** (ramo `prova/copertura-bordo`, non adottata): due misure in più per il
+- **Copertura dei bordi** (seconda versione del rischio imparato): due misure in più per il
   rischio imparato, le celle vuote a copertura bassa (sotto il 15% di probabilità che un pezzo da 4
   estratto a caso le copra, di solito solo la barra parallela al lato) sul bordo e all'interno.
   Analisi su 8.226 posizioni: una cella di bordo a copertura bassa pesa quanto una cella morta (circa
@@ -342,6 +342,8 @@ Che cosa fa il suggerimento in modalità normale, e perché:
   0,037 (0,76, intervallo 0,50–1,13), ingressi in pericolo 5,4 -> 7,0 ogni 1000 pezzi, copie bloccate
   per ingresso 0,92% -> 0,54%, partite perse 34 -> 25. Stessa direzione sui due gruppi di semi, ma non
   dimostrato.
+  **Adottato** il 10 ottobre come seconda versione del rischio imparato (`game/learnedRisk.js`,
+  descrizione in `docs/rischio-imparato.md`).
 - **Provati e scartati:** premio per le celle libere dopo le due mosse (854 e 811), linee della
   seconda mossa premiate con l'affollamento (726 e 612), premio esponenziale con le celle libere al
   posto di quello lineare (851 e 850). Tenere la griglia vuota non è un obiettivo in sé, e premiare lo

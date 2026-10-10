@@ -58,8 +58,8 @@ describe("pari merito nella zona di pericolo", () => {
     expect(tied[1].total).toBeLessThan(tied[0].total);
     expect(tied[2].total).toBeLessThan(tied[1].total);
     expect(tied[2].total).toBeGreaterThan(moves[3].total);
-    // con il rischio imparato lo spareggio sceglie il rombo che isola la cella 61: nei futuri
-    // (2000, continuando con la strategia nuova) si blocca nel 15,8% dei casi, i ferri nel 13,2%
-    expect(tied[0]).toMatchObject({ idx: 2, q: 1, r: 2 });
+    // con il rischio imparato (seconda versione) lo spareggio sceglie il ferro in 45-51-57-58, che non
+    // isola celle: nei futuri si blocca meno del rombo che isola la cella 61
+    expect(tied[0]).toMatchObject({ idx: 1, q: -3, r: 2 });
   });
 });

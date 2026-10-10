@@ -236,7 +236,7 @@ describe("giudizio qualitativo della mossa", () => {
     expect(result.label).not.toBe("Ottima scoperta");
     expect(result.emphasis).toBe("neutral");
     expect(result.maximum).toBeGreaterThan(result.score);
-    expect(analysis.moves[0].total).toBeCloseTo(55.3, 1);
+    expect(analysis.moves[0].total).toBeCloseTo(38.9, 1);
   });
 
   it("l'incastro del log fra alternative quasi equivalenti: nota sì, etichetta dal punteggio", () => {

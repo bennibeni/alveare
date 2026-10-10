@@ -1,15 +1,19 @@
 /**
  * Rischio imparato (autoapprendimento): probabilità che un tabellone porti al blocco.
  *
- * features(g) misura il tabellone (21 misure in scala, valori tipici 0..1, tutte con le maschere di
- * bit di HexGrid); learnedRisk(g) è una regressione logistica su 19 di queste misure. I coefficienti
+ * features(g) misura il tabellone (23 misure in scala, valori tipici 0..1, tutte con le maschere di
+ * bit di HexGrid); learnedRisk(g) è una regressione logistica su 21 di queste misure. I coefficienti
  * (LEARNED_MODEL) sono stati imparati così (vedi scripts/apprendimento):
- * 1. posizioni affollate (al massimo 34 celle libere) dalle partite della strategia, più i tabelloni
- *    dopo 5 mosse legali a caso da ciascuna (anche tabelloni rovinati da mosse cattive);
- * 2. per ogni tabellone 16 futuri con un vassoio nuovo a caso, giocati da un giocatore veloce (una
- *    mossa, voto con i pesi della strategia), finché torna a 46 celle libere o si blocca;
+ * 1. posizioni con al massimo 45 celle libere dalle partite della strategia (posizioni.mjs
+ *    --maxfree 45 --ogni 8), più i tabelloni dopo 2 mosse legali a caso da ciascuna;
+ * 2. per ogni tabellone 8 futuri con un vassoio nuovo a caso, giocati da un giocatore veloce (una
+ *    mossa, voto con il rischio imparato precedente): si conta se si blocca entro 40 mosse
+ *    (valori.mjs --safe 99 --orizzonte 40);
  * 3. regressione logistica: misure -> frazione di futuri bloccati.
- * Prima versione: 10.684 tabelloni, 170.944 futuri.
+ * Seconda versione: 3.348 posizioni, 10.044 tabelloni, 80.352 futuri. Rispetto alla prima (solo
+ * posizioni affollate, blocco prima di tornare a 46 celle libere, 19 misure) aggiunge le celle a
+ * copertura bassa sul bordo e all'interno. Sdoppiamento, 600 partite (semi 40000 e 70000): tasso
+ * 0,050 -> 0,037 (rapporto 0,76, intervallo 0,50–1,13), partite perse 34 -> 25.
  */
 import { gridMasks, popcount } from "./HexGrid.js";
 import { PIECES, SHAPES } from "./pieces.js";
@@ -196,28 +200,32 @@ export function features(g, lines = 0, gain = 0) {
 
 /** Coefficienti imparati: z = b + Σ c[j] · features[use[j]], rischio = 1 / (1 + e^−z). */
 export const LEARNED_MODEL = {
-  b: 1.237623,
-  use: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+  b: -1.036878,
+  use: [
+    2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
+  ],
   c: [
-    -6.090611, // vuote
-    0.478551, // buchi1
-    0.111958, // buchi0
-    0.793073, // morte
-    0.325284, // quasi1
-    -0.082846, // quasi2
-    -0.033149, // quasi3
-    1.199097, // entrano
-    1.820801, // nonEntra
-    -0.549568, // barra
-    -0.483708, // rombo
-    -0.955005, // ferro
-    0.482877, // bandieraD
-    0.144229, // bandieraS
-    -0.176542, // zone
-    0.186583, // zona1
-    -0.294449, // zona2
-    -0.509938, // zona3
-    -1.316155, // chiudibili
+    -1.065428, // vuote
+    0.128933, // buchi1
+    0.249886, // buchi0
+    0.987272, // morte
+    0.020224, // quasi1
+    0.039487, // quasi2
+    0.044318, // quasi3
+    -0.927966, // entrano
+    0.104279, // nonEntra
+    -0.381101, // barra
+    -0.723757, // rombo
+    0.165526, // ferro
+    0.116569, // bandieraD
+    -0.083154, // bandieraS
+    -0.35237, // zone
+    0.416478, // zona1
+    -0.196128, // zona2
+    -0.083984, // zona3
+    -0.566325, // chiudibili
+    0.480691, // bassaBordo
+    0.730348, // bassaInterno
   ],
 };
 
