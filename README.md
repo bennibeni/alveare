@@ -337,7 +337,11 @@ Che cosa fa il suggerimento in modalità normale, e perché:
   --safe 99 --orizzonte 40`; modello in `docs/modello-sgombri.json`). Sdoppiamento, 300 partite (semi
   da `40000`): con penalità 1.600 tasso 0,051 -> 0,040 (0,78, intervallo 0,45–1,29), partite perse
   19 -> 10; con penalità 3.200 tasso 0,035 (0,68, intervallo 0,35–1,20), partite perse 17. Migliori
-  ma non ancora dimostrati: da confermare su altri semi.
+  ma non ancora dimostrati. Conferma su altri 300 semi (da `70000`), penalità 1.600: tasso 0,048 ->
+  0,035 (0,73, intervallo 0,40–1,33), partite perse 15 e 15. Sulle 600 partite insieme: tasso 0,050 ->
+  0,037 (0,76, intervallo 0,50–1,13), ingressi in pericolo 5,4 -> 7,0 ogni 1000 pezzi, copie bloccate
+  per ingresso 0,92% -> 0,54%, partite perse 34 -> 25. Stessa direzione sui due gruppi di semi, ma non
+  dimostrato.
 - **Provati e scartati:** premio per le celle libere dopo le due mosse (854 e 811), linee della
   seconda mossa premiate con l'affollamento (726 e 612), premio esponenziale con le celle libere al
   posto di quello lineare (851 e 850). Tenere la griglia vuota non è un obiettivo in sé, e premiare lo
