@@ -9,10 +9,13 @@ from sklearn.linear_model import LogisticRegression
 
 FEATURES = ['linee', 'punti', 'vuote', 'buchi1', 'buchi0', 'morte', 'quasi1', 'quasi2', 'quasi3', 'entrano',
             'nonEntra', 'barra', 'rombo', 'ferro', 'bandieraD', 'bandieraS', 'zone', 'zona1', 'zona2', 'zona3',
-            'chiudibili', 'bassaBordo', 'bassaInterno']
+            'chiudibili', 'bassaBordo', 'bassaInterno', 'tenuti', 'tenutiFerri', 'tenutiRombi', 'tenutiStretti',
+            'tenutiNonEntrano']
 USE = list(range(2, len(FEATURES)))  # le misure del tabellone (non linee e punti della mossa)
 
 rows = [json.loads(l) for l in open(sys.argv[1])]
+for r in rows:  # righe di un giro senza pezzi tenuti: misure dei pezzi tenuti a zero
+    r['f'] += [0] * (len(FEATURES) - len(r['f']))
 X = np.array([[r['f'][i] for i in USE] for r in rows])
 lost = np.array([r['lost'] for r in rows], float)
 K = np.array([r['K'] for r in rows], float)

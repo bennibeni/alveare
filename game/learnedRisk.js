@@ -44,6 +44,13 @@ export const FEATURES = [
   // libera che la copre; «bassa» = sotto il 15% (di solito solo la barra parallela a un lato)
   "bassaBordo", // celle vuote sul bordo con copertura bassa (ma non morte) / 10
   "bassaInterno", // celle vuote interne con copertura bassa (ma non morte) / 10
+  // pezzi noti ancora da giocare (tenuti nel vassoio dopo le mosse guardate): il resto del vassoio
+  // arriva a caso
+  "tenuti", // pezzi tenuti / 2
+  "tenutiFerri", // ferri di cavallo tenuti / 2
+  "tenutiRombi", // rombi tenuti / 2
+  "tenutiStretti", // somma sui pezzi tenuti di 1 − min(posti, 6) / 6
+  "tenutiNonEntrano", // pezzi tenuti che non entrano / 2
 ];
 export const N_FEATURES = FEATURES.length;
 
@@ -65,7 +72,8 @@ const PIECE_SHAPE = PIECES.map(
 const bit = (lo, hi, i) => (i < 32 ? (lo >>> i) & 1 : (hi >>> (i - 32)) & 1);
 const LOW_COVER = 0.15;
 
-export function features(g, lines = 0, gain = 0) {
+/** Misure del tabellone g; `held` sono i pezzi noti ancora da giocare (oggetti di PIECES). */
+export function features(g, lines = 0, gain = 0, held = []) {
   const f = new Float64Array(N_FEATURES);
   const { lineLo, lineHi, nbLo, nbHi } = gridMasks(g);
   const [el, eh] = g.emptyBits;
@@ -195,6 +203,18 @@ export function features(g, lines = 0, gain = 0) {
   f[17] = z1 / 3;
   f[18] = z2 / 3;
   f[19] = z3 / 3;
+  let tight = 0;
+  let noFit = 0;
+  for (const p of held) {
+    const c = g.countPlacements(p.cells, 6);
+    tight += 1 - c / 6;
+    if (!c) noFit++;
+    if (p.name === "ferro di cavallo") f[24] += 0.5;
+    else if (p.name === "rombo") f[25] += 0.5;
+  }
+  f[23] = held.length / 2;
+  f[26] = tight;
+  f[27] = noFit / 2;
   return f;
 }
 
@@ -229,9 +249,9 @@ export const LEARNED_MODEL = {
   ],
 };
 
-/** Probabilità imparata che il tabellone porti al blocco (0..1). */
-export function learnedRisk(g, model = LEARNED_MODEL) {
-  const f = features(g);
+/** Probabilità imparata che il tabellone porti al blocco (0..1); `held`: pezzi noti ancora da giocare. */
+export function learnedRisk(g, model = LEARNED_MODEL, held = []) {
+  const f = features(g, 0, 0, held);
   let z = model.b;
   for (let j = 0; j < model.use.length; j++) z += model.c[j] * f[model.use[j]];
   return 1 / (1 + Math.exp(-z));

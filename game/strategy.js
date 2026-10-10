@@ -25,7 +25,7 @@
 import { gridMasks, popcount } from "./HexGrid.js";
 import { PIECES, SHAPES } from "./pieces.js";
 import { pieceAvailability } from "./pieceAvailability.js";
-import { learnedRisk } from "./learnedRisk.js";
+import { learnedRisk, LEARNED_MODEL } from "./learnedRisk.js";
 
 const W = {
   line: 60,
@@ -61,14 +61,18 @@ const BIG_SHAPES = new Set(["rombo", "ferro di cavallo"]);
 // (rapporto 0,69, intervallo 0,50–0,93), ingressi in pericolo 9,5 -> 5,5 ogni 1000 pezzi.
 const NORMAL_LEARNED = 1600;
 export const NORMAL_LEARNED_PENALTY = NORMAL_LEARNED;
-/** Voto imparato del tabellone dopo la mossa mv (una voce di rankedMoves). */
-function leafValue(mv) {
+/** Voto imparato del tabellone dopo la mossa mv (una voce di rankedMoves); `held` sono i pezzi noti
+ * ancora da giocare dopo mv. */
+function leafValue(mv, held = []) {
   return (
     mv.gain * W.cell +
     mv.lines * W.line -
-    NORMAL_LEARNED * learnedRisk(mv.after)
+    NORMAL_LEARNED * learnedRisk(mv.after, LEARNED_MODEL, held)
   );
 }
+/** Pezzi noti del vassoio (array con null per i pezzi giocati) esclusi gli indici dati. */
+const heldOf = (tray, ...used) =>
+  tray.filter((p, i) => p && !used.includes(i));
 // Premio × linee svuotate dalla prima mossa × affollamento (celle occupate / celle totali, prima
 // della mossa). Con il tabellone vuoto conviene rimandare lo svuotamento e preparare le combo; con
 // il tabellone pieno conviene liberare spazio subito. Valore scelto con il simulatore (vedi README).
@@ -271,10 +275,11 @@ function withLookahead(m, tray, deep = false) {
   const closableBonus = next
     ? NORMAL_CLOSABLE * closable * crowding(next.after)
     : 0;
+  const held = next ? heldOf(tray, m.idx, next.idx) : [];
   const total =
     m.gain * W.cell +
     clearBonus +
-    (next ? leafValue(next) - roomPenalty : -10000);
+    (next ? leafValue(next, held) - roomPenalty : -10000);
   return {
     ...m,
     next,
@@ -287,7 +292,7 @@ function withLookahead(m, tray, deep = false) {
     closable,
     closableBonus,
     blockRisk: next ? blockRisk(m, next, tray, death) : null,
-    learned: next ? learnedRisk(next.after) : null, // rischio imparato del tabellone finale
+    learned: next ? learnedRisk(next.after, LEARNED_MODEL, held) : null, // rischio imparato del tabellone finale
     total,
   };
 }
@@ -312,7 +317,7 @@ function tailValue(next, remaining) {
   let room = 6;
   for (const p of remaining)
     room = Math.min(room, next.after.countPlacements(p.cells, 6));
-  return leafValue(next) - NORMAL_ROOM * (1 - room / 6);
+  return leafValue(next, remaining) - NORMAL_ROOM * (1 - room / 6);
 }
 
 /** Totale di una candidata con il pezzo nuovo alla seconda mossa (vedi NORMAL_NEW_FREE): media,
@@ -373,8 +378,13 @@ function withDeepLookahead(m, tray) {
       const closableBonus = NORMAL_CLOSABLE * closable * crowding(last.after);
       const roomPenalty = !third && pending ? NORMAL_DEEP_BLOCK : 0;
       const bigPenalty = NORMAL_BIG * (1 - bigRoom);
+      const held = third ? heldOf(left, third.idx) : heldOf(left);
       const total =
-        m.gain * W.cell + clearBonus + middle + leafValue(last) - roomPenalty;
+        m.gain * W.cell +
+        clearBonus +
+        middle +
+        leafValue(last, held) -
+        roomPenalty;
       if (!best || total > best.total) {
         best = {
           next: second,
@@ -387,6 +397,7 @@ function withDeepLookahead(m, tray) {
           closableBonus,
           roomPenalty,
           room: third || !pending ? 6 : 0,
+          held,
           total,
         };
       }
@@ -400,7 +411,11 @@ function withDeepLookahead(m, tray) {
     deep: true,
     clearBonus,
     blockRisk: best.third || best.room === 6 ? 0 : best.death * best.death,
-    learned: learnedRisk((best.third || best.next).after), // rischio imparato del tabellone finale
+    learned: learnedRisk(
+      (best.third || best.next).after,
+      LEARNED_MODEL,
+      best.held,
+    ), // rischio imparato del tabellone finale
   };
 }
 
