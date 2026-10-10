@@ -241,11 +241,31 @@ export default class HexGrid {
     for (const [dq, dr] of piece)
       occ[(q + dq + this.radius) * side + r + dr + this.radius] = color ? 1 : 0;
     next._occ = occ;
+    // Nella ricerca le maschere sono già disponibili: aggiorna solo le celle toccate.
+    if (this._bits && this.coords.length <= 64) {
+      let [lo, hi] = this._bits;
+      for (const [dq, dr] of piece) {
+        const bit = this.bitOf(q + dq, r + dr);
+        if (bit < 32) lo = color ? lo | (1 << bit) : lo & ~(1 << bit);
+        else hi = color ? hi | (1 << (bit - 32)) : hi & ~(1 << (bit - 32));
+      }
+      next._bits = [lo, hi];
+    }
     return next;
   }
 
   /** Le linee completamente piene, in tutte e tre le direzioni. */
   fullLines() {
+    if (this.coords.length <= 64) {
+      const [lo, hi] = this.fullBits;
+      const { lineLo, lineHi } = gridMasks(this);
+      const out = [];
+      for (let i = 0; i < this.lines.length; i++) {
+        if ((lo & lineLo[i]) === lineLo[i] && (hi & lineHi[i]) === lineHi[i])
+          out.push(this.lines[i]);
+      }
+      return out;
+    }
     return this.lines.filter((l) =>
       l.cells.every((k) => this.cells.get(k) !== 0),
     );
@@ -265,6 +285,17 @@ export default class HexGrid {
       }
     }
     next._occ = occ;
+    if (this._bits && this.coords.length <= 64) {
+      let [lo, hi] = this._bits;
+      for (const l of lines) {
+        for (const k of l.cells) {
+          const bit = this.bitOf(...parseKey(k));
+          if (bit < 32) lo &= ~(1 << bit);
+          else hi &= ~(1 << (bit - 32));
+        }
+      }
+      next._bits = [lo, hi];
+    }
     return next;
   }
 
