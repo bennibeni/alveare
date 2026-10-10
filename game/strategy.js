@@ -77,11 +77,12 @@ const NORMAL_CLEAR = 180;
 // atteso di linee (a cui mancano da 1 a 3 celle) che un pezzo estratto a caso può chiudere con una sola
 // mossa: le mosse che "preparano" uno svuotamento. Valore scelto con il simulatore (vedi README).
 const NORMAL_CLOSABLE = 100;
-// Con meno di NORMAL_DEEP_FREE celle libere (zona di pericolo: sotto le 36 il rischio di perdere entro
-// 10 mosse sale dallo 0,1% a diversi punti percentuali) si guardano tutti e tre i pezzi noti: per ogni
+// Con meno di NORMAL_DEEP_FREE celle libere (zona di pericolo: sotto le 40 il rischio di perdere entro
+// 10 mosse sale sopra lo 0,1%) si guardano tutti e tre i pezzi noti: per ogni
 // candidata NORMAL_DEEP_SECOND seconde mosse e NORMAL_DEEP_THIRD terze mosse. Se il terzo pezzo non
-// entra, penalità NORMAL_DEEP_BLOCK. Valori scelti con il simulatore (vedi README).
-const NORMAL_DEEP_FREE = 36;
+// entra, penalità NORMAL_DEEP_BLOCK. Valori scelti con il simulatore; soglia 40 invece di 36 misurata con
+// lo sdoppiamento (300 partite: tasso 0,040 -> 0,014, rapporto 0,36, vedi README).
+const NORMAL_DEEP_FREE = 40;
 const NORMAL_DEEP_SECOND = 5;
 const NORMAL_DEEP_THIRD = 3;
 const NORMAL_DEEP_BLOCK = 1000;

@@ -260,14 +260,14 @@ Che cosa fa il suggerimento in modalità normale, e perché:
   chiudere con una sola mossa: premia le mosse che preparano uno svuotamento. Da solo rende poco (100 e
   300: 705 e 753); insieme al premio per le linee svuotate, 100 rende più di 300 (904 e 830). Contare
   le linee che può chiudere il pezzo rimasto nel vassoio non ha dato miglioramenti (675).
-- **Tre pezzi noti con la griglia affollata (meno di 36 celle libere).** Su 26.000 mosse simulate il
+- **Tre pezzi noti con la griglia affollata (meno di 40 celle libere; fino al 10 ottobre 36).** Su 26.000 mosse simulate il
   rischio di perdere entro 10 mosse è ≤ 0,1% con almeno 40 celle libere, 0,4% con 36–39, 1,8% con
   32–35, 5% con 28–31, 12% con 24–27. Sotto le 36 la strategia prova, per ogni candidata, le 5 migliori
   seconde mosse e per ognuna le 3 migliori terze mosse con il pezzo rimasto; il tabellone finale si
   giudica come quello dopo la seconda mossa, con penalità 1.000 se il terzo pezzo non entra. Sono meno
   di una mossa su dieci, quindi il tempo per mossa cresce poco. Provati: soglia 40 (952, 7 perse),
   ricerca più larga 8 × 5 (941, 6 perse), penalità 300 (941, 6 perse) e 1.000 (966, 4 perse).
-- **Pezzo nuovo alla seconda mossa (fra 36 e 44 celle libere).** Dopo la prima mossa entra un pezzo
+- **Pezzo nuovo alla seconda mossa (fra 40 e 44 celle libere; prima fra 36 e 44).** Dopo la prima mossa entra un pezzo
   nuovo, e la seconda mossa si può fare anche con quello: lo sguardo a due pezzi lo ignorava. Le 8
   migliori candidate si rivalutano provando i 25 pezzi che possono arrivare (per ognuno, la migliore
   seconda mossa fra i due noti e il nuovo) e prendendo la media pesata. Su 300 partite con lo
@@ -286,11 +286,11 @@ Che cosa fa il suggerimento in modalità normale, e perché:
   candidate approfondite e comparire due volte fra le 6 mostrate (in 168 posizioni su 1.000). Su 300
   partite con lo sdoppiamento (semi da `40000`) la forza non cambia: tasso 0,097 → 0,106 (1,09,
   intervallo 0,76–1,59), partite perse 29 e 29, ingressi in pericolo 0,97 (0,92–1,02).
-- **Pari merito nella zona di pericolo** (sotto 36 celle libere): con i tre pezzi noti giocati in
+- **Pari merito nella zona di pericolo** (sotto 40 celle libere): con i tre pezzi noti giocati in
   ordine diverso più prime mosse portano spesso allo stesso tabellone finale, e lo sguardo a tre pezzi
   dà a tutte lo stesso totale; vinceva la prima della lista. Ma fra la prima e la seconda mossa arriva
   un pezzo nuovo, e il tabellone dopo la prima mossa conta (celle isolate, spazio per i pezzi). Ora le
-  pari merito si ordinano con il pezzo nuovo alla seconda mossa (media sui 25 pezzi, come fra 36 e 44
+  pari merito si ordinano con il pezzo nuovo alla seconda mossa (media sui 25 pezzi, come fra 40 e 44
   celle libere), e il loro totale scende della differenza: il giudizio le distingue. Esempio: seme
   7000, pezzo 2891: rombo, ferro e ferro avevano −703 tutti e tre ed era suggerito il rombo che isola
   la cella 61 (bloccato nel 16% di 2000 futuri, i ferri nel 14%); ora vince il ferro in 45-51-57-58.
@@ -344,6 +344,13 @@ Che cosa fa il suggerimento in modalità normale, e perché:
   dimostrato.
   **Adottato** il 10 ottobre come seconda versione del rischio imparato (`game/learnedRisk.js`,
   descrizione in `docs/rischio-imparato.md`).
+- **Tre pezzi noti sotto 40 celle libere invece che sotto 36.** Nelle partite perse (studio del seme
+  7000) il tabellone crolla in pochi pezzi dopo essere sceso a 31 celle libere: lo sguardo a tre pezzi
+  arrivava tardi. Su 300 partite con lo sdoppiamento (semi da `40000`), stesse partite: tasso 0,040 →
+  0,014 (rapporto 0,36, intervallo 0,13–0,75: **dimostrato**), partite perse 10 → 4, trappole 33 → 11.
+  Gli ingressi in pericolo raddoppiano (6,9 → 13,4 ogni 1000 pezzi), ma le copie bloccate per ingresso
+  scendono da 0,58% a 0,11%. Il pezzo nuovo alla seconda mossa resta fra la soglia e 44 celle libere:
+  spostarlo a 40–48 non ha aiutato (189 partite, 6 perse come prima). **Adottato** il 10 ottobre.
 - **Provati e scartati:** premio per le celle libere dopo le due mosse (854 e 811), linee della
   seconda mossa premiate con l'affollamento (726 e 612), premio esponenziale con le celle libere al
   posto di quello lineare (851 e 850). Tenere la griglia vuota non è un obiettivo in sé, e premiare lo
