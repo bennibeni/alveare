@@ -3,7 +3,9 @@
 Valida su un quinto delle posizioni tenuto da parte e confronta con il solo numero di celle vuote.
 Il modello (b, use, c) va copiato in LEARNED_MODEL di game/learnedRisk.js, poi misurato con
 npm run pericolo prima di adottarlo. Serve scikit-learn (pip install scikit-learn)."""
-import json, sys
+import json
+import sys
+
 import numpy as np
 from sklearn.linear_model import LogisticRegression
 
@@ -12,7 +14,8 @@ FEATURES = ['linee', 'punti', 'vuote', 'buchi1', 'buchi0', 'morte', 'quasi1', 'q
             'chiudibili', 'bassaBordo', 'bassaInterno']
 USE = list(range(2, len(FEATURES)))  # le misure del tabellone (non linee e punti della mossa)
 
-rows = [json.loads(l) for l in open(sys.argv[1])]
+with open(sys.argv[1]) as f:
+    rows = [json.loads(l) for l in f]
 X = np.array([[r['f'][i] for i in USE] for r in rows])
 lost = np.array([r['lost'] for r in rows], float)
 K = np.array([r['K'] for r in rows], float)
@@ -40,4 +43,5 @@ m = fit(X, lost, K, 1.0)
 model = {'use': USE, 'names': [FEATURES[i] for i in USE], 'b': float(m.intercept_[0]), 'c': [float(v) for v in m.coef_[0]]}
 for n, c in zip(model['names'], model['c']):
     print(f"  {n:12s} {c:+.3f}")
-json.dump(model, open(sys.argv[2], 'w'), indent=1)
+with open(sys.argv[2], 'w') as f:
+    json.dump(model, f, indent=1)
