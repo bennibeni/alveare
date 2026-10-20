@@ -370,6 +370,17 @@ Che cosa fa il suggerimento in modalità normale, e perché:
   non coperta da nessun pezzo da 4 (calcolo veloce con le posizioni precalcolate, 43 µs per tabellone): 10 e
   20 (8 e 4). Nessun miglioramento: buchi, celle isolate, pezzi che entrano e sguardo a tre pezzi coprono già
   questa debolezza. Sull'archivio la penalità 10 sembrava utile (229 posizioni salvate contro 221).
+- **Pezzi noti rimasti nel rischio imparato.** Il rischio imparato è addestrato su futuri con un vassoio
+  tutto nuovo, ma dopo le due mosse dello sguardo avanti il terzo pezzo noto resta nel vassoio. Aggiunte 4
+  misure (pezzi noti rimasti, punto fra questi, spazio del pezzo noto più difficile, pezzo noto che non
+  entra), passate da sguardo a due e a tre pezzi e pezzo nuovo; nuovi dati
+  (17.038 tabelloni da 2.840 posizioni, ognuno con futuri a vassoio nuovo e con 1–2 pezzi noti tenuti).
+  Effetto nella direzione attesa ma piccolo: con il punto tenuto si bloccano il 3,2% dei futuri contro il
+  4,0% (coefficienti: punto −0,29, pezzo noto che non entra +0,48) e la previsione migliora in tutte e 5 le
+  suddivisioni di prova, ma di pochissimo (log-loss −0,0002). Sdoppiamento, 600 partite: semi 40000 tasso
+  0,014 -> 0,019 (rapporto 1,35, intervallo 0,61–3,67, perse 4 -> 6), semi 70000 0,028 -> 0,029 (rapporto
+  1,06, intervallo 0,51–2,29, perse 9 -> 7); copie bloccate 50 -> 58. Nessun miglioramento: penalità per lo
+  spazio del pezzo rimasto e sguardo a tre pezzi coprono già quasi tutto, e resta solo il punto, raro.
 - **Quanto si può ancora misurare.** La strategia attuale perde 4 partite su 60 di taratura (al massimo
   1.000 pezzi): per riconoscere una riduzione di un terzo delle sconfitte servirebbero centinaia di partite,
   oppure partite più lunghe.
