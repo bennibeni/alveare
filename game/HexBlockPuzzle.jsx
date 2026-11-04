@@ -13,6 +13,7 @@ import { toast as notify, ToastContainer } from "react-toastify"; // "toast" è 
 import GuideExpert from "./GuideExpert.jsx";
 import GuideNormal from "./GuideNormal.jsx";
 import MoveAnalysis from "./MoveAnalysis.jsx";
+import GameAutopsy from "./GameAutopsy.jsx";
 import MoveFeedback from "./MoveFeedback.jsx";
 import HexGrid, {
   axialToPixel,
@@ -34,6 +35,8 @@ import {
 } from "./pieces.js";
 import { bestMove } from "./strategy.js";
 import { requestAnalysis } from "./strategyClient.js";
+import { buildGameReport } from "./gameReport.js";
+import { buildAutopsyReport } from "./autopsyData.js";
 
 const RADIUS = 4;
 const SHOW_MOVE_ANALYSIS = true; // false per nascondere l'accordion delle mosse
@@ -133,6 +136,7 @@ function freshGame(recordBase = 0) {
     streak: 0,
     moves: 0,
     linesTotal: 0,
+    moveLog: [],
     recordBase,
   };
 }
@@ -261,6 +265,8 @@ function PieceSvg({ cells, color, scale = 1, opacity = 1 }) {
 function Game({ active = true, onSnapshot }) {
   const [game, setGame] = useState(() => freshGame(loadBest(false)));
   const [history, setHistory] = useState(null); // un livello di annullamento
+  const [downloading, setDownloading] = useState(false);
+
   const [expert, setExpert] = useState(false); // modalità Esperto: vassoio a coda FIFO
   const [best, setBest] = useState(() => loadBest(false));
   const [selected, setSelected] = useState(null); // indice nel vassoio
@@ -444,7 +450,25 @@ function Game({ active = true, onSnapshot }) {
       }
 
       setHistory(game);
+      const snapshot = {
+        grid: game.grid,
+        tray: game.tray,
+        streak: game.streak,
+        expert,
+        idx,
+        q,
+        r,
+      };
       const counters = {
+        moveLog: [
+          ...game.moveLog,
+          {
+            snapshot,
+            automatic: auto,
+            scoreBefore: game.score,
+            scoreAfter: newScore,
+          },
+        ],
         tray: nextTray,
         score: newScore,
         streak: lines.length ? game.streak + 1 : 0,
@@ -452,17 +476,7 @@ function Game({ active = true, onSnapshot }) {
         linesTotal: game.linesTotal + lines.length,
         recordBase: game.recordBase, // il record da battere resta quello di inizio partita
         lastMove:
-          (SHOW_MOVE_ANALYSIS || SHOW_MOVE_FEEDBACK) && !auto
-            ? {
-                grid: game.grid,
-                tray: game.tray,
-                streak: game.streak,
-                expert,
-                idx,
-                q,
-                r,
-              }
-            : null,
+          (SHOW_MOVE_ANALYSIS || SHOW_MOVE_FEEDBACK) && !auto ? snapshot : null,
       };
       setSelected(null);
       setHover(null);
@@ -650,6 +664,34 @@ function Game({ active = true, onSnapshot }) {
       window.removeEventListener("pointercancel", cancel);
     };
   }, [drag, tray, grid, targetFor, flyAndPlace]);
+
+  const downloadLog = async () => {
+    setDownloading(true);
+    try {
+      const report = await buildGameReport(game, requestAnalysis);
+      // a partita finita (modalità normale) anche l'autopsia e il vassoio finale
+      if (gameOver && !expert && game.moveLog.length) {
+        report.finalTray = tray.map((p) => p?.id ?? null);
+        report.autopsy = await buildAutopsyReport(game.moveLog, tray);
+      }
+      const url = URL.createObjectURL(
+        new Blob([JSON.stringify(report, null, 2)], {
+          type: "application/json",
+        }),
+      );
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `alveare-partita-${new Date().toISOString().replace(/[:.]/g, "-")}.json`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      schedule(() => URL.revokeObjectURL(url), 1000);
+    } catch {
+      notify.error("Download del log non riuscito. Riprova.");
+    } finally {
+      setDownloading(false);
+    }
+  };
 
   const undo = () => {
     if (!history) return;
@@ -857,6 +899,14 @@ function Game({ active = true, onSnapshot }) {
           {/* comandi, in orizzontale sopra il tabellone */}
           <div className="flex flex-wrap justify-center gap-2">
             <Button onClick={newGame}>Nuova partita</Button>
+            <Button
+              onClick={downloadLog}
+              disabled={
+                downloading || !game.moveLog.length || !!celebrate || !!flying
+              }
+            >
+              {downloading ? "Preparazione log…" : "Scarica log partita"}
+            </Button>
             <Button
               onClick={undo}
               disabled={!history || auto || celebrate || !!flying}
@@ -1167,6 +1217,14 @@ function Game({ active = true, onSnapshot }) {
                 lastMove={game.lastMove}
                 playedAnalysis={playedAnalysis}
                 busy={!!flying || !!celebrate}
+              />
+            )}
+
+            {gameOver && !expert && active && game.moveLog.length > 0 && (
+              <GameAutopsy
+                moveLog={game.moveLog}
+                finalGrid={grid}
+                finalTray={tray}
               />
             )}
 

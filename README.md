@@ -71,6 +71,30 @@ riproducibile: lo stesso comando su un altro computer ha dato esattamente gli st
 
 ## Struttura
 
+Il pulsante **Scarica log partita** esporta un JSON della partita al momento del clic:
+per ogni mossa include tabellone e vassoio ordinato prima di giocare, slot e coordinate
+della mossa giocata, giudizio, suggerimenti valutati e risultato con punteggio.
+Include le mosse dell’autogioco ed esclude quelle annullate. Una nuova partita o un
+cambio di modalità azzera il registro. Le analisi mancanti vengono calcolate al download.
+A partita finita, in modalità normale, il log contiene anche il vassoio finale (`finalTray`) e
+l’autopsia (`autopsy`): esito di ogni mossa della discesa finale con i pezzi arrivati, rischio della
+mossa scelta e della più sicura, mossa decisiva, errore più costoso e pezzi arrivati.
+
+A fine partita, in modalità normale, il riquadro **Autopsia della partita** usa lo stesso registro: i
+pezzi arrivati sono tutti noti, e un oracolo che li conosce in anticipo (`game/autopsy.js`, nel worker
+`autopsy.worker.js`) dice per ogni mossa della discesa finale se c’era ancora una via d’uscita fino a
+40 celle libere (verde), se con i pezzi arrivati si poteva continuare (giallo) o se non c’era scampo
+(rosso). Indica la mossa decisiva, le mosse che da lì evitavano il blocco e la sequenza dell’oracolo.
+Per ogni mossa scelta mostra posizione e vassoio (con i posti di ogni pezzo), un giudizio
+dettagliato (`autopsyText.js`) e tutte le mosse possibili con il rischio di ognuna: quota di 200
+futuri a caso, gli stessi per tutte le mosse, in cui nemmeno l’oracolo torna a 40 celle libere,
+accanto alla stima di blocco del suggerimento, ai «pari merito» (entro 2 punti dalla più sicura) e
+all’esito con i pezzi arrivati; sotto, i pezzi arrivati dopo la mossa. Se la mossa decisiva era
+sicura con pezzi qualsiasi, il verdetto la attribuisce alla sfortuna. Il pulsante
+«Vuoi sapere qual è stato l’errore più costoso?» apre una finestra con il rischio aggiunto da ogni
+mossa della discesa finale rispetto alla mossa più sicura e indica la mossa con il distacco maggiore.
+È lo stesso oracolo degli script di `scripts/autopsia/`, limitato ai pezzi usciti davvero.
+
 L’analisi delle mosse contiene il pulsante **Calcola indicatori di prosecuzione**.
 Mostra la probabilità esatta che un pezzo estratto non entri sulla griglia attuale
 (pesata per ogni orientamento), e stime del blocco prima di completare 3 e 6 mosse.
@@ -186,7 +210,10 @@ game/
   GuideNormal.jsx     pagina «Suggerimenti · normale»
   GuideExpert.jsx     pagina «Suggerimenti · Esperto»
   GuideKit.jsx        miniature del tabellone e componenti comuni delle guide
+  GameAutopsy.jsx     autopsia della partita (modalità normale), con autopsy.js nel worker
+data/                 archivi per misure e test, descritti in data/README.md
 scripts/              motore di simulazione e simulatore da riga di comando
+  autopsia/           autopsia delle sconfitte con l’oracolo chiaroveggente (vedi più sotto)
 tests/unit/           test Vitest
 tests/e2e/            test Playwright
 ```
@@ -415,6 +442,42 @@ in poco tempo, e proprio dove si decidono le partite, se una strategia sceglie m
 Ogni posizione ha le celle occupate (coordinate e numeri del giudizio), i tre pezzi del vassoio, la
 combo, il seme dei pezzi futuri (`futureSeed`) e l'esito delle mosse iniziali provate. Per rigenerarlo
 o ingrandirlo: `scripts/crowded-archive.mjs` (istruzioni in testa al file).
+
+### Autopsia delle sconfitte
+
+Dove si decidono le sconfitte della modalità normale, e quanto resta da guadagnare? Gli script in
+`scripts/autopsia/` (istruzioni in testa a ogni file) rigiocano le copie bloccate dello sdoppiamento
+con un **oracolo chiaroveggente**: un motore a bit che conosce i pezzi futuri e cerca una sequenza di
+mosse che torni ad almeno 40 celle libere entro 25 mosse (`verifica-motore.mjs` lo confronta con
+`HexGrid.play`). Se nemmeno l'oracolo si salva, la sconfitta era inevitabile con quei pezzi.
+
+Dati: 400 partite (semi da `100000`, al massimo 1.000 pezzi, 8 copie per ingresso in pericolo;
+`data/autopsia/trappole-100000.json`): 395.358 pezzi, 5.360 ingressi in pericolo, 42.880 copie, 59
+copie bloccate da 24 ingressi (tasso 0,019 ogni 1000 pezzi), 10 partite perse.
+
+- **Tre sconfitte su quattro sono inevitabili già all'ingresso in pericolo** (`autopsia.mjs`): in 44
+  copie su 59 nemmeno l'oracolo trova una sequenza salva. Si bloccano quasi tutte entro 1–3 mosse:
+  sotto 32 celle libere rombo, ferro di cavallo, barra da 4 e bandiere hanno 0–3 posizioni.
+- **Il passo fatale, quando c'è, è quasi sempre sfortuna** (`prova-fatale.mjs`). Nelle altre 15 copie
+  c'è un'ultima mossa dopo la quale non c'è più scampo (in media 2 mosse salve su 6). Giudicate su
+  60 futuri a caso, senza conoscerli, le mosse salve dell'oracolo non reggono meglio di quella della
+  strategia in 13 casi su 15. Un solo errore probabile (due copie dallo stesso ingresso): 31 celle
+  libere, bandiera destra, barra da 4, bandiera destra; la mossa scelta perde 39 futuri su 60, un'altra
+  posizione della stessa bandiera 19–27.
+- **Le mosse prima dell'ingresso non sono sbagliate** (`alternative.mjs`). Nelle ultime 3 mosse prima
+  di ognuno dei 24 ingressi, per ogni mossa possibile, quota di 40 futuri in cui nemmeno l'oracolo
+  sopravvive 14 mosse: la strategia sceglie la mossa migliore o una alla pari quasi sempre (le
+  differenze sono di uno o due futuri su 40). Con 38–40 celle libere le mosse possibili sono già solo
+  3–20.
+- **Il margine che resta è piccolo** (`ingressi-oracolo.mjs`). Sugli stessi 1.273 ingressi delle prime
+  100 partite l'oracolo non si salva nello 0,124% di 200 futuri per ingresso, la strategia si blocca
+  nello 0,167% delle copie (17 su 10.184): anche chi conoscesse il futuro perderebbe circa tre quarti
+  delle partite che perde la strategia (rapporto ancora impreciso: 17 copie bloccate). Il rischio è
+  concentrato: 5 ingressi su 1.273 fanno il 91% dei futuri persi dall'oracolo.
+
+In pericolo la strategia gioca quasi come si può: ritoccare sguardo avanti e penalità sotto 40 celle
+libere non ha più spazio, come mostrano le ultime prove scartate. Resta la forma del tabellone fra 40 e
+48 celle libere, con guadagni piccoli e costosi da dimostrare.
 
 ### Come misurare
 

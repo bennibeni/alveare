@@ -23,7 +23,7 @@
  *   - "bordo esterno da 5 celle" = le 6 linee di bordo; si sceglie la posizione con più celle sul bordo;
  *   - "piazza il pezzo al centro e attiva la combo" = fra le mosse che svuotano linee, la più vicina al centro.
  */
-import HexGrid, { parseKey } from "../game/HexGrid.js";
+import HexGrid from "../game/HexGrid.js";
 import { bestMove } from "../game/strategy.js";
 import { playGame, seedFor, summarize } from "./sim-lib.mjs";
 
