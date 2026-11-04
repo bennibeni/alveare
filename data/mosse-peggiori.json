@@ -1,3030 +1,6143 @@
 {
-  "format": "alveare-mosse-umane",
-  "version": 1,
-  "notes": "Mosse giocate nettamente peggiori del suggerimento (stesse misure di mosse-migliori.json, differenza negativa).",
-  "records": [
-    {
-      "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#4",
-      "partita": "alveare-partita-2026-11-04T05-07-12-790Z.json",
-      "mossa": 4,
-      "stato": "confermata",
-      "posizione": {
-        "celle": [
-          "-3,3",
-          "-3,4",
-          "-2,3",
-          "-2,4",
-          "-1,3",
-          "-1,4",
-          "0,3",
-          "0,4",
-          "1,2",
-          "1,3",
-          "2,1",
-          "2,2"
-        ],
-        "vassoio": ["barra 4-0", "rombo-1", "barra 4-1"],
-        "combo": 0,
-        "libere": 49
-      },
-      "tua": {
-        "idx": 2,
-        "q": 4,
-        "r": -4,
-        "pezzo": "barra 4-1",
-        "nome": "barra 4",
-        "celle": [5, 11, 18, 26]
-      },
-      "suggerita": {
-        "idx": 0,
-        "q": -3,
-        "r": 2,
-        "pezzo": "barra 4-0",
-        "nome": "barra 4",
-        "celle": [45, 46, 47, 48]
-      },
-      "app": {
-        "giudizio": "Mossa migliorabile",
-        "posto": 7,
-        "su": 7,
-        "strategia": "fa730f6"
-      },
-      "prova": {
-        "futuri": 30,
-        "mosse": 15,
-        "seme": 777,
-        "differenza": -18.4,
-        "errore": 6.9,
-        "a": {
-          "punti": 177.5,
-          "blocchi": 0,
-          "libere": 44
-        },
-        "b": {
-          "punti": 195.8,
-          "blocchi": 0,
-          "libere": 45.4
-        }
-      },
-      "conferma": {
-        "futuri": 100,
-        "mosse": 15,
-        "seme": 99991,
-        "differenza": -17.6,
-        "errore": 3.3,
-        "a": {
-          "punti": 177.5,
-          "blocchi": 0,
-          "libere": 43.1
-        },
-        "b": {
-          "punti": 195.2,
-          "blocchi": 0,
-          "libere": 44.4
-        }
-      },
-      "aggiunto": "2026-11-04"
+ "format": "alveare-mosse-umane",
+ "version": 1,
+ "notes": "Mosse giocate nettamente peggiori del suggerimento (stesse misure di mosse-migliori.json, differenza negativa).",
+ "records": [
+  {
+   "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#4",
+   "partita": "alveare-partita-2026-11-04T05-07-12-790Z.json",
+   "mossa": 4,
+   "stato": "confermata",
+   "posizione": {
+    "celle": [
+     "-3,3",
+     "-3,4",
+     "-2,3",
+     "-2,4",
+     "-1,3",
+     "-1,4",
+     "0,3",
+     "0,4",
+     "1,2",
+     "1,3",
+     "2,1",
+     "2,2"
+    ],
+    "vassoio": [
+     "barra 4-0",
+     "rombo-1",
+     "barra 4-1"
+    ],
+    "combo": 0,
+    "libere": 49
+   },
+   "tua": {
+    "idx": 2,
+    "q": 4,
+    "r": -4,
+    "pezzo": "barra 4-1",
+    "nome": "barra 4",
+    "celle": [
+     5,
+     11,
+     18,
+     26
+    ]
+   },
+   "suggerita": {
+    "idx": 0,
+    "q": -3,
+    "r": 2,
+    "pezzo": "barra 4-0",
+    "nome": "barra 4",
+    "celle": [
+     45,
+     46,
+     47,
+     48
+    ]
+   },
+   "app": {
+    "giudizio": "Mossa migliorabile",
+    "posto": 7,
+    "su": 7,
+    "strategia": "fa730f6"
+   },
+   "prova": {
+    "futuri": 30,
+    "mosse": 15,
+    "seme": 777,
+    "differenza": -18.4,
+    "errore": 6.9,
+    "a": {
+     "punti": 177.5,
+     "blocchi": 0,
+     "libere": 44
     },
-    {
-      "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#33",
-      "partita": "alveare-partita-2026-11-04T05-07-12-790Z.json",
-      "mossa": 33,
-      "stato": "confermata",
-      "posizione": {
-        "celle": [
-          "-4,0",
-          "-3,1",
-          "-3,2",
-          "-3,3",
-          "-3,4",
-          "-2,-2",
-          "-2,0",
-          "-2,1",
-          "-2,2",
-          "-2,3",
-          "-1,0",
-          "-1,1",
-          "-1,2",
-          "-1,3",
-          "-1,4",
-          "0,-4",
-          "0,-3",
-          "0,-2",
-          "0,2",
-          "0,3",
-          "0,4",
-          "1,-4",
-          "1,-3",
-          "1,-2",
-          "1,-1",
-          "1,1",
-          "1,2",
-          "1,3",
-          "2,-4",
-          "2,2",
-          "3,-3",
-          "3,-2",
-          "3,1",
-          "4,-4",
-          "4,-3",
-          "4,-2"
-        ],
-        "vassoio": [
-          "bandiera sinistra-2",
-          "bandiera sinistra-0",
-          "ferro di cavallo-3"
-        ],
-        "combo": 0,
-        "libere": 25
-      },
-      "tua": {
-        "idx": 1,
-        "q": 2,
-        "r": -1,
-        "pezzo": "bandiera sinistra-0",
-        "nome": "bandiera sinistra",
-        "celle": [24, 32, 33, 40]
-      },
-      "suggerita": {
-        "idx": 0,
-        "q": -1,
-        "r": -3,
-        "pezzo": "bandiera sinistra-2",
-        "nome": "bandiera sinistra",
-        "celle": [6, 13, 20, 21]
-      },
-      "app": {
-        "giudizio": "Mossa migliorabile",
-        "posto": 3,
-        "su": 5,
-        "strategia": "fa730f6"
-      },
-      "prova": {
-        "futuri": 30,
-        "mosse": 15,
-        "seme": 777,
-        "differenza": -13.6,
-        "errore": 5.8,
-        "a": {
-          "punti": 207.4,
-          "blocchi": 0,
-          "libere": 42.2
-        },
-        "b": {
-          "punti": 220.9,
-          "blocchi": 0,
-          "libere": 42.9
-        }
-      },
-      "conferma": {
-        "futuri": 100,
-        "mosse": 15,
-        "seme": 99991,
-        "differenza": -15.1,
-        "errore": 3.7,
-        "a": {
-          "punti": 205.6,
-          "blocchi": 0,
-          "libere": 41.1
-        },
-        "b": {
-          "punti": 220.7,
-          "blocchi": 0,
-          "libere": 42.7
-        }
-      },
-      "aggiunto": "2026-11-04"
-    },
-    {
-      "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#38",
-      "partita": "alveare-partita-2026-11-04T05-07-12-790Z.json",
-      "mossa": 38,
-      "stato": "confermata",
-      "posizione": {
-        "celle": [
-          "-4,0",
-          "-3,1",
-          "-3,2",
-          "-3,3",
-          "-2,-2",
-          "-2,-1",
-          "-2,0",
-          "-2,1",
-          "-2,2",
-          "-1,-3",
-          "-1,-2",
-          "-1,-1",
-          "-1,0",
-          "-1,1",
-          "-1,3",
-          "-1,4",
-          "1,-2",
-          "1,-1",
-          "2,-4",
-          "2,-3",
-          "2,-1",
-          "2,0",
-          "2,2",
-          "3,-4",
-          "3,-3",
-          "3,-2",
-          "3,-1",
-          "3,1",
-          "4,-4",
-          "4,-3",
-          "4,-2",
-          "4,-1"
-        ],
-        "vassoio": ["rombo-0", "punto-0", "barra 4-0"],
-        "combo": 1,
-        "libere": 29
-      },
-      "tua": {
-        "idx": 0,
-        "q": 0,
-        "r": -4,
-        "pezzo": "rombo-0",
-        "nome": "rombo",
-        "celle": [1, 2, 7, 8]
-      },
-      "suggerita": {
-        "idx": 1,
-        "q": -1,
-        "r": 2,
-        "pezzo": "punto-0",
-        "nome": "punto",
-        "celle": [47]
-      },
-      "app": {
-        "giudizio": "Mossa discreta",
-        "posto": 2,
-        "su": 6,
-        "strategia": "fa730f6"
-      },
-      "prova": {
-        "futuri": 30,
-        "mosse": 15,
-        "seme": 777,
-        "differenza": -16.6,
-        "errore": 7.3,
-        "a": {
-          "punti": 203.2,
-          "blocchi": 0,
-          "libere": 42.7
-        },
-        "b": {
-          "punti": 219.8,
-          "blocchi": 0,
-          "libere": 44.6
-        }
-      },
-      "conferma": {
-        "futuri": 100,
-        "mosse": 15,
-        "seme": 99991,
-        "differenza": -24.6,
-        "errore": 3.5,
-        "a": {
-          "punti": 197.9,
-          "blocchi": 0,
-          "libere": 42
-        },
-        "b": {
-          "punti": 222.4,
-          "blocchi": 0,
-          "libere": 42.9
-        }
-      },
-      "aggiunto": "2026-11-04"
-    },
-    {
-      "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#52",
-      "partita": "alveare-partita-2026-11-04T05-07-12-790Z.json",
-      "mossa": 52,
-      "stato": "confermata",
-      "posizione": {
-        "celle": [
-          "-4,0",
-          "-4,1",
-          "-3,0",
-          "-2,-1",
-          "-2,0",
-          "-1,-3",
-          "-1,-2",
-          "-1,-1",
-          "-1,0",
-          "-1,1",
-          "-1,3",
-          "-1,4",
-          "0,-4",
-          "0,-3",
-          "0,-2",
-          "0,0",
-          "0,1",
-          "1,-3",
-          "1,-2",
-          "1,-1",
-          "1,0",
-          "1,1",
-          "2,-3",
-          "2,-1",
-          "2,0",
-          "2,1",
-          "2,2",
-          "3,-1",
-          "3,0",
-          "3,1",
-          "4,-4",
-          "4,-2",
-          "4,-1"
-        ],
-        "vassoio": ["barra 4-0", "ferro di cavallo-1", "ferro di cavallo-0"],
-        "combo": 0,
-        "libere": 28
-      },
-      "tua": {
-        "idx": 0,
-        "q": -3,
-        "r": 2,
-        "pezzo": "barra 4-0",
-        "nome": "barra 4",
-        "celle": [45, 46, 47, 48]
-      },
-      "suggerita": {
-        "idx": 0,
-        "q": -4,
-        "r": 2,
-        "pezzo": "barra 4-0",
-        "nome": "barra 4",
-        "celle": [44, 45, 46, 47]
-      },
-      "app": {
-        "giudizio": "Occasione persa",
-        "posto": 6,
-        "su": 6,
-        "strategia": "fa730f6"
-      },
-      "prova": {
-        "futuri": 30,
-        "mosse": 15,
-        "seme": 777,
-        "differenza": -18.2,
-        "errore": 5.5,
-        "a": {
-          "punti": 183.9,
-          "blocchi": 0,
-          "libere": 40.2
-        },
-        "b": {
-          "punti": 202.1,
-          "blocchi": 0,
-          "libere": 42.7
-        }
-      },
-      "conferma": {
-        "futuri": 100,
-        "mosse": 15,
-        "seme": 99991,
-        "differenza": -15.3,
-        "errore": 3.3,
-        "a": {
-          "punti": 181.7,
-          "blocchi": 0,
-          "libere": 41
-        },
-        "b": {
-          "punti": 197,
-          "blocchi": 0,
-          "libere": 41.5
-        }
-      },
-      "aggiunto": "2026-11-04"
-    },
-    {
-      "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#78",
-      "partita": "alveare-partita-2026-11-04T05-07-12-790Z.json",
-      "mossa": 78,
-      "stato": "confermata",
-      "posizione": {
-        "celle": [
-          "-4,0",
-          "-4,1",
-          "-4,3",
-          "-2,-2",
-          "-2,1",
-          "-1,0",
-          "-1,1",
-          "-1,2",
-          "-1,3",
-          "-1,4",
-          "0,-4",
-          "0,-1",
-          "0,0",
-          "0,4",
-          "1,-1",
-          "1,1",
-          "1,2",
-          "2,-3",
-          "2,-2",
-          "2,0",
-          "2,1",
-          "2,2",
-          "3,-4",
-          "3,-3",
-          "3,-2",
-          "3,-1",
-          "3,0",
-          "4,-4",
-          "4,-3",
-          "4,-2",
-          "4,-1"
-        ],
-        "vassoio": ["rombo-1", "bandiera sinistra-1", "rombo-1"],
-        "combo": 2,
-        "libere": 30
-      },
-      "tua": {
-        "idx": 1,
-        "q": -4,
-        "r": 2,
-        "pezzo": "bandiera sinistra-1",
-        "nome": "bandiera sinistra",
-        "celle": [44, 45, 46, 52]
-      },
-      "suggerita": {
-        "idx": 0,
-        "q": -1,
-        "r": -2,
-        "pezzo": "rombo-1",
-        "nome": "rombo",
-        "celle": [13, 20, 21, 29]
-      },
-      "app": {
-        "giudizio": "Occasione persa",
-        "posto": 5,
-        "su": 6,
-        "strategia": "fa730f6"
-      },
-      "prova": {
-        "futuri": 30,
-        "mosse": 15,
-        "seme": 777,
-        "differenza": -320.7,
-        "errore": 97.9,
-        "a": {
-          "punti": 159,
-          "blocchi": 8,
-          "libere": 37
-        },
-        "b": {
-          "punti": 213.1,
-          "blocchi": 0,
-          "libere": 42.3
-        }
-      },
-      "conferma": {
-        "futuri": 100,
-        "mosse": 15,
-        "seme": 99991,
-        "differenza": -309.8,
-        "errore": 52.7,
-        "a": {
-          "punti": 164.7,
-          "blocchi": 26,
-          "libere": 36.1
-        },
-        "b": {
-          "punti": 214.5,
-          "blocchi": 0,
-          "libere": 42.5
-        }
-      },
-      "aggiunto": "2026-11-04"
-    },
-    {
-      "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#81",
-      "partita": "alveare-partita-2026-11-04T05-07-12-790Z.json",
-      "mossa": 81,
-      "stato": "confermata",
-      "posizione": {
-        "celle": [
-          "-4,0",
-          "-4,1",
-          "-4,2",
-          "-3,0",
-          "-3,1",
-          "-3,3",
-          "-2,-2",
-          "-2,-1",
-          "-2,0",
-          "-2,2",
-          "-1,1",
-          "-1,2",
-          "-1,3",
-          "-1,4",
-          "0,-4",
-          "0,-3",
-          "0,-2",
-          "0,0",
-          "0,4",
-          "1,-3",
-          "1,-1",
-          "1,1",
-          "1,2",
-          "2,-2",
-          "2,0",
-          "2,1",
-          "2,2",
-          "3,-3",
-          "3,-2",
-          "3,-1",
-          "3,0",
-          "4,-4",
-          "4,-3",
-          "4,-2",
-          "4,-1"
-        ],
-        "vassoio": ["barra 4-2", "barra 4-1", "rombo-1"],
-        "combo": 1,
-        "libere": 26
-      },
-      "tua": {
-        "idx": 1,
-        "q": -1,
-        "r": -3,
-        "pezzo": "barra 4-1",
-        "nome": "barra 4",
-        "celle": [6, 13, 21, 30]
-      },
-      "suggerita": {
-        "idx": 0,
-        "q": 3,
-        "r": -4,
-        "pezzo": "barra 4-2",
-        "nome": "barra 4",
-        "celle": [4, 9, 15, 22]
-      },
-      "app": {
-        "giudizio": "Buona mossa",
-        "posto": 2,
-        "su": 6,
-        "strategia": "fa730f6"
-      },
-      "prova": {
-        "futuri": 30,
-        "mosse": 15,
-        "seme": 777,
-        "differenza": -16.7,
-        "errore": 7.1,
-        "a": {
-          "punti": 220.8,
-          "blocchi": 0,
-          "libere": 42.1
-        },
-        "b": {
-          "punti": 237.4,
-          "blocchi": 0,
-          "libere": 43.2
-        }
-      },
-      "conferma": {
-        "futuri": 100,
-        "mosse": 15,
-        "seme": 99991,
-        "differenza": -11.7,
-        "errore": 4.5,
-        "a": {
-          "punti": 223.7,
-          "blocchi": 0,
-          "libere": 41.9
-        },
-        "b": {
-          "punti": 235.5,
-          "blocchi": 0,
-          "libere": 41.1
-        }
-      },
-      "aggiunto": "2026-11-04"
-    },
-    {
-      "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#82",
-      "partita": "alveare-partita-2026-11-04T05-07-12-790Z.json",
-      "mossa": 82,
-      "stato": "confermata",
-      "posizione": {
-        "celle": [
-          "-4,0",
-          "-4,1",
-          "-4,2",
-          "-3,0",
-          "-3,1",
-          "-3,3",
-          "-2,-2",
-          "-2,-1",
-          "-2,0",
-          "-2,2",
-          "0,-4",
-          "0,-3",
-          "0,-2",
-          "0,0",
-          "0,4",
-          "1,-3",
-          "1,-1",
-          "1,1",
-          "1,2",
-          "2,-2",
-          "2,0",
-          "2,1",
-          "2,2",
-          "3,-3",
-          "3,-2",
-          "3,-1",
-          "3,0",
-          "4,-4",
-          "4,-3",
-          "4,-2",
-          "4,-1"
-        ],
-        "vassoio": ["barra 4-2", "bandiera destra-2", "rombo-1"],
-        "combo": 2,
-        "libere": 30
-      },
-      "tua": {
-        "idx": 1,
-        "q": 0,
-        "r": 2,
-        "pezzo": "bandiera destra-2",
-        "nome": "bandiera destra",
-        "celle": [48, 54, 59, 60]
-      },
-      "suggerita": {
-        "idx": 0,
-        "q": -1,
-        "r": 0,
-        "pezzo": "barra 4-2",
-        "nome": "barra 4",
-        "celle": [30, 38, 45, 51]
-      },
-      "app": {
-        "giudizio": "Occasione persa",
-        "posto": 7,
-        "su": 7,
-        "strategia": "fa730f6"
-      },
-      "prova": {
-        "futuri": 30,
-        "mosse": 15,
-        "seme": 777,
-        "differenza": -14.7,
-        "errore": 6.1,
-        "a": {
-          "punti": 208.9,
-          "blocchi": 0,
-          "libere": 41.6
-        },
-        "b": {
-          "punti": 223.6,
-          "blocchi": 0,
-          "libere": 40.1
-        }
-      },
-      "conferma": {
-        "futuri": 100,
-        "mosse": 15,
-        "seme": 99991,
-        "differenza": -11.8,
-        "errore": 3.4,
-        "a": {
-          "punti": 208.3,
-          "blocchi": 0,
-          "libere": 41.9
-        },
-        "b": {
-          "punti": 220.2,
-          "blocchi": 0,
-          "libere": 42
-        }
-      },
-      "aggiunto": "2026-11-04"
-    },
-    {
-      "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#91",
-      "partita": "alveare-partita-2026-11-04T05-07-12-790Z.json",
-      "mossa": 91,
-      "stato": "confermata",
-      "posizione": {
-        "celle": [
-          "-3,2",
-          "-3,3",
-          "-3,4",
-          "-2,-1",
-          "-2,2",
-          "-2,3",
-          "-1,-2",
-          "-1,-1",
-          "-1,0",
-          "-1,1",
-          "-1,2",
-          "-1,3",
-          "0,-4",
-          "0,-3",
-          "0,-2",
-          "0,-1",
-          "0,0",
-          "0,1",
-          "0,2",
-          "0,4",
-          "1,-3",
-          "1,-2",
-          "1,-1",
-          "1,1",
-          "2,-3",
-          "2,-2",
-          "2,-1",
-          "2,2",
-          "3,-4",
-          "3,-3",
-          "3,-2",
-          "3,-1",
-          "4,-4",
-          "4,-3",
-          "4,-2",
-          "4,-1"
-        ],
-        "vassoio": ["rombo-0", "punto-0", "bandiera sinistra-0"],
-        "combo": 0,
-        "libere": 25
-      },
-      "tua": {
-        "idx": 2,
-        "q": 3,
-        "r": 0,
-        "pezzo": "bandiera sinistra-0",
-        "nome": "bandiera sinistra",
-        "celle": [34, 42, 43, 49]
-      },
-      "suggerita": {
-        "idx": 1,
-        "q": -2,
-        "r": -2,
-        "pezzo": "punto-0",
-        "nome": "punto",
-        "celle": [12]
-      },
-      "app": {
-        "giudizio": "Mossa migliorabile",
-        "posto": 7,
-        "su": 7,
-        "strategia": "fa730f6"
-      },
-      "prova": {
-        "futuri": 30,
-        "mosse": 15,
-        "seme": 777,
-        "differenza": -31.9,
-        "errore": 7.5,
-        "a": {
-          "punti": 201,
-          "blocchi": 0,
-          "libere": 41.1
-        },
-        "b": {
-          "punti": 232.9,
-          "blocchi": 0,
-          "libere": 43.2
-        }
-      },
-      "conferma": {
-        "futuri": 100,
-        "mosse": 15,
-        "seme": 99991,
-        "differenza": -32.8,
-        "errore": 12.2,
-        "a": {
-          "punti": 207.3,
-          "blocchi": 1,
-          "libere": 42
-        },
-        "b": {
-          "punti": 230,
-          "blocchi": 0,
-          "libere": 41.7
-        }
-      },
-      "aggiunto": "2026-11-04"
-    },
-    {
-      "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#107",
-      "partita": "alveare-partita-2026-11-04T05-07-12-790Z.json",
-      "mossa": 107,
-      "stato": "confermata",
-      "posizione": {
-        "celle": [
-          "-4,1",
-          "-4,2",
-          "-3,0",
-          "-3,1",
-          "-3,4",
-          "-2,-1",
-          "-2,0",
-          "-2,3",
-          "-1,-2",
-          "-1,-1",
-          "-1,4",
-          "0,-4",
-          "0,-3",
-          "0,-2",
-          "0,-1",
-          "0,3",
-          "0,4",
-          "1,-3",
-          "1,-1",
-          "1,3",
-          "2,-2",
-          "2,0",
-          "2,1",
-          "3,-1",
-          "3,0",
-          "4,-1",
-          "4,0"
-        ],
-        "vassoio": ["rombo-1", "barra 4-0", "punto-0"],
-        "combo": 0,
-        "libere": 34
-      },
-      "tua": {
-        "idx": 0,
-        "q": -3,
-        "r": 2,
-        "pezzo": "rombo-1",
-        "nome": "rombo",
-        "celle": [45, 51, 52, 57]
-      },
-      "suggerita": {
-        "idx": 2,
-        "q": 1,
-        "r": 2,
-        "pezzo": "punto-0",
-        "nome": "punto",
-        "celle": [49]
-      },
-      "app": {
-        "giudizio": "Mossa discreta",
-        "posto": 3,
-        "su": 6,
-        "strategia": "fa730f6"
-      },
-      "prova": {
-        "futuri": 30,
-        "mosse": 15,
-        "seme": 777,
-        "differenza": -20.4,
-        "errore": 5.6,
-        "a": {
-          "punti": 203.7,
-          "blocchi": 0,
-          "libere": 42.6
-        },
-        "b": {
-          "punti": 224.1,
-          "blocchi": 0,
-          "libere": 42.8
-        }
-      },
-      "conferma": {
-        "futuri": 100,
-        "mosse": 15,
-        "seme": 99991,
-        "differenza": -31.9,
-        "errore": 2.9,
-        "a": {
-          "punti": 198.4,
-          "blocchi": 0,
-          "libere": 42.3
-        },
-        "b": {
-          "punti": 230.3,
-          "blocchi": 0,
-          "libere": 42.1
-        }
-      },
-      "aggiunto": "2026-11-04"
-    },
-    {
-      "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#121",
-      "partita": "alveare-partita-2026-11-04T05-07-12-790Z.json",
-      "mossa": 121,
-      "stato": "confermata",
-      "posizione": {
-        "celle": [
-          "-4,1",
-          "-4,2",
-          "-4,4",
-          "-3,0",
-          "-3,1",
-          "-3,2",
-          "-3,3",
-          "-3,4",
-          "-2,-1",
-          "-2,0",
-          "-2,3",
-          "-2,4",
-          "-1,-3",
-          "-1,-1",
-          "-1,0",
-          "-1,1",
-          "-1,2",
-          "-1,3",
-          "0,-3",
-          "0,-1",
-          "0,0",
-          "0,1",
-          "0,3",
-          "0,4",
-          "1,-1",
-          "1,0",
-          "1,1",
-          "1,3",
-          "2,-3",
-          "2,0",
-          "2,1",
-          "2,2",
-          "3,-1",
-          "3,0",
-          "3,1",
-          "4,-4",
-          "4,-3",
-          "4,-1"
-        ],
-        "vassoio": ["rombo-1", "bandiera destra-4", "ferro di cavallo-2"],
-        "combo": 1,
-        "libere": 23
-      },
-      "tua": {
-        "idx": 2,
-        "q": 1,
-        "r": -3,
-        "pezzo": "ferro di cavallo-2",
-        "nome": "ferro di cavallo",
-        "celle": [8, 10, 15, 16]
-      },
-      "suggerita": {
-        "idx": 0,
-        "q": 3,
-        "r": -3,
-        "pezzo": "rombo-1",
-        "nome": "rombo",
-        "celle": [10, 16, 17, 24]
-      },
-      "app": {
-        "giudizio": "Mossa migliorabile",
-        "posto": 2,
-        "su": 2,
-        "strategia": "fa730f6"
-      },
-      "prova": {
-        "futuri": 30,
-        "mosse": 15,
-        "seme": 777,
-        "differenza": -242.6,
-        "errore": 89.6,
-        "a": {
-          "punti": 197.3,
-          "blocchi": 6,
-          "libere": 37.2
-        },
-        "b": {
-          "punti": 239.8,
-          "blocchi": 0,
-          "libere": 42.2
-        }
-      },
-      "conferma": {
-        "futuri": 100,
-        "mosse": 15,
-        "seme": 99991,
-        "differenza": -209.9,
-        "errore": 45.1,
-        "a": {
-          "punti": 198.8,
-          "blocchi": 17,
-          "libere": 37.4
-        },
-        "b": {
-          "punti": 238.7,
-          "blocchi": 0,
-          "libere": 42.2
-        }
-      },
-      "aggiunto": "2026-11-04"
-    },
-    {
-      "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#122",
-      "partita": "alveare-partita-2026-11-04T05-07-12-790Z.json",
-      "mossa": 122,
-      "stato": "confermata",
-      "posizione": {
-        "celle": [
-          "-4,1",
-          "-4,2",
-          "-4,4",
-          "-3,0",
-          "-3,1",
-          "-3,2",
-          "-3,3",
-          "-3,4",
-          "-2,-1",
-          "-2,0",
-          "-2,3",
-          "-2,4",
-          "-1,-1",
-          "-1,0",
-          "-1,1",
-          "-1,2",
-          "-1,3",
-          "0,-1",
-          "0,0",
-          "0,1",
-          "0,3",
-          "0,4",
-          "1,-2",
-          "1,-1",
-          "1,0",
-          "1,1",
-          "1,3",
-          "2,-2",
-          "2,0",
-          "2,1",
-          "2,2",
-          "3,-1",
-          "3,0",
-          "3,1",
-          "4,-4",
-          "4,-1"
-        ],
-        "vassoio": ["rombo-1", "bandiera destra-4", "punto-0"],
-        "combo": 2,
-        "libere": 25
-      },
-      "tua": {
-        "idx": 2,
-        "q": 0,
-        "r": 2,
-        "pezzo": "punto-0",
-        "nome": "punto",
-        "celle": [48]
-      },
-      "suggerita": {
-        "idx": 2,
-        "q": -4,
-        "r": 3,
-        "pezzo": "punto-0",
-        "nome": "punto",
-        "celle": [51]
-      },
-      "app": {
-        "giudizio": "Occasione persa",
-        "posto": 7,
-        "su": 7,
-        "strategia": "fa730f6"
-      },
-      "prova": {
-        "futuri": 30,
-        "mosse": 15,
-        "seme": 777,
-        "differenza": -15.1,
-        "errore": 7.4,
-        "a": {
-          "punti": 204.5,
-          "blocchi": 0,
-          "libere": 41.1
-        },
-        "b": {
-          "punti": 219.6,
-          "blocchi": 0,
-          "libere": 41.9
-        }
-      },
-      "conferma": {
-        "futuri": 100,
-        "mosse": 15,
-        "seme": 99991,
-        "differenza": -68.4,
-        "errore": 23.4,
-        "a": {
-          "punti": 193.1,
-          "blocchi": 4,
-          "libere": 40.4
-        },
-        "b": {
-          "punti": 221.5,
-          "blocchi": 0,
-          "libere": 42.9
-        }
-      },
-      "aggiunto": "2026-11-04"
-    },
-    {
-      "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#140",
-      "partita": "alveare-partita-2026-11-04T05-07-12-790Z.json",
-      "mossa": 140,
-      "stato": "confermata",
-      "posizione": {
-        "celle": [
-          "-3,2",
-          "-3,3",
-          "-3,4",
-          "-2,0",
-          "-2,1",
-          "-2,2",
-          "-2,3",
-          "-1,-2",
-          "-1,-1",
-          "-1,0",
-          "-1,1",
-          "-1,2",
-          "-1,3",
-          "0,1",
-          "0,2",
-          "1,1",
-          "1,2",
-          "2,-2",
-          "2,0",
-          "2,1",
-          "2,2",
-          "3,-4",
-          "3,-2",
-          "3,-1",
-          "3,1",
-          "4,-3"
-        ],
-        "vassoio": ["ferro di cavallo-0", "rombo-1", "bandiera sinistra-4"],
-        "combo": 0,
-        "libere": 35
-      },
-      "tua": {
-        "idx": 1,
-        "q": -3,
-        "r": 0,
-        "pezzo": "rombo-1",
-        "nome": "rombo",
-        "celle": [28, 36, 37, 44]
-      },
-      "suggerita": {
-        "idx": 0,
-        "q": 0,
-        "r": -2,
-        "pezzo": "ferro di cavallo-0",
-        "nome": "ferro di cavallo",
-        "celle": [14, 15, 23, 31]
-      },
-      "app": {
-        "giudizio": "Mossa discreta",
-        "posto": 2,
-        "su": 6,
-        "strategia": "fa730f6"
-      },
-      "prova": {
-        "futuri": 30,
-        "mosse": 15,
-        "seme": 777,
-        "differenza": -30.2,
-        "errore": 4.8,
-        "a": {
-          "punti": 173.9,
-          "blocchi": 0,
-          "libere": 41.5
-        },
-        "b": {
-          "punti": 204.1,
-          "blocchi": 0,
-          "libere": 41.8
-        }
-      },
-      "conferma": {
-        "futuri": 100,
-        "mosse": 15,
-        "seme": 99991,
-        "differenza": -25.5,
-        "errore": 4.1,
-        "a": {
-          "punti": 186.1,
-          "blocchi": 0,
-          "libere": 42.2
-        },
-        "b": {
-          "punti": 211.5,
-          "blocchi": 0,
-          "libere": 42.4
-        }
-      },
-      "aggiunto": "2026-11-04"
-    },
-    {
-      "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#143",
-      "partita": "alveare-partita-2026-11-04T05-07-12-790Z.json",
-      "mossa": 143,
-      "stato": "confermata",
-      "posizione": {
-        "celle": [
-          "-3,0",
-          "-3,3",
-          "-3,4",
-          "-2,0",
-          "-2,3",
-          "-1,-2",
-          "-1,-1",
-          "-1,0",
-          "-1,3",
-          "0,-4",
-          "0,-2",
-          "0,-1",
-          "1,-4",
-          "1,-3",
-          "1,-2",
-          "1,-1",
-          "2,-2",
-          "2,-1",
-          "2,0",
-          "3,-4",
-          "3,-2",
-          "3,-1",
-          "4,-3"
-        ],
-        "vassoio": ["bandiera sinistra-0", "punto-0", "rombo-1"],
-        "combo": 0,
-        "libere": 38
-      },
-      "tua": {
-        "idx": 0,
-        "q": -2,
-        "r": -2,
-        "pezzo": "bandiera sinistra-0",
-        "nome": "bandiera sinistra",
-        "celle": [12, 19, 20, 27]
-      },
-      "suggerita": {
-        "idx": 1,
-        "q": 4,
-        "r": -2,
-        "pezzo": "punto-0",
-        "nome": "punto",
-        "celle": [18]
-      },
-      "app": {
-        "giudizio": "Mossa giocabile",
-        "posto": 2,
-        "su": 6,
-        "strategia": "fa730f6"
-      },
-      "prova": {
-        "futuri": 30,
-        "mosse": 15,
-        "seme": 777,
-        "differenza": -16.5,
-        "errore": 6.2,
-        "a": {
-          "punti": 169.4,
-          "blocchi": 0,
-          "libere": 42.7
-        },
-        "b": {
-          "punti": 185.9,
-          "blocchi": 0,
-          "libere": 43.2
-        }
-      },
-      "conferma": {
-        "futuri": 100,
-        "mosse": 15,
-        "seme": 99991,
-        "differenza": -10.2,
-        "errore": 3.7,
-        "a": {
-          "punti": 174.5,
-          "blocchi": 0,
-          "libere": 43.1
-        },
-        "b": {
-          "punti": 184.7,
-          "blocchi": 0,
-          "libere": 43.4
-        }
-      },
-      "aggiunto": "2026-11-04"
-    },
-    {
-      "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#155",
-      "partita": "alveare-partita-2026-11-04T05-07-12-790Z.json",
-      "mossa": 155,
-      "stato": "confermata",
-      "posizione": {
-        "celle": [
-          "-3,1",
-          "-3,4",
-          "-2,-2",
-          "-2,-1",
-          "-2,0",
-          "-2,1",
-          "-2,3",
-          "-2,4",
-          "-1,3",
-          "1,-4",
-          "1,-3",
-          "1,-2",
-          "1,-1",
-          "1,1",
-          "1,3",
-          "2,-2",
-          "2,0",
-          "3,-4",
-          "3,-1"
-        ],
-        "vassoio": ["punto-0", "rombo-1", "bandiera sinistra-0"],
-        "combo": 2,
-        "libere": 42
-      },
-      "tua": {
-        "idx": 2,
-        "q": -1,
-        "r": 1,
-        "pezzo": "bandiera sinistra-0",
-        "nome": "bandiera sinistra",
-        "celle": [39, 46, 47, 52]
-      },
-      "suggerita": {
-        "idx": 1,
-        "q": -3,
-        "r": -1,
-        "pezzo": "rombo-1",
-        "nome": "rombo",
-        "celle": [19, 27, 28, 36]
-      },
-      "app": {
-        "giudizio": "Mossa migliorabile",
-        "posto": 5,
-        "su": 6,
-        "strategia": "fa730f6"
-      },
-      "prova": {
-        "futuri": 30,
-        "mosse": 15,
-        "seme": 777,
-        "differenza": -13.3,
-        "errore": 6,
-        "a": {
-          "punti": 151,
-          "blocchi": 0,
-          "libere": 42.6
-        },
-        "b": {
-          "punti": 164.3,
-          "blocchi": 0,
-          "libere": 42.2
-        }
-      },
-      "conferma": {
-        "futuri": 100,
-        "mosse": 15,
-        "seme": 99991,
-        "differenza": -9.1,
-        "errore": 3.4,
-        "a": {
-          "punti": 156.8,
-          "blocchi": 0,
-          "libere": 42.4
-        },
-        "b": {
-          "punti": 165.9,
-          "blocchi": 0,
-          "libere": 42.8
-        }
-      },
-      "aggiunto": "2026-11-04"
-    },
-    {
-      "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#158",
-      "partita": "alveare-partita-2026-11-04T05-07-12-790Z.json",
-      "mossa": 158,
-      "stato": "confermata",
-      "posizione": {
-        "celle": [
-          "-3,1",
-          "-3,3",
-          "-3,4",
-          "-1,1",
-          "-1,2",
-          "-1,3",
-          "0,-1",
-          "0,0",
-          "1,-4",
-          "1,-3",
-          "1,-2",
-          "1,-1",
-          "1,0",
-          "1,1",
-          "1,3",
-          "2,-2",
-          "2,-1",
-          "2,0",
-          "2,1",
-          "2,2",
-          "3,-4",
-          "3,-1",
-          "3,0",
-          "3,1"
-        ],
-        "vassoio": ["punto-0", "bandiera sinistra-5", "punto-0"],
-        "combo": 0,
-        "libere": 37
-      },
-      "tua": {
-        "idx": 1,
-        "q": 0,
-        "r": 2,
-        "pezzo": "bandiera sinistra-5",
-        "nome": "bandiera sinistra",
-        "celle": [48, 49, 55, 61]
-      },
-      "suggerita": {
-        "idx": 0,
-        "q": 2,
-        "r": -4,
-        "pezzo": "punto-0",
-        "nome": "punto",
-        "celle": [3]
-      },
-      "app": {
-        "giudizio": "Mossa discreta",
-        "posto": 4,
-        "su": 6,
-        "strategia": "fa730f6"
-      },
-      "prova": {
-        "futuri": 30,
-        "mosse": 15,
-        "seme": 777,
-        "differenza": -13.8,
-        "errore": 5.2,
-        "a": {
-          "punti": 139.6,
-          "blocchi": 0,
-          "libere": 41.7
-        },
-        "b": {
-          "punti": 153.4,
-          "blocchi": 0,
-          "libere": 42.8
-        }
-      },
-      "conferma": {
-        "futuri": 100,
-        "mosse": 15,
-        "seme": 99991,
-        "differenza": -14.7,
-        "errore": 2.9,
-        "a": {
-          "punti": 142.9,
-          "blocchi": 0,
-          "libere": 41.9
-        },
-        "b": {
-          "punti": 157.6,
-          "blocchi": 0,
-          "libere": 43.1
-        }
-      },
-      "aggiunto": "2026-11-04"
-    },
-    {
-      "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#167",
-      "partita": "alveare-partita-2026-11-04T05-07-12-790Z.json",
-      "mossa": 167,
-      "stato": "confermata",
-      "posizione": {
-        "celle": [
-          "-3,1",
-          "-3,3",
-          "-3,4",
-          "-2,-1",
-          "-2,0",
-          "-2,4",
-          "-1,-3",
-          "-1,-2",
-          "-1,-1",
-          "-1,1",
-          "-1,2",
-          "-1,3",
-          "-1,4",
-          "0,-4",
-          "0,-3",
-          "0,-2",
-          "0,-1",
-          "0,0",
-          "0,2",
-          "0,4",
-          "1,-4",
-          "1,-3",
-          "4,-3",
-          "4,-2"
-        ],
-        "vassoio": ["punto-0", "punto-0", "barra 4-1"],
-        "combo": 0,
-        "libere": 37
-      },
-      "tua": {
-        "idx": 2,
-        "q": -4,
-        "r": 1,
-        "pezzo": "barra 4-1",
-        "nome": "barra 4",
-        "celle": [36, 44, 51, 57]
-      },
-      "suggerita": {
-        "idx": 0,
-        "q": -4,
-        "r": 0,
-        "pezzo": "punto-0",
-        "nome": "punto",
-        "celle": [27]
-      },
-      "app": {
-        "giudizio": "Mossa giocabile",
-        "posto": 2,
-        "su": 6,
-        "strategia": "fa730f6"
-      },
-      "prova": {
-        "futuri": 30,
-        "mosse": 15,
-        "seme": 777,
-        "differenza": -10.4,
-        "errore": 4.7,
-        "a": {
-          "punti": 161,
-          "blocchi": 0,
-          "libere": 41.7
-        },
-        "b": {
-          "punti": 171.4,
-          "blocchi": 0,
-          "libere": 41.9
-        }
-      },
-      "conferma": {
-        "futuri": 100,
-        "mosse": 15,
-        "seme": 99991,
-        "differenza": -9.3,
-        "errore": 3.7,
-        "a": {
-          "punti": 164.8,
-          "blocchi": 0,
-          "libere": 43
-        },
-        "b": {
-          "punti": 174,
-          "blocchi": 0,
-          "libere": 42
-        }
-      },
-      "aggiunto": "2026-11-04"
-    },
-    {
-      "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#175",
-      "partita": "alveare-partita-2026-11-04T05-07-12-790Z.json",
-      "mossa": 175,
-      "stato": "confermata",
-      "posizione": {
-        "celle": [
-          "-4,1",
-          "-4,2",
-          "-4,3",
-          "-3,0",
-          "-3,1",
-          "-3,3",
-          "-2,0",
-          "-1,1",
-          "-1,2",
-          "-1,3",
-          "0,-1",
-          "0,0",
-          "0,2",
-          "1,1",
-          "1,2",
-          "2,-3",
-          "2,-2",
-          "2,-1",
-          "2,0",
-          "2,1",
-          "3,-2",
-          "3,-1",
-          "3,0",
-          "4,-3",
-          "4,-2",
-          "4,-1",
-          "4,0"
-        ],
-        "vassoio": ["punto-0", "punto-0", "bandiera sinistra-1"],
-        "combo": 0,
-        "libere": 34
-      },
-      "tua": {
-        "idx": 2,
-        "q": 2,
-        "r": -4,
-        "pezzo": "bandiera sinistra-1",
-        "nome": "bandiera sinistra",
-        "celle": [3, 4, 5, 10]
-      },
-      "suggerita": {
-        "idx": 0,
-        "q": 3,
-        "r": 1,
-        "pezzo": "punto-0",
-        "nome": "punto",
-        "celle": [43]
-      },
-      "app": {
-        "giudizio": "Buona mossa",
-        "posto": 2,
-        "su": 6,
-        "strategia": "fa730f6"
-      },
-      "prova": {
-        "futuri": 30,
-        "mosse": 15,
-        "seme": 777,
-        "differenza": -21.5,
-        "errore": 5.9,
-        "a": {
-          "punti": 164.3,
-          "blocchi": 0,
-          "libere": 43.7
-        },
-        "b": {
-          "punti": 185.8,
-          "blocchi": 0,
-          "libere": 42.7
-        }
-      },
-      "conferma": {
-        "futuri": 100,
-        "mosse": 15,
-        "seme": 99991,
-        "differenza": -14.2,
-        "errore": 3.2,
-        "a": {
-          "punti": 159.1,
-          "blocchi": 0,
-          "libere": 42.2
-        },
-        "b": {
-          "punti": 173.3,
-          "blocchi": 0,
-          "libere": 41.4
-        }
-      },
-      "aggiunto": "2026-11-04"
-    },
-    {
-      "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#186",
-      "partita": "alveare-partita-2026-11-04T05-07-12-790Z.json",
-      "mossa": 186,
-      "stato": "confermata",
-      "posizione": {
-        "celle": [
-          "-4,1",
-          "-4,2",
-          "-4,3",
-          "-3,0",
-          "-3,1",
-          "-3,2",
-          "-3,3",
-          "-2,-2",
-          "-2,-1",
-          "-2,0",
-          "-2,1",
-          "-1,-3",
-          "-1,1",
-          "-1,2",
-          "0,-4",
-          "0,-3",
-          "0,-2",
-          "0,-1",
-          "0,0",
-          "0,1",
-          "0,4",
-          "1,3"
-        ],
-        "vassoio": ["punto-0", "ferro di cavallo-3", "ferro di cavallo-1"],
-        "combo": 0,
-        "libere": 39
-      },
-      "tua": {
-        "idx": 2,
-        "q": 0,
-        "r": 2,
-        "pezzo": "ferro di cavallo-1",
-        "nome": "ferro di cavallo",
-        "celle": [48, 55, 59, 60]
-      },
-      "suggerita": {
-        "idx": 1,
-        "q": 2,
-        "r": 0,
-        "pezzo": "ferro di cavallo-3",
-        "nome": "ferro di cavallo",
-        "celle": [33, 41, 49, 50]
-      },
-      "app": {
-        "giudizio": "Mossa discreta",
-        "posto": 7,
-        "su": 7,
-        "strategia": "fa730f6"
-      },
-      "prova": {
-        "futuri": 30,
-        "mosse": 15,
-        "seme": 777,
-        "differenza": -18.3,
-        "errore": 7.9,
-        "a": {
-          "punti": 164.8,
-          "blocchi": 0,
-          "libere": 44.1
-        },
-        "b": {
-          "punti": 183.1,
-          "blocchi": 0,
-          "libere": 42.3
-        }
-      },
-      "conferma": {
-        "futuri": 100,
-        "mosse": 15,
-        "seme": 99991,
-        "differenza": -20.4,
-        "errore": 4.1,
-        "a": {
-          "punti": 165,
-          "blocchi": 0,
-          "libere": 42.7
-        },
-        "b": {
-          "punti": 185.5,
-          "blocchi": 0,
-          "libere": 43
-        }
-      },
-      "aggiunto": "2026-11-04"
-    },
-    {
-      "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#190",
-      "partita": "alveare-partita-2026-11-04T05-07-12-790Z.json",
-      "mossa": 190,
-      "stato": "confermata",
-      "posizione": {
-        "celle": [
-          "-4,2",
-          "-4,3",
-          "-3,1",
-          "-3,2",
-          "-3,3",
-          "-2,-2",
-          "-2,0",
-          "-2,1",
-          "-2,4",
-          "-1,-3",
-          "-1,1",
-          "-1,2",
-          "-1,4",
-          "0,-4",
-          "0,-3",
-          "0,-2",
-          "1,-4",
-          "1,-2",
-          "1,3",
-          "2,0",
-          "2,1",
-          "3,-1",
-          "3,1"
-        ],
-        "vassoio": ["punto-0", "punto-0", "rombo-2"],
-        "combo": 0,
-        "libere": 38
-      },
-      "tua": {
-        "idx": 2,
-        "q": 0,
-        "r": -1,
-        "pezzo": "rombo-2",
-        "nome": "rombo",
-        "celle": [22, 23, 30, 31]
-      },
-      "suggerita": {
-        "idx": 0,
-        "q": -4,
-        "r": 4,
-        "pezzo": "punto-0",
-        "nome": "punto",
-        "celle": [57]
-      },
-      "app": {
-        "giudizio": "Occasione persa",
-        "posto": 7,
-        "su": 7,
-        "strategia": "fa730f6"
-      },
-      "prova": {
-        "futuri": 30,
-        "mosse": 15,
-        "seme": 777,
-        "differenza": -19.2,
-        "errore": 6,
-        "a": {
-          "punti": 154.8,
-          "blocchi": 0,
-          "libere": 42.6
-        },
-        "b": {
-          "punti": 174,
-          "blocchi": 0,
-          "libere": 42.5
-        }
-      },
-      "conferma": {
-        "futuri": 100,
-        "mosse": 15,
-        "seme": 99991,
-        "differenza": -14.1,
-        "errore": 3.3,
-        "a": {
-          "punti": 154.6,
-          "blocchi": 0,
-          "libere": 41.6
-        },
-        "b": {
-          "punti": 168.7,
-          "blocchi": 0,
-          "libere": 42.7
-        }
-      },
-      "aggiunto": "2026-11-04"
-    },
-    {
-      "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#192",
-      "partita": "alveare-partita-2026-11-04T05-07-12-790Z.json",
-      "mossa": 192,
-      "stato": "confermata",
-      "posizione": {
-        "celle": [
-          "-4,2",
-          "-4,3",
-          "-3,1",
-          "-3,2",
-          "-3,3",
-          "-2,-2",
-          "-2,0",
-          "-2,1",
-          "-2,2",
-          "-2,3",
-          "-2,4",
-          "-1,-3",
-          "-1,0",
-          "-1,1",
-          "-1,2",
-          "-1,3",
-          "-1,4",
-          "0,-4",
-          "0,-3",
-          "0,-2",
-          "0,-1",
-          "0,0",
-          "0,2",
-          "1,-4",
-          "1,-2",
-          "1,-1",
-          "1,3",
-          "2,0",
-          "2,1",
-          "3,-1",
-          "3,1"
-        ],
-        "vassoio": ["punto-0", "punto-0", "rombo-0"],
-        "combo": 0,
-        "libere": 30
-      },
-      "tua": {
-        "idx": 2,
-        "q": 2,
-        "r": -4,
-        "pezzo": "rombo-0",
-        "nome": "rombo",
-        "celle": [3, 4, 9, 10]
-      },
-      "suggerita": {
-        "idx": 0,
-        "q": 0,
-        "r": 3,
-        "pezzo": "punto-0",
-        "nome": "punto",
-        "celle": [55]
-      },
-      "app": {
-        "giudizio": "Occasione persa",
-        "posto": 7,
-        "su": 7,
-        "strategia": "fa730f6"
-      },
-      "prova": {
-        "futuri": 30,
-        "mosse": 15,
-        "seme": 777,
-        "differenza": -14.5,
-        "errore": 5.8,
-        "a": {
-          "punti": 164.8,
-          "blocchi": 0,
-          "libere": 41.3
-        },
-        "b": {
-          "punti": 179.3,
-          "blocchi": 0,
-          "libere": 42.3
-        }
-      },
-      "conferma": {
-        "futuri": 100,
-        "mosse": 15,
-        "seme": 99991,
-        "differenza": -19.3,
-        "errore": 3.5,
-        "a": {
-          "punti": 161.8,
-          "blocchi": 0,
-          "libere": 41.4
-        },
-        "b": {
-          "punti": 181.1,
-          "blocchi": 0,
-          "libere": 43.4
-        }
-      },
-      "aggiunto": "2026-11-04"
-    },
-    {
-      "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#229",
-      "partita": "alveare-partita-2026-11-04T05-07-12-790Z.json",
-      "mossa": 229,
-      "stato": "confermata",
-      "posizione": {
-        "celle": [
-          "-4,4",
-          "-3,2",
-          "-3,3",
-          "-2,1",
-          "-1,-2",
-          "-1,1",
-          "-1,2",
-          "-1,4",
-          "0,-3",
-          "0,-2",
-          "0,1",
-          "0,4",
-          "1,-4",
-          "1,-3",
-          "1,-2",
-          "1,1",
-          "1,2",
-          "1,3",
-          "2,-3",
-          "2,-2",
-          "2,1",
-          "2,2",
-          "3,-3"
-        ],
-        "vassoio": ["punto-0", "barra 4-1", "rombo-1"],
-        "combo": 0,
-        "libere": 38
-      },
-      "tua": {
-        "idx": 1,
-        "q": 4,
-        "r": -4,
-        "pezzo": "barra 4-1",
-        "nome": "barra 4",
-        "celle": [5, 11, 18, 26]
-      },
-      "suggerita": {
-        "idx": 0,
-        "q": 3,
-        "r": 1,
-        "pezzo": "punto-0",
-        "nome": "punto",
-        "celle": [43]
-      },
-      "app": {
-        "giudizio": "Occasione persa",
-        "posto": 7,
-        "su": 7,
-        "strategia": "fa730f6"
-      },
-      "prova": {
-        "futuri": 30,
-        "mosse": 15,
-        "seme": 777,
-        "differenza": -15.4,
-        "errore": 4.9,
-        "a": {
-          "punti": 172.4,
-          "blocchi": 0,
-          "libere": 44
-        },
-        "b": {
-          "punti": 187.8,
-          "blocchi": 0,
-          "libere": 42.4
-        }
-      },
-      "conferma": {
-        "futuri": 100,
-        "mosse": 15,
-        "seme": 99991,
-        "differenza": -21.4,
-        "errore": 4.2,
-        "a": {
-          "punti": 167.1,
-          "blocchi": 0,
-          "libere": 42.1
-        },
-        "b": {
-          "punti": 188.5,
-          "blocchi": 0,
-          "libere": 41.6
-        }
-      },
-      "aggiunto": "2026-11-04"
-    },
-    {
-      "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#235",
-      "partita": "alveare-partita-2026-11-04T05-07-12-790Z.json",
-      "mossa": 235,
-      "stato": "confermata",
-      "posizione": {
-        "celle": [
-          "-4,2",
-          "-4,3",
-          "-4,4",
-          "-3,-1",
-          "-3,2",
-          "-3,3",
-          "-2,-2",
-          "-2,-1",
-          "-1,-3",
-          "-1,-2",
-          "-1,2",
-          "-1,4",
-          "0,-4",
-          "0,4",
-          "1,-4",
-          "1,1",
-          "1,2",
-          "1,3",
-          "2,0",
-          "2,1",
-          "2,2",
-          "3,-1",
-          "3,0",
-          "3,1",
-          "4,-4",
-          "4,-1"
-        ],
-        "vassoio": ["punto-0", "barra 4-2", "bandiera sinistra-0"],
-        "combo": 0,
-        "libere": 35
-      },
-      "tua": {
-        "idx": 2,
-        "q": 0,
-        "r": 2,
-        "pezzo": "bandiera sinistra-0",
-        "nome": "bandiera sinistra",
-        "celle": [48, 54, 55, 59]
-      },
-      "suggerita": {
-        "idx": 0,
-        "q": 4,
-        "r": -2,
-        "pezzo": "punto-0",
-        "nome": "punto",
-        "celle": [18]
-      },
-      "app": {
-        "giudizio": "Mossa migliorabile",
-        "posto": 5,
-        "su": 6,
-        "strategia": "fa730f6"
-      },
-      "prova": {
-        "futuri": 30,
-        "mosse": 15,
-        "seme": 777,
-        "differenza": -16.4,
-        "errore": 7.8,
-        "a": {
-          "punti": 196.8,
-          "blocchi": 0,
-          "libere": 44.2
-        },
-        "b": {
-          "punti": 213.3,
-          "blocchi": 0,
-          "libere": 43.1
-        }
-      },
-      "conferma": {
-        "futuri": 100,
-        "mosse": 15,
-        "seme": 99991,
-        "differenza": -15.3,
-        "errore": 4.2,
-        "a": {
-          "punti": 193.6,
-          "blocchi": 0,
-          "libere": 43.3
-        },
-        "b": {
-          "punti": 208.9,
-          "blocchi": 0,
-          "libere": 42.5
-        }
-      },
-      "aggiunto": "2026-11-04"
-    },
-    {
-      "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#239",
-      "partita": "alveare-partita-2026-11-04T05-07-12-790Z.json",
-      "mossa": 239,
-      "stato": "confermata",
-      "posizione": {
-        "celle": [
-          "-4,2",
-          "-4,3",
-          "-4,4",
-          "-3,-1",
-          "-3,2",
-          "-3,3",
-          "-2,-2",
-          "-2,-1",
-          "-2,2",
-          "-1,-3",
-          "-1,-2",
-          "-1,-1",
-          "-1,0",
-          "-1,1",
-          "-1,2",
-          "0,-4",
-          "0,0",
-          "0,1",
-          "0,2",
-          "1,-4",
-          "1,-1"
-        ],
-        "vassoio": ["punto-0", "barra 4-2", "bandiera destra-3"],
-        "combo": 0,
-        "libere": 40
-      },
-      "tua": {
-        "idx": 2,
-        "q": -1,
-        "r": 3,
-        "pezzo": "bandiera destra-3",
-        "nome": "bandiera destra",
-        "celle": [54, 55, 56, 60]
-      },
-      "suggerita": {
-        "idx": 0,
-        "q": 0,
-        "r": -3,
-        "pezzo": "punto-0",
-        "nome": "punto",
-        "celle": [7]
-      },
-      "app": {
-        "giudizio": "Occasione persa",
-        "posto": 7,
-        "su": 7,
-        "strategia": "fa730f6"
-      },
-      "prova": {
-        "futuri": 30,
-        "mosse": 15,
-        "seme": 777,
-        "differenza": -22.4,
-        "errore": 7.1,
-        "a": {
-          "punti": 163.3,
-          "blocchi": 0,
-          "libere": 41.8
-        },
-        "b": {
-          "punti": 185.7,
-          "blocchi": 0,
-          "libere": 42.2
-        }
-      },
-      "conferma": {
-        "futuri": 100,
-        "mosse": 15,
-        "seme": 99991,
-        "differenza": -26,
-        "errore": 3.7,
-        "a": {
-          "punti": 160,
-          "blocchi": 0,
-          "libere": 41.8
-        },
-        "b": {
-          "punti": 185.9,
-          "blocchi": 0,
-          "libere": 41.9
-        }
-      },
-      "aggiunto": "2026-11-04"
-    },
-    {
-      "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#258",
-      "partita": "alveare-partita-2026-11-04T05-07-12-790Z.json",
-      "mossa": 258,
-      "stato": "confermata",
-      "posizione": {
-        "celle": [
-          "-4,1",
-          "-4,2",
-          "-4,3",
-          "-4,4",
-          "-3,-1",
-          "-3,1",
-          "-3,4",
-          "-1,-1",
-          "-1,0",
-          "-1,1",
-          "-1,2",
-          "-1,3",
-          "0,-2",
-          "0,-1",
-          "0,1",
-          "0,3",
-          "1,-3",
-          "1,-2",
-          "1,-1",
-          "1,1",
-          "2,-3",
-          "2,0",
-          "3,-1",
-          "4,-3",
-          "4,-2",
-          "4,-1",
-          "4,0"
-        ],
-        "vassoio": ["punto-0", "punto-0", "ferro di cavallo-3"],
-        "combo": 1,
-        "libere": 34
-      },
-      "tua": {
-        "idx": 2,
-        "q": -2,
-        "r": 1,
-        "pezzo": "ferro di cavallo-3",
-        "nome": "ferro di cavallo",
-        "celle": [38, 45, 52, 53]
-      },
-      "suggerita": {
-        "idx": 0,
-        "q": -2,
-        "r": 4,
-        "pezzo": "punto-0",
-        "nome": "punto",
-        "celle": [59]
-      },
-      "app": {
-        "giudizio": "Mossa discreta",
-        "posto": 3,
-        "su": 6,
-        "strategia": "fa730f6"
-      },
-      "prova": {
-        "futuri": 30,
-        "mosse": 15,
-        "seme": 777,
-        "differenza": -13.6,
-        "errore": 6.3,
-        "a": {
-          "punti": 162.6,
-          "blocchi": 0,
-          "libere": 41.4
-        },
-        "b": {
-          "punti": 176.2,
-          "blocchi": 0,
-          "libere": 41.8
-        }
-      },
-      "conferma": {
-        "futuri": 100,
-        "mosse": 15,
-        "seme": 99991,
-        "differenza": -12.4,
-        "errore": 3.1,
-        "a": {
-          "punti": 164.9,
-          "blocchi": 0,
-          "libere": 42.6
-        },
-        "b": {
-          "punti": 177.3,
-          "blocchi": 0,
-          "libere": 42.6
-        }
-      },
-      "aggiunto": "2026-11-04"
-    },
-    {
-      "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#264",
-      "partita": "alveare-partita-2026-11-04T05-07-12-790Z.json",
-      "mossa": 264,
-      "stato": "confermata",
-      "posizione": {
-        "celle": [
-          "-4,1",
-          "-4,2",
-          "-3,-1",
-          "-3,1",
-          "-3,2",
-          "-2,-2",
-          "-2,1",
-          "-2,3",
-          "-1,-3",
-          "-1,-2",
-          "-1,-1",
-          "-1,0",
-          "-1,1",
-          "-1,2",
-          "0,-2",
-          "0,-1",
-          "0,1",
-          "1,-2",
-          "1,-1",
-          "1,2",
-          "2,-4",
-          "2,-2",
-          "3,-4",
-          "4,-1",
-          "4,0"
-        ],
-        "vassoio": ["punto-0", "punto-0", "rombo-1"],
-        "combo": 0,
-        "libere": 36
-      },
-      "tua": {
-        "idx": 2,
-        "q": 0,
-        "r": 2,
-        "pezzo": "rombo-1",
-        "nome": "rombo",
-        "celle": [48, 54, 55, 60]
-      },
-      "suggerita": {
-        "idx": 0,
-        "q": 2,
-        "r": 2,
-        "pezzo": "punto-0",
-        "nome": "punto",
-        "celle": [50]
-      },
-      "app": {
-        "giudizio": "Occasione persa",
-        "posto": 6,
-        "su": 6,
-        "strategia": "fa730f6"
-      },
-      "prova": {
-        "futuri": 30,
-        "mosse": 15,
-        "seme": 777,
-        "differenza": -28.5,
-        "errore": 6.4,
-        "a": {
-          "punti": 145.2,
-          "blocchi": 0,
-          "libere": 42.4
-        },
-        "b": {
-          "punti": 173.7,
-          "blocchi": 0,
-          "libere": 42.7
-        }
-      },
-      "conferma": {
-        "futuri": 100,
-        "mosse": 15,
-        "seme": 99991,
-        "differenza": -20.1,
-        "errore": 3.4,
-        "a": {
-          "punti": 157.9,
-          "blocchi": 0,
-          "libere": 42.1
-        },
-        "b": {
-          "punti": 178,
-          "blocchi": 0,
-          "libere": 43.8
-        }
-      },
-      "aggiunto": "2026-11-04"
-    },
-    {
-      "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#267",
-      "partita": "alveare-partita-2026-11-04T05-07-12-790Z.json",
-      "mossa": 267,
-      "stato": "confermata",
-      "posizione": {
-        "celle": [
-          "-4,1",
-          "-4,2",
-          "-3,-1",
-          "-3,1",
-          "-3,2",
-          "-2,-2",
-          "-2,1",
-          "-2,3",
-          "-1,3",
-          "-1,4",
-          "0,-2",
-          "0,-1",
-          "0,1",
-          "0,2",
-          "0,3",
-          "0,4",
-          "1,-2",
-          "1,-1",
-          "1,2",
-          "1,3",
-          "2,-4",
-          "2,-2",
-          "3,-4",
-          "3,-2",
-          "3,-1",
-          "3,0",
-          "3,1",
-          "4,-1",
-          "4,0"
-        ],
-        "vassoio": ["punto-0", "punto-0", "barra 4-1"],
-        "combo": 0,
-        "libere": 32
-      },
-      "tua": {
-        "idx": 2,
-        "q": 2,
-        "r": -1,
-        "pezzo": "barra 4-1",
-        "nome": "barra 4",
-        "celle": [24, 33, 42, 50]
-      },
-      "suggerita": {
-        "idx": 0,
-        "q": 2,
-        "r": -3,
-        "pezzo": "punto-0",
-        "nome": "punto",
-        "celle": [9]
-      },
-      "app": {
-        "giudizio": "Mossa discreta",
-        "posto": 4,
-        "su": 6,
-        "strategia": "fa730f6"
-      },
-      "prova": {
-        "futuri": 30,
-        "mosse": 15,
-        "seme": 777,
-        "differenza": -23.8,
-        "errore": 9.4,
-        "a": {
-          "punti": 177.3,
-          "blocchi": 0,
-          "libere": 43
-        },
-        "b": {
-          "punti": 201.2,
-          "blocchi": 0,
-          "libere": 41.5
-        }
-      },
-      "conferma": {
-        "futuri": 100,
-        "mosse": 15,
-        "seme": 99991,
-        "differenza": -27.1,
-        "errore": 4.1,
-        "a": {
-          "punti": 171.2,
-          "blocchi": 0,
-          "libere": 42
-        },
-        "b": {
-          "punti": 198.3,
-          "blocchi": 0,
-          "libere": 42.1
-        }
-      },
-      "aggiunto": "2026-11-04"
-    },
-    {
-      "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#271",
-      "partita": "alveare-partita-2026-11-04T05-07-12-790Z.json",
-      "mossa": 271,
-      "stato": "confermata",
-      "posizione": {
-        "celle": [
-          "-4,1",
-          "-4,2",
-          "-3,-1",
-          "-3,1",
-          "-3,2",
-          "-2,-2",
-          "-2,-1",
-          "-2,1",
-          "-2,3",
-          "-1,-2",
-          "-1,3",
-          "0,-3",
-          "0,-2",
-          "0,-1",
-          "0,1",
-          "0,2",
-          "0,3",
-          "0,4",
-          "1,-4",
-          "1,-2",
-          "1,-1",
-          "1,2",
-          "1,3",
-          "2,-4",
-          "2,-2",
-          "2,-1",
-          "2,0",
-          "2,1",
-          "2,2",
-          "3,-4",
-          "3,-2",
-          "3,-1",
-          "3,0",
-          "3,1"
-        ],
-        "vassoio": ["punto-0", "punto-0", "ferro di cavallo-1"],
-        "combo": 0,
-        "libere": 27
-      },
-      "tua": {
-        "idx": 0,
-        "q": -3,
-        "r": 0,
-        "pezzo": "punto-0",
-        "nome": "punto",
-        "celle": [28]
-      },
-      "suggerita": {
-        "idx": 0,
-        "q": 4,
-        "r": -1,
-        "pezzo": "punto-0",
-        "nome": "punto",
-        "celle": [26]
-      },
-      "app": {
-        "giudizio": "Mossa migliorabile",
-        "posto": 4,
-        "su": 6,
-        "strategia": "fa730f6"
-      },
-      "prova": {
-        "futuri": 30,
-        "mosse": 15,
-        "seme": 777,
-        "differenza": -32,
-        "errore": 6.8,
-        "a": {
-          "punti": 182.9,
-          "blocchi": 0,
-          "libere": 42.2
-        },
-        "b": {
-          "punti": 214.9,
-          "blocchi": 0,
-          "libere": 44.7
-        }
-      },
-      "conferma": {
-        "futuri": 100,
-        "mosse": 15,
-        "seme": 99991,
-        "differenza": -18.4,
-        "errore": 3.5,
-        "a": {
-          "punti": 184.5,
-          "blocchi": 0,
-          "libere": 42.9
-        },
-        "b": {
-          "punti": 202.9,
-          "blocchi": 0,
-          "libere": 43
-        }
-      },
-      "aggiunto": "2026-11-04"
-    },
-    {
-      "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#301",
-      "partita": "alveare-partita-2026-11-04T05-07-12-790Z.json",
-      "mossa": 301,
-      "stato": "confermata",
-      "posizione": {
-        "celle": [
-          "-4,0",
-          "-4,4",
-          "-3,-1",
-          "-1,0",
-          "-1,1",
-          "-1,2",
-          "-1,4",
-          "0,-2",
-          "0,2",
-          "1,-3",
-          "1,-1",
-          "2,-4",
-          "2,-2",
-          "2,-1",
-          "2,1",
-          "3,-3",
-          "3,-2",
-          "3,-1",
-          "3,0",
-          "3,1"
-        ],
-        "vassoio": ["punto-0", "punto-0", "rombo-1"],
-        "combo": 3,
-        "libere": 41
-      },
-      "tua": {
-        "idx": 2,
-        "q": -3,
-        "r": 0,
-        "pezzo": "rombo-1",
-        "nome": "rombo",
-        "celle": [28, 36, 37, 44]
-      },
-      "suggerita": {
-        "idx": 0,
-        "q": 3,
-        "r": -4,
-        "pezzo": "punto-0",
-        "nome": "punto",
-        "celle": [4]
-      },
-      "app": {
-        "giudizio": "Mossa discreta",
-        "posto": 2,
-        "su": 6,
-        "strategia": "fa730f6"
-      },
-      "prova": {
-        "futuri": 30,
-        "mosse": 15,
-        "seme": 777,
-        "differenza": -10,
-        "errore": 4.6,
-        "a": {
-          "punti": 154.9,
-          "blocchi": 0,
-          "libere": 42.6
-        },
-        "b": {
-          "punti": 164.9,
-          "blocchi": 0,
-          "libere": 42.9
-        }
-      },
-      "conferma": {
-        "futuri": 100,
-        "mosse": 15,
-        "seme": 99991,
-        "differenza": -9,
-        "errore": 3.3,
-        "a": {
-          "punti": 154.2,
-          "blocchi": 0,
-          "libere": 42.7
-        },
-        "b": {
-          "punti": 163.1,
-          "blocchi": 0,
-          "libere": 42.7
-        }
-      },
-      "aggiunto": "2026-11-04"
-    },
-    {
-      "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#315",
-      "partita": "alveare-partita-2026-11-04T05-07-12-790Z.json",
-      "mossa": 315,
-      "stato": "confermata",
-      "posizione": {
-        "celle": [
-          "-2,2",
-          "-2,3",
-          "-1,-3",
-          "-1,-1",
-          "-1,0",
-          "-1,1",
-          "-1,2",
-          "0,-4",
-          "0,-3",
-          "0,-2",
-          "0,-1",
-          "0,2",
-          "0,3",
-          "1,-3",
-          "1,-1",
-          "1,2",
-          "2,-4",
-          "2,-2",
-          "2,-1",
-          "2,0",
-          "2,1",
-          "2,2",
-          "3,0",
-          "3,1"
-        ],
-        "vassoio": ["punto-0", "punto-0", "rombo-0"],
-        "combo": 0,
-        "libere": 37
-      },
-      "tua": {
-        "idx": 2,
-        "q": -4,
-        "r": 2,
-        "pezzo": "rombo-0",
-        "nome": "rombo",
-        "celle": [44, 45, 51, 52]
-      },
-      "suggerita": {
-        "idx": 0,
-        "q": -2,
-        "r": 0,
-        "pezzo": "punto-0",
-        "nome": "punto",
-        "celle": [29]
-      },
-      "app": {
-        "giudizio": "Occasione persa",
-        "posto": 7,
-        "su": 7,
-        "strategia": "fa730f6"
-      },
-      "prova": {
-        "futuri": 30,
-        "mosse": 15,
-        "seme": 777,
-        "differenza": -16.6,
-        "errore": 5.6,
-        "a": {
-          "punti": 150.8,
-          "blocchi": 0,
-          "libere": 43.3
-        },
-        "b": {
-          "punti": 167.4,
-          "blocchi": 0,
-          "libere": 42.4
-        }
-      },
-      "conferma": {
-        "futuri": 100,
-        "mosse": 15,
-        "seme": 99991,
-        "differenza": -9.9,
-        "errore": 3.5,
-        "a": {
-          "punti": 160.7,
-          "blocchi": 0,
-          "libere": 42.9
-        },
-        "b": {
-          "punti": 170.6,
-          "blocchi": 0,
-          "libere": 42.5
-        }
-      },
-      "aggiunto": "2026-11-04"
-    },
-    {
-      "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#338",
-      "partita": "alveare-partita-2026-11-04T05-07-12-790Z.json",
-      "mossa": 338,
-      "stato": "confermata",
-      "posizione": {
-        "celle": [
-          "-4,0",
-          "-4,1",
-          "-4,3",
-          "-1,0",
-          "-1,1",
-          "-1,2",
-          "-1,3",
-          "0,-4",
-          "0,-3",
-          "0,-2",
-          "0,0",
-          "1,-2",
-          "1,0",
-          "1,1",
-          "2,-3",
-          "2,-2",
-          "2,0",
-          "3,-3",
-          "3,-2",
-          "3,1",
-          "4,-3",
-          "4,-2",
-          "4,0"
-        ],
-        "vassoio": ["barra 4-2", "rombo-1", "ferro di cavallo-3"],
-        "combo": 1,
-        "libere": 38
-      },
-      "tua": {
-        "idx": 2,
-        "q": -2,
-        "r": -2,
-        "pezzo": "ferro di cavallo-3",
-        "nome": "ferro di cavallo",
-        "celle": [12, 19, 28, 29]
-      },
-      "suggerita": {
-        "idx": 0,
-        "q": 4,
-        "r": -1,
-        "pezzo": "barra 4-2",
-        "nome": "barra 4",
-        "celle": [26, 34, 42, 49]
-      },
-      "app": {
-        "giudizio": "Occasione persa",
-        "posto": 6,
-        "su": 6,
-        "strategia": "fa730f6"
-      },
-      "prova": {
-        "futuri": 30,
-        "mosse": 15,
-        "seme": 777,
-        "differenza": -22.4,
-        "errore": 5.7,
-        "a": {
-          "punti": 173.9,
-          "blocchi": 0,
-          "libere": 43.4
-        },
-        "b": {
-          "punti": 196.3,
-          "blocchi": 0,
-          "libere": 44.2
-        }
-      },
-      "conferma": {
-        "futuri": 100,
-        "mosse": 15,
-        "seme": 99991,
-        "differenza": -13.9,
-        "errore": 3.4,
-        "a": {
-          "punti": 168.8,
-          "blocchi": 0,
-          "libere": 41.8
-        },
-        "b": {
-          "punti": 182.7,
-          "blocchi": 0,
-          "libere": 42.6
-        }
-      },
-      "aggiunto": "2026-11-04"
-    },
-    {
-      "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#340",
-      "partita": "alveare-partita-2026-11-04T05-07-12-790Z.json",
-      "mossa": 340,
-      "stato": "confermata",
-      "posizione": {
-        "celle": [
-          "-4,0",
-          "-4,1",
-          "-4,2",
-          "-4,3",
-          "-3,-1",
-          "-3,0",
-          "-3,1",
-          "-3,2",
-          "-2,-2",
-          "-2,0",
-          "-2,1",
-          "-1,0",
-          "-1,1",
-          "-1,2",
-          "-1,3",
-          "0,-4",
-          "0,-3",
-          "0,-2",
-          "0,0",
-          "1,-2",
-          "1,0",
-          "1,1",
-          "2,-3",
-          "2,-2",
-          "2,0",
-          "3,-3",
-          "3,-2",
-          "3,1",
-          "4,-3",
-          "4,-2",
-          "4,0"
-        ],
-        "vassoio": ["barra 4-2", "rombo-1", "rombo-1"],
-        "combo": 0,
-        "libere": 30
-      },
-      "tua": {
-        "idx": 1,
-        "q": -2,
-        "r": 2,
-        "pezzo": "rombo-1",
-        "nome": "rombo",
-        "celle": [46, 52, 53, 58]
-      },
-      "suggerita": {
-        "idx": 0,
-        "q": 4,
-        "r": -1,
-        "pezzo": "barra 4-2",
-        "nome": "barra 4",
-        "celle": [26, 34, 42, 49]
-      },
-      "app": {
-        "giudizio": "Occasione persa",
-        "posto": 4,
-        "su": 6,
-        "strategia": "fa730f6"
-      },
-      "prova": {
-        "futuri": 30,
-        "mosse": 15,
-        "seme": 777,
-        "differenza": -262.6,
-        "errore": 92.7,
-        "a": {
-          "punti": 158.5,
-          "blocchi": 7,
-          "libere": 39.3
-        },
-        "b": {
-          "punti": 187.8,
-          "blocchi": 0,
-          "libere": 42.2
-        }
-      },
-      "conferma": {
-        "futuri": 100,
-        "mosse": 15,
-        "seme": 99991,
-        "differenza": -227.9,
-        "errore": 48.2,
-        "a": {
-          "punti": 162.9,
-          "blocchi": 20,
-          "libere": 39.2
-        },
-        "b": {
-          "punti": 190.8,
-          "blocchi": 0,
-          "libere": 41.9
-        }
-      },
-      "aggiunto": "2026-11-04"
+    "b": {
+     "punti": 195.8,
+     "blocchi": 0,
+     "libere": 45.4
     }
-  ]
+   },
+   "conferma": {
+    "futuri": 100,
+    "mosse": 15,
+    "seme": 99991,
+    "differenza": -17.6,
+    "errore": 3.3,
+    "a": {
+     "punti": 177.5,
+     "blocchi": 0,
+     "libere": 43.1
+    },
+    "b": {
+     "punti": 195.2,
+     "blocchi": 0,
+     "libere": 44.4
+    }
+   },
+   "aggiunto": "2026-11-04"
+  },
+  {
+   "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#33",
+   "partita": "alveare-partita-2026-11-04T05-07-12-790Z.json",
+   "mossa": 33,
+   "stato": "confermata",
+   "posizione": {
+    "celle": [
+     "-4,0",
+     "-3,1",
+     "-3,2",
+     "-3,3",
+     "-3,4",
+     "-2,-2",
+     "-2,0",
+     "-2,1",
+     "-2,2",
+     "-2,3",
+     "-1,0",
+     "-1,1",
+     "-1,2",
+     "-1,3",
+     "-1,4",
+     "0,-4",
+     "0,-3",
+     "0,-2",
+     "0,2",
+     "0,3",
+     "0,4",
+     "1,-4",
+     "1,-3",
+     "1,-2",
+     "1,-1",
+     "1,1",
+     "1,2",
+     "1,3",
+     "2,-4",
+     "2,2",
+     "3,-3",
+     "3,-2",
+     "3,1",
+     "4,-4",
+     "4,-3",
+     "4,-2"
+    ],
+    "vassoio": [
+     "bandiera sinistra-2",
+     "bandiera sinistra-0",
+     "ferro di cavallo-3"
+    ],
+    "combo": 0,
+    "libere": 25
+   },
+   "tua": {
+    "idx": 1,
+    "q": 2,
+    "r": -1,
+    "pezzo": "bandiera sinistra-0",
+    "nome": "bandiera sinistra",
+    "celle": [
+     24,
+     32,
+     33,
+     40
+    ]
+   },
+   "suggerita": {
+    "idx": 0,
+    "q": -1,
+    "r": -3,
+    "pezzo": "bandiera sinistra-2",
+    "nome": "bandiera sinistra",
+    "celle": [
+     6,
+     13,
+     20,
+     21
+    ]
+   },
+   "app": {
+    "giudizio": "Mossa migliorabile",
+    "posto": 3,
+    "su": 5,
+    "strategia": "fa730f6"
+   },
+   "prova": {
+    "futuri": 30,
+    "mosse": 15,
+    "seme": 777,
+    "differenza": -13.6,
+    "errore": 5.8,
+    "a": {
+     "punti": 207.4,
+     "blocchi": 0,
+     "libere": 42.2
+    },
+    "b": {
+     "punti": 220.9,
+     "blocchi": 0,
+     "libere": 42.9
+    }
+   },
+   "conferma": {
+    "futuri": 100,
+    "mosse": 15,
+    "seme": 99991,
+    "differenza": -15.1,
+    "errore": 3.7,
+    "a": {
+     "punti": 205.6,
+     "blocchi": 0,
+     "libere": 41.1
+    },
+    "b": {
+     "punti": 220.7,
+     "blocchi": 0,
+     "libere": 42.7
+    }
+   },
+   "aggiunto": "2026-11-04"
+  },
+  {
+   "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#38",
+   "partita": "alveare-partita-2026-11-04T05-07-12-790Z.json",
+   "mossa": 38,
+   "stato": "confermata",
+   "posizione": {
+    "celle": [
+     "-4,0",
+     "-3,1",
+     "-3,2",
+     "-3,3",
+     "-2,-2",
+     "-2,-1",
+     "-2,0",
+     "-2,1",
+     "-2,2",
+     "-1,-3",
+     "-1,-2",
+     "-1,-1",
+     "-1,0",
+     "-1,1",
+     "-1,3",
+     "-1,4",
+     "1,-2",
+     "1,-1",
+     "2,-4",
+     "2,-3",
+     "2,-1",
+     "2,0",
+     "2,2",
+     "3,-4",
+     "3,-3",
+     "3,-2",
+     "3,-1",
+     "3,1",
+     "4,-4",
+     "4,-3",
+     "4,-2",
+     "4,-1"
+    ],
+    "vassoio": [
+     "rombo-0",
+     "punto-0",
+     "barra 4-0"
+    ],
+    "combo": 1,
+    "libere": 29
+   },
+   "tua": {
+    "idx": 0,
+    "q": 0,
+    "r": -4,
+    "pezzo": "rombo-0",
+    "nome": "rombo",
+    "celle": [
+     1,
+     2,
+     7,
+     8
+    ]
+   },
+   "suggerita": {
+    "idx": 1,
+    "q": -1,
+    "r": 2,
+    "pezzo": "punto-0",
+    "nome": "punto",
+    "celle": [
+     47
+    ]
+   },
+   "app": {
+    "giudizio": "Mossa discreta",
+    "posto": 2,
+    "su": 6,
+    "strategia": "fa730f6"
+   },
+   "prova": {
+    "futuri": 30,
+    "mosse": 15,
+    "seme": 777,
+    "differenza": -16.6,
+    "errore": 7.3,
+    "a": {
+     "punti": 203.2,
+     "blocchi": 0,
+     "libere": 42.7
+    },
+    "b": {
+     "punti": 219.8,
+     "blocchi": 0,
+     "libere": 44.6
+    }
+   },
+   "conferma": {
+    "futuri": 100,
+    "mosse": 15,
+    "seme": 99991,
+    "differenza": -24.6,
+    "errore": 3.5,
+    "a": {
+     "punti": 197.9,
+     "blocchi": 0,
+     "libere": 42
+    },
+    "b": {
+     "punti": 222.4,
+     "blocchi": 0,
+     "libere": 42.9
+    }
+   },
+   "aggiunto": "2026-11-04"
+  },
+  {
+   "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#52",
+   "partita": "alveare-partita-2026-11-04T05-07-12-790Z.json",
+   "mossa": 52,
+   "stato": "confermata",
+   "posizione": {
+    "celle": [
+     "-4,0",
+     "-4,1",
+     "-3,0",
+     "-2,-1",
+     "-2,0",
+     "-1,-3",
+     "-1,-2",
+     "-1,-1",
+     "-1,0",
+     "-1,1",
+     "-1,3",
+     "-1,4",
+     "0,-4",
+     "0,-3",
+     "0,-2",
+     "0,0",
+     "0,1",
+     "1,-3",
+     "1,-2",
+     "1,-1",
+     "1,0",
+     "1,1",
+     "2,-3",
+     "2,-1",
+     "2,0",
+     "2,1",
+     "2,2",
+     "3,-1",
+     "3,0",
+     "3,1",
+     "4,-4",
+     "4,-2",
+     "4,-1"
+    ],
+    "vassoio": [
+     "barra 4-0",
+     "ferro di cavallo-1",
+     "ferro di cavallo-0"
+    ],
+    "combo": 0,
+    "libere": 28
+   },
+   "tua": {
+    "idx": 0,
+    "q": -3,
+    "r": 2,
+    "pezzo": "barra 4-0",
+    "nome": "barra 4",
+    "celle": [
+     45,
+     46,
+     47,
+     48
+    ]
+   },
+   "suggerita": {
+    "idx": 0,
+    "q": -4,
+    "r": 2,
+    "pezzo": "barra 4-0",
+    "nome": "barra 4",
+    "celle": [
+     44,
+     45,
+     46,
+     47
+    ]
+   },
+   "app": {
+    "giudizio": "Occasione persa",
+    "posto": 6,
+    "su": 6,
+    "strategia": "fa730f6"
+   },
+   "prova": {
+    "futuri": 30,
+    "mosse": 15,
+    "seme": 777,
+    "differenza": -18.2,
+    "errore": 5.5,
+    "a": {
+     "punti": 183.9,
+     "blocchi": 0,
+     "libere": 40.2
+    },
+    "b": {
+     "punti": 202.1,
+     "blocchi": 0,
+     "libere": 42.7
+    }
+   },
+   "conferma": {
+    "futuri": 100,
+    "mosse": 15,
+    "seme": 99991,
+    "differenza": -15.3,
+    "errore": 3.3,
+    "a": {
+     "punti": 181.7,
+     "blocchi": 0,
+     "libere": 41
+    },
+    "b": {
+     "punti": 197,
+     "blocchi": 0,
+     "libere": 41.5
+    }
+   },
+   "aggiunto": "2026-11-04"
+  },
+  {
+   "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#78",
+   "partita": "alveare-partita-2026-11-04T05-07-12-790Z.json",
+   "mossa": 78,
+   "stato": "confermata",
+   "posizione": {
+    "celle": [
+     "-4,0",
+     "-4,1",
+     "-4,3",
+     "-2,-2",
+     "-2,1",
+     "-1,0",
+     "-1,1",
+     "-1,2",
+     "-1,3",
+     "-1,4",
+     "0,-4",
+     "0,-1",
+     "0,0",
+     "0,4",
+     "1,-1",
+     "1,1",
+     "1,2",
+     "2,-3",
+     "2,-2",
+     "2,0",
+     "2,1",
+     "2,2",
+     "3,-4",
+     "3,-3",
+     "3,-2",
+     "3,-1",
+     "3,0",
+     "4,-4",
+     "4,-3",
+     "4,-2",
+     "4,-1"
+    ],
+    "vassoio": [
+     "rombo-1",
+     "bandiera sinistra-1",
+     "rombo-1"
+    ],
+    "combo": 2,
+    "libere": 30
+   },
+   "tua": {
+    "idx": 1,
+    "q": -4,
+    "r": 2,
+    "pezzo": "bandiera sinistra-1",
+    "nome": "bandiera sinistra",
+    "celle": [
+     44,
+     45,
+     46,
+     52
+    ]
+   },
+   "suggerita": {
+    "idx": 0,
+    "q": -1,
+    "r": -2,
+    "pezzo": "rombo-1",
+    "nome": "rombo",
+    "celle": [
+     13,
+     20,
+     21,
+     29
+    ]
+   },
+   "app": {
+    "giudizio": "Occasione persa",
+    "posto": 5,
+    "su": 6,
+    "strategia": "fa730f6"
+   },
+   "prova": {
+    "futuri": 30,
+    "mosse": 15,
+    "seme": 777,
+    "differenza": -320.7,
+    "errore": 97.9,
+    "a": {
+     "punti": 159,
+     "blocchi": 8,
+     "libere": 37
+    },
+    "b": {
+     "punti": 213.1,
+     "blocchi": 0,
+     "libere": 42.3
+    }
+   },
+   "conferma": {
+    "futuri": 100,
+    "mosse": 15,
+    "seme": 99991,
+    "differenza": -309.8,
+    "errore": 52.7,
+    "a": {
+     "punti": 164.7,
+     "blocchi": 26,
+     "libere": 36.1
+    },
+    "b": {
+     "punti": 214.5,
+     "blocchi": 0,
+     "libere": 42.5
+    }
+   },
+   "aggiunto": "2026-11-04"
+  },
+  {
+   "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#81",
+   "partita": "alveare-partita-2026-11-04T05-07-12-790Z.json",
+   "mossa": 81,
+   "stato": "confermata",
+   "posizione": {
+    "celle": [
+     "-4,0",
+     "-4,1",
+     "-4,2",
+     "-3,0",
+     "-3,1",
+     "-3,3",
+     "-2,-2",
+     "-2,-1",
+     "-2,0",
+     "-2,2",
+     "-1,1",
+     "-1,2",
+     "-1,3",
+     "-1,4",
+     "0,-4",
+     "0,-3",
+     "0,-2",
+     "0,0",
+     "0,4",
+     "1,-3",
+     "1,-1",
+     "1,1",
+     "1,2",
+     "2,-2",
+     "2,0",
+     "2,1",
+     "2,2",
+     "3,-3",
+     "3,-2",
+     "3,-1",
+     "3,0",
+     "4,-4",
+     "4,-3",
+     "4,-2",
+     "4,-1"
+    ],
+    "vassoio": [
+     "barra 4-2",
+     "barra 4-1",
+     "rombo-1"
+    ],
+    "combo": 1,
+    "libere": 26
+   },
+   "tua": {
+    "idx": 1,
+    "q": -1,
+    "r": -3,
+    "pezzo": "barra 4-1",
+    "nome": "barra 4",
+    "celle": [
+     6,
+     13,
+     21,
+     30
+    ]
+   },
+   "suggerita": {
+    "idx": 0,
+    "q": 3,
+    "r": -4,
+    "pezzo": "barra 4-2",
+    "nome": "barra 4",
+    "celle": [
+     4,
+     9,
+     15,
+     22
+    ]
+   },
+   "app": {
+    "giudizio": "Buona mossa",
+    "posto": 2,
+    "su": 6,
+    "strategia": "fa730f6"
+   },
+   "prova": {
+    "futuri": 30,
+    "mosse": 15,
+    "seme": 777,
+    "differenza": -16.7,
+    "errore": 7.1,
+    "a": {
+     "punti": 220.8,
+     "blocchi": 0,
+     "libere": 42.1
+    },
+    "b": {
+     "punti": 237.4,
+     "blocchi": 0,
+     "libere": 43.2
+    }
+   },
+   "conferma": {
+    "futuri": 100,
+    "mosse": 15,
+    "seme": 99991,
+    "differenza": -11.7,
+    "errore": 4.5,
+    "a": {
+     "punti": 223.7,
+     "blocchi": 0,
+     "libere": 41.9
+    },
+    "b": {
+     "punti": 235.5,
+     "blocchi": 0,
+     "libere": 41.1
+    }
+   },
+   "aggiunto": "2026-11-04"
+  },
+  {
+   "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#82",
+   "partita": "alveare-partita-2026-11-04T05-07-12-790Z.json",
+   "mossa": 82,
+   "stato": "confermata",
+   "posizione": {
+    "celle": [
+     "-4,0",
+     "-4,1",
+     "-4,2",
+     "-3,0",
+     "-3,1",
+     "-3,3",
+     "-2,-2",
+     "-2,-1",
+     "-2,0",
+     "-2,2",
+     "0,-4",
+     "0,-3",
+     "0,-2",
+     "0,0",
+     "0,4",
+     "1,-3",
+     "1,-1",
+     "1,1",
+     "1,2",
+     "2,-2",
+     "2,0",
+     "2,1",
+     "2,2",
+     "3,-3",
+     "3,-2",
+     "3,-1",
+     "3,0",
+     "4,-4",
+     "4,-3",
+     "4,-2",
+     "4,-1"
+    ],
+    "vassoio": [
+     "barra 4-2",
+     "bandiera destra-2",
+     "rombo-1"
+    ],
+    "combo": 2,
+    "libere": 30
+   },
+   "tua": {
+    "idx": 1,
+    "q": 0,
+    "r": 2,
+    "pezzo": "bandiera destra-2",
+    "nome": "bandiera destra",
+    "celle": [
+     48,
+     54,
+     59,
+     60
+    ]
+   },
+   "suggerita": {
+    "idx": 0,
+    "q": -1,
+    "r": 0,
+    "pezzo": "barra 4-2",
+    "nome": "barra 4",
+    "celle": [
+     30,
+     38,
+     45,
+     51
+    ]
+   },
+   "app": {
+    "giudizio": "Occasione persa",
+    "posto": 7,
+    "su": 7,
+    "strategia": "fa730f6"
+   },
+   "prova": {
+    "futuri": 30,
+    "mosse": 15,
+    "seme": 777,
+    "differenza": -14.7,
+    "errore": 6.1,
+    "a": {
+     "punti": 208.9,
+     "blocchi": 0,
+     "libere": 41.6
+    },
+    "b": {
+     "punti": 223.6,
+     "blocchi": 0,
+     "libere": 40.1
+    }
+   },
+   "conferma": {
+    "futuri": 100,
+    "mosse": 15,
+    "seme": 99991,
+    "differenza": -11.8,
+    "errore": 3.4,
+    "a": {
+     "punti": 208.3,
+     "blocchi": 0,
+     "libere": 41.9
+    },
+    "b": {
+     "punti": 220.2,
+     "blocchi": 0,
+     "libere": 42
+    }
+   },
+   "aggiunto": "2026-11-04"
+  },
+  {
+   "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#91",
+   "partita": "alveare-partita-2026-11-04T05-07-12-790Z.json",
+   "mossa": 91,
+   "stato": "confermata",
+   "posizione": {
+    "celle": [
+     "-3,2",
+     "-3,3",
+     "-3,4",
+     "-2,-1",
+     "-2,2",
+     "-2,3",
+     "-1,-2",
+     "-1,-1",
+     "-1,0",
+     "-1,1",
+     "-1,2",
+     "-1,3",
+     "0,-4",
+     "0,-3",
+     "0,-2",
+     "0,-1",
+     "0,0",
+     "0,1",
+     "0,2",
+     "0,4",
+     "1,-3",
+     "1,-2",
+     "1,-1",
+     "1,1",
+     "2,-3",
+     "2,-2",
+     "2,-1",
+     "2,2",
+     "3,-4",
+     "3,-3",
+     "3,-2",
+     "3,-1",
+     "4,-4",
+     "4,-3",
+     "4,-2",
+     "4,-1"
+    ],
+    "vassoio": [
+     "rombo-0",
+     "punto-0",
+     "bandiera sinistra-0"
+    ],
+    "combo": 0,
+    "libere": 25
+   },
+   "tua": {
+    "idx": 2,
+    "q": 3,
+    "r": 0,
+    "pezzo": "bandiera sinistra-0",
+    "nome": "bandiera sinistra",
+    "celle": [
+     34,
+     42,
+     43,
+     49
+    ]
+   },
+   "suggerita": {
+    "idx": 1,
+    "q": -2,
+    "r": -2,
+    "pezzo": "punto-0",
+    "nome": "punto",
+    "celle": [
+     12
+    ]
+   },
+   "app": {
+    "giudizio": "Mossa migliorabile",
+    "posto": 7,
+    "su": 7,
+    "strategia": "fa730f6"
+   },
+   "prova": {
+    "futuri": 30,
+    "mosse": 15,
+    "seme": 777,
+    "differenza": -31.9,
+    "errore": 7.5,
+    "a": {
+     "punti": 201,
+     "blocchi": 0,
+     "libere": 41.1
+    },
+    "b": {
+     "punti": 232.9,
+     "blocchi": 0,
+     "libere": 43.2
+    }
+   },
+   "conferma": {
+    "futuri": 100,
+    "mosse": 15,
+    "seme": 99991,
+    "differenza": -32.8,
+    "errore": 12.2,
+    "a": {
+     "punti": 207.3,
+     "blocchi": 1,
+     "libere": 42
+    },
+    "b": {
+     "punti": 230,
+     "blocchi": 0,
+     "libere": 41.7
+    }
+   },
+   "aggiunto": "2026-11-04"
+  },
+  {
+   "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#107",
+   "partita": "alveare-partita-2026-11-04T05-07-12-790Z.json",
+   "mossa": 107,
+   "stato": "confermata",
+   "posizione": {
+    "celle": [
+     "-4,1",
+     "-4,2",
+     "-3,0",
+     "-3,1",
+     "-3,4",
+     "-2,-1",
+     "-2,0",
+     "-2,3",
+     "-1,-2",
+     "-1,-1",
+     "-1,4",
+     "0,-4",
+     "0,-3",
+     "0,-2",
+     "0,-1",
+     "0,3",
+     "0,4",
+     "1,-3",
+     "1,-1",
+     "1,3",
+     "2,-2",
+     "2,0",
+     "2,1",
+     "3,-1",
+     "3,0",
+     "4,-1",
+     "4,0"
+    ],
+    "vassoio": [
+     "rombo-1",
+     "barra 4-0",
+     "punto-0"
+    ],
+    "combo": 0,
+    "libere": 34
+   },
+   "tua": {
+    "idx": 0,
+    "q": -3,
+    "r": 2,
+    "pezzo": "rombo-1",
+    "nome": "rombo",
+    "celle": [
+     45,
+     51,
+     52,
+     57
+    ]
+   },
+   "suggerita": {
+    "idx": 2,
+    "q": 1,
+    "r": 2,
+    "pezzo": "punto-0",
+    "nome": "punto",
+    "celle": [
+     49
+    ]
+   },
+   "app": {
+    "giudizio": "Mossa discreta",
+    "posto": 3,
+    "su": 6,
+    "strategia": "fa730f6"
+   },
+   "prova": {
+    "futuri": 30,
+    "mosse": 15,
+    "seme": 777,
+    "differenza": -20.4,
+    "errore": 5.6,
+    "a": {
+     "punti": 203.7,
+     "blocchi": 0,
+     "libere": 42.6
+    },
+    "b": {
+     "punti": 224.1,
+     "blocchi": 0,
+     "libere": 42.8
+    }
+   },
+   "conferma": {
+    "futuri": 100,
+    "mosse": 15,
+    "seme": 99991,
+    "differenza": -31.9,
+    "errore": 2.9,
+    "a": {
+     "punti": 198.4,
+     "blocchi": 0,
+     "libere": 42.3
+    },
+    "b": {
+     "punti": 230.3,
+     "blocchi": 0,
+     "libere": 42.1
+    }
+   },
+   "aggiunto": "2026-11-04"
+  },
+  {
+   "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#121",
+   "partita": "alveare-partita-2026-11-04T05-07-12-790Z.json",
+   "mossa": 121,
+   "stato": "confermata",
+   "posizione": {
+    "celle": [
+     "-4,1",
+     "-4,2",
+     "-4,4",
+     "-3,0",
+     "-3,1",
+     "-3,2",
+     "-3,3",
+     "-3,4",
+     "-2,-1",
+     "-2,0",
+     "-2,3",
+     "-2,4",
+     "-1,-3",
+     "-1,-1",
+     "-1,0",
+     "-1,1",
+     "-1,2",
+     "-1,3",
+     "0,-3",
+     "0,-1",
+     "0,0",
+     "0,1",
+     "0,3",
+     "0,4",
+     "1,-1",
+     "1,0",
+     "1,1",
+     "1,3",
+     "2,-3",
+     "2,0",
+     "2,1",
+     "2,2",
+     "3,-1",
+     "3,0",
+     "3,1",
+     "4,-4",
+     "4,-3",
+     "4,-1"
+    ],
+    "vassoio": [
+     "rombo-1",
+     "bandiera destra-4",
+     "ferro di cavallo-2"
+    ],
+    "combo": 1,
+    "libere": 23
+   },
+   "tua": {
+    "idx": 2,
+    "q": 1,
+    "r": -3,
+    "pezzo": "ferro di cavallo-2",
+    "nome": "ferro di cavallo",
+    "celle": [
+     8,
+     10,
+     15,
+     16
+    ]
+   },
+   "suggerita": {
+    "idx": 0,
+    "q": 3,
+    "r": -3,
+    "pezzo": "rombo-1",
+    "nome": "rombo",
+    "celle": [
+     10,
+     16,
+     17,
+     24
+    ]
+   },
+   "app": {
+    "giudizio": "Mossa migliorabile",
+    "posto": 2,
+    "su": 2,
+    "strategia": "fa730f6"
+   },
+   "prova": {
+    "futuri": 30,
+    "mosse": 15,
+    "seme": 777,
+    "differenza": -242.6,
+    "errore": 89.6,
+    "a": {
+     "punti": 197.3,
+     "blocchi": 6,
+     "libere": 37.2
+    },
+    "b": {
+     "punti": 239.8,
+     "blocchi": 0,
+     "libere": 42.2
+    }
+   },
+   "conferma": {
+    "futuri": 100,
+    "mosse": 15,
+    "seme": 99991,
+    "differenza": -209.9,
+    "errore": 45.1,
+    "a": {
+     "punti": 198.8,
+     "blocchi": 17,
+     "libere": 37.4
+    },
+    "b": {
+     "punti": 238.7,
+     "blocchi": 0,
+     "libere": 42.2
+    }
+   },
+   "aggiunto": "2026-11-04"
+  },
+  {
+   "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#122",
+   "partita": "alveare-partita-2026-11-04T05-07-12-790Z.json",
+   "mossa": 122,
+   "stato": "confermata",
+   "posizione": {
+    "celle": [
+     "-4,1",
+     "-4,2",
+     "-4,4",
+     "-3,0",
+     "-3,1",
+     "-3,2",
+     "-3,3",
+     "-3,4",
+     "-2,-1",
+     "-2,0",
+     "-2,3",
+     "-2,4",
+     "-1,-1",
+     "-1,0",
+     "-1,1",
+     "-1,2",
+     "-1,3",
+     "0,-1",
+     "0,0",
+     "0,1",
+     "0,3",
+     "0,4",
+     "1,-2",
+     "1,-1",
+     "1,0",
+     "1,1",
+     "1,3",
+     "2,-2",
+     "2,0",
+     "2,1",
+     "2,2",
+     "3,-1",
+     "3,0",
+     "3,1",
+     "4,-4",
+     "4,-1"
+    ],
+    "vassoio": [
+     "rombo-1",
+     "bandiera destra-4",
+     "punto-0"
+    ],
+    "combo": 2,
+    "libere": 25
+   },
+   "tua": {
+    "idx": 2,
+    "q": 0,
+    "r": 2,
+    "pezzo": "punto-0",
+    "nome": "punto",
+    "celle": [
+     48
+    ]
+   },
+   "suggerita": {
+    "idx": 2,
+    "q": -4,
+    "r": 3,
+    "pezzo": "punto-0",
+    "nome": "punto",
+    "celle": [
+     51
+    ]
+   },
+   "app": {
+    "giudizio": "Occasione persa",
+    "posto": 7,
+    "su": 7,
+    "strategia": "fa730f6"
+   },
+   "prova": {
+    "futuri": 30,
+    "mosse": 15,
+    "seme": 777,
+    "differenza": -15.1,
+    "errore": 7.4,
+    "a": {
+     "punti": 204.5,
+     "blocchi": 0,
+     "libere": 41.1
+    },
+    "b": {
+     "punti": 219.6,
+     "blocchi": 0,
+     "libere": 41.9
+    }
+   },
+   "conferma": {
+    "futuri": 100,
+    "mosse": 15,
+    "seme": 99991,
+    "differenza": -68.4,
+    "errore": 23.4,
+    "a": {
+     "punti": 193.1,
+     "blocchi": 4,
+     "libere": 40.4
+    },
+    "b": {
+     "punti": 221.5,
+     "blocchi": 0,
+     "libere": 42.9
+    }
+   },
+   "aggiunto": "2026-11-04"
+  },
+  {
+   "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#140",
+   "partita": "alveare-partita-2026-11-04T05-07-12-790Z.json",
+   "mossa": 140,
+   "stato": "confermata",
+   "posizione": {
+    "celle": [
+     "-3,2",
+     "-3,3",
+     "-3,4",
+     "-2,0",
+     "-2,1",
+     "-2,2",
+     "-2,3",
+     "-1,-2",
+     "-1,-1",
+     "-1,0",
+     "-1,1",
+     "-1,2",
+     "-1,3",
+     "0,1",
+     "0,2",
+     "1,1",
+     "1,2",
+     "2,-2",
+     "2,0",
+     "2,1",
+     "2,2",
+     "3,-4",
+     "3,-2",
+     "3,-1",
+     "3,1",
+     "4,-3"
+    ],
+    "vassoio": [
+     "ferro di cavallo-0",
+     "rombo-1",
+     "bandiera sinistra-4"
+    ],
+    "combo": 0,
+    "libere": 35
+   },
+   "tua": {
+    "idx": 1,
+    "q": -3,
+    "r": 0,
+    "pezzo": "rombo-1",
+    "nome": "rombo",
+    "celle": [
+     28,
+     36,
+     37,
+     44
+    ]
+   },
+   "suggerita": {
+    "idx": 0,
+    "q": 0,
+    "r": -2,
+    "pezzo": "ferro di cavallo-0",
+    "nome": "ferro di cavallo",
+    "celle": [
+     14,
+     15,
+     23,
+     31
+    ]
+   },
+   "app": {
+    "giudizio": "Mossa discreta",
+    "posto": 2,
+    "su": 6,
+    "strategia": "fa730f6"
+   },
+   "prova": {
+    "futuri": 30,
+    "mosse": 15,
+    "seme": 777,
+    "differenza": -30.2,
+    "errore": 4.8,
+    "a": {
+     "punti": 173.9,
+     "blocchi": 0,
+     "libere": 41.5
+    },
+    "b": {
+     "punti": 204.1,
+     "blocchi": 0,
+     "libere": 41.8
+    }
+   },
+   "conferma": {
+    "futuri": 100,
+    "mosse": 15,
+    "seme": 99991,
+    "differenza": -25.5,
+    "errore": 4.1,
+    "a": {
+     "punti": 186.1,
+     "blocchi": 0,
+     "libere": 42.2
+    },
+    "b": {
+     "punti": 211.5,
+     "blocchi": 0,
+     "libere": 42.4
+    }
+   },
+   "aggiunto": "2026-11-04"
+  },
+  {
+   "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#143",
+   "partita": "alveare-partita-2026-11-04T05-07-12-790Z.json",
+   "mossa": 143,
+   "stato": "confermata",
+   "posizione": {
+    "celle": [
+     "-3,0",
+     "-3,3",
+     "-3,4",
+     "-2,0",
+     "-2,3",
+     "-1,-2",
+     "-1,-1",
+     "-1,0",
+     "-1,3",
+     "0,-4",
+     "0,-2",
+     "0,-1",
+     "1,-4",
+     "1,-3",
+     "1,-2",
+     "1,-1",
+     "2,-2",
+     "2,-1",
+     "2,0",
+     "3,-4",
+     "3,-2",
+     "3,-1",
+     "4,-3"
+    ],
+    "vassoio": [
+     "bandiera sinistra-0",
+     "punto-0",
+     "rombo-1"
+    ],
+    "combo": 0,
+    "libere": 38
+   },
+   "tua": {
+    "idx": 0,
+    "q": -2,
+    "r": -2,
+    "pezzo": "bandiera sinistra-0",
+    "nome": "bandiera sinistra",
+    "celle": [
+     12,
+     19,
+     20,
+     27
+    ]
+   },
+   "suggerita": {
+    "idx": 1,
+    "q": 4,
+    "r": -2,
+    "pezzo": "punto-0",
+    "nome": "punto",
+    "celle": [
+     18
+    ]
+   },
+   "app": {
+    "giudizio": "Mossa giocabile",
+    "posto": 2,
+    "su": 6,
+    "strategia": "fa730f6"
+   },
+   "prova": {
+    "futuri": 30,
+    "mosse": 15,
+    "seme": 777,
+    "differenza": -16.5,
+    "errore": 6.2,
+    "a": {
+     "punti": 169.4,
+     "blocchi": 0,
+     "libere": 42.7
+    },
+    "b": {
+     "punti": 185.9,
+     "blocchi": 0,
+     "libere": 43.2
+    }
+   },
+   "conferma": {
+    "futuri": 100,
+    "mosse": 15,
+    "seme": 99991,
+    "differenza": -10.2,
+    "errore": 3.7,
+    "a": {
+     "punti": 174.5,
+     "blocchi": 0,
+     "libere": 43.1
+    },
+    "b": {
+     "punti": 184.7,
+     "blocchi": 0,
+     "libere": 43.4
+    }
+   },
+   "aggiunto": "2026-11-04"
+  },
+  {
+   "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#155",
+   "partita": "alveare-partita-2026-11-04T05-07-12-790Z.json",
+   "mossa": 155,
+   "stato": "confermata",
+   "posizione": {
+    "celle": [
+     "-3,1",
+     "-3,4",
+     "-2,-2",
+     "-2,-1",
+     "-2,0",
+     "-2,1",
+     "-2,3",
+     "-2,4",
+     "-1,3",
+     "1,-4",
+     "1,-3",
+     "1,-2",
+     "1,-1",
+     "1,1",
+     "1,3",
+     "2,-2",
+     "2,0",
+     "3,-4",
+     "3,-1"
+    ],
+    "vassoio": [
+     "punto-0",
+     "rombo-1",
+     "bandiera sinistra-0"
+    ],
+    "combo": 2,
+    "libere": 42
+   },
+   "tua": {
+    "idx": 2,
+    "q": -1,
+    "r": 1,
+    "pezzo": "bandiera sinistra-0",
+    "nome": "bandiera sinistra",
+    "celle": [
+     39,
+     46,
+     47,
+     52
+    ]
+   },
+   "suggerita": {
+    "idx": 1,
+    "q": -3,
+    "r": -1,
+    "pezzo": "rombo-1",
+    "nome": "rombo",
+    "celle": [
+     19,
+     27,
+     28,
+     36
+    ]
+   },
+   "app": {
+    "giudizio": "Mossa migliorabile",
+    "posto": 5,
+    "su": 6,
+    "strategia": "fa730f6"
+   },
+   "prova": {
+    "futuri": 30,
+    "mosse": 15,
+    "seme": 777,
+    "differenza": -13.3,
+    "errore": 6,
+    "a": {
+     "punti": 151,
+     "blocchi": 0,
+     "libere": 42.6
+    },
+    "b": {
+     "punti": 164.3,
+     "blocchi": 0,
+     "libere": 42.2
+    }
+   },
+   "conferma": {
+    "futuri": 100,
+    "mosse": 15,
+    "seme": 99991,
+    "differenza": -9.1,
+    "errore": 3.4,
+    "a": {
+     "punti": 156.8,
+     "blocchi": 0,
+     "libere": 42.4
+    },
+    "b": {
+     "punti": 165.9,
+     "blocchi": 0,
+     "libere": 42.8
+    }
+   },
+   "aggiunto": "2026-11-04"
+  },
+  {
+   "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#158",
+   "partita": "alveare-partita-2026-11-04T05-07-12-790Z.json",
+   "mossa": 158,
+   "stato": "confermata",
+   "posizione": {
+    "celle": [
+     "-3,1",
+     "-3,3",
+     "-3,4",
+     "-1,1",
+     "-1,2",
+     "-1,3",
+     "0,-1",
+     "0,0",
+     "1,-4",
+     "1,-3",
+     "1,-2",
+     "1,-1",
+     "1,0",
+     "1,1",
+     "1,3",
+     "2,-2",
+     "2,-1",
+     "2,0",
+     "2,1",
+     "2,2",
+     "3,-4",
+     "3,-1",
+     "3,0",
+     "3,1"
+    ],
+    "vassoio": [
+     "punto-0",
+     "bandiera sinistra-5",
+     "punto-0"
+    ],
+    "combo": 0,
+    "libere": 37
+   },
+   "tua": {
+    "idx": 1,
+    "q": 0,
+    "r": 2,
+    "pezzo": "bandiera sinistra-5",
+    "nome": "bandiera sinistra",
+    "celle": [
+     48,
+     49,
+     55,
+     61
+    ]
+   },
+   "suggerita": {
+    "idx": 0,
+    "q": 2,
+    "r": -4,
+    "pezzo": "punto-0",
+    "nome": "punto",
+    "celle": [
+     3
+    ]
+   },
+   "app": {
+    "giudizio": "Mossa discreta",
+    "posto": 4,
+    "su": 6,
+    "strategia": "fa730f6"
+   },
+   "prova": {
+    "futuri": 30,
+    "mosse": 15,
+    "seme": 777,
+    "differenza": -13.8,
+    "errore": 5.2,
+    "a": {
+     "punti": 139.6,
+     "blocchi": 0,
+     "libere": 41.7
+    },
+    "b": {
+     "punti": 153.4,
+     "blocchi": 0,
+     "libere": 42.8
+    }
+   },
+   "conferma": {
+    "futuri": 100,
+    "mosse": 15,
+    "seme": 99991,
+    "differenza": -14.7,
+    "errore": 2.9,
+    "a": {
+     "punti": 142.9,
+     "blocchi": 0,
+     "libere": 41.9
+    },
+    "b": {
+     "punti": 157.6,
+     "blocchi": 0,
+     "libere": 43.1
+    }
+   },
+   "aggiunto": "2026-11-04"
+  },
+  {
+   "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#167",
+   "partita": "alveare-partita-2026-11-04T05-07-12-790Z.json",
+   "mossa": 167,
+   "stato": "confermata",
+   "posizione": {
+    "celle": [
+     "-3,1",
+     "-3,3",
+     "-3,4",
+     "-2,-1",
+     "-2,0",
+     "-2,4",
+     "-1,-3",
+     "-1,-2",
+     "-1,-1",
+     "-1,1",
+     "-1,2",
+     "-1,3",
+     "-1,4",
+     "0,-4",
+     "0,-3",
+     "0,-2",
+     "0,-1",
+     "0,0",
+     "0,2",
+     "0,4",
+     "1,-4",
+     "1,-3",
+     "4,-3",
+     "4,-2"
+    ],
+    "vassoio": [
+     "punto-0",
+     "punto-0",
+     "barra 4-1"
+    ],
+    "combo": 0,
+    "libere": 37
+   },
+   "tua": {
+    "idx": 2,
+    "q": -4,
+    "r": 1,
+    "pezzo": "barra 4-1",
+    "nome": "barra 4",
+    "celle": [
+     36,
+     44,
+     51,
+     57
+    ]
+   },
+   "suggerita": {
+    "idx": 0,
+    "q": -4,
+    "r": 0,
+    "pezzo": "punto-0",
+    "nome": "punto",
+    "celle": [
+     27
+    ]
+   },
+   "app": {
+    "giudizio": "Mossa giocabile",
+    "posto": 2,
+    "su": 6,
+    "strategia": "fa730f6"
+   },
+   "prova": {
+    "futuri": 30,
+    "mosse": 15,
+    "seme": 777,
+    "differenza": -10.4,
+    "errore": 4.7,
+    "a": {
+     "punti": 161,
+     "blocchi": 0,
+     "libere": 41.7
+    },
+    "b": {
+     "punti": 171.4,
+     "blocchi": 0,
+     "libere": 41.9
+    }
+   },
+   "conferma": {
+    "futuri": 100,
+    "mosse": 15,
+    "seme": 99991,
+    "differenza": -9.3,
+    "errore": 3.7,
+    "a": {
+     "punti": 164.8,
+     "blocchi": 0,
+     "libere": 43
+    },
+    "b": {
+     "punti": 174,
+     "blocchi": 0,
+     "libere": 42
+    }
+   },
+   "aggiunto": "2026-11-04"
+  },
+  {
+   "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#175",
+   "partita": "alveare-partita-2026-11-04T05-07-12-790Z.json",
+   "mossa": 175,
+   "stato": "confermata",
+   "posizione": {
+    "celle": [
+     "-4,1",
+     "-4,2",
+     "-4,3",
+     "-3,0",
+     "-3,1",
+     "-3,3",
+     "-2,0",
+     "-1,1",
+     "-1,2",
+     "-1,3",
+     "0,-1",
+     "0,0",
+     "0,2",
+     "1,1",
+     "1,2",
+     "2,-3",
+     "2,-2",
+     "2,-1",
+     "2,0",
+     "2,1",
+     "3,-2",
+     "3,-1",
+     "3,0",
+     "4,-3",
+     "4,-2",
+     "4,-1",
+     "4,0"
+    ],
+    "vassoio": [
+     "punto-0",
+     "punto-0",
+     "bandiera sinistra-1"
+    ],
+    "combo": 0,
+    "libere": 34
+   },
+   "tua": {
+    "idx": 2,
+    "q": 2,
+    "r": -4,
+    "pezzo": "bandiera sinistra-1",
+    "nome": "bandiera sinistra",
+    "celle": [
+     3,
+     4,
+     5,
+     10
+    ]
+   },
+   "suggerita": {
+    "idx": 0,
+    "q": 3,
+    "r": 1,
+    "pezzo": "punto-0",
+    "nome": "punto",
+    "celle": [
+     43
+    ]
+   },
+   "app": {
+    "giudizio": "Buona mossa",
+    "posto": 2,
+    "su": 6,
+    "strategia": "fa730f6"
+   },
+   "prova": {
+    "futuri": 30,
+    "mosse": 15,
+    "seme": 777,
+    "differenza": -21.5,
+    "errore": 5.9,
+    "a": {
+     "punti": 164.3,
+     "blocchi": 0,
+     "libere": 43.7
+    },
+    "b": {
+     "punti": 185.8,
+     "blocchi": 0,
+     "libere": 42.7
+    }
+   },
+   "conferma": {
+    "futuri": 100,
+    "mosse": 15,
+    "seme": 99991,
+    "differenza": -14.2,
+    "errore": 3.2,
+    "a": {
+     "punti": 159.1,
+     "blocchi": 0,
+     "libere": 42.2
+    },
+    "b": {
+     "punti": 173.3,
+     "blocchi": 0,
+     "libere": 41.4
+    }
+   },
+   "aggiunto": "2026-11-04"
+  },
+  {
+   "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#186",
+   "partita": "alveare-partita-2026-11-04T05-07-12-790Z.json",
+   "mossa": 186,
+   "stato": "confermata",
+   "posizione": {
+    "celle": [
+     "-4,1",
+     "-4,2",
+     "-4,3",
+     "-3,0",
+     "-3,1",
+     "-3,2",
+     "-3,3",
+     "-2,-2",
+     "-2,-1",
+     "-2,0",
+     "-2,1",
+     "-1,-3",
+     "-1,1",
+     "-1,2",
+     "0,-4",
+     "0,-3",
+     "0,-2",
+     "0,-1",
+     "0,0",
+     "0,1",
+     "0,4",
+     "1,3"
+    ],
+    "vassoio": [
+     "punto-0",
+     "ferro di cavallo-3",
+     "ferro di cavallo-1"
+    ],
+    "combo": 0,
+    "libere": 39
+   },
+   "tua": {
+    "idx": 2,
+    "q": 0,
+    "r": 2,
+    "pezzo": "ferro di cavallo-1",
+    "nome": "ferro di cavallo",
+    "celle": [
+     48,
+     55,
+     59,
+     60
+    ]
+   },
+   "suggerita": {
+    "idx": 1,
+    "q": 2,
+    "r": 0,
+    "pezzo": "ferro di cavallo-3",
+    "nome": "ferro di cavallo",
+    "celle": [
+     33,
+     41,
+     49,
+     50
+    ]
+   },
+   "app": {
+    "giudizio": "Mossa discreta",
+    "posto": 7,
+    "su": 7,
+    "strategia": "fa730f6"
+   },
+   "prova": {
+    "futuri": 30,
+    "mosse": 15,
+    "seme": 777,
+    "differenza": -18.3,
+    "errore": 7.9,
+    "a": {
+     "punti": 164.8,
+     "blocchi": 0,
+     "libere": 44.1
+    },
+    "b": {
+     "punti": 183.1,
+     "blocchi": 0,
+     "libere": 42.3
+    }
+   },
+   "conferma": {
+    "futuri": 100,
+    "mosse": 15,
+    "seme": 99991,
+    "differenza": -20.4,
+    "errore": 4.1,
+    "a": {
+     "punti": 165,
+     "blocchi": 0,
+     "libere": 42.7
+    },
+    "b": {
+     "punti": 185.5,
+     "blocchi": 0,
+     "libere": 43
+    }
+   },
+   "aggiunto": "2026-11-04"
+  },
+  {
+   "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#190",
+   "partita": "alveare-partita-2026-11-04T05-07-12-790Z.json",
+   "mossa": 190,
+   "stato": "confermata",
+   "posizione": {
+    "celle": [
+     "-4,2",
+     "-4,3",
+     "-3,1",
+     "-3,2",
+     "-3,3",
+     "-2,-2",
+     "-2,0",
+     "-2,1",
+     "-2,4",
+     "-1,-3",
+     "-1,1",
+     "-1,2",
+     "-1,4",
+     "0,-4",
+     "0,-3",
+     "0,-2",
+     "1,-4",
+     "1,-2",
+     "1,3",
+     "2,0",
+     "2,1",
+     "3,-1",
+     "3,1"
+    ],
+    "vassoio": [
+     "punto-0",
+     "punto-0",
+     "rombo-2"
+    ],
+    "combo": 0,
+    "libere": 38
+   },
+   "tua": {
+    "idx": 2,
+    "q": 0,
+    "r": -1,
+    "pezzo": "rombo-2",
+    "nome": "rombo",
+    "celle": [
+     22,
+     23,
+     30,
+     31
+    ]
+   },
+   "suggerita": {
+    "idx": 0,
+    "q": -4,
+    "r": 4,
+    "pezzo": "punto-0",
+    "nome": "punto",
+    "celle": [
+     57
+    ]
+   },
+   "app": {
+    "giudizio": "Occasione persa",
+    "posto": 7,
+    "su": 7,
+    "strategia": "fa730f6"
+   },
+   "prova": {
+    "futuri": 30,
+    "mosse": 15,
+    "seme": 777,
+    "differenza": -19.2,
+    "errore": 6,
+    "a": {
+     "punti": 154.8,
+     "blocchi": 0,
+     "libere": 42.6
+    },
+    "b": {
+     "punti": 174,
+     "blocchi": 0,
+     "libere": 42.5
+    }
+   },
+   "conferma": {
+    "futuri": 100,
+    "mosse": 15,
+    "seme": 99991,
+    "differenza": -14.1,
+    "errore": 3.3,
+    "a": {
+     "punti": 154.6,
+     "blocchi": 0,
+     "libere": 41.6
+    },
+    "b": {
+     "punti": 168.7,
+     "blocchi": 0,
+     "libere": 42.7
+    }
+   },
+   "aggiunto": "2026-11-04"
+  },
+  {
+   "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#192",
+   "partita": "alveare-partita-2026-11-04T05-07-12-790Z.json",
+   "mossa": 192,
+   "stato": "confermata",
+   "posizione": {
+    "celle": [
+     "-4,2",
+     "-4,3",
+     "-3,1",
+     "-3,2",
+     "-3,3",
+     "-2,-2",
+     "-2,0",
+     "-2,1",
+     "-2,2",
+     "-2,3",
+     "-2,4",
+     "-1,-3",
+     "-1,0",
+     "-1,1",
+     "-1,2",
+     "-1,3",
+     "-1,4",
+     "0,-4",
+     "0,-3",
+     "0,-2",
+     "0,-1",
+     "0,0",
+     "0,2",
+     "1,-4",
+     "1,-2",
+     "1,-1",
+     "1,3",
+     "2,0",
+     "2,1",
+     "3,-1",
+     "3,1"
+    ],
+    "vassoio": [
+     "punto-0",
+     "punto-0",
+     "rombo-0"
+    ],
+    "combo": 0,
+    "libere": 30
+   },
+   "tua": {
+    "idx": 2,
+    "q": 2,
+    "r": -4,
+    "pezzo": "rombo-0",
+    "nome": "rombo",
+    "celle": [
+     3,
+     4,
+     9,
+     10
+    ]
+   },
+   "suggerita": {
+    "idx": 0,
+    "q": 0,
+    "r": 3,
+    "pezzo": "punto-0",
+    "nome": "punto",
+    "celle": [
+     55
+    ]
+   },
+   "app": {
+    "giudizio": "Occasione persa",
+    "posto": 7,
+    "su": 7,
+    "strategia": "fa730f6"
+   },
+   "prova": {
+    "futuri": 30,
+    "mosse": 15,
+    "seme": 777,
+    "differenza": -14.5,
+    "errore": 5.8,
+    "a": {
+     "punti": 164.8,
+     "blocchi": 0,
+     "libere": 41.3
+    },
+    "b": {
+     "punti": 179.3,
+     "blocchi": 0,
+     "libere": 42.3
+    }
+   },
+   "conferma": {
+    "futuri": 100,
+    "mosse": 15,
+    "seme": 99991,
+    "differenza": -19.3,
+    "errore": 3.5,
+    "a": {
+     "punti": 161.8,
+     "blocchi": 0,
+     "libere": 41.4
+    },
+    "b": {
+     "punti": 181.1,
+     "blocchi": 0,
+     "libere": 43.4
+    }
+   },
+   "aggiunto": "2026-11-04"
+  },
+  {
+   "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#229",
+   "partita": "alveare-partita-2026-11-04T05-07-12-790Z.json",
+   "mossa": 229,
+   "stato": "confermata",
+   "posizione": {
+    "celle": [
+     "-4,4",
+     "-3,2",
+     "-3,3",
+     "-2,1",
+     "-1,-2",
+     "-1,1",
+     "-1,2",
+     "-1,4",
+     "0,-3",
+     "0,-2",
+     "0,1",
+     "0,4",
+     "1,-4",
+     "1,-3",
+     "1,-2",
+     "1,1",
+     "1,2",
+     "1,3",
+     "2,-3",
+     "2,-2",
+     "2,1",
+     "2,2",
+     "3,-3"
+    ],
+    "vassoio": [
+     "punto-0",
+     "barra 4-1",
+     "rombo-1"
+    ],
+    "combo": 0,
+    "libere": 38
+   },
+   "tua": {
+    "idx": 1,
+    "q": 4,
+    "r": -4,
+    "pezzo": "barra 4-1",
+    "nome": "barra 4",
+    "celle": [
+     5,
+     11,
+     18,
+     26
+    ]
+   },
+   "suggerita": {
+    "idx": 0,
+    "q": 3,
+    "r": 1,
+    "pezzo": "punto-0",
+    "nome": "punto",
+    "celle": [
+     43
+    ]
+   },
+   "app": {
+    "giudizio": "Occasione persa",
+    "posto": 7,
+    "su": 7,
+    "strategia": "fa730f6"
+   },
+   "prova": {
+    "futuri": 30,
+    "mosse": 15,
+    "seme": 777,
+    "differenza": -15.4,
+    "errore": 4.9,
+    "a": {
+     "punti": 172.4,
+     "blocchi": 0,
+     "libere": 44
+    },
+    "b": {
+     "punti": 187.8,
+     "blocchi": 0,
+     "libere": 42.4
+    }
+   },
+   "conferma": {
+    "futuri": 100,
+    "mosse": 15,
+    "seme": 99991,
+    "differenza": -21.4,
+    "errore": 4.2,
+    "a": {
+     "punti": 167.1,
+     "blocchi": 0,
+     "libere": 42.1
+    },
+    "b": {
+     "punti": 188.5,
+     "blocchi": 0,
+     "libere": 41.6
+    }
+   },
+   "aggiunto": "2026-11-04"
+  },
+  {
+   "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#235",
+   "partita": "alveare-partita-2026-11-04T05-07-12-790Z.json",
+   "mossa": 235,
+   "stato": "confermata",
+   "posizione": {
+    "celle": [
+     "-4,2",
+     "-4,3",
+     "-4,4",
+     "-3,-1",
+     "-3,2",
+     "-3,3",
+     "-2,-2",
+     "-2,-1",
+     "-1,-3",
+     "-1,-2",
+     "-1,2",
+     "-1,4",
+     "0,-4",
+     "0,4",
+     "1,-4",
+     "1,1",
+     "1,2",
+     "1,3",
+     "2,0",
+     "2,1",
+     "2,2",
+     "3,-1",
+     "3,0",
+     "3,1",
+     "4,-4",
+     "4,-1"
+    ],
+    "vassoio": [
+     "punto-0",
+     "barra 4-2",
+     "bandiera sinistra-0"
+    ],
+    "combo": 0,
+    "libere": 35
+   },
+   "tua": {
+    "idx": 2,
+    "q": 0,
+    "r": 2,
+    "pezzo": "bandiera sinistra-0",
+    "nome": "bandiera sinistra",
+    "celle": [
+     48,
+     54,
+     55,
+     59
+    ]
+   },
+   "suggerita": {
+    "idx": 0,
+    "q": 4,
+    "r": -2,
+    "pezzo": "punto-0",
+    "nome": "punto",
+    "celle": [
+     18
+    ]
+   },
+   "app": {
+    "giudizio": "Mossa migliorabile",
+    "posto": 5,
+    "su": 6,
+    "strategia": "fa730f6"
+   },
+   "prova": {
+    "futuri": 30,
+    "mosse": 15,
+    "seme": 777,
+    "differenza": -16.4,
+    "errore": 7.8,
+    "a": {
+     "punti": 196.8,
+     "blocchi": 0,
+     "libere": 44.2
+    },
+    "b": {
+     "punti": 213.3,
+     "blocchi": 0,
+     "libere": 43.1
+    }
+   },
+   "conferma": {
+    "futuri": 100,
+    "mosse": 15,
+    "seme": 99991,
+    "differenza": -15.3,
+    "errore": 4.2,
+    "a": {
+     "punti": 193.6,
+     "blocchi": 0,
+     "libere": 43.3
+    },
+    "b": {
+     "punti": 208.9,
+     "blocchi": 0,
+     "libere": 42.5
+    }
+   },
+   "aggiunto": "2026-11-04"
+  },
+  {
+   "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#239",
+   "partita": "alveare-partita-2026-11-04T05-07-12-790Z.json",
+   "mossa": 239,
+   "stato": "confermata",
+   "posizione": {
+    "celle": [
+     "-4,2",
+     "-4,3",
+     "-4,4",
+     "-3,-1",
+     "-3,2",
+     "-3,3",
+     "-2,-2",
+     "-2,-1",
+     "-2,2",
+     "-1,-3",
+     "-1,-2",
+     "-1,-1",
+     "-1,0",
+     "-1,1",
+     "-1,2",
+     "0,-4",
+     "0,0",
+     "0,1",
+     "0,2",
+     "1,-4",
+     "1,-1"
+    ],
+    "vassoio": [
+     "punto-0",
+     "barra 4-2",
+     "bandiera destra-3"
+    ],
+    "combo": 0,
+    "libere": 40
+   },
+   "tua": {
+    "idx": 2,
+    "q": -1,
+    "r": 3,
+    "pezzo": "bandiera destra-3",
+    "nome": "bandiera destra",
+    "celle": [
+     54,
+     55,
+     56,
+     60
+    ]
+   },
+   "suggerita": {
+    "idx": 0,
+    "q": 0,
+    "r": -3,
+    "pezzo": "punto-0",
+    "nome": "punto",
+    "celle": [
+     7
+    ]
+   },
+   "app": {
+    "giudizio": "Occasione persa",
+    "posto": 7,
+    "su": 7,
+    "strategia": "fa730f6"
+   },
+   "prova": {
+    "futuri": 30,
+    "mosse": 15,
+    "seme": 777,
+    "differenza": -22.4,
+    "errore": 7.1,
+    "a": {
+     "punti": 163.3,
+     "blocchi": 0,
+     "libere": 41.8
+    },
+    "b": {
+     "punti": 185.7,
+     "blocchi": 0,
+     "libere": 42.2
+    }
+   },
+   "conferma": {
+    "futuri": 100,
+    "mosse": 15,
+    "seme": 99991,
+    "differenza": -26,
+    "errore": 3.7,
+    "a": {
+     "punti": 160,
+     "blocchi": 0,
+     "libere": 41.8
+    },
+    "b": {
+     "punti": 185.9,
+     "blocchi": 0,
+     "libere": 41.9
+    }
+   },
+   "aggiunto": "2026-11-04"
+  },
+  {
+   "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#258",
+   "partita": "alveare-partita-2026-11-04T05-07-12-790Z.json",
+   "mossa": 258,
+   "stato": "confermata",
+   "posizione": {
+    "celle": [
+     "-4,1",
+     "-4,2",
+     "-4,3",
+     "-4,4",
+     "-3,-1",
+     "-3,1",
+     "-3,4",
+     "-1,-1",
+     "-1,0",
+     "-1,1",
+     "-1,2",
+     "-1,3",
+     "0,-2",
+     "0,-1",
+     "0,1",
+     "0,3",
+     "1,-3",
+     "1,-2",
+     "1,-1",
+     "1,1",
+     "2,-3",
+     "2,0",
+     "3,-1",
+     "4,-3",
+     "4,-2",
+     "4,-1",
+     "4,0"
+    ],
+    "vassoio": [
+     "punto-0",
+     "punto-0",
+     "ferro di cavallo-3"
+    ],
+    "combo": 1,
+    "libere": 34
+   },
+   "tua": {
+    "idx": 2,
+    "q": -2,
+    "r": 1,
+    "pezzo": "ferro di cavallo-3",
+    "nome": "ferro di cavallo",
+    "celle": [
+     38,
+     45,
+     52,
+     53
+    ]
+   },
+   "suggerita": {
+    "idx": 0,
+    "q": -2,
+    "r": 4,
+    "pezzo": "punto-0",
+    "nome": "punto",
+    "celle": [
+     59
+    ]
+   },
+   "app": {
+    "giudizio": "Mossa discreta",
+    "posto": 3,
+    "su": 6,
+    "strategia": "fa730f6"
+   },
+   "prova": {
+    "futuri": 30,
+    "mosse": 15,
+    "seme": 777,
+    "differenza": -13.6,
+    "errore": 6.3,
+    "a": {
+     "punti": 162.6,
+     "blocchi": 0,
+     "libere": 41.4
+    },
+    "b": {
+     "punti": 176.2,
+     "blocchi": 0,
+     "libere": 41.8
+    }
+   },
+   "conferma": {
+    "futuri": 100,
+    "mosse": 15,
+    "seme": 99991,
+    "differenza": -12.4,
+    "errore": 3.1,
+    "a": {
+     "punti": 164.9,
+     "blocchi": 0,
+     "libere": 42.6
+    },
+    "b": {
+     "punti": 177.3,
+     "blocchi": 0,
+     "libere": 42.6
+    }
+   },
+   "aggiunto": "2026-11-04"
+  },
+  {
+   "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#264",
+   "partita": "alveare-partita-2026-11-04T05-07-12-790Z.json",
+   "mossa": 264,
+   "stato": "confermata",
+   "posizione": {
+    "celle": [
+     "-4,1",
+     "-4,2",
+     "-3,-1",
+     "-3,1",
+     "-3,2",
+     "-2,-2",
+     "-2,1",
+     "-2,3",
+     "-1,-3",
+     "-1,-2",
+     "-1,-1",
+     "-1,0",
+     "-1,1",
+     "-1,2",
+     "0,-2",
+     "0,-1",
+     "0,1",
+     "1,-2",
+     "1,-1",
+     "1,2",
+     "2,-4",
+     "2,-2",
+     "3,-4",
+     "4,-1",
+     "4,0"
+    ],
+    "vassoio": [
+     "punto-0",
+     "punto-0",
+     "rombo-1"
+    ],
+    "combo": 0,
+    "libere": 36
+   },
+   "tua": {
+    "idx": 2,
+    "q": 0,
+    "r": 2,
+    "pezzo": "rombo-1",
+    "nome": "rombo",
+    "celle": [
+     48,
+     54,
+     55,
+     60
+    ]
+   },
+   "suggerita": {
+    "idx": 0,
+    "q": 2,
+    "r": 2,
+    "pezzo": "punto-0",
+    "nome": "punto",
+    "celle": [
+     50
+    ]
+   },
+   "app": {
+    "giudizio": "Occasione persa",
+    "posto": 6,
+    "su": 6,
+    "strategia": "fa730f6"
+   },
+   "prova": {
+    "futuri": 30,
+    "mosse": 15,
+    "seme": 777,
+    "differenza": -28.5,
+    "errore": 6.4,
+    "a": {
+     "punti": 145.2,
+     "blocchi": 0,
+     "libere": 42.4
+    },
+    "b": {
+     "punti": 173.7,
+     "blocchi": 0,
+     "libere": 42.7
+    }
+   },
+   "conferma": {
+    "futuri": 100,
+    "mosse": 15,
+    "seme": 99991,
+    "differenza": -20.1,
+    "errore": 3.4,
+    "a": {
+     "punti": 157.9,
+     "blocchi": 0,
+     "libere": 42.1
+    },
+    "b": {
+     "punti": 178,
+     "blocchi": 0,
+     "libere": 43.8
+    }
+   },
+   "aggiunto": "2026-11-04"
+  },
+  {
+   "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#267",
+   "partita": "alveare-partita-2026-11-04T05-07-12-790Z.json",
+   "mossa": 267,
+   "stato": "confermata",
+   "posizione": {
+    "celle": [
+     "-4,1",
+     "-4,2",
+     "-3,-1",
+     "-3,1",
+     "-3,2",
+     "-2,-2",
+     "-2,1",
+     "-2,3",
+     "-1,3",
+     "-1,4",
+     "0,-2",
+     "0,-1",
+     "0,1",
+     "0,2",
+     "0,3",
+     "0,4",
+     "1,-2",
+     "1,-1",
+     "1,2",
+     "1,3",
+     "2,-4",
+     "2,-2",
+     "3,-4",
+     "3,-2",
+     "3,-1",
+     "3,0",
+     "3,1",
+     "4,-1",
+     "4,0"
+    ],
+    "vassoio": [
+     "punto-0",
+     "punto-0",
+     "barra 4-1"
+    ],
+    "combo": 0,
+    "libere": 32
+   },
+   "tua": {
+    "idx": 2,
+    "q": 2,
+    "r": -1,
+    "pezzo": "barra 4-1",
+    "nome": "barra 4",
+    "celle": [
+     24,
+     33,
+     42,
+     50
+    ]
+   },
+   "suggerita": {
+    "idx": 0,
+    "q": 2,
+    "r": -3,
+    "pezzo": "punto-0",
+    "nome": "punto",
+    "celle": [
+     9
+    ]
+   },
+   "app": {
+    "giudizio": "Mossa discreta",
+    "posto": 4,
+    "su": 6,
+    "strategia": "fa730f6"
+   },
+   "prova": {
+    "futuri": 30,
+    "mosse": 15,
+    "seme": 777,
+    "differenza": -23.8,
+    "errore": 9.4,
+    "a": {
+     "punti": 177.3,
+     "blocchi": 0,
+     "libere": 43
+    },
+    "b": {
+     "punti": 201.2,
+     "blocchi": 0,
+     "libere": 41.5
+    }
+   },
+   "conferma": {
+    "futuri": 100,
+    "mosse": 15,
+    "seme": 99991,
+    "differenza": -27.1,
+    "errore": 4.1,
+    "a": {
+     "punti": 171.2,
+     "blocchi": 0,
+     "libere": 42
+    },
+    "b": {
+     "punti": 198.3,
+     "blocchi": 0,
+     "libere": 42.1
+    }
+   },
+   "aggiunto": "2026-11-04"
+  },
+  {
+   "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#271",
+   "partita": "alveare-partita-2026-11-04T05-07-12-790Z.json",
+   "mossa": 271,
+   "stato": "confermata",
+   "posizione": {
+    "celle": [
+     "-4,1",
+     "-4,2",
+     "-3,-1",
+     "-3,1",
+     "-3,2",
+     "-2,-2",
+     "-2,-1",
+     "-2,1",
+     "-2,3",
+     "-1,-2",
+     "-1,3",
+     "0,-3",
+     "0,-2",
+     "0,-1",
+     "0,1",
+     "0,2",
+     "0,3",
+     "0,4",
+     "1,-4",
+     "1,-2",
+     "1,-1",
+     "1,2",
+     "1,3",
+     "2,-4",
+     "2,-2",
+     "2,-1",
+     "2,0",
+     "2,1",
+     "2,2",
+     "3,-4",
+     "3,-2",
+     "3,-1",
+     "3,0",
+     "3,1"
+    ],
+    "vassoio": [
+     "punto-0",
+     "punto-0",
+     "ferro di cavallo-1"
+    ],
+    "combo": 0,
+    "libere": 27
+   },
+   "tua": {
+    "idx": 0,
+    "q": -3,
+    "r": 0,
+    "pezzo": "punto-0",
+    "nome": "punto",
+    "celle": [
+     28
+    ]
+   },
+   "suggerita": {
+    "idx": 0,
+    "q": 4,
+    "r": -1,
+    "pezzo": "punto-0",
+    "nome": "punto",
+    "celle": [
+     26
+    ]
+   },
+   "app": {
+    "giudizio": "Mossa migliorabile",
+    "posto": 4,
+    "su": 6,
+    "strategia": "fa730f6"
+   },
+   "prova": {
+    "futuri": 30,
+    "mosse": 15,
+    "seme": 777,
+    "differenza": -32,
+    "errore": 6.8,
+    "a": {
+     "punti": 182.9,
+     "blocchi": 0,
+     "libere": 42.2
+    },
+    "b": {
+     "punti": 214.9,
+     "blocchi": 0,
+     "libere": 44.7
+    }
+   },
+   "conferma": {
+    "futuri": 100,
+    "mosse": 15,
+    "seme": 99991,
+    "differenza": -18.4,
+    "errore": 3.5,
+    "a": {
+     "punti": 184.5,
+     "blocchi": 0,
+     "libere": 42.9
+    },
+    "b": {
+     "punti": 202.9,
+     "blocchi": 0,
+     "libere": 43
+    }
+   },
+   "aggiunto": "2026-11-04"
+  },
+  {
+   "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#301",
+   "partita": "alveare-partita-2026-11-04T05-07-12-790Z.json",
+   "mossa": 301,
+   "stato": "confermata",
+   "posizione": {
+    "celle": [
+     "-4,0",
+     "-4,4",
+     "-3,-1",
+     "-1,0",
+     "-1,1",
+     "-1,2",
+     "-1,4",
+     "0,-2",
+     "0,2",
+     "1,-3",
+     "1,-1",
+     "2,-4",
+     "2,-2",
+     "2,-1",
+     "2,1",
+     "3,-3",
+     "3,-2",
+     "3,-1",
+     "3,0",
+     "3,1"
+    ],
+    "vassoio": [
+     "punto-0",
+     "punto-0",
+     "rombo-1"
+    ],
+    "combo": 3,
+    "libere": 41
+   },
+   "tua": {
+    "idx": 2,
+    "q": -3,
+    "r": 0,
+    "pezzo": "rombo-1",
+    "nome": "rombo",
+    "celle": [
+     28,
+     36,
+     37,
+     44
+    ]
+   },
+   "suggerita": {
+    "idx": 0,
+    "q": 3,
+    "r": -4,
+    "pezzo": "punto-0",
+    "nome": "punto",
+    "celle": [
+     4
+    ]
+   },
+   "app": {
+    "giudizio": "Mossa discreta",
+    "posto": 2,
+    "su": 6,
+    "strategia": "fa730f6"
+   },
+   "prova": {
+    "futuri": 30,
+    "mosse": 15,
+    "seme": 777,
+    "differenza": -10,
+    "errore": 4.6,
+    "a": {
+     "punti": 154.9,
+     "blocchi": 0,
+     "libere": 42.6
+    },
+    "b": {
+     "punti": 164.9,
+     "blocchi": 0,
+     "libere": 42.9
+    }
+   },
+   "conferma": {
+    "futuri": 100,
+    "mosse": 15,
+    "seme": 99991,
+    "differenza": -9,
+    "errore": 3.3,
+    "a": {
+     "punti": 154.2,
+     "blocchi": 0,
+     "libere": 42.7
+    },
+    "b": {
+     "punti": 163.1,
+     "blocchi": 0,
+     "libere": 42.7
+    }
+   },
+   "aggiunto": "2026-11-04"
+  },
+  {
+   "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#315",
+   "partita": "alveare-partita-2026-11-04T05-07-12-790Z.json",
+   "mossa": 315,
+   "stato": "confermata",
+   "posizione": {
+    "celle": [
+     "-2,2",
+     "-2,3",
+     "-1,-3",
+     "-1,-1",
+     "-1,0",
+     "-1,1",
+     "-1,2",
+     "0,-4",
+     "0,-3",
+     "0,-2",
+     "0,-1",
+     "0,2",
+     "0,3",
+     "1,-3",
+     "1,-1",
+     "1,2",
+     "2,-4",
+     "2,-2",
+     "2,-1",
+     "2,0",
+     "2,1",
+     "2,2",
+     "3,0",
+     "3,1"
+    ],
+    "vassoio": [
+     "punto-0",
+     "punto-0",
+     "rombo-0"
+    ],
+    "combo": 0,
+    "libere": 37
+   },
+   "tua": {
+    "idx": 2,
+    "q": -4,
+    "r": 2,
+    "pezzo": "rombo-0",
+    "nome": "rombo",
+    "celle": [
+     44,
+     45,
+     51,
+     52
+    ]
+   },
+   "suggerita": {
+    "idx": 0,
+    "q": -2,
+    "r": 0,
+    "pezzo": "punto-0",
+    "nome": "punto",
+    "celle": [
+     29
+    ]
+   },
+   "app": {
+    "giudizio": "Occasione persa",
+    "posto": 7,
+    "su": 7,
+    "strategia": "fa730f6"
+   },
+   "prova": {
+    "futuri": 30,
+    "mosse": 15,
+    "seme": 777,
+    "differenza": -16.6,
+    "errore": 5.6,
+    "a": {
+     "punti": 150.8,
+     "blocchi": 0,
+     "libere": 43.3
+    },
+    "b": {
+     "punti": 167.4,
+     "blocchi": 0,
+     "libere": 42.4
+    }
+   },
+   "conferma": {
+    "futuri": 100,
+    "mosse": 15,
+    "seme": 99991,
+    "differenza": -9.9,
+    "errore": 3.5,
+    "a": {
+     "punti": 160.7,
+     "blocchi": 0,
+     "libere": 42.9
+    },
+    "b": {
+     "punti": 170.6,
+     "blocchi": 0,
+     "libere": 42.5
+    }
+   },
+   "aggiunto": "2026-11-04"
+  },
+  {
+   "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#338",
+   "partita": "alveare-partita-2026-11-04T05-07-12-790Z.json",
+   "mossa": 338,
+   "stato": "confermata",
+   "posizione": {
+    "celle": [
+     "-4,0",
+     "-4,1",
+     "-4,3",
+     "-1,0",
+     "-1,1",
+     "-1,2",
+     "-1,3",
+     "0,-4",
+     "0,-3",
+     "0,-2",
+     "0,0",
+     "1,-2",
+     "1,0",
+     "1,1",
+     "2,-3",
+     "2,-2",
+     "2,0",
+     "3,-3",
+     "3,-2",
+     "3,1",
+     "4,-3",
+     "4,-2",
+     "4,0"
+    ],
+    "vassoio": [
+     "barra 4-2",
+     "rombo-1",
+     "ferro di cavallo-3"
+    ],
+    "combo": 1,
+    "libere": 38
+   },
+   "tua": {
+    "idx": 2,
+    "q": -2,
+    "r": -2,
+    "pezzo": "ferro di cavallo-3",
+    "nome": "ferro di cavallo",
+    "celle": [
+     12,
+     19,
+     28,
+     29
+    ]
+   },
+   "suggerita": {
+    "idx": 0,
+    "q": 4,
+    "r": -1,
+    "pezzo": "barra 4-2",
+    "nome": "barra 4",
+    "celle": [
+     26,
+     34,
+     42,
+     49
+    ]
+   },
+   "app": {
+    "giudizio": "Occasione persa",
+    "posto": 6,
+    "su": 6,
+    "strategia": "fa730f6"
+   },
+   "prova": {
+    "futuri": 30,
+    "mosse": 15,
+    "seme": 777,
+    "differenza": -22.4,
+    "errore": 5.7,
+    "a": {
+     "punti": 173.9,
+     "blocchi": 0,
+     "libere": 43.4
+    },
+    "b": {
+     "punti": 196.3,
+     "blocchi": 0,
+     "libere": 44.2
+    }
+   },
+   "conferma": {
+    "futuri": 100,
+    "mosse": 15,
+    "seme": 99991,
+    "differenza": -13.9,
+    "errore": 3.4,
+    "a": {
+     "punti": 168.8,
+     "blocchi": 0,
+     "libere": 41.8
+    },
+    "b": {
+     "punti": 182.7,
+     "blocchi": 0,
+     "libere": 42.6
+    }
+   },
+   "aggiunto": "2026-11-04"
+  },
+  {
+   "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#340",
+   "partita": "alveare-partita-2026-11-04T05-07-12-790Z.json",
+   "mossa": 340,
+   "stato": "confermata",
+   "posizione": {
+    "celle": [
+     "-4,0",
+     "-4,1",
+     "-4,2",
+     "-4,3",
+     "-3,-1",
+     "-3,0",
+     "-3,1",
+     "-3,2",
+     "-2,-2",
+     "-2,0",
+     "-2,1",
+     "-1,0",
+     "-1,1",
+     "-1,2",
+     "-1,3",
+     "0,-4",
+     "0,-3",
+     "0,-2",
+     "0,0",
+     "1,-2",
+     "1,0",
+     "1,1",
+     "2,-3",
+     "2,-2",
+     "2,0",
+     "3,-3",
+     "3,-2",
+     "3,1",
+     "4,-3",
+     "4,-2",
+     "4,0"
+    ],
+    "vassoio": [
+     "barra 4-2",
+     "rombo-1",
+     "rombo-1"
+    ],
+    "combo": 0,
+    "libere": 30
+   },
+   "tua": {
+    "idx": 1,
+    "q": -2,
+    "r": 2,
+    "pezzo": "rombo-1",
+    "nome": "rombo",
+    "celle": [
+     46,
+     52,
+     53,
+     58
+    ]
+   },
+   "suggerita": {
+    "idx": 0,
+    "q": 4,
+    "r": -1,
+    "pezzo": "barra 4-2",
+    "nome": "barra 4",
+    "celle": [
+     26,
+     34,
+     42,
+     49
+    ]
+   },
+   "app": {
+    "giudizio": "Occasione persa",
+    "posto": 4,
+    "su": 6,
+    "strategia": "fa730f6"
+   },
+   "prova": {
+    "futuri": 30,
+    "mosse": 15,
+    "seme": 777,
+    "differenza": -262.6,
+    "errore": 92.7,
+    "a": {
+     "punti": 158.5,
+     "blocchi": 7,
+     "libere": 39.3
+    },
+    "b": {
+     "punti": 187.8,
+     "blocchi": 0,
+     "libere": 42.2
+    }
+   },
+   "conferma": {
+    "futuri": 100,
+    "mosse": 15,
+    "seme": 99991,
+    "differenza": -227.9,
+    "errore": 48.2,
+    "a": {
+     "punti": 162.9,
+     "blocchi": 20,
+     "libere": 39.2
+    },
+    "b": {
+     "punti": 190.8,
+     "blocchi": 0,
+     "libere": 41.9
+    }
+   },
+   "aggiunto": "2026-11-04"
+  },
+  {
+   "id": "alveare-partita-2026-11-04T12-01-36-166Z.json#7",
+   "partita": "alveare-partita-2026-11-04T12-01-36-166Z.json",
+   "mossa": 7,
+   "stato": "confermata",
+   "posizione": {
+    "celle": [
+     "0,0",
+     "0,1",
+     "1,-2",
+     "1,-1",
+     "1,0",
+     "1,2",
+     "1,3",
+     "2,-2",
+     "2,-1",
+     "2,0",
+     "2,1",
+     "2,2",
+     "3,-2",
+     "3,-1",
+     "3,0",
+     "3,1",
+     "4,-2",
+     "4,-1",
+     "4,0"
+    ],
+    "vassoio": [
+     "ferro di cavallo-5",
+     "rombo-0",
+     "rombo-0"
+    ],
+    "combo": 0,
+    "libere": 42
+   },
+   "tua": {
+    "idx": 0,
+    "q": -2,
+    "r": 0,
+    "pezzo": "ferro di cavallo-5",
+    "nome": "ferro di cavallo",
+    "celle": [
+     29,
+     30,
+     37,
+     39
+    ]
+   },
+   "suggerita": {
+    "idx": 1,
+    "q": 1,
+    "r": -4,
+    "pezzo": "rombo-0",
+    "nome": "rombo",
+    "celle": [
+     2,
+     3,
+     8,
+     9
+    ]
+   },
+   "app": {
+    "giudizio": "Occasione persa",
+    "posto": 7,
+    "su": 7,
+    "strategia": "038df95"
+   },
+   "prova": {
+    "futuri": 30,
+    "mosse": 15,
+    "seme": 777,
+    "differenza": -22.8,
+    "errore": 7.1,
+    "a": {
+     "punti": 178.7,
+     "blocchi": 0,
+     "libere": 42.7
+    },
+    "b": {
+     "punti": 201.4,
+     "blocchi": 0,
+     "libere": 45.3
+    }
+   },
+   "conferma": {
+    "futuri": 100,
+    "mosse": 15,
+    "seme": 99991,
+    "differenza": -21.9,
+    "errore": 3.7,
+    "a": {
+     "punti": 176.1,
+     "blocchi": 0,
+     "libere": 41.8
+    },
+    "b": {
+     "punti": 198.1,
+     "blocchi": 0,
+     "libere": 43.7
+    }
+   },
+   "aggiunto": "2026-11-04"
+  },
+  {
+   "id": "alveare-partita-2026-11-04T12-01-36-166Z.json#20",
+   "partita": "alveare-partita-2026-11-04T12-01-36-166Z.json",
+   "mossa": 20,
+   "stato": "confermata",
+   "posizione": {
+    "celle": [
+     "-4,4",
+     "-3,0",
+     "-3,1",
+     "-3,2",
+     "-3,3",
+     "-3,4",
+     "-2,-1",
+     "-2,0",
+     "-2,1",
+     "-2,2",
+     "-2,3",
+     "-2,4",
+     "-1,1",
+     "-1,2",
+     "-1,3",
+     "0,1",
+     "0,2",
+     "1,-1",
+     "1,0",
+     "1,1",
+     "1,2",
+     "1,3",
+     "2,-4",
+     "2,1",
+     "2,2",
+     "3,-4",
+     "3,-2",
+     "3,-1",
+     "3,1",
+     "4,-4"
+    ],
+    "vassoio": [
+     "rombo-0",
+     "punto-0",
+     "bandiera sinistra-4"
+    ],
+    "combo": 1,
+    "libere": 31
+   },
+   "tua": {
+    "idx": 0,
+    "q": -1,
+    "r": -1,
+    "pezzo": "rombo-0",
+    "nome": "rombo",
+    "celle": [
+     21,
+     22,
+     30,
+     31
+    ]
+   },
+   "suggerita": {
+    "idx": 1,
+    "q": -3,
+    "r": -1,
+    "pezzo": "punto-0",
+    "nome": "punto",
+    "celle": [
+     19
+    ]
+   },
+   "app": {
+    "giudizio": "Occasione persa",
+    "posto": 7,
+    "su": 7,
+    "strategia": "038df95"
+   },
+   "prova": {
+    "futuri": 30,
+    "mosse": 15,
+    "seme": 777,
+    "differenza": -15.5,
+    "errore": 6.4,
+    "a": {
+     "punti": 198.6,
+     "blocchi": 0,
+     "libere": 41.3
+    },
+    "b": {
+     "punti": 214.2,
+     "blocchi": 0,
+     "libere": 41.2
+    }
+   },
+   "conferma": {
+    "futuri": 100,
+    "mosse": 15,
+    "seme": 99991,
+    "differenza": -11.6,
+    "errore": 4,
+    "a": {
+     "punti": 197.5,
+     "blocchi": 0,
+     "libere": 42.2
+    },
+    "b": {
+     "punti": 209.2,
+     "blocchi": 0,
+     "libere": 42
+    }
+   },
+   "aggiunto": "2026-11-04"
+  },
+  {
+   "id": "alveare-partita-2026-11-04T12-01-36-166Z.json#36",
+   "partita": "alveare-partita-2026-11-04T12-01-36-166Z.json",
+   "mossa": 36,
+   "stato": "confermata",
+   "posizione": {
+    "celle": [
+     "-4,0",
+     "-4,2",
+     "-4,3",
+     "-3,-1",
+     "-3,2",
+     "-2,-2",
+     "-2,0",
+     "-1,-3",
+     "-1,-1",
+     "-1,0",
+     "-1,2",
+     "-1,3",
+     "0,-1",
+     "0,0",
+     "0,2",
+     "1,-3",
+     "1,-1",
+     "1,0",
+     "1,2",
+     "1,3",
+     "2,2",
+     "3,-3",
+     "3,-2",
+     "3,-1",
+     "4,-4",
+     "4,-3",
+     "4,-2"
+    ],
+    "vassoio": [
+     "ferro di cavallo-2",
+     "bandiera destra-5",
+     "punto-0"
+    ],
+    "combo": 2,
+    "libere": 34
+   },
+   "tua": {
+    "idx": 0,
+    "q": 0,
+    "r": -3,
+    "pezzo": "ferro di cavallo-2",
+    "nome": "ferro di cavallo",
+    "celle": [
+     7,
+     9,
+     14,
+     15
+    ]
+   },
+   "suggerita": {
+    "idx": 2,
+    "q": 0,
+    "r": -4,
+    "pezzo": "punto-0",
+    "nome": "punto",
+    "celle": [
+     1
+    ]
+   },
+   "app": {
+    "giudizio": "Mossa migliorabile",
+    "posto": 4,
+    "su": 6,
+    "strategia": "038df95"
+   },
+   "prova": {
+    "futuri": 30,
+    "mosse": 15,
+    "seme": 777,
+    "differenza": -24.4,
+    "errore": 6.2,
+    "a": {
+     "punti": 184.7,
+     "blocchi": 0,
+     "libere": 42.6
+    },
+    "b": {
+     "punti": 209.1,
+     "blocchi": 0,
+     "libere": 42.5
+    }
+   },
+   "conferma": {
+    "futuri": 100,
+    "mosse": 15,
+    "seme": 99991,
+    "differenza": -11.4,
+    "errore": 3.9,
+    "a": {
+     "punti": 190.5,
+     "blocchi": 0,
+     "libere": 42.2
+    },
+    "b": {
+     "punti": 201.9,
+     "blocchi": 0,
+     "libere": 42.3
+    }
+   },
+   "aggiunto": "2026-11-04"
+  },
+  {
+   "id": "alveare-partita-2026-11-04T12-01-36-166Z.json#44",
+   "partita": "alveare-partita-2026-11-04T12-01-36-166Z.json",
+   "mossa": 44,
+   "stato": "confermata",
+   "posizione": {
+    "celle": [
+     "-4,3",
+     "-3,3",
+     "-3,4",
+     "-2,0",
+     "-2,1",
+     "-2,3",
+     "-1,-3",
+     "-1,-2",
+     "-1,-1",
+     "-1,0",
+     "-1,1",
+     "-1,2",
+     "-1,3",
+     "0,-4",
+     "0,-3",
+     "0,-2",
+     "0,-1",
+     "0,0",
+     "0,1",
+     "1,-4",
+     "1,-3",
+     "1,-2",
+     "1,-1",
+     "1,0",
+     "1,3"
+    ],
+    "vassoio": [
+     "rombo-0",
+     "punto-0",
+     "punto-0"
+    ],
+    "combo": 0,
+    "libere": 36
+   },
+   "tua": {
+    "idx": 0,
+    "q": 2,
+    "r": -4,
+    "pezzo": "rombo-0",
+    "nome": "rombo",
+    "celle": [
+     3,
+     4,
+     9,
+     10
+    ]
+   },
+   "suggerita": {
+    "idx": 1,
+    "q": 0,
+    "r": 2,
+    "pezzo": "punto-0",
+    "nome": "punto",
+    "celle": [
+     48
+    ]
+   },
+   "app": {
+    "giudizio": "Occasione persa",
+    "posto": 7,
+    "su": 7,
+    "strategia": "038df95"
+   },
+   "prova": {
+    "futuri": 30,
+    "mosse": 15,
+    "seme": 777,
+    "differenza": -14.4,
+    "errore": 6.5,
+    "a": {
+     "punti": 167.1,
+     "blocchi": 0,
+     "libere": 42.7
+    },
+    "b": {
+     "punti": 181.4,
+     "blocchi": 0,
+     "libere": 43
+    }
+   },
+   "conferma": {
+    "futuri": 100,
+    "mosse": 15,
+    "seme": 99991,
+    "differenza": -14.7,
+    "errore": 3.5,
+    "a": {
+     "punti": 169.7,
+     "blocchi": 0,
+     "libere": 42.4
+    },
+    "b": {
+     "punti": 184.4,
+     "blocchi": 0,
+     "libere": 43.9
+    }
+   },
+   "aggiunto": "2026-11-04"
+  },
+  {
+   "id": "alveare-partita-2026-11-04T12-01-36-166Z.json#53",
+   "partita": "alveare-partita-2026-11-04T12-01-36-166Z.json",
+   "mossa": 53,
+   "stato": "confermata",
+   "posizione": {
+    "celle": [
+     "-4,0",
+     "-4,1",
+     "-4,2",
+     "-4,3",
+     "-3,0",
+     "-3,1",
+     "-3,2",
+     "-3,3",
+     "-3,4",
+     "-2,0",
+     "-2,1",
+     "-2,2",
+     "-2,3",
+     "-1,0",
+     "-1,1",
+     "-1,2",
+     "-1,4",
+     "0,0",
+     "0,1",
+     "1,-4",
+     "1,-3",
+     "1,-2",
+     "1,-1",
+     "1,0",
+     "1,2",
+     "1,3",
+     "3,0",
+     "3,1"
+    ],
+    "vassoio": [
+     "rombo-2",
+     "barra 4-2",
+     "punto-0"
+    ],
+    "combo": 0,
+    "libere": 33
+   },
+   "tua": {
+    "idx": 1,
+    "q": 1,
+    "r": 1,
+    "pezzo": "barra 4-2",
+    "nome": "barra 4",
+    "celle": [
+     41,
+     48,
+     54,
+     59
+    ]
+   },
+   "suggerita": {
+    "idx": 2,
+    "q": -4,
+    "r": 4,
+    "pezzo": "punto-0",
+    "nome": "punto",
+    "celle": [
+     57
+    ]
+   },
+   "app": {
+    "giudizio": "Buona mossa",
+    "posto": 2,
+    "su": 6,
+    "strategia": "038df95"
+   },
+   "prova": {
+    "futuri": 30,
+    "mosse": 15,
+    "seme": 777,
+    "differenza": -19.6,
+    "errore": 8,
+    "a": {
+     "punti": 191,
+     "blocchi": 0,
+     "libere": 42.2
+    },
+    "b": {
+     "punti": 210.6,
+     "blocchi": 0,
+     "libere": 42.9
+    }
+   },
+   "conferma": {
+    "futuri": 100,
+    "mosse": 15,
+    "seme": 99991,
+    "differenza": -10.4,
+    "errore": 3,
+    "a": {
+     "punti": 202.6,
+     "blocchi": 0,
+     "libere": 42.9
+    },
+    "b": {
+     "punti": 213,
+     "blocchi": 0,
+     "libere": 43.1
+    }
+   },
+   "aggiunto": "2026-11-04"
+  },
+  {
+   "id": "alveare-partita-2026-11-04T12-01-36-166Z.json#59",
+   "partita": "alveare-partita-2026-11-04T12-01-36-166Z.json",
+   "mossa": 59,
+   "stato": "confermata",
+   "posizione": {
+    "celle": [
+     "-4,0",
+     "-4,1",
+     "-3,0",
+     "-3,1",
+     "-2,0",
+     "-2,1",
+     "-1,-3",
+     "-1,-2",
+     "-1,0",
+     "-1,1",
+     "0,-4",
+     "0,-2",
+     "0,0",
+     "0,1",
+     "0,2",
+     "0,3",
+     "1,3",
+     "3,0",
+     "3,1",
+     "4,0"
+    ],
+    "vassoio": [
+     "punto-0",
+     "ferro di cavallo-4",
+     "punto-0"
+    ],
+    "combo": 0,
+    "libere": 41
+   },
+   "tua": {
+    "idx": 1,
+    "q": 3,
+    "r": -1,
+    "pezzo": "ferro di cavallo-4",
+    "nome": "ferro di cavallo",
+    "celle": [
+     25,
+     26,
+     33,
+     42
+    ]
+   },
+   "suggerita": {
+    "idx": 0,
+    "q": 1,
+    "r": 0,
+    "pezzo": "punto-0",
+    "nome": "punto",
+    "celle": [
+     32
+    ]
+   },
+   "app": {
+    "giudizio": "Mossa discreta",
+    "posto": 3,
+    "su": 6,
+    "strategia": "038df95"
+   },
+   "prova": {
+    "futuri": 30,
+    "mosse": 15,
+    "seme": 777,
+    "differenza": -14.4,
+    "errore": 5.6,
+    "a": {
+     "punti": 148.5,
+     "blocchi": 0,
+     "libere": 42.6
+    },
+    "b": {
+     "punti": 162.9,
+     "blocchi": 0,
+     "libere": 44
+    }
+   },
+   "conferma": {
+    "futuri": 100,
+    "mosse": 15,
+    "seme": 99991,
+    "differenza": -19.9,
+    "errore": 3.4,
+    "a": {
+     "punti": 150.2,
+     "blocchi": 0,
+     "libere": 43.8
+    },
+    "b": {
+     "punti": 170.1,
+     "blocchi": 0,
+     "libere": 44
+    }
+   },
+   "aggiunto": "2026-11-04"
+  },
+  {
+   "id": "alveare-partita-2026-11-04T12-01-36-166Z.json#82",
+   "partita": "alveare-partita-2026-11-04T12-01-36-166Z.json",
+   "mossa": 82,
+   "stato": "confermata",
+   "posizione": {
+    "celle": [
+     "-4,2",
+     "-4,3",
+     "-4,4",
+     "-3,0",
+     "-3,3",
+     "-2,-1",
+     "-2,2",
+     "-2,3",
+     "-1,3",
+     "-1,4",
+     "0,-3",
+     "0,-2",
+     "0,-1",
+     "1,-4",
+     "1,-3",
+     "1,-2",
+     "1,3",
+     "2,-3",
+     "2,-2",
+     "2,0",
+     "3,-4",
+     "3,-3",
+     "3,-2",
+     "3,-1",
+     "3,0",
+     "4,-4",
+     "4,-3",
+     "4,0"
+    ],
+    "vassoio": [
+     "barra 4-2",
+     "punto-0",
+     "punto-0"
+    ],
+    "combo": 0,
+    "libere": 33
+   },
+   "tua": {
+    "idx": 0,
+    "q": -1,
+    "r": -3,
+    "pezzo": "barra 4-2",
+    "nome": "barra 4",
+    "celle": [
+     6,
+     12,
+     19,
+     27
+    ]
+   },
+   "suggerita": {
+    "idx": 1,
+    "q": 0,
+    "r": 3,
+    "pezzo": "punto-0",
+    "nome": "punto",
+    "celle": [
+     55
+    ]
+   },
+   "app": {
+    "giudizio": "Mossa migliorabile",
+    "posto": 7,
+    "su": 7,
+    "strategia": "038df95"
+   },
+   "prova": {
+    "futuri": 30,
+    "mosse": 15,
+    "seme": 777,
+    "differenza": -13.9,
+    "errore": 6.7,
+    "a": {
+     "punti": 168.4,
+     "blocchi": 0,
+     "libere": 42.8
+    },
+    "b": {
+     "punti": 182.3,
+     "blocchi": 0,
+     "libere": 42.2
+    }
+   },
+   "conferma": {
+    "futuri": 100,
+    "mosse": 15,
+    "seme": 99991,
+    "differenza": -12.3,
+    "errore": 3.3,
+    "a": {
+     "punti": 163.1,
+     "blocchi": 0,
+     "libere": 41.4
+    },
+    "b": {
+     "punti": 175.4,
+     "blocchi": 0,
+     "libere": 42.4
+    }
+   },
+   "aggiunto": "2026-11-04"
+  },
+  {
+   "id": "alveare-partita-2026-11-04T12-01-36-166Z.json#87",
+   "partita": "alveare-partita-2026-11-04T12-01-36-166Z.json",
+   "mossa": 87,
+   "stato": "confermata",
+   "posizione": {
+    "celle": [
+     "-4,0",
+     "-4,2",
+     "-4,4",
+     "-3,-1",
+     "-3,0",
+     "-2,-2",
+     "-2,-1",
+     "-2,2",
+     "-1,-1",
+     "-1,0",
+     "-1,1",
+     "-1,2",
+     "-1,4",
+     "0,-2",
+     "0,-1",
+     "0,0",
+     "0,1",
+     "0,2",
+     "1,-4",
+     "1,-2",
+     "1,-1",
+     "1,0",
+     "1,1",
+     "2,-2",
+     "2,-1",
+     "2,0",
+     "2,1",
+     "3,-4",
+     "3,-2",
+     "3,-1",
+     "3,0",
+     "4,-4",
+     "4,0"
+    ],
+    "vassoio": [
+     "barra 4-1",
+     "punto-0",
+     "punto-0"
+    ],
+    "combo": 0,
+    "libere": 28
+   },
+   "tua": {
+    "idx": 0,
+    "q": -3,
+    "r": 1,
+    "pezzo": "barra 4-1",
+    "nome": "barra 4",
+    "celle": [
+     37,
+     45,
+     52,
+     58
+    ]
+   },
+   "suggerita": {
+    "idx": 1,
+    "q": -1,
+    "r": -2,
+    "pezzo": "punto-0",
+    "nome": "punto",
+    "celle": [
+     13
+    ]
+   },
+   "app": {
+    "giudizio": "Occasione persa",
+    "posto": 7,
+    "su": 7,
+    "strategia": "038df95"
+   },
+   "prova": {
+    "futuri": 30,
+    "mosse": 15,
+    "seme": 777,
+    "differenza": -36.7,
+    "errore": 6.8,
+    "a": {
+     "punti": 185.7,
+     "blocchi": 0,
+     "libere": 43.6
+    },
+    "b": {
+     "punti": 222.5,
+     "blocchi": 0,
+     "libere": 43.2
+    }
+   },
+   "conferma": {
+    "futuri": 100,
+    "mosse": 15,
+    "seme": 99991,
+    "differenza": -40.1,
+    "errore": 3.4,
+    "a": {
+     "punti": 178.6,
+     "blocchi": 0,
+     "libere": 42.7
+    },
+    "b": {
+     "punti": 218.7,
+     "blocchi": 0,
+     "libere": 42.7
+    }
+   },
+   "aggiunto": "2026-11-04"
+  },
+  {
+   "id": "alveare-partita-2026-11-04T12-01-36-166Z.json#96",
+   "partita": "alveare-partita-2026-11-04T12-01-36-166Z.json",
+   "mossa": 96,
+   "stato": "confermata",
+   "posizione": {
+    "celle": [
+     "-4,0",
+     "-4,2",
+     "-4,3",
+     "-3,0",
+     "-3,2",
+     "-3,3",
+     "-3,4",
+     "-1,-1",
+     "-1,4",
+     "0,-2",
+     "0,-1",
+     "0,0",
+     "0,2",
+     "1,-4",
+     "1,-3",
+     "1,-1",
+     "1,1",
+     "1,2",
+     "1,3",
+     "2,-4",
+     "2,-1",
+     "2,0",
+     "2,1",
+     "2,2",
+     "3,-1",
+     "3,0",
+     "3,1",
+     "4,0"
+    ],
+    "vassoio": [
+     "rombo-2",
+     "punto-0",
+     "punto-0"
+    ],
+    "combo": 0,
+    "libere": 33
+   },
+   "tua": {
+    "idx": 0,
+    "q": -1,
+    "r": 1,
+    "pezzo": "rombo-2",
+    "nome": "rombo",
+    "celle": [
+     39,
+     40,
+     46,
+     47
+    ]
+   },
+   "suggerita": {
+    "idx": 1,
+    "q": -3,
+    "r": -1,
+    "pezzo": "punto-0",
+    "nome": "punto",
+    "celle": [
+     19
+    ]
+   },
+   "app": {
+    "giudizio": "Occasione persa",
+    "posto": 7,
+    "su": 7,
+    "strategia": "038df95"
+   },
+   "prova": {
+    "futuri": 30,
+    "mosse": 15,
+    "seme": 777,
+    "differenza": -14.8,
+    "errore": 6,
+    "a": {
+     "punti": 165.9,
+     "blocchi": 0,
+     "libere": 43.3
+    },
+    "b": {
+     "punti": 180.7,
+     "blocchi": 0,
+     "libere": 43.6
+    }
+   },
+   "conferma": {
+    "futuri": 100,
+    "mosse": 15,
+    "seme": 99991,
+    "differenza": -12.3,
+    "errore": 3.2,
+    "a": {
+     "punti": 165.4,
+     "blocchi": 0,
+     "libere": 43.1
+    },
+    "b": {
+     "punti": 177.7,
+     "blocchi": 0,
+     "libere": 43.6
+    }
+   },
+   "aggiunto": "2026-11-04"
+  },
+  {
+   "id": "alveare-partita-2026-11-04T12-01-36-166Z.json#119",
+   "partita": "alveare-partita-2026-11-04T12-01-36-166Z.json",
+   "mossa": 119,
+   "stato": "confermata",
+   "posizione": {
+    "celle": [
+     "-3,0",
+     "-3,3",
+     "-2,-1",
+     "-2,0",
+     "-2,1",
+     "-2,2",
+     "-2,3",
+     "-1,0",
+     "-1,1",
+     "-1,2",
+     "-1,3",
+     "-1,4",
+     "0,-2",
+     "0,-1",
+     "0,0",
+     "0,1",
+     "0,2",
+     "0,3",
+     "1,-4",
+     "1,-3",
+     "1,-1",
+     "1,0",
+     "1,1",
+     "1,2",
+     "1,3",
+     "2,-4",
+     "2,-2",
+     "2,-1",
+     "2,0",
+     "2,1",
+     "2,2",
+     "3,-3",
+     "3,-2",
+     "3,-1",
+     "3,0",
+     "3,1",
+     "4,-4",
+     "4,-2"
+    ],
+    "vassoio": [
+     "punto-0",
+     "ferro di cavallo-2",
+     "punto-0"
+    ],
+    "combo": 0,
+    "libere": 23
+   },
+   "tua": {
+    "idx": 0,
+    "q": -4,
+    "r": 4,
+    "pezzo": "punto-0",
+    "nome": "punto",
+    "celle": [
+     57
+    ]
+   },
+   "suggerita": {
+    "idx": 0,
+    "q": 0,
+    "r": -4,
+    "pezzo": "punto-0",
+    "nome": "punto",
+    "celle": [
+     1
+    ]
+   },
+   "app": {
+    "giudizio": "Mossa discreta",
+    "posto": 3,
+    "su": 6,
+    "strategia": "038df95"
+   },
+   "prova": {
+    "futuri": 30,
+    "mosse": 15,
+    "seme": 777,
+    "differenza": -27.9,
+    "errore": 7.5,
+    "a": {
+     "punti": 187.3,
+     "blocchi": 0,
+     "libere": 41.4
+    },
+    "b": {
+     "punti": 215.2,
+     "blocchi": 0,
+     "libere": 40
+    }
+   },
+   "conferma": {
+    "futuri": 100,
+    "mosse": 15,
+    "seme": 99991,
+    "differenza": -30.4,
+    "errore": 3.4,
+    "a": {
+     "punti": 186.6,
+     "blocchi": 0,
+     "libere": 40.7
+    },
+    "b": {
+     "punti": 217,
+     "blocchi": 0,
+     "libere": 42.3
+    }
+   },
+   "aggiunto": "2026-11-04"
+  },
+  {
+   "id": "alveare-partita-2026-11-04T12-01-36-166Z.json#125",
+   "partita": "alveare-partita-2026-11-04T12-01-36-166Z.json",
+   "mossa": 125,
+   "stato": "confermata",
+   "posizione": {
+    "celle": [
+     "-3,0",
+     "-3,1",
+     "-3,3",
+     "-3,4",
+     "-2,-1",
+     "-2,0",
+     "-2,1",
+     "-2,2",
+     "-2,3",
+     "-1,0",
+     "-1,1",
+     "-1,2",
+     "-1,4",
+     "0,-4",
+     "0,-3",
+     "0,-1",
+     "0,0",
+     "0,1",
+     "1,-4",
+     "1,-3",
+     "1,-1",
+     "1,0",
+     "1,1",
+     "2,-4",
+     "2,-1",
+     "2,0",
+     "2,1",
+     "3,-1",
+     "3,0",
+     "3,1"
+    ],
+    "vassoio": [
+     "punto-0",
+     "rombo-1",
+     "ferro di cavallo-2"
+    ],
+    "combo": 1,
+    "libere": 31
+   },
+   "tua": {
+    "idx": 1,
+    "q": 4,
+    "r": -4,
+    "pezzo": "rombo-1",
+    "nome": "rombo",
+    "celle": [
+     5,
+     10,
+     11,
+     17
+    ]
+   },
+   "suggerita": {
+    "idx": 0,
+    "q": 3,
+    "r": -4,
+    "pezzo": "punto-0",
+    "nome": "punto",
+    "celle": [
+     4
+    ]
+   },
+   "app": {
+    "giudizio": "Mossa discreta",
+    "posto": 3,
+    "su": 6,
+    "strategia": "038df95"
+   },
+   "prova": {
+    "futuri": 30,
+    "mosse": 15,
+    "seme": 777,
+    "differenza": -11.9,
+    "errore": 5.4,
+    "a": {
+     "punti": 184.9,
+     "blocchi": 0,
+     "libere": 42.1
+    },
+    "b": {
+     "punti": 196.8,
+     "blocchi": 0,
+     "libere": 41.8
+    }
+   },
+   "conferma": {
+    "futuri": 100,
+    "mosse": 15,
+    "seme": 99991,
+    "differenza": -8.4,
+    "errore": 3.5,
+    "a": {
+     "punti": 185.7,
+     "blocchi": 0,
+     "libere": 42
+    },
+    "b": {
+     "punti": 194.1,
+     "blocchi": 0,
+     "libere": 40.7
+    }
+   },
+   "aggiunto": "2026-11-04"
+  },
+  {
+   "id": "alveare-partita-2026-11-04T12-01-36-166Z.json#136",
+   "partita": "alveare-partita-2026-11-04T12-01-36-166Z.json",
+   "mossa": 136,
+   "stato": "confermata",
+   "posizione": {
+    "celle": [
+     "-4,2",
+     "-4,4",
+     "-3,4",
+     "-2,2",
+     "-1,-2",
+     "-1,-1",
+     "-1,1",
+     "-1,2",
+     "-1,4",
+     "0,-3",
+     "0,0",
+     "0,2",
+     "1,-4",
+     "1,-3",
+     "1,-1",
+     "1,1",
+     "1,2",
+     "2,-4",
+     "2,-2",
+     "2,0",
+     "2,1",
+     "4,-4",
+     "4,-3"
+    ],
+    "vassoio": [
+     "punto-0",
+     "rombo-1",
+     "bandiera sinistra-3"
+    ],
+    "combo": 2,
+    "libere": 38
+   },
+   "tua": {
+    "idx": 2,
+    "q": 2,
+    "r": 2,
+    "pezzo": "bandiera sinistra-3",
+    "nome": "bandiera sinistra",
+    "celle": [
+     50,
+     55,
+     56,
+     61
+    ]
+   },
+   "suggerita": {
+    "idx": 0,
+    "q": -2,
+    "r": 4,
+    "pezzo": "punto-0",
+    "nome": "punto",
+    "celle": [
+     59
+    ]
+   },
+   "app": {
+    "giudizio": "Mossa migliorabile",
+    "posto": 6,
+    "su": 6,
+    "strategia": "038df95"
+   },
+   "prova": {
+    "futuri": 30,
+    "mosse": 15,
+    "seme": 777,
+    "differenza": -25.8,
+    "errore": 6.5,
+    "a": {
+     "punti": 171.8,
+     "blocchi": 0,
+     "libere": 42.8
+    },
+    "b": {
+     "punti": 197.6,
+     "blocchi": 0,
+     "libere": 42.2
+    }
+   },
+   "conferma": {
+    "futuri": 100,
+    "mosse": 15,
+    "seme": 99991,
+    "differenza": -18.7,
+    "errore": 3.5,
+    "a": {
+     "punti": 177.9,
+     "blocchi": 0,
+     "libere": 42.2
+    },
+    "b": {
+     "punti": 196.6,
+     "blocchi": 0,
+     "libere": 41.8
+    }
+   },
+   "aggiunto": "2026-11-04"
+  },
+  {
+   "id": "alveare-partita-2026-11-04T12-01-36-166Z.json#167",
+   "partita": "alveare-partita-2026-11-04T12-01-36-166Z.json",
+   "mossa": 167,
+   "stato": "confermata",
+   "posizione": {
+    "celle": [
+     "-4,4",
+     "-3,2",
+     "-3,3",
+     "-3,4",
+     "-2,0",
+     "-2,1",
+     "-2,2",
+     "-2,3",
+     "-1,-3",
+     "-1,0",
+     "-1,1",
+     "-1,4",
+     "0,-4",
+     "1,-2",
+     "1,0",
+     "1,1",
+     "1,2",
+     "1,3",
+     "2,-3",
+     "2,1",
+     "2,2",
+     "3,-4",
+     "4,-2"
+    ],
+    "vassoio": [
+     "punto-0",
+     "rombo-1",
+     "punto-0"
+    ],
+    "combo": 0,
+    "libere": 38
+   },
+   "tua": {
+    "idx": 1,
+    "q": 0,
+    "r": 1,
+    "pezzo": "rombo-1",
+    "nome": "rombo",
+    "celle": [
+     40,
+     47,
+     48,
+     54
+    ]
+   },
+   "suggerita": {
+    "idx": 0,
+    "q": -3,
+    "r": 1,
+    "pezzo": "punto-0",
+    "nome": "punto",
+    "celle": [
+     37
+    ]
+   },
+   "app": {
+    "giudizio": "Mossa migliorabile",
+    "posto": 7,
+    "su": 7,
+    "strategia": "038df95"
+   },
+   "prova": {
+    "futuri": 30,
+    "mosse": 15,
+    "seme": 777,
+    "differenza": -31.2,
+    "errore": 6.3,
+    "a": {
+     "punti": 152.6,
+     "blocchi": 0,
+     "libere": 43
+    },
+    "b": {
+     "punti": 183.9,
+     "blocchi": 0,
+     "libere": 43.8
+    }
+   },
+   "conferma": {
+    "futuri": 100,
+    "mosse": 15,
+    "seme": 99991,
+    "differenza": -8.5,
+    "errore": 3.9,
+    "a": {
+     "punti": 160.8,
+     "blocchi": 0,
+     "libere": 42.3
+    },
+    "b": {
+     "punti": 169.4,
+     "blocchi": 0,
+     "libere": 42.8
+    }
+   },
+   "aggiunto": "2026-11-04"
+  },
+  {
+   "id": "alveare-partita-2026-11-04T12-01-36-166Z.json#192",
+   "partita": "alveare-partita-2026-11-04T12-01-36-166Z.json",
+   "mossa": 192,
+   "stato": "confermata",
+   "posizione": {
+    "celle": [
+     "-4,1",
+     "-4,2",
+     "-3,-1",
+     "-3,1",
+     "-3,3",
+     "-2,-1",
+     "-2,2",
+     "-1,-1",
+     "-1,3",
+     "0,-4",
+     "0,-2",
+     "0,0",
+     "0,2",
+     "1,-4",
+     "1,-1",
+     "1,0",
+     "1,2",
+     "2,-2",
+     "2,-1",
+     "2,1",
+     "3,-4",
+     "4,-4",
+     "4,-2"
+    ],
+    "vassoio": [
+     "ferro di cavallo-3",
+     "punto-0",
+     "bandiera sinistra-5"
+    ],
+    "combo": 1,
+    "libere": 38
+   },
+   "tua": {
+    "idx": 2,
+    "q": 3,
+    "r": -1,
+    "pezzo": "bandiera sinistra-5",
+    "nome": "bandiera sinistra",
+    "celle": [
+     25,
+     26,
+     34,
+     43
+    ]
+   },
+   "suggerita": {
+    "idx": 0,
+    "q": -3,
+    "r": 2,
+    "pezzo": "ferro di cavallo-3",
+    "nome": "ferro di cavallo",
+    "celle": [
+     45,
+     51,
+     57,
+     58
+    ]
+   },
+   "app": {
+    "giudizio": "Mossa migliorabile",
+    "posto": 4,
+    "su": 6,
+    "strategia": "038df95"
+   },
+   "prova": {
+    "futuri": 30,
+    "mosse": 15,
+    "seme": 777,
+    "differenza": -16.5,
+    "errore": 7.4,
+    "a": {
+     "punti": 166.2,
+     "blocchi": 0,
+     "libere": 42.4
+    },
+    "b": {
+     "punti": 182.6,
+     "blocchi": 0,
+     "libere": 42.1
+    }
+   },
+   "conferma": {
+    "futuri": 100,
+    "mosse": 15,
+    "seme": 99991,
+    "differenza": -9.3,
+    "errore": 3.6,
+    "a": {
+     "punti": 160.7,
+     "blocchi": 0,
+     "libere": 41.6
+    },
+    "b": {
+     "punti": 170,
+     "blocchi": 0,
+     "libere": 41.8
+    }
+   },
+   "aggiunto": "2026-11-04"
+  },
+  {
+   "id": "alveare-partita-2026-11-04T12-01-36-166Z.json#212",
+   "partita": "alveare-partita-2026-11-04T12-01-36-166Z.json",
+   "mossa": 212,
+   "stato": "confermata",
+   "posizione": {
+    "celle": [
+     "-4,1",
+     "-4,2",
+     "-4,3",
+     "-4,4",
+     "-3,2",
+     "-3,3",
+     "-3,4",
+     "-2,1",
+     "-2,3",
+     "-2,4",
+     "-1,2",
+     "0,-4",
+     "0,-3",
+     "0,-2",
+     "0,-1",
+     "0,1",
+     "0,2",
+     "0,3",
+     "0,4",
+     "3,-4",
+     "3,-2",
+     "3,-1",
+     "3,0",
+     "3,1",
+     "4,-2",
+     "4,-1"
+    ],
+    "vassoio": [
+     "rombo-0",
+     "barra 4-2",
+     "punto-0"
+    ],
+    "combo": 1,
+    "libere": 35
+   },
+   "tua": {
+    "idx": 0,
+    "q": 1,
+    "r": -4,
+    "pezzo": "rombo-0",
+    "nome": "rombo",
+    "celle": [
+     2,
+     3,
+     8,
+     9
+    ]
+   },
+   "suggerita": {
+    "idx": 1,
+    "q": 3,
+    "r": -3,
+    "pezzo": "barra 4-2",
+    "nome": "barra 4",
+    "celle": [
+     10,
+     16,
+     23,
+     31
+    ]
+   },
+   "app": {
+    "giudizio": "Mossa migliorabile",
+    "posto": 7,
+    "su": 7,
+    "strategia": "038df95"
+   },
+   "prova": {
+    "futuri": 30,
+    "mosse": 15,
+    "seme": 777,
+    "differenza": -16.1,
+    "errore": 5.6,
+    "a": {
+     "punti": 183.2,
+     "blocchi": 0,
+     "libere": 43
+    },
+    "b": {
+     "punti": 199.3,
+     "blocchi": 0,
+     "libere": 42.4
+    }
+   },
+   "conferma": {
+    "futuri": 100,
+    "mosse": 15,
+    "seme": 99991,
+    "differenza": -19.9,
+    "errore": 3.4,
+    "a": {
+     "punti": 185.8,
+     "blocchi": 0,
+     "libere": 43.2
+    },
+    "b": {
+     "punti": 205.7,
+     "blocchi": 0,
+     "libere": 42.7
+    }
+   },
+   "aggiunto": "2026-11-04"
+  },
+  {
+   "id": "alveare-partita-2026-11-04T12-01-36-166Z.json#218",
+   "partita": "alveare-partita-2026-11-04T12-01-36-166Z.json",
+   "mossa": 218,
+   "stato": "confermata",
+   "posizione": {
+    "celle": [
+     "-4,1",
+     "-4,2",
+     "-4,3",
+     "-4,4",
+     "-2,-1",
+     "-2,1",
+     "-2,2",
+     "-2,3",
+     "-2,4",
+     "-1,1",
+     "-1,2",
+     "-1,4",
+     "0,-1",
+     "0,0",
+     "0,3",
+     "0,4",
+     "1,-4",
+     "1,-3",
+     "1,-2",
+     "1,-1",
+     "1,0",
+     "1,3",
+     "2,-4",
+     "2,-3",
+     "3,-4",
+     "3,-2",
+     "3,-1",
+     "3,1",
+     "4,-2"
+    ],
+    "vassoio": [
+     "barra 4-1",
+     "rombo-1",
+     "punto-0"
+    ],
+    "combo": 0,
+    "libere": 32
+   },
+   "tua": {
+    "idx": 0,
+    "q": -3,
+    "r": 1,
+    "pezzo": "barra 4-1",
+    "nome": "barra 4",
+    "celle": [
+     37,
+     45,
+     52,
+     58
+    ]
+   },
+   "suggerita": {
+    "idx": 2,
+    "q": 0,
+    "r": 1,
+    "pezzo": "punto-0",
+    "nome": "punto",
+    "celle": [
+     40
+    ]
+   },
+   "app": {
+    "giudizio": "Mossa discreta",
+    "posto": 2,
+    "su": 6,
+    "strategia": "038df95"
+   },
+   "prova": {
+    "futuri": 30,
+    "mosse": 15,
+    "seme": 777,
+    "differenza": -21,
+    "errore": 7.7,
+    "a": {
+     "punti": 190.8,
+     "blocchi": 0,
+     "libere": 42
+    },
+    "b": {
+     "punti": 211.8,
+     "blocchi": 0,
+     "libere": 41.9
+    }
+   },
+   "conferma": {
+    "futuri": 100,
+    "mosse": 15,
+    "seme": 99991,
+    "differenza": -8.7,
+    "errore": 3.5,
+    "a": {
+     "punti": 202,
+     "blocchi": 0,
+     "libere": 43
+    },
+    "b": {
+     "punti": 210.7,
+     "blocchi": 0,
+     "libere": 42.5
+    }
+   },
+   "aggiunto": "2026-11-04"
+  },
+  {
+   "id": "alveare-partita-2026-11-04T12-01-36-166Z.json#223",
+   "partita": "alveare-partita-2026-11-04T12-01-36-166Z.json",
+   "mossa": 223,
+   "stato": "confermata",
+   "posizione": {
+    "celle": [
+     "-4,0",
+     "-4,2",
+     "-3,1",
+     "-3,2",
+     "-2,0",
+     "-2,1",
+     "-2,2",
+     "-2,3",
+     "-2,4",
+     "-1,-3",
+     "-1,0",
+     "-1,1",
+     "-1,2",
+     "-1,3",
+     "-1,4",
+     "0,-4",
+     "0,-1",
+     "0,0",
+     "0,2",
+     "0,3",
+     "1,-3",
+     "1,-2",
+     "1,-1",
+     "1,0",
+     "1,2",
+     "2,-4",
+     "2,-3",
+     "3,-4",
+     "3,-2",
+     "3,-1",
+     "3,1",
+     "4,-2"
+    ],
+    "vassoio": [
+     "rombo-2",
+     "ferro di cavallo-2",
+     "punto-0"
+    ],
+    "combo": 0,
+    "libere": 29
+   },
+   "tua": {
+    "idx": 0,
+    "q": -1,
+    "r": -2,
+    "pezzo": "rombo-2",
+    "nome": "rombo",
+    "celle": [
+     13,
+     14,
+     20,
+     21
+    ]
+   },
+   "suggerita": {
+    "idx": 2,
+    "q": -1,
+    "r": -1,
+    "pezzo": "punto-0",
+    "nome": "punto",
+    "celle": [
+     21
+    ]
+   },
+   "app": {
+    "giudizio": "Occasione persa",
+    "posto": 7,
+    "su": 7,
+    "strategia": "038df95"
+   },
+   "prova": {
+    "futuri": 30,
+    "mosse": 15,
+    "seme": 777,
+    "differenza": -19,
+    "errore": 7.4,
+    "a": {
+     "punti": 190.6,
+     "blocchi": 0,
+     "libere": 42.3
+    },
+    "b": {
+     "punti": 209.5,
+     "blocchi": 0,
+     "libere": 43
+    }
+   },
+   "conferma": {
+    "futuri": 100,
+    "mosse": 15,
+    "seme": 99991,
+    "differenza": -18.6,
+    "errore": 3.7,
+    "a": {
+     "punti": 185,
+     "blocchi": 0,
+     "libere": 40.8
+    },
+    "b": {
+     "punti": 203.7,
+     "blocchi": 0,
+     "libere": 41.7
+    }
+   },
+   "aggiunto": "2026-11-04"
+  },
+  {
+   "id": "alveare-partita-2026-11-04T12-01-36-166Z.json#250",
+   "partita": "alveare-partita-2026-11-04T12-01-36-166Z.json",
+   "mossa": 250,
+   "stato": "confermata",
+   "posizione": {
+    "celle": [
+     "-4,0",
+     "-4,1",
+     "-4,3",
+     "-3,0",
+     "-3,1",
+     "-3,3",
+     "-3,4",
+     "-2,0",
+     "-2,3",
+     "-2,4",
+     "-1,-1",
+     "-1,0",
+     "-1,1",
+     "-1,2",
+     "-1,3",
+     "-1,4",
+     "0,-3",
+     "0,-1",
+     "0,2",
+     "0,3",
+     "0,4",
+     "1,-3",
+     "1,-2",
+     "1,-1",
+     "1,1",
+     "1,2",
+     "2,-4",
+     "2,-3",
+     "2,-2",
+     "2,0",
+     "2,1",
+     "2,2",
+     "3,-4",
+     "3,-3",
+     "3,0",
+     "3,1"
+    ],
+    "vassoio": [
+     "ferro di cavallo-4",
+     "punto-0",
+     "punto-0"
+    ],
+    "combo": 0,
+    "libere": 25
+   },
+   "tua": {
+    "idx": 0,
+    "q": 0,
+    "r": -4,
+    "pezzo": "ferro di cavallo-4",
+    "nome": "ferro di cavallo",
+    "celle": [
+     1,
+     2,
+     6,
+     13
+    ]
+   },
+   "suggerita": {
+    "idx": 1,
+    "q": -4,
+    "r": 2,
+    "pezzo": "punto-0",
+    "nome": "punto",
+    "celle": [
+     44
+    ]
+   },
+   "app": {
+    "giudizio": "Mossa migliorabile",
+    "posto": 6,
+    "su": 6,
+    "strategia": "038df95"
+   },
+   "prova": {
+    "futuri": 30,
+    "mosse": 15,
+    "seme": 777,
+    "differenza": -48.3,
+    "errore": 5.7,
+    "a": {
+     "punti": 180.6,
+     "blocchi": 0,
+     "libere": 40.3
+    },
+    "b": {
+     "punti": 228.9,
+     "blocchi": 0,
+     "libere": 41.9
+    }
+   },
+   "conferma": {
+    "futuri": 100,
+    "mosse": 15,
+    "seme": 99991,
+    "differenza": -31.2,
+    "errore": 4.3,
+    "a": {
+     "punti": 192.1,
+     "blocchi": 0,
+     "libere": 43.3
+    },
+    "b": {
+     "punti": 223.3,
+     "blocchi": 0,
+     "libere": 41.5
+    }
+   },
+   "aggiunto": "2026-11-04"
+  },
+  {
+   "id": "alveare-partita-2026-11-04T12-01-36-166Z.json#256",
+   "partita": "alveare-partita-2026-11-04T12-01-36-166Z.json",
+   "mossa": 256,
+   "stato": "confermata",
+   "posizione": {
+    "celle": [
+     "-4,0",
+     "-4,3",
+     "-4,4",
+     "-3,1",
+     "-3,3",
+     "-3,4",
+     "-2,0",
+     "-2,3",
+     "-2,4",
+     "-1,-1",
+     "-1,0",
+     "0,-4",
+     "0,-1",
+     "0,2",
+     "0,3",
+     "0,4",
+     "1,-3",
+     "1,-2",
+     "1,-1",
+     "1,0",
+     "1,1",
+     "1,2",
+     "1,3",
+     "2,1",
+     "2,2",
+     "3,-1",
+     "3,0",
+     "3,1",
+     "4,-2",
+     "4,-1"
+    ],
+    "vassoio": [
+     "ferro di cavallo-2",
+     "punto-0",
+     "punto-0"
+    ],
+    "combo": 0,
+    "libere": 31
+   },
+   "tua": {
+    "idx": 0,
+    "q": -4,
+    "r": 1,
+    "pezzo": "ferro di cavallo-2",
+    "nome": "ferro di cavallo",
+    "celle": [
+     36,
+     38,
+     44,
+     45
+    ]
+   },
+   "suggerita": {
+    "idx": 1,
+    "q": 2,
+    "r": 0,
+    "pezzo": "punto-0",
+    "nome": "punto",
+    "celle": [
+     33
+    ]
+   },
+   "app": {
+    "giudizio": "Occasione persa",
+    "posto": 7,
+    "su": 7,
+    "strategia": "038df95"
+   },
+   "prova": {
+    "futuri": 30,
+    "mosse": 15,
+    "seme": 777,
+    "differenza": -79.3,
+    "errore": 7.4,
+    "a": {
+     "punti": 191.6,
+     "blocchi": 0,
+     "libere": 42.6
+    },
+    "b": {
+     "punti": 270.9,
+     "blocchi": 0,
+     "libere": 42.9
+    }
+   },
+   "conferma": {
+    "futuri": 100,
+    "mosse": 15,
+    "seme": 99991,
+    "differenza": -77.4,
+    "errore": 3.4,
+    "a": {
+     "punti": 183,
+     "blocchi": 0,
+     "libere": 43.1
+    },
+    "b": {
+     "punti": 260.3,
+     "blocchi": 0,
+     "libere": 43.2
+    }
+   },
+   "aggiunto": "2026-11-04"
+  },
+  {
+   "id": "alveare-partita-2026-11-04T12-01-36-166Z.json#264",
+   "partita": "alveare-partita-2026-11-04T12-01-36-166Z.json",
+   "mossa": 264,
+   "stato": "confermata",
+   "posizione": {
+    "celle": [
+     "-1,-2",
+     "-1,-1",
+     "-1,0",
+     "-1,1",
+     "-1,2",
+     "0,-2",
+     "0,-1",
+     "0,0",
+     "0,2",
+     "0,3",
+     "0,4",
+     "2,1",
+     "2,2",
+     "4,-4",
+     "4,-2",
+     "4,-1"
+    ],
+    "vassoio": [
+     "punto-0",
+     "bandiera destra-3",
+     "punto-0"
+    ],
+    "combo": 3,
+    "libere": 45
+   },
+   "tua": {
+    "idx": 1,
+    "q": 0,
+    "r": -4,
+    "pezzo": "bandiera destra-3",
+    "nome": "bandiera destra",
+    "celle": [
+     1,
+     2,
+     3,
+     7
+    ]
+   },
+   "suggerita": {
+    "idx": 0,
+    "q": 0,
+    "r": 1,
+    "pezzo": "punto-0",
+    "nome": "punto",
+    "celle": [
+     40
+    ]
+   },
+   "app": {
+    "giudizio": "Ottima scoperta",
+    "posto": 1,
+    "su": 7,
+    "strategia": "038df95"
+   },
+   "prova": {
+    "futuri": 30,
+    "mosse": 15,
+    "seme": 777,
+    "differenza": -24.1,
+    "errore": 5,
+    "a": {
+     "punti": 136.3,
+     "blocchi": 0,
+     "libere": 43.2
+    },
+    "b": {
+     "punti": 160.3,
+     "blocchi": 0,
+     "libere": 44.6
+    }
+   },
+   "conferma": {
+    "futuri": 100,
+    "mosse": 15,
+    "seme": 99991,
+    "differenza": -15.3,
+    "errore": 3.6,
+    "a": {
+     "punti": 138.5,
+     "blocchi": 0,
+     "libere": 44.4
+    },
+    "b": {
+     "punti": 153.8,
+     "blocchi": 0,
+     "libere": 43.7
+    }
+   },
+   "aggiunto": "2026-11-04"
+  },
+  {
+   "id": "alveare-partita-2026-11-04T12-01-36-166Z.json#285",
+   "partita": "alveare-partita-2026-11-04T12-01-36-166Z.json",
+   "mossa": 285,
+   "stato": "confermata",
+   "posizione": {
+    "celle": [
+     "-4,1",
+     "-4,4",
+     "-3,-1",
+     "-3,0",
+     "-3,3",
+     "-3,4",
+     "-2,-1",
+     "-2,1",
+     "-2,2",
+     "-1,-2",
+     "-1,-1",
+     "-1,1",
+     "0,-3",
+     "0,-2",
+     "0,-1",
+     "0,0",
+     "0,1",
+     "0,2",
+     "0,3",
+     "0,4",
+     "1,-2",
+     "1,-1",
+     "2,-3",
+     "2,-2",
+     "2,-1",
+     "2,1",
+     "2,2",
+     "3,-3",
+     "3,-2",
+     "3,0",
+     "3,1",
+     "4,-3",
+     "4,0"
+    ],
+    "vassoio": [
+     "punto-0",
+     "rombo-0",
+     "punto-0"
+    ],
+    "combo": 0,
+    "libere": 28
+   },
+   "tua": {
+    "idx": 1,
+    "q": -2,
+    "r": 3,
+    "pezzo": "rombo-0",
+    "nome": "rombo",
+    "celle": [
+     53,
+     54,
+     59,
+     60
+    ]
+   },
+   "suggerita": {
+    "idx": 0,
+    "q": 1,
+    "r": -3,
+    "pezzo": "punto-0",
+    "nome": "punto",
+    "celle": [
+     8
+    ]
+   },
+   "app": {
+    "giudizio": "Occasione persa",
+    "posto": 7,
+    "su": 7,
+    "strategia": "038df95"
+   },
+   "prova": {
+    "futuri": 30,
+    "mosse": 15,
+    "seme": 777,
+    "differenza": -24.1,
+    "errore": 7.3,
+    "a": {
+     "punti": 172.3,
+     "blocchi": 0,
+     "libere": 41.3
+    },
+    "b": {
+     "punti": 196.4,
+     "blocchi": 0,
+     "libere": 41.4
+    }
+   },
+   "conferma": {
+    "futuri": 100,
+    "mosse": 15,
+    "seme": 99991,
+    "differenza": -16.8,
+    "errore": 3.2,
+    "a": {
+     "punti": 172.7,
+     "blocchi": 0,
+     "libere": 41.8
+    },
+    "b": {
+     "punti": 189.5,
+     "blocchi": 0,
+     "libere": 41.7
+    }
+   },
+   "aggiunto": "2026-11-04"
+  },
+  {
+   "id": "alveare-partita-2026-11-04T12-01-36-166Z.json#292",
+   "partita": "alveare-partita-2026-11-04T12-01-36-166Z.json",
+   "mossa": 292,
+   "stato": "confermata",
+   "posizione": {
+    "celle": [
+     "-4,1",
+     "-3,4",
+     "-2,-1",
+     "-2,1",
+     "-2,3",
+     "-2,4",
+     "-1,-2",
+     "-1,-1",
+     "-1,3",
+     "-1,4",
+     "0,-3",
+     "0,-2",
+     "0,-1",
+     "0,1",
+     "0,2",
+     "0,3",
+     "1,-2",
+     "1,-1",
+     "1,0",
+     "1,1",
+     "1,2",
+     "2,-3",
+     "2,-2",
+     "2,-1",
+     "2,1",
+     "3,-3",
+     "3,-2",
+     "3,0",
+     "4,-4",
+     "4,-3"
+    ],
+    "vassoio": [
+     "rombo-1",
+     "barra 4-1",
+     "punto-0"
+    ],
+    "combo": 2,
+    "libere": 31
+   },
+   "tua": {
+    "idx": 1,
+    "q": -3,
+    "r": 0,
+    "pezzo": "barra 4-1",
+    "nome": "barra 4",
+    "celle": [
+     28,
+     37,
+     45,
+     52
+    ]
+   },
+   "suggerita": {
+    "idx": 2,
+    "q": -1,
+    "r": 2,
+    "pezzo": "punto-0",
+    "nome": "punto",
+    "celle": [
+     47
+    ]
+   },
+   "app": {
+    "giudizio": "Occasione persa",
+    "posto": 6,
+    "su": 7,
+    "strategia": "038df95"
+   },
+   "prova": {
+    "futuri": 30,
+    "mosse": 15,
+    "seme": 777,
+    "differenza": -32.4,
+    "errore": 7.1,
+    "a": {
+     "punti": 192.3,
+     "blocchi": 0,
+     "libere": 41.1
+    },
+    "b": {
+     "punti": 224.7,
+     "blocchi": 0,
+     "libere": 43
+    }
+   },
+   "conferma": {
+    "futuri": 100,
+    "mosse": 15,
+    "seme": 99991,
+    "differenza": -31,
+    "errore": 4.1,
+    "a": {
+     "punti": 194.7,
+     "blocchi": 0,
+     "libere": 42.8
+    },
+    "b": {
+     "punti": 225.8,
+     "blocchi": 0,
+     "libere": 43.8
+    }
+   },
+   "aggiunto": "2026-11-04"
+  },
+  {
+   "id": "alveare-partita-2026-11-04T12-01-36-166Z.json#301",
+   "partita": "alveare-partita-2026-11-04T12-01-36-166Z.json",
+   "mossa": 301,
+   "stato": "confermata",
+   "posizione": {
+    "celle": [
+     "-4,0",
+     "-4,1",
+     "-3,1",
+     "-3,2",
+     "-2,-2",
+     "-2,-1",
+     "-2,0",
+     "-2,1",
+     "-1,-3",
+     "-1,-2",
+     "-1,-1",
+     "-1,0",
+     "-1,1",
+     "-1,3",
+     "0,-3",
+     "0,-2",
+     "0,-1",
+     "0,2",
+     "1,-2",
+     "1,-1",
+     "1,0",
+     "1,1",
+     "2,-3",
+     "2,-2",
+     "2,-1",
+     "2,0",
+     "2,1",
+     "3,-3",
+     "3,-2",
+     "3,-1",
+     "3,1",
+     "4,-4",
+     "4,-3"
+    ],
+    "vassoio": [
+     "rombo-2",
+     "bandiera sinistra-1",
+     "punto-0"
+    ],
+    "combo": 0,
+    "libere": 28
+   },
+   "tua": {
+    "idx": 1,
+    "q": -4,
+    "r": 3,
+    "pezzo": "bandiera sinistra-1",
+    "nome": "bandiera sinistra",
+    "celle": [
+     51,
+     52,
+     53,
+     58
+    ]
+   },
+   "suggerita": {
+    "idx": 2,
+    "q": -4,
+    "r": 2,
+    "pezzo": "punto-0",
+    "nome": "punto",
+    "celle": [
+     44
+    ]
+   },
+   "app": {
+    "giudizio": "Mossa migliorabile",
+    "posto": 7,
+    "su": 7,
+    "strategia": "038df95"
+   },
+   "prova": {
+    "futuri": 30,
+    "mosse": 15,
+    "seme": 777,
+    "differenza": -26.5,
+    "errore": 8.1,
+    "a": {
+     "punti": 209.3,
+     "blocchi": 0,
+     "libere": 42
+    },
+    "b": {
+     "punti": 235.8,
+     "blocchi": 0,
+     "libere": 42.5
+    }
+   },
+   "conferma": {
+    "futuri": 100,
+    "mosse": 15,
+    "seme": 99991,
+    "differenza": -23.6,
+    "errore": 4.7,
+    "a": {
+     "punti": 205.7,
+     "blocchi": 0,
+     "libere": 42.4
+    },
+    "b": {
+     "punti": 229.3,
+     "blocchi": 0,
+     "libere": 41.6
+    }
+   },
+   "aggiunto": "2026-11-04"
+  },
+  {
+   "id": "alveare-partita-2026-11-04T12-01-36-166Z.json#305",
+   "partita": "alveare-partita-2026-11-04T12-01-36-166Z.json",
+   "mossa": 305,
+   "stato": "confermata",
+   "posizione": {
+    "celle": [
+     "-4,0",
+     "-4,1",
+     "-3,1",
+     "-3,2",
+     "-3,4",
+     "-2,-2",
+     "-2,-1",
+     "-2,0",
+     "-2,1",
+     "-2,3",
+     "-2,4",
+     "0,-3",
+     "0,-2",
+     "0,-1",
+     "0,2",
+     "0,4",
+     "1,-2",
+     "1,-1",
+     "1,0",
+     "1,1",
+     "1,2",
+     "2,-3",
+     "2,-2",
+     "2,-1",
+     "2,0",
+     "2,1",
+     "3,-3",
+     "3,-2",
+     "3,-1",
+     "3,1",
+     "4,-4",
+     "4,-3"
+    ],
+    "vassoio": [
+     "rombo-2",
+     "rombo-2",
+     "bandiera sinistra-3"
+    ],
+    "combo": 1,
+    "libere": 29
+   },
+   "tua": {
+    "idx": 2,
+    "q": -2,
+    "r": 2,
+    "pezzo": "bandiera sinistra-3",
+    "nome": "bandiera sinistra",
+    "celle": [
+     46,
+     51,
+     52,
+     57
+    ]
+   },
+   "suggerita": {
+    "idx": 0,
+    "q": -1,
+    "r": 1,
+    "pezzo": "rombo-2",
+    "nome": "rombo",
+    "celle": [
+     39,
+     40,
+     46,
+     47
+    ]
+   },
+   "app": {
+    "giudizio": "Mossa migliorabile",
+    "posto": 2,
+    "su": 2,
+    "strategia": "038df95"
+   },
+   "prova": {
+    "futuri": 30,
+    "mosse": 15,
+    "seme": 777,
+    "differenza": -48.3,
+    "errore": 4.6,
+    "a": {
+     "punti": 198.5,
+     "blocchi": 0,
+     "libere": 40.8
+    },
+    "b": {
+     "punti": 246.8,
+     "blocchi": 0,
+     "libere": 42
+    }
+   },
+   "conferma": {
+    "futuri": 100,
+    "mosse": 15,
+    "seme": 99991,
+    "differenza": -42.4,
+    "errore": 3.7,
+    "a": {
+     "punti": 203.3,
+     "blocchi": 0,
+     "libere": 42.1
+    },
+    "b": {
+     "punti": 245.7,
+     "blocchi": 0,
+     "libere": 42.3
+    }
+   },
+   "aggiunto": "2026-11-04"
+  },
+  {
+   "id": "alveare-partita-2026-11-04T12-01-36-166Z.json#312",
+   "partita": "alveare-partita-2026-11-04T12-01-36-166Z.json",
+   "mossa": 312,
+   "stato": "confermata",
+   "posizione": {
+    "celle": [
+     "-4,0",
+     "-4,3",
+     "-4,4",
+     "-3,-1",
+     "-3,2",
+     "-3,3",
+     "-3,4",
+     "-2,-2",
+     "-2,-1",
+     "-2,2",
+     "-2,3",
+     "-2,4",
+     "-1,-2",
+     "-1,3",
+     "-1,4",
+     "0,-3",
+     "0,-2",
+     "0,-1",
+     "0,2",
+     "0,3",
+     "1,-2",
+     "1,-1",
+     "1,0",
+     "1,2",
+     "2,-3",
+     "2,-2",
+     "2,-1",
+     "2,0",
+     "2,1",
+     "2,2",
+     "3,-3",
+     "3,-2",
+     "3,-1",
+     "3,0",
+     "3,1",
+     "4,-4",
+     "4,-3"
+    ],
+    "vassoio": [
+     "rombo-0",
+     "rombo-2",
+     "rombo-0"
+    ],
+    "combo": 0,
+    "libere": 24
+   },
+   "tua": {
+    "idx": 1,
+    "q": -1,
+    "r": 0,
+    "pezzo": "rombo-2",
+    "nome": "rombo",
+    "celle": [
+     30,
+     31,
+     38,
+     39
+    ]
+   },
+   "suggerita": {
+    "idx": 0,
+    "q": -3,
+    "r": 0,
+    "pezzo": "rombo-0",
+    "nome": "rombo",
+    "celle": [
+     28,
+     29,
+     37,
+     38
+    ]
+   },
+   "app": {
+    "giudizio": "Mossa pessima",
+    "posto": 6,
+    "su": 6,
+    "strategia": "038df95"
+   },
+   "prova": {
+    "futuri": 30,
+    "mosse": 15,
+    "seme": 777,
+    "differenza": -640.1,
+    "errore": 108.5,
+    "a": {
+     "punti": 112.5,
+     "blocchi": 16,
+     "libere": 34.4
+    },
+    "b": {
+     "punti": 219.3,
+     "blocchi": 0,
+     "libere": 42
+    }
+   },
+   "conferma": {
+    "futuri": 100,
+    "mosse": 15,
+    "seme": 99991,
+    "differenza": -437.7,
+    "errore": 57.4,
+    "a": {
+     "punti": 149.2,
+     "blocchi": 36,
+     "libere": 37.7
+    },
+    "b": {
+     "punti": 226.9,
+     "blocchi": 0,
+     "libere": 42.8
+    }
+   },
+   "aggiunto": "2026-11-04"
+  }
+ ]
 }
