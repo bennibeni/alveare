@@ -1,0 +1,6146 @@
+{
+  "k": 8,
+  "max": 1000,
+  "games": [
+    {
+      "seed": 100000,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 17,
+      "copies": 136,
+      "traps": []
+    },
+    {
+      "seed": 100097,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 13,
+      "copies": 104,
+      "traps": []
+    },
+    {
+      "seed": 100194,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 16,
+      "copies": 128,
+      "traps": []
+    },
+    {
+      "seed": 100291,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 11,
+      "copies": 88,
+      "traps": []
+    },
+    {
+      "seed": 100388,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 16,
+      "copies": 128,
+      "traps": []
+    },
+    {
+      "seed": 100485,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 19,
+      "copies": 152,
+      "traps": []
+    },
+    {
+      "seed": 100582,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 16,
+      "copies": 128,
+      "traps": []
+    },
+    {
+      "seed": 100679,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 9,
+      "copies": 72,
+      "traps": []
+    },
+    {
+      "seed": 100776,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 14,
+      "copies": 112,
+      "traps": []
+    },
+    {
+      "seed": 100873,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 16,
+      "copies": 128,
+      "traps": []
+    },
+    {
+      "seed": 100970,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 7,
+      "copies": 56,
+      "traps": []
+    },
+    {
+      "seed": 101067,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 10,
+      "copies": 80,
+      "traps": []
+    },
+    {
+      "seed": 101164,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 17,
+      "copies": 136,
+      "traps": []
+    },
+    {
+      "seed": 101261,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 14,
+      "copies": 112,
+      "traps": []
+    },
+    {
+      "seed": 101358,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 6,
+      "copies": 48,
+      "traps": []
+    },
+    {
+      "seed": 101455,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 13,
+      "copies": 104,
+      "traps": []
+    },
+    {
+      "seed": 101552,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 14,
+      "copies": 112,
+      "traps": []
+    },
+    {
+      "seed": 101649,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 17,
+      "copies": 136,
+      "traps": []
+    },
+    {
+      "seed": 101746,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 20,
+      "copies": 160,
+      "traps": [
+        {
+          "seed": 101746,
+          "pezzo": 863,
+          "libere": 31,
+          "bseed": 1584972468,
+          "start": {
+            "cells": [
+              "-4,2",
+              "-3,1",
+              "-2,-1",
+              "-2,0",
+              "-2,2",
+              "-2,3",
+              "-1,-2",
+              "-1,-1",
+              "-1,0",
+              "-1,1",
+              "-1,2",
+              "-1,3",
+              "-1,4",
+              "0,-2",
+              "0,0",
+              "0,2",
+              "0,3",
+              "1,-4",
+              "1,-2",
+              "1,2",
+              "2,-4",
+              "2,-3",
+              "2,-2",
+              "2,0",
+              "2,1",
+              "3,-4",
+              "3,-3",
+              "3,-2",
+              "4,-4",
+              "4,-1"
+            ],
+            "tray": ["ferro di cavallo-4", "punto-0", "ferro di cavallo-2"],
+            "streak": 0
+          },
+          "moves": [
+            [1, 1, -3],
+            [0, -3, 0],
+            [2, 0, -4],
+            [1, -3, 1],
+            [0, 0, -4],
+            [0, -1, -2],
+            [2, -2, -2],
+            [2, -3, 4],
+            [2, -1, 0],
+            [2, -4, 0],
+            [2, -1, -3],
+            [2, -3, 2]
+          ],
+          "k": 3
+        }
+      ]
+    },
+    {
+      "seed": 101843,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 16,
+      "copies": 128,
+      "traps": []
+    },
+    {
+      "seed": 101940,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 9,
+      "copies": 72,
+      "traps": []
+    },
+    {
+      "seed": 102037,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 16,
+      "copies": 128,
+      "traps": []
+    },
+    {
+      "seed": 102134,
+      "pieces": 621,
+      "lost": true,
+      "entries": 11,
+      "copies": 88,
+      "traps": [
+        {
+          "seed": 102134,
+          "pezzo": 619,
+          "libere": 30,
+          "bseed": 1623772822,
+          "start": {
+            "cells": [
+              "-4,1",
+              "-4,2",
+              "-4,3",
+              "-4,4",
+              "-3,2",
+              "-3,3",
+              "-2,-1",
+              "-2,2",
+              "-1,2",
+              "-1,4",
+              "0,-4",
+              "0,-3",
+              "0,-2",
+              "0,-1",
+              "0,1",
+              "0,2",
+              "0,3",
+              "0,4",
+              "1,-4",
+              "1,-3",
+              "1,-2",
+              "1,-1",
+              "1,0",
+              "1,2",
+              "1,3",
+              "2,-2",
+              "2,-1",
+              "2,1",
+              "3,-2",
+              "3,0",
+              "4,-3"
+            ],
+            "tray": ["ferro di cavallo-4", "barra 4-1", "ferro di cavallo-4"],
+            "streak": 0
+          },
+          "moves": [
+            [0, -2, -2],
+            [1, -1, -3],
+            [0, -2, -1]
+          ],
+          "k": 1
+        },
+        {
+          "seed": 102134,
+          "pezzo": 619,
+          "libere": 30,
+          "bseed": 1623772828,
+          "start": {
+            "cells": [
+              "-4,1",
+              "-4,2",
+              "-4,3",
+              "-4,4",
+              "-3,2",
+              "-3,3",
+              "-2,-1",
+              "-2,2",
+              "-1,2",
+              "-1,4",
+              "0,-4",
+              "0,-3",
+              "0,-2",
+              "0,-1",
+              "0,1",
+              "0,2",
+              "0,3",
+              "0,4",
+              "1,-4",
+              "1,-3",
+              "1,-2",
+              "1,-1",
+              "1,0",
+              "1,2",
+              "1,3",
+              "2,-2",
+              "2,-1",
+              "2,1",
+              "3,-2",
+              "3,0",
+              "4,-3"
+            ],
+            "tray": ["ferro di cavallo-4", "barra 4-1", "ferro di cavallo-4"],
+            "streak": 0
+          },
+          "moves": [
+            [0, -2, -2],
+            [1, -1, -3],
+            [0, -2, -1]
+          ],
+          "k": 7
+        }
+      ]
+    },
+    {
+      "seed": 102231,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 11,
+      "copies": 88,
+      "traps": []
+    },
+    {
+      "seed": 102328,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 7,
+      "copies": 56,
+      "traps": []
+    },
+    {
+      "seed": 102425,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 15,
+      "copies": 120,
+      "traps": []
+    },
+    {
+      "seed": 102522,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 12,
+      "copies": 96,
+      "traps": []
+    },
+    {
+      "seed": 102619,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 15,
+      "copies": 120,
+      "traps": []
+    },
+    {
+      "seed": 102716,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 11,
+      "copies": 88,
+      "traps": []
+    },
+    {
+      "seed": 102813,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 11,
+      "copies": 88,
+      "traps": []
+    },
+    {
+      "seed": 102910,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 12,
+      "copies": 96,
+      "traps": []
+    },
+    {
+      "seed": 103007,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 11,
+      "copies": 88,
+      "traps": []
+    },
+    {
+      "seed": 103104,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 10,
+      "copies": 80,
+      "traps": []
+    },
+    {
+      "seed": 103201,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 9,
+      "copies": 72,
+      "traps": []
+    },
+    {
+      "seed": 103298,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 16,
+      "copies": 128,
+      "traps": []
+    },
+    {
+      "seed": 103395,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 15,
+      "copies": 120,
+      "traps": []
+    },
+    {
+      "seed": 103492,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 10,
+      "copies": 80,
+      "traps": []
+    },
+    {
+      "seed": 103589,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 14,
+      "copies": 112,
+      "traps": []
+    },
+    {
+      "seed": 103686,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 13,
+      "copies": 104,
+      "traps": []
+    },
+    {
+      "seed": 103783,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 6,
+      "copies": 48,
+      "traps": []
+    },
+    {
+      "seed": 103880,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 12,
+      "copies": 96,
+      "traps": []
+    },
+    {
+      "seed": 103977,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 13,
+      "copies": 104,
+      "traps": []
+    },
+    {
+      "seed": 104074,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 8,
+      "copies": 64,
+      "traps": []
+    },
+    {
+      "seed": 104171,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 10,
+      "copies": 80,
+      "traps": []
+    },
+    {
+      "seed": 104268,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 11,
+      "copies": 88,
+      "traps": []
+    },
+    {
+      "seed": 104365,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 8,
+      "copies": 64,
+      "traps": []
+    },
+    {
+      "seed": 104462,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 16,
+      "copies": 128,
+      "traps": []
+    },
+    {
+      "seed": 104559,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 13,
+      "copies": 104,
+      "traps": []
+    },
+    {
+      "seed": 104656,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 17,
+      "copies": 136,
+      "traps": []
+    },
+    {
+      "seed": 104753,
+      "pieces": 81,
+      "lost": true,
+      "entries": 1,
+      "copies": 8,
+      "traps": [
+        {
+          "seed": 104753,
+          "pezzo": 79,
+          "libere": 31,
+          "bseed": 1885679668,
+          "start": {
+            "cells": [
+              "-4,0",
+              "-3,-1",
+              "-3,1",
+              "-3,2",
+              "-3,3",
+              "-2,-2",
+              "-2,-1",
+              "-2,0",
+              "-1,-1",
+              "-1,3",
+              "0,-3",
+              "0,-2",
+              "0,-1",
+              "0,3",
+              "1,-3",
+              "1,-2",
+              "1,-1",
+              "1,2",
+              "1,3",
+              "2,-4",
+              "2,-3",
+              "2,0",
+              "2,2",
+              "3,-3",
+              "3,-2",
+              "3,-1",
+              "3,0",
+              "3,1",
+              "4,-1",
+              "4,0"
+            ],
+            "tray": ["rombo-0", "bandiera sinistra-1", "rombo-0"],
+            "streak": 0
+          },
+          "moves": [
+            [0, -2, 1],
+            [0, 2, -2],
+            [0, -3, 4],
+            [1, 1, 1],
+            [1, -1, -2]
+          ],
+          "k": 0
+        },
+        {
+          "seed": 104753,
+          "pezzo": 79,
+          "libere": 31,
+          "bseed": 1885679669,
+          "start": {
+            "cells": [
+              "-4,0",
+              "-3,-1",
+              "-3,1",
+              "-3,2",
+              "-3,3",
+              "-2,-2",
+              "-2,-1",
+              "-2,0",
+              "-1,-1",
+              "-1,3",
+              "0,-3",
+              "0,-2",
+              "0,-1",
+              "0,3",
+              "1,-3",
+              "1,-2",
+              "1,-1",
+              "1,2",
+              "1,3",
+              "2,-4",
+              "2,-3",
+              "2,0",
+              "2,2",
+              "3,-3",
+              "3,-2",
+              "3,-1",
+              "3,0",
+              "3,1",
+              "4,-1",
+              "4,0"
+            ],
+            "tray": ["rombo-0", "bandiera sinistra-1", "rombo-0"],
+            "streak": 0
+          },
+          "moves": [
+            [0, -2, 1],
+            [1, -1, 0]
+          ],
+          "k": 1
+        },
+        {
+          "seed": 104753,
+          "pezzo": 79,
+          "libere": 31,
+          "bseed": 1885679672,
+          "start": {
+            "cells": [
+              "-4,0",
+              "-3,-1",
+              "-3,1",
+              "-3,2",
+              "-3,3",
+              "-2,-2",
+              "-2,-1",
+              "-2,0",
+              "-1,-1",
+              "-1,3",
+              "0,-3",
+              "0,-2",
+              "0,-1",
+              "0,3",
+              "1,-3",
+              "1,-2",
+              "1,-1",
+              "1,2",
+              "1,3",
+              "2,-4",
+              "2,-3",
+              "2,0",
+              "2,2",
+              "3,-3",
+              "3,-2",
+              "3,-1",
+              "3,0",
+              "3,1",
+              "4,-1",
+              "4,0"
+            ],
+            "tray": ["rombo-0", "bandiera sinistra-1", "rombo-0"],
+            "streak": 0
+          },
+          "moves": [
+            [0, -2, 1],
+            [1, -1, 0]
+          ],
+          "k": 4
+        },
+        {
+          "seed": 104753,
+          "pezzo": 79,
+          "libere": 31,
+          "bseed": 1885679673,
+          "start": {
+            "cells": [
+              "-4,0",
+              "-3,-1",
+              "-3,1",
+              "-3,2",
+              "-3,3",
+              "-2,-2",
+              "-2,-1",
+              "-2,0",
+              "-1,-1",
+              "-1,3",
+              "0,-3",
+              "0,-2",
+              "0,-1",
+              "0,3",
+              "1,-3",
+              "1,-2",
+              "1,-1",
+              "1,2",
+              "1,3",
+              "2,-4",
+              "2,-3",
+              "2,0",
+              "2,2",
+              "3,-3",
+              "3,-2",
+              "3,-1",
+              "3,0",
+              "3,1",
+              "4,-1",
+              "4,0"
+            ],
+            "tray": ["rombo-0", "bandiera sinistra-1", "rombo-0"],
+            "streak": 0
+          },
+          "moves": [
+            [0, -2, 1],
+            [1, -1, 0]
+          ],
+          "k": 5
+        },
+        {
+          "seed": 104753,
+          "pezzo": 79,
+          "libere": 31,
+          "bseed": 1885679674,
+          "start": {
+            "cells": [
+              "-4,0",
+              "-3,-1",
+              "-3,1",
+              "-3,2",
+              "-3,3",
+              "-2,-2",
+              "-2,-1",
+              "-2,0",
+              "-1,-1",
+              "-1,3",
+              "0,-3",
+              "0,-2",
+              "0,-1",
+              "0,3",
+              "1,-3",
+              "1,-2",
+              "1,-1",
+              "1,2",
+              "1,3",
+              "2,-4",
+              "2,-3",
+              "2,0",
+              "2,2",
+              "3,-3",
+              "3,-2",
+              "3,-1",
+              "3,0",
+              "3,1",
+              "4,-1",
+              "4,0"
+            ],
+            "tray": ["rombo-0", "bandiera sinistra-1", "rombo-0"],
+            "streak": 0
+          },
+          "moves": [
+            [0, -2, 1],
+            [1, -1, 0]
+          ],
+          "k": 6
+        }
+      ]
+    },
+    {
+      "seed": 104850,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 12,
+      "copies": 96,
+      "traps": []
+    },
+    {
+      "seed": 104947,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 14,
+      "copies": 112,
+      "traps": []
+    },
+    {
+      "seed": 105044,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 11,
+      "copies": 88,
+      "traps": []
+    },
+    {
+      "seed": 105141,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 13,
+      "copies": 104,
+      "traps": []
+    },
+    {
+      "seed": 105238,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 10,
+      "copies": 80,
+      "traps": []
+    },
+    {
+      "seed": 105335,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 11,
+      "copies": 88,
+      "traps": []
+    },
+    {
+      "seed": 105432,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 16,
+      "copies": 128,
+      "traps": []
+    },
+    {
+      "seed": 105529,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 14,
+      "copies": 112,
+      "traps": []
+    },
+    {
+      "seed": 105626,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 17,
+      "copies": 136,
+      "traps": []
+    },
+    {
+      "seed": 105723,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 10,
+      "copies": 80,
+      "traps": []
+    },
+    {
+      "seed": 105820,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 13,
+      "copies": 104,
+      "traps": []
+    },
+    {
+      "seed": 105917,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 12,
+      "copies": 96,
+      "traps": []
+    },
+    {
+      "seed": 106014,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 13,
+      "copies": 104,
+      "traps": []
+    },
+    {
+      "seed": 106111,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 13,
+      "copies": 104,
+      "traps": []
+    },
+    {
+      "seed": 106208,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 10,
+      "copies": 80,
+      "traps": []
+    },
+    {
+      "seed": 106305,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 13,
+      "copies": 104,
+      "traps": []
+    },
+    {
+      "seed": 106402,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 12,
+      "copies": 96,
+      "traps": []
+    },
+    {
+      "seed": 106499,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 18,
+      "copies": 144,
+      "traps": []
+    },
+    {
+      "seed": 106596,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 7,
+      "copies": 56,
+      "traps": []
+    },
+    {
+      "seed": 106693,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 11,
+      "copies": 88,
+      "traps": []
+    },
+    {
+      "seed": 106790,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 10,
+      "copies": 80,
+      "traps": []
+    },
+    {
+      "seed": 106887,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 16,
+      "copies": 128,
+      "traps": []
+    },
+    {
+      "seed": 106984,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 8,
+      "copies": 64,
+      "traps": []
+    },
+    {
+      "seed": 107081,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 20,
+      "copies": 160,
+      "traps": []
+    },
+    {
+      "seed": 107178,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 24,
+      "copies": 192,
+      "traps": []
+    },
+    {
+      "seed": 107275,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 11,
+      "copies": 88,
+      "traps": []
+    },
+    {
+      "seed": 107372,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 18,
+      "copies": 144,
+      "traps": []
+    },
+    {
+      "seed": 107469,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 14,
+      "copies": 112,
+      "traps": []
+    },
+    {
+      "seed": 107566,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 14,
+      "copies": 112,
+      "traps": []
+    },
+    {
+      "seed": 107663,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 11,
+      "copies": 88,
+      "traps": []
+    },
+    {
+      "seed": 107760,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 25,
+      "copies": 200,
+      "traps": []
+    },
+    {
+      "seed": 107857,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 8,
+      "copies": 64,
+      "traps": []
+    },
+    {
+      "seed": 107954,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 10,
+      "copies": 80,
+      "traps": []
+    },
+    {
+      "seed": 108051,
+      "pieces": 511,
+      "lost": true,
+      "entries": 7,
+      "copies": 56,
+      "traps": [
+        {
+          "seed": 108051,
+          "pezzo": 510,
+          "libere": 30,
+          "bseed": 2215490168,
+          "start": {
+            "cells": [
+              "-3,0",
+              "-3,2",
+              "-3,4",
+              "-2,-1",
+              "-2,1",
+              "-2,2",
+              "-2,3",
+              "-2,4",
+              "-1,0",
+              "-1,1",
+              "-1,3",
+              "0,-4",
+              "0,0",
+              "0,2",
+              "1,-4",
+              "1,-3",
+              "1,-1",
+              "1,0",
+              "1,1",
+              "1,2",
+              "2,-4",
+              "2,-3",
+              "2,-2",
+              "2,0",
+              "2,1",
+              "2,2",
+              "3,-4",
+              "3,-2",
+              "3,-1",
+              "3,0",
+              "4,-1"
+            ],
+            "tray": [
+              "ferro di cavallo-5",
+              "ferro di cavallo-5",
+              "bandiera sinistra-2"
+            ],
+            "streak": 0
+          },
+          "moves": [
+            [2, 0, -3],
+            [2, -1, -3],
+            [2, 0, 3]
+          ],
+          "k": 0
+        },
+        {
+          "seed": 108051,
+          "pezzo": 510,
+          "libere": 30,
+          "bseed": 2215490169,
+          "start": {
+            "cells": [
+              "-3,0",
+              "-3,2",
+              "-3,4",
+              "-2,-1",
+              "-2,1",
+              "-2,2",
+              "-2,3",
+              "-2,4",
+              "-1,0",
+              "-1,1",
+              "-1,3",
+              "0,-4",
+              "0,0",
+              "0,2",
+              "1,-4",
+              "1,-3",
+              "1,-1",
+              "1,0",
+              "1,1",
+              "1,2",
+              "2,-4",
+              "2,-3",
+              "2,-2",
+              "2,0",
+              "2,1",
+              "2,2",
+              "3,-4",
+              "3,-2",
+              "3,-1",
+              "3,0",
+              "4,-1"
+            ],
+            "tray": [
+              "ferro di cavallo-5",
+              "ferro di cavallo-5",
+              "bandiera sinistra-2"
+            ],
+            "streak": 0
+          },
+          "moves": [[2, 0, -3]],
+          "k": 1
+        },
+        {
+          "seed": 108051,
+          "pezzo": 510,
+          "libere": 30,
+          "bseed": 2215490170,
+          "start": {
+            "cells": [
+              "-3,0",
+              "-3,2",
+              "-3,4",
+              "-2,-1",
+              "-2,1",
+              "-2,2",
+              "-2,3",
+              "-2,4",
+              "-1,0",
+              "-1,1",
+              "-1,3",
+              "0,-4",
+              "0,0",
+              "0,2",
+              "1,-4",
+              "1,-3",
+              "1,-1",
+              "1,0",
+              "1,1",
+              "1,2",
+              "2,-4",
+              "2,-3",
+              "2,-2",
+              "2,0",
+              "2,1",
+              "2,2",
+              "3,-4",
+              "3,-2",
+              "3,-1",
+              "3,0",
+              "4,-1"
+            ],
+            "tray": [
+              "ferro di cavallo-5",
+              "ferro di cavallo-5",
+              "bandiera sinistra-2"
+            ],
+            "streak": 0
+          },
+          "moves": [[2, 0, -3]],
+          "k": 2
+        },
+        {
+          "seed": 108051,
+          "pezzo": 510,
+          "libere": 30,
+          "bseed": 2215490171,
+          "start": {
+            "cells": [
+              "-3,0",
+              "-3,2",
+              "-3,4",
+              "-2,-1",
+              "-2,1",
+              "-2,2",
+              "-2,3",
+              "-2,4",
+              "-1,0",
+              "-1,1",
+              "-1,3",
+              "0,-4",
+              "0,0",
+              "0,2",
+              "1,-4",
+              "1,-3",
+              "1,-1",
+              "1,0",
+              "1,1",
+              "1,2",
+              "2,-4",
+              "2,-3",
+              "2,-2",
+              "2,0",
+              "2,1",
+              "2,2",
+              "3,-4",
+              "3,-2",
+              "3,-1",
+              "3,0",
+              "4,-1"
+            ],
+            "tray": [
+              "ferro di cavallo-5",
+              "ferro di cavallo-5",
+              "bandiera sinistra-2"
+            ],
+            "streak": 0
+          },
+          "moves": [[2, 0, -3]],
+          "k": 3
+        },
+        {
+          "seed": 108051,
+          "pezzo": 510,
+          "libere": 30,
+          "bseed": 2215490172,
+          "start": {
+            "cells": [
+              "-3,0",
+              "-3,2",
+              "-3,4",
+              "-2,-1",
+              "-2,1",
+              "-2,2",
+              "-2,3",
+              "-2,4",
+              "-1,0",
+              "-1,1",
+              "-1,3",
+              "0,-4",
+              "0,0",
+              "0,2",
+              "1,-4",
+              "1,-3",
+              "1,-1",
+              "1,0",
+              "1,1",
+              "1,2",
+              "2,-4",
+              "2,-3",
+              "2,-2",
+              "2,0",
+              "2,1",
+              "2,2",
+              "3,-4",
+              "3,-2",
+              "3,-1",
+              "3,0",
+              "4,-1"
+            ],
+            "tray": [
+              "ferro di cavallo-5",
+              "ferro di cavallo-5",
+              "bandiera sinistra-2"
+            ],
+            "streak": 0
+          },
+          "moves": [[2, 0, -3]],
+          "k": 4
+        },
+        {
+          "seed": 108051,
+          "pezzo": 510,
+          "libere": 30,
+          "bseed": 2215490174,
+          "start": {
+            "cells": [
+              "-3,0",
+              "-3,2",
+              "-3,4",
+              "-2,-1",
+              "-2,1",
+              "-2,2",
+              "-2,3",
+              "-2,4",
+              "-1,0",
+              "-1,1",
+              "-1,3",
+              "0,-4",
+              "0,0",
+              "0,2",
+              "1,-4",
+              "1,-3",
+              "1,-1",
+              "1,0",
+              "1,1",
+              "1,2",
+              "2,-4",
+              "2,-3",
+              "2,-2",
+              "2,0",
+              "2,1",
+              "2,2",
+              "3,-4",
+              "3,-2",
+              "3,-1",
+              "3,0",
+              "4,-1"
+            ],
+            "tray": [
+              "ferro di cavallo-5",
+              "ferro di cavallo-5",
+              "bandiera sinistra-2"
+            ],
+            "streak": 0
+          },
+          "moves": [[2, 0, -3]],
+          "k": 6
+        }
+      ]
+    },
+    {
+      "seed": 108148,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 21,
+      "copies": 168,
+      "traps": []
+    },
+    {
+      "seed": 108245,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 9,
+      "copies": 72,
+      "traps": []
+    },
+    {
+      "seed": 108342,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 16,
+      "copies": 128,
+      "traps": []
+    },
+    {
+      "seed": 108439,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 15,
+      "copies": 120,
+      "traps": []
+    },
+    {
+      "seed": 108536,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 14,
+      "copies": 112,
+      "traps": []
+    },
+    {
+      "seed": 108633,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 7,
+      "copies": 56,
+      "traps": []
+    },
+    {
+      "seed": 108730,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 13,
+      "copies": 104,
+      "traps": []
+    },
+    {
+      "seed": 108827,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 12,
+      "copies": 96,
+      "traps": []
+    },
+    {
+      "seed": 108924,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 16,
+      "copies": 128,
+      "traps": [
+        {
+          "seed": 108924,
+          "pezzo": 810,
+          "libere": 28,
+          "bseed": 2302793193,
+          "start": {
+            "cells": [
+              "-3,-1",
+              "-3,2",
+              "-3,3",
+              "-3,4",
+              "-2,-1",
+              "-2,0",
+              "-2,1",
+              "-2,2",
+              "-2,4",
+              "-1,1",
+              "-1,2",
+              "0,-2",
+              "0,-1",
+              "0,0",
+              "0,1",
+              "0,2",
+              "0,3",
+              "1,-2",
+              "1,-1",
+              "1,1",
+              "1,2",
+              "2,-2",
+              "2,-1",
+              "2,0",
+              "2,1",
+              "2,2",
+              "3,-3",
+              "3,-2",
+              "3,-1",
+              "3,0",
+              "3,1",
+              "4,-3",
+              "4,0"
+            ],
+            "tray": ["barra 4-2", "bandiera destra-4", "bandiera destra-4"],
+            "streak": 0
+          },
+          "moves": [[1, -1, -3]],
+          "k": 2
+        },
+        {
+          "seed": 108924,
+          "pezzo": 810,
+          "libere": 28,
+          "bseed": 2302793195,
+          "start": {
+            "cells": [
+              "-3,-1",
+              "-3,2",
+              "-3,3",
+              "-3,4",
+              "-2,-1",
+              "-2,0",
+              "-2,1",
+              "-2,2",
+              "-2,4",
+              "-1,1",
+              "-1,2",
+              "0,-2",
+              "0,-1",
+              "0,0",
+              "0,1",
+              "0,2",
+              "0,3",
+              "1,-2",
+              "1,-1",
+              "1,1",
+              "1,2",
+              "2,-2",
+              "2,-1",
+              "2,0",
+              "2,1",
+              "2,2",
+              "3,-3",
+              "3,-2",
+              "3,-1",
+              "3,0",
+              "3,1",
+              "4,-3",
+              "4,0"
+            ],
+            "tray": ["barra 4-2", "bandiera destra-4", "bandiera destra-4"],
+            "streak": 0
+          },
+          "moves": [[1, -1, -3]],
+          "k": 4
+        },
+        {
+          "seed": 108924,
+          "pezzo": 810,
+          "libere": 28,
+          "bseed": 2302793197,
+          "start": {
+            "cells": [
+              "-3,-1",
+              "-3,2",
+              "-3,3",
+              "-3,4",
+              "-2,-1",
+              "-2,0",
+              "-2,1",
+              "-2,2",
+              "-2,4",
+              "-1,1",
+              "-1,2",
+              "0,-2",
+              "0,-1",
+              "0,0",
+              "0,1",
+              "0,2",
+              "0,3",
+              "1,-2",
+              "1,-1",
+              "1,1",
+              "1,2",
+              "2,-2",
+              "2,-1",
+              "2,0",
+              "2,1",
+              "2,2",
+              "3,-3",
+              "3,-2",
+              "3,-1",
+              "3,0",
+              "3,1",
+              "4,-3",
+              "4,0"
+            ],
+            "tray": ["barra 4-2", "bandiera destra-4", "bandiera destra-4"],
+            "streak": 0
+          },
+          "moves": [[1, -1, -3]],
+          "k": 6
+        }
+      ]
+    },
+    {
+      "seed": 109021,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 9,
+      "copies": 72,
+      "traps": []
+    },
+    {
+      "seed": 109118,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 14,
+      "copies": 112,
+      "traps": []
+    },
+    {
+      "seed": 109215,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 11,
+      "copies": 88,
+      "traps": []
+    },
+    {
+      "seed": 109312,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 13,
+      "copies": 104,
+      "traps": []
+    },
+    {
+      "seed": 109409,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 7,
+      "copies": 56,
+      "traps": []
+    },
+    {
+      "seed": 109506,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 11,
+      "copies": 88,
+      "traps": []
+    },
+    {
+      "seed": 109603,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 15,
+      "copies": 120,
+      "traps": []
+    },
+    {
+      "seed": 109700,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 19,
+      "copies": 152,
+      "traps": []
+    },
+    {
+      "seed": 109797,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 12,
+      "copies": 96,
+      "traps": []
+    },
+    {
+      "seed": 109894,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 24,
+      "copies": 192,
+      "traps": []
+    },
+    {
+      "seed": 109991,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 11,
+      "copies": 88,
+      "traps": []
+    },
+    {
+      "seed": 110088,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 18,
+      "copies": 144,
+      "traps": []
+    },
+    {
+      "seed": 110185,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 17,
+      "copies": 136,
+      "traps": []
+    },
+    {
+      "seed": 110282,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 16,
+      "copies": 128,
+      "traps": []
+    },
+    {
+      "seed": 110379,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 8,
+      "copies": 64,
+      "traps": []
+    },
+    {
+      "seed": 110476,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 14,
+      "copies": 112,
+      "traps": []
+    },
+    {
+      "seed": 110573,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 13,
+      "copies": 104,
+      "traps": []
+    },
+    {
+      "seed": 110670,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 15,
+      "copies": 120,
+      "traps": []
+    },
+    {
+      "seed": 110767,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 15,
+      "copies": 120,
+      "traps": []
+    },
+    {
+      "seed": 110864,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 19,
+      "copies": 152,
+      "traps": []
+    },
+    {
+      "seed": 110961,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 10,
+      "copies": 80,
+      "traps": []
+    },
+    {
+      "seed": 111058,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 8,
+      "copies": 64,
+      "traps": []
+    },
+    {
+      "seed": 111155,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 21,
+      "copies": 168,
+      "traps": []
+    },
+    {
+      "seed": 111252,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 14,
+      "copies": 112,
+      "traps": []
+    },
+    {
+      "seed": 111349,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 14,
+      "copies": 112,
+      "traps": []
+    },
+    {
+      "seed": 111446,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 14,
+      "copies": 112,
+      "traps": []
+    },
+    {
+      "seed": 111543,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 13,
+      "copies": 104,
+      "traps": []
+    },
+    {
+      "seed": 111640,
+      "pieces": 590,
+      "lost": true,
+      "entries": 11,
+      "copies": 88,
+      "traps": [
+        {
+          "seed": 111640,
+          "pezzo": 586,
+          "libere": 31,
+          "bseed": 2574401341,
+          "start": {
+            "cells": [
+              "-4,1",
+              "-3,0",
+              "-3,1",
+              "-3,3",
+              "-2,-2",
+              "-2,-1",
+              "-2,0",
+              "-2,3",
+              "-1,-3",
+              "-1,-2",
+              "-1,0",
+              "-1,1",
+              "-1,3",
+              "0,-2",
+              "0,1",
+              "0,2",
+              "1,-2",
+              "1,0",
+              "1,1",
+              "1,2",
+              "2,-3",
+              "2,-2",
+              "2,-1",
+              "2,0",
+              "2,1",
+              "3,-4",
+              "3,-3",
+              "3,-2",
+              "3,-1",
+              "4,-3"
+            ],
+            "tray": ["rombo-1", "barra 4-1", "ferro di cavallo-1"],
+            "streak": 0
+          },
+          "moves": [
+            [0, 4, -1],
+            [1, 3, -2],
+            [0, -3, 4],
+            [1, -4, 2],
+            [0, 0, -4],
+            [1, -3, -1]
+          ],
+          "k": 2
+        }
+      ]
+    },
+    {
+      "seed": 111737,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 16,
+      "copies": 128,
+      "traps": []
+    },
+    {
+      "seed": 111834,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 10,
+      "copies": 80,
+      "traps": []
+    },
+    {
+      "seed": 111931,
+      "pieces": 806,
+      "lost": true,
+      "entries": 9,
+      "copies": 72,
+      "traps": []
+    },
+    {
+      "seed": 112028,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 12,
+      "copies": 96,
+      "traps": []
+    },
+    {
+      "seed": 112125,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 19,
+      "copies": 152,
+      "traps": []
+    },
+    {
+      "seed": 112222,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 20,
+      "copies": 160,
+      "traps": []
+    },
+    {
+      "seed": 112319,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 10,
+      "copies": 80,
+      "traps": []
+    },
+    {
+      "seed": 112416,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 14,
+      "copies": 112,
+      "traps": []
+    },
+    {
+      "seed": 112513,
+      "pieces": 857,
+      "lost": true,
+      "entries": 19,
+      "copies": 152,
+      "traps": [
+        {
+          "seed": 112513,
+          "pezzo": 855,
+          "libere": 29,
+          "bseed": 2661704766,
+          "start": {
+            "cells": [
+              "-3,0",
+              "-3,2",
+              "-3,3",
+              "-3,4",
+              "-2,0",
+              "-2,2",
+              "-2,3",
+              "-2,4",
+              "-1,0",
+              "-1,1",
+              "-1,2",
+              "-1,3",
+              "-1,4",
+              "0,-3",
+              "0,0",
+              "0,1",
+              "0,2",
+              "0,3",
+              "0,4",
+              "1,-3",
+              "1,1",
+              "1,2",
+              "1,3",
+              "2,-3",
+              "2,-2",
+              "2,0",
+              "2,1",
+              "2,2",
+              "3,0",
+              "4,-4",
+              "4,-3",
+              "4,-2"
+            ],
+            "tray": ["rombo-0", "bandiera sinistra-1", "rombo-1"],
+            "streak": 0
+          },
+          "moves": [
+            [2, -1, -3],
+            [0, 0, -2]
+          ],
+          "k": 0
+        },
+        {
+          "seed": 112513,
+          "pezzo": 855,
+          "libere": 29,
+          "bseed": 2661704769,
+          "start": {
+            "cells": [
+              "-3,0",
+              "-3,2",
+              "-3,3",
+              "-3,4",
+              "-2,0",
+              "-2,2",
+              "-2,3",
+              "-2,4",
+              "-1,0",
+              "-1,1",
+              "-1,2",
+              "-1,3",
+              "-1,4",
+              "0,-3",
+              "0,0",
+              "0,1",
+              "0,2",
+              "0,3",
+              "0,4",
+              "1,-3",
+              "1,1",
+              "1,2",
+              "1,3",
+              "2,-3",
+              "2,-2",
+              "2,0",
+              "2,1",
+              "2,2",
+              "3,0",
+              "4,-4",
+              "4,-3",
+              "4,-2"
+            ],
+            "tray": ["rombo-0", "bandiera sinistra-1", "rombo-1"],
+            "streak": 0
+          },
+          "moves": [
+            [2, -1, -3],
+            [0, 0, -2]
+          ],
+          "k": 3
+        }
+      ]
+    },
+    {
+      "seed": 112610,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 8,
+      "copies": 64,
+      "traps": []
+    },
+    {
+      "seed": 112707,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 17,
+      "copies": 136,
+      "traps": []
+    },
+    {
+      "seed": 112804,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 11,
+      "copies": 88,
+      "traps": []
+    },
+    {
+      "seed": 112901,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 11,
+      "copies": 88,
+      "traps": []
+    },
+    {
+      "seed": 112998,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 6,
+      "copies": 48,
+      "traps": []
+    },
+    {
+      "seed": 113095,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 10,
+      "copies": 80,
+      "traps": []
+    },
+    {
+      "seed": 113192,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 15,
+      "copies": 120,
+      "traps": []
+    },
+    {
+      "seed": 113289,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 9,
+      "copies": 72,
+      "traps": []
+    },
+    {
+      "seed": 113386,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 16,
+      "copies": 128,
+      "traps": []
+    },
+    {
+      "seed": 113483,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 17,
+      "copies": 136,
+      "traps": []
+    },
+    {
+      "seed": 113580,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 10,
+      "copies": 80,
+      "traps": []
+    },
+    {
+      "seed": 113677,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 11,
+      "copies": 88,
+      "traps": []
+    },
+    {
+      "seed": 113774,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 13,
+      "copies": 104,
+      "traps": []
+    },
+    {
+      "seed": 113871,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 11,
+      "copies": 88,
+      "traps": []
+    },
+    {
+      "seed": 113968,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 9,
+      "copies": 72,
+      "traps": []
+    },
+    {
+      "seed": 114065,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 11,
+      "copies": 88,
+      "traps": []
+    },
+    {
+      "seed": 114162,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 12,
+      "copies": 96,
+      "traps": []
+    },
+    {
+      "seed": 114259,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 11,
+      "copies": 88,
+      "traps": []
+    },
+    {
+      "seed": 114356,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 12,
+      "copies": 96,
+      "traps": []
+    },
+    {
+      "seed": 114453,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 13,
+      "copies": 104,
+      "traps": []
+    },
+    {
+      "seed": 114550,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 13,
+      "copies": 104,
+      "traps": [
+        {
+          "seed": 114550,
+          "pezzo": 818,
+          "libere": 28,
+          "bseed": 2865410074,
+          "start": {
+            "cells": [
+              "-4,0",
+              "-4,1",
+              "-4,3",
+              "-4,4",
+              "-3,0",
+              "-3,1",
+              "-3,4",
+              "-2,1",
+              "-2,3",
+              "-1,-2",
+              "-1,0",
+              "-1,3",
+              "-1,4",
+              "0,-3",
+              "0,-2",
+              "0,0",
+              "0,2",
+              "0,3",
+              "0,4",
+              "1,-2",
+              "1,-1",
+              "1,1",
+              "1,2",
+              "1,3",
+              "2,-2",
+              "2,0",
+              "2,1",
+              "3,-3",
+              "3,-2",
+              "3,-1",
+              "3,0",
+              "4,-3",
+              "4,-2"
+            ],
+            "tray": ["bandiera sinistra-3", "bandiera destra-1", "rombo-1"],
+            "streak": 0
+          },
+          "moves": [
+            [0, -1, 1],
+            [2, -1, 2],
+            [0, -4, 2],
+            [0, 3, -1],
+            [1, -2, -2],
+            [0, -1, 3],
+            [0, 3, -4],
+            [1, 3, -2],
+            [1, 3, -4],
+            [1, -4, 3],
+            [1, 4, -4],
+            [0, 1, 0]
+          ],
+          "k": 5
+        }
+      ]
+    },
+    {
+      "seed": 114647,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 20,
+      "copies": 160,
+      "traps": []
+    },
+    {
+      "seed": 114744,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 20,
+      "copies": 160,
+      "traps": []
+    },
+    {
+      "seed": 114841,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 13,
+      "copies": 104,
+      "traps": []
+    },
+    {
+      "seed": 114938,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 18,
+      "copies": 144,
+      "traps": []
+    },
+    {
+      "seed": 115035,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 8,
+      "copies": 64,
+      "traps": []
+    },
+    {
+      "seed": 115132,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 13,
+      "copies": 104,
+      "traps": []
+    },
+    {
+      "seed": 115229,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 20,
+      "copies": 160,
+      "traps": []
+    },
+    {
+      "seed": 115326,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 14,
+      "copies": 112,
+      "traps": []
+    },
+    {
+      "seed": 115423,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 11,
+      "copies": 88,
+      "traps": []
+    },
+    {
+      "seed": 115520,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 18,
+      "copies": 144,
+      "traps": []
+    },
+    {
+      "seed": 115617,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 15,
+      "copies": 120,
+      "traps": []
+    },
+    {
+      "seed": 115714,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 14,
+      "copies": 112,
+      "traps": []
+    },
+    {
+      "seed": 115811,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 12,
+      "copies": 96,
+      "traps": []
+    },
+    {
+      "seed": 115908,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 20,
+      "copies": 160,
+      "traps": []
+    },
+    {
+      "seed": 116005,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 11,
+      "copies": 88,
+      "traps": []
+    },
+    {
+      "seed": 116102,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 14,
+      "copies": 112,
+      "traps": []
+    },
+    {
+      "seed": 116199,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 14,
+      "copies": 112,
+      "traps": []
+    },
+    {
+      "seed": 116296,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 11,
+      "copies": 88,
+      "traps": []
+    },
+    {
+      "seed": 116393,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 15,
+      "copies": 120,
+      "traps": []
+    },
+    {
+      "seed": 116490,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 13,
+      "copies": 104,
+      "traps": []
+    },
+    {
+      "seed": 116587,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 8,
+      "copies": 64,
+      "traps": []
+    },
+    {
+      "seed": 116684,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 16,
+      "copies": 128,
+      "traps": []
+    },
+    {
+      "seed": 116781,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 11,
+      "copies": 88,
+      "traps": []
+    },
+    {
+      "seed": 116878,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 18,
+      "copies": 144,
+      "traps": []
+    },
+    {
+      "seed": 116975,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 13,
+      "copies": 104,
+      "traps": []
+    },
+    {
+      "seed": 117072,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 15,
+      "copies": 120,
+      "traps": []
+    },
+    {
+      "seed": 117169,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 10,
+      "copies": 80,
+      "traps": []
+    },
+    {
+      "seed": 117266,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 13,
+      "copies": 104,
+      "traps": []
+    },
+    {
+      "seed": 117363,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 12,
+      "copies": 96,
+      "traps": []
+    },
+    {
+      "seed": 117460,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 14,
+      "copies": 112,
+      "traps": []
+    },
+    {
+      "seed": 117557,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 17,
+      "copies": 136,
+      "traps": []
+    },
+    {
+      "seed": 117654,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 16,
+      "copies": 128,
+      "traps": []
+    },
+    {
+      "seed": 117751,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 5,
+      "copies": 40,
+      "traps": []
+    },
+    {
+      "seed": 117848,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 13,
+      "copies": 104,
+      "traps": []
+    },
+    {
+      "seed": 117945,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 12,
+      "copies": 96,
+      "traps": []
+    },
+    {
+      "seed": 118042,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 13,
+      "copies": 104,
+      "traps": []
+    },
+    {
+      "seed": 118139,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 12,
+      "copies": 96,
+      "traps": []
+    },
+    {
+      "seed": 118236,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 17,
+      "copies": 136,
+      "traps": []
+    },
+    {
+      "seed": 118333,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 11,
+      "copies": 88,
+      "traps": []
+    },
+    {
+      "seed": 118430,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 11,
+      "copies": 88,
+      "traps": []
+    },
+    {
+      "seed": 118527,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 13,
+      "copies": 104,
+      "traps": []
+    },
+    {
+      "seed": 118624,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 17,
+      "copies": 136,
+      "traps": []
+    },
+    {
+      "seed": 118721,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 11,
+      "copies": 88,
+      "traps": []
+    },
+    {
+      "seed": 118818,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 13,
+      "copies": 104,
+      "traps": []
+    },
+    {
+      "seed": 118915,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 13,
+      "copies": 104,
+      "traps": [
+        {
+          "seed": 118915,
+          "pezzo": 540,
+          "libere": 31,
+          "bseed": 3301922766,
+          "start": {
+            "cells": [
+              "-4,0",
+              "-4,1",
+              "-3,-1",
+              "-3,1",
+              "-2,-1",
+              "-2,0",
+              "-2,1",
+              "-2,2",
+              "-2,4",
+              "-1,-3",
+              "-1,-2",
+              "-1,0",
+              "-1,1",
+              "-1,2",
+              "-1,4",
+              "0,-3",
+              "0,-2",
+              "0,0",
+              "0,1",
+              "0,2",
+              "0,4",
+              "1,-3",
+              "1,0",
+              "2,-3",
+              "2,0",
+              "3,-4",
+              "3,0",
+              "4,-4",
+              "4,-3",
+              "4,-2"
+            ],
+            "tray": [
+              "ferro di cavallo-4",
+              "bandiera sinistra-2",
+              "ferro di cavallo-5"
+            ],
+            "streak": 0
+          },
+          "moves": [
+            [0, 2, 1],
+            [1, 3, -3],
+            [0, 3, -4],
+            [1, 0, -4],
+            [1, 3, -3],
+            [1, -3, 3],
+            [0, -3, 2],
+            [2, -1, 3],
+            [2, 0, -3],
+            [0, 3, -2],
+            [1, 3, -2],
+            [2, -1, 1]
+          ],
+          "k": 6
+        }
+      ]
+    },
+    {
+      "seed": 119012,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 12,
+      "copies": 96,
+      "traps": []
+    },
+    {
+      "seed": 119109,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 19,
+      "copies": 152,
+      "traps": []
+    },
+    {
+      "seed": 119206,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 15,
+      "copies": 120,
+      "traps": []
+    },
+    {
+      "seed": 119303,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 9,
+      "copies": 72,
+      "traps": []
+    },
+    {
+      "seed": 119400,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 19,
+      "copies": 152,
+      "traps": []
+    },
+    {
+      "seed": 119497,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 19,
+      "copies": 152,
+      "traps": []
+    },
+    {
+      "seed": 119594,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 14,
+      "copies": 112,
+      "traps": []
+    },
+    {
+      "seed": 119691,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 17,
+      "copies": 136,
+      "traps": []
+    },
+    {
+      "seed": 119788,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 11,
+      "copies": 88,
+      "traps": []
+    },
+    {
+      "seed": 119885,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 13,
+      "copies": 104,
+      "traps": []
+    },
+    {
+      "seed": 119982,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 14,
+      "copies": 112,
+      "traps": []
+    },
+    {
+      "seed": 120079,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 17,
+      "copies": 136,
+      "traps": []
+    },
+    {
+      "seed": 120176,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 10,
+      "copies": 80,
+      "traps": []
+    },
+    {
+      "seed": 120273,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 17,
+      "copies": 136,
+      "traps": []
+    },
+    {
+      "seed": 120370,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 15,
+      "copies": 120,
+      "traps": []
+    },
+    {
+      "seed": 120467,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 9,
+      "copies": 72,
+      "traps": []
+    },
+    {
+      "seed": 120564,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 22,
+      "copies": 176,
+      "traps": []
+    },
+    {
+      "seed": 120661,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 24,
+      "copies": 192,
+      "traps": []
+    },
+    {
+      "seed": 120758,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 4,
+      "copies": 32,
+      "traps": []
+    },
+    {
+      "seed": 120855,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 16,
+      "copies": 128,
+      "traps": []
+    },
+    {
+      "seed": 120952,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 12,
+      "copies": 96,
+      "traps": []
+    },
+    {
+      "seed": 121049,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 15,
+      "copies": 120,
+      "traps": []
+    },
+    {
+      "seed": 121146,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 13,
+      "copies": 104,
+      "traps": []
+    },
+    {
+      "seed": 121243,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 13,
+      "copies": 104,
+      "traps": []
+    },
+    {
+      "seed": 121340,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 19,
+      "copies": 152,
+      "traps": []
+    },
+    {
+      "seed": 121437,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 13,
+      "copies": 104,
+      "traps": []
+    },
+    {
+      "seed": 121534,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 18,
+      "copies": 144,
+      "traps": []
+    },
+    {
+      "seed": 121631,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 12,
+      "copies": 96,
+      "traps": []
+    },
+    {
+      "seed": 121728,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 22,
+      "copies": 176,
+      "traps": []
+    },
+    {
+      "seed": 121825,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 17,
+      "copies": 136,
+      "traps": []
+    },
+    {
+      "seed": 121922,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 22,
+      "copies": 176,
+      "traps": [
+        {
+          "seed": 121922,
+          "pezzo": 999,
+          "libere": 28,
+          "bseed": 3602633296,
+          "start": {
+            "cells": [
+              "-4,0",
+              "-4,1",
+              "-4,2",
+              "-4,3",
+              "-3,-1",
+              "-3,0",
+              "-3,4",
+              "-2,-2",
+              "-2,0",
+              "-2,1",
+              "-2,2",
+              "-2,4",
+              "-1,-2",
+              "-1,0",
+              "0,-2",
+              "0,0",
+              "0,1",
+              "0,3",
+              "1,-3",
+              "1,-2",
+              "1,-1",
+              "1,0",
+              "1,1",
+              "1,2",
+              "2,-4",
+              "2,-3",
+              "2,-2",
+              "2,-1",
+              "2,0",
+              "2,1",
+              "3,-3",
+              "3,-2",
+              "3,0"
+            ],
+            "tray": ["rombo-2", "ferro di cavallo-5", "rombo-0"],
+            "streak": 0
+          },
+          "moves": [
+            [0, 0, -4],
+            [0, -1, 2]
+          ],
+          "k": 0
+        },
+        {
+          "seed": 121922,
+          "pezzo": 999,
+          "libere": 28,
+          "bseed": 3602633297,
+          "start": {
+            "cells": [
+              "-4,0",
+              "-4,1",
+              "-4,2",
+              "-4,3",
+              "-3,-1",
+              "-3,0",
+              "-3,4",
+              "-2,-2",
+              "-2,0",
+              "-2,1",
+              "-2,2",
+              "-2,4",
+              "-1,-2",
+              "-1,0",
+              "0,-2",
+              "0,0",
+              "0,1",
+              "0,3",
+              "1,-3",
+              "1,-2",
+              "1,-1",
+              "1,0",
+              "1,1",
+              "1,2",
+              "2,-4",
+              "2,-3",
+              "2,-2",
+              "2,-1",
+              "2,0",
+              "2,1",
+              "3,-3",
+              "3,-2",
+              "3,0"
+            ],
+            "tray": ["rombo-2", "ferro di cavallo-5", "rombo-0"],
+            "streak": 0
+          },
+          "moves": [[0, 0, -4]],
+          "k": 1
+        },
+        {
+          "seed": 121922,
+          "pezzo": 999,
+          "libere": 28,
+          "bseed": 3602633300,
+          "start": {
+            "cells": [
+              "-4,0",
+              "-4,1",
+              "-4,2",
+              "-4,3",
+              "-3,-1",
+              "-3,0",
+              "-3,4",
+              "-2,-2",
+              "-2,0",
+              "-2,1",
+              "-2,2",
+              "-2,4",
+              "-1,-2",
+              "-1,0",
+              "0,-2",
+              "0,0",
+              "0,1",
+              "0,3",
+              "1,-3",
+              "1,-2",
+              "1,-1",
+              "1,0",
+              "1,1",
+              "1,2",
+              "2,-4",
+              "2,-3",
+              "2,-2",
+              "2,-1",
+              "2,0",
+              "2,1",
+              "3,-3",
+              "3,-2",
+              "3,0"
+            ],
+            "tray": ["rombo-2", "ferro di cavallo-5", "rombo-0"],
+            "streak": 0
+          },
+          "moves": [
+            [0, 0, -4],
+            [0, -1, 2]
+          ],
+          "k": 4
+        }
+      ]
+    },
+    {
+      "seed": 122019,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 19,
+      "copies": 152,
+      "traps": []
+    },
+    {
+      "seed": 122116,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 15,
+      "copies": 120,
+      "traps": []
+    },
+    {
+      "seed": 122213,
+      "pieces": 373,
+      "lost": true,
+      "entries": 5,
+      "copies": 40,
+      "traps": [
+        {
+          "seed": 122213,
+          "pezzo": 372,
+          "libere": 28,
+          "bseed": 3631732452,
+          "start": {
+            "cells": [
+              "-4,2",
+              "-3,0",
+              "-3,2",
+              "-3,4",
+              "-2,-1",
+              "-2,0",
+              "-2,1",
+              "-2,2",
+              "-1,-2",
+              "-1,-1",
+              "-1,0",
+              "-1,1",
+              "-1,2",
+              "-1,4",
+              "0,-2",
+              "0,-1",
+              "0,0",
+              "0,1",
+              "0,2",
+              "0,3",
+              "0,4",
+              "1,-4",
+              "1,-3",
+              "1,0",
+              "1,2",
+              "2,-4",
+              "2,-2",
+              "2,-1",
+              "2,1",
+              "3,-4",
+              "3,-2",
+              "4,-4",
+              "4,-1"
+            ],
+            "tray": ["barra 4-0", "barra 4-0", "barra 4-1"],
+            "streak": 0
+          },
+          "moves": [[0, -4, 3]],
+          "k": 0
+        },
+        {
+          "seed": 122213,
+          "pezzo": 372,
+          "libere": 28,
+          "bseed": 3631732453,
+          "start": {
+            "cells": [
+              "-4,2",
+              "-3,0",
+              "-3,2",
+              "-3,4",
+              "-2,-1",
+              "-2,0",
+              "-2,1",
+              "-2,2",
+              "-1,-2",
+              "-1,-1",
+              "-1,0",
+              "-1,1",
+              "-1,2",
+              "-1,4",
+              "0,-2",
+              "0,-1",
+              "0,0",
+              "0,1",
+              "0,2",
+              "0,3",
+              "0,4",
+              "1,-4",
+              "1,-3",
+              "1,0",
+              "1,2",
+              "2,-4",
+              "2,-2",
+              "2,-1",
+              "2,1",
+              "3,-4",
+              "3,-2",
+              "4,-4",
+              "4,-1"
+            ],
+            "tray": ["barra 4-0", "barra 4-0", "barra 4-1"],
+            "streak": 0
+          },
+          "moves": [[0, -4, 3]],
+          "k": 1
+        },
+        {
+          "seed": 122213,
+          "pezzo": 372,
+          "libere": 28,
+          "bseed": 3631732454,
+          "start": {
+            "cells": [
+              "-4,2",
+              "-3,0",
+              "-3,2",
+              "-3,4",
+              "-2,-1",
+              "-2,0",
+              "-2,1",
+              "-2,2",
+              "-1,-2",
+              "-1,-1",
+              "-1,0",
+              "-1,1",
+              "-1,2",
+              "-1,4",
+              "0,-2",
+              "0,-1",
+              "0,0",
+              "0,1",
+              "0,2",
+              "0,3",
+              "0,4",
+              "1,-4",
+              "1,-3",
+              "1,0",
+              "1,2",
+              "2,-4",
+              "2,-2",
+              "2,-1",
+              "2,1",
+              "3,-4",
+              "3,-2",
+              "4,-4",
+              "4,-1"
+            ],
+            "tray": ["barra 4-0", "barra 4-0", "barra 4-1"],
+            "streak": 0
+          },
+          "moves": [[0, -4, 3]],
+          "k": 2
+        },
+        {
+          "seed": 122213,
+          "pezzo": 372,
+          "libere": 28,
+          "bseed": 3631732455,
+          "start": {
+            "cells": [
+              "-4,2",
+              "-3,0",
+              "-3,2",
+              "-3,4",
+              "-2,-1",
+              "-2,0",
+              "-2,1",
+              "-2,2",
+              "-1,-2",
+              "-1,-1",
+              "-1,0",
+              "-1,1",
+              "-1,2",
+              "-1,4",
+              "0,-2",
+              "0,-1",
+              "0,0",
+              "0,1",
+              "0,2",
+              "0,3",
+              "0,4",
+              "1,-4",
+              "1,-3",
+              "1,0",
+              "1,2",
+              "2,-4",
+              "2,-2",
+              "2,-1",
+              "2,1",
+              "3,-4",
+              "3,-2",
+              "4,-4",
+              "4,-1"
+            ],
+            "tray": ["barra 4-0", "barra 4-0", "barra 4-1"],
+            "streak": 0
+          },
+          "moves": [[0, -4, 3]],
+          "k": 3
+        },
+        {
+          "seed": 122213,
+          "pezzo": 372,
+          "libere": 28,
+          "bseed": 3631732456,
+          "start": {
+            "cells": [
+              "-4,2",
+              "-3,0",
+              "-3,2",
+              "-3,4",
+              "-2,-1",
+              "-2,0",
+              "-2,1",
+              "-2,2",
+              "-1,-2",
+              "-1,-1",
+              "-1,0",
+              "-1,1",
+              "-1,2",
+              "-1,4",
+              "0,-2",
+              "0,-1",
+              "0,0",
+              "0,1",
+              "0,2",
+              "0,3",
+              "0,4",
+              "1,-4",
+              "1,-3",
+              "1,0",
+              "1,2",
+              "2,-4",
+              "2,-2",
+              "2,-1",
+              "2,1",
+              "3,-4",
+              "3,-2",
+              "4,-4",
+              "4,-1"
+            ],
+            "tray": ["barra 4-0", "barra 4-0", "barra 4-1"],
+            "streak": 0
+          },
+          "moves": [[0, -4, 3]],
+          "k": 4
+        },
+        {
+          "seed": 122213,
+          "pezzo": 372,
+          "libere": 28,
+          "bseed": 3631732458,
+          "start": {
+            "cells": [
+              "-4,2",
+              "-3,0",
+              "-3,2",
+              "-3,4",
+              "-2,-1",
+              "-2,0",
+              "-2,1",
+              "-2,2",
+              "-1,-2",
+              "-1,-1",
+              "-1,0",
+              "-1,1",
+              "-1,2",
+              "-1,4",
+              "0,-2",
+              "0,-1",
+              "0,0",
+              "0,1",
+              "0,2",
+              "0,3",
+              "0,4",
+              "1,-4",
+              "1,-3",
+              "1,0",
+              "1,2",
+              "2,-4",
+              "2,-2",
+              "2,-1",
+              "2,1",
+              "3,-4",
+              "3,-2",
+              "4,-4",
+              "4,-1"
+            ],
+            "tray": ["barra 4-0", "barra 4-0", "barra 4-1"],
+            "streak": 0
+          },
+          "moves": [[0, -4, 3]],
+          "k": 6
+        }
+      ]
+    },
+    {
+      "seed": 122310,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 11,
+      "copies": 88,
+      "traps": []
+    },
+    {
+      "seed": 122407,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 11,
+      "copies": 88,
+      "traps": []
+    },
+    {
+      "seed": 122504,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 13,
+      "copies": 104,
+      "traps": [
+        {
+          "seed": 122504,
+          "pezzo": 514,
+          "libere": 30,
+          "bseed": 3660833632,
+          "start": {
+            "cells": [
+              "-4,0",
+              "-4,1",
+              "-4,4",
+              "-3,-1",
+              "-3,0",
+              "-3,2",
+              "-3,3",
+              "-3,4",
+              "-2,-1",
+              "-2,1",
+              "-2,2",
+              "-2,3",
+              "-1,-3",
+              "-1,-2",
+              "-1,0",
+              "-1,1",
+              "-1,3",
+              "0,-2",
+              "0,0",
+              "0,1",
+              "0,4",
+              "1,-2",
+              "1,-1",
+              "2,-3",
+              "2,-2",
+              "2,-1",
+              "2,2",
+              "3,-1",
+              "3,1",
+              "4,-4",
+              "4,0"
+            ],
+            "tray": ["barra 4-2", "bandiera sinistra-4", "ferro di cavallo-4"],
+            "streak": 0
+          },
+          "moves": [
+            [2, 1, 1],
+            [0, -1, -1],
+            [1, -3, 0],
+            [2, 1, 1],
+            [2, 4, -2]
+          ],
+          "k": 4
+        }
+      ]
+    },
+    {
+      "seed": 122601,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 19,
+      "copies": 152,
+      "traps": []
+    },
+    {
+      "seed": 122698,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 12,
+      "copies": 96,
+      "traps": []
+    },
+    {
+      "seed": 122795,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 22,
+      "copies": 176,
+      "traps": [
+        {
+          "seed": 122795,
+          "pezzo": 612,
+          "libere": 31,
+          "bseed": 3689935008,
+          "start": {
+            "cells": [
+              "-4,3",
+              "-4,4",
+              "-3,0",
+              "-3,1",
+              "-3,2",
+              "-3,3",
+              "-3,4",
+              "-2,1",
+              "-2,2",
+              "-2,3",
+              "-1,-2",
+              "-1,-1",
+              "-1,0",
+              "-1,1",
+              "-1,2",
+              "0,-2",
+              "0,-1",
+              "0,0",
+              "0,2",
+              "1,-3",
+              "1,0",
+              "1,1",
+              "1,2",
+              "2,-4",
+              "2,-3",
+              "2,-1",
+              "3,-4",
+              "3,-3",
+              "3,-2",
+              "4,-3"
+            ],
+            "tray": ["rombo-0", "ferro di cavallo-1", "rombo-0"],
+            "streak": 0
+          },
+          "moves": [
+            [0, -1, 3],
+            [2, 3, -1]
+          ],
+          "k": 2
+        },
+        {
+          "seed": 122795,
+          "pezzo": 612,
+          "libere": 31,
+          "bseed": 3689935011,
+          "start": {
+            "cells": [
+              "-4,3",
+              "-4,4",
+              "-3,0",
+              "-3,1",
+              "-3,2",
+              "-3,3",
+              "-3,4",
+              "-2,1",
+              "-2,2",
+              "-2,3",
+              "-1,-2",
+              "-1,-1",
+              "-1,0",
+              "-1,1",
+              "-1,2",
+              "0,-2",
+              "0,-1",
+              "0,0",
+              "0,2",
+              "1,-3",
+              "1,0",
+              "1,1",
+              "1,2",
+              "2,-4",
+              "2,-3",
+              "2,-1",
+              "3,-4",
+              "3,-3",
+              "3,-2",
+              "4,-3"
+            ],
+            "tray": ["rombo-0", "ferro di cavallo-1", "rombo-0"],
+            "streak": 0
+          },
+          "moves": [
+            [0, -1, 3],
+            [0, 4, -2]
+          ],
+          "k": 5
+        },
+        {
+          "seed": 122795,
+          "pezzo": 612,
+          "libere": 31,
+          "bseed": 3689935012,
+          "start": {
+            "cells": [
+              "-4,3",
+              "-4,4",
+              "-3,0",
+              "-3,1",
+              "-3,2",
+              "-3,3",
+              "-3,4",
+              "-2,1",
+              "-2,2",
+              "-2,3",
+              "-1,-2",
+              "-1,-1",
+              "-1,0",
+              "-1,1",
+              "-1,2",
+              "0,-2",
+              "0,-1",
+              "0,0",
+              "0,2",
+              "1,-3",
+              "1,0",
+              "1,1",
+              "1,2",
+              "2,-4",
+              "2,-3",
+              "2,-1",
+              "3,-4",
+              "3,-3",
+              "3,-2",
+              "4,-3"
+            ],
+            "tray": ["rombo-0", "ferro di cavallo-1", "rombo-0"],
+            "streak": 0
+          },
+          "moves": [
+            [0, -1, 3],
+            [0, 2, 0]
+          ],
+          "k": 6
+        }
+      ]
+    },
+    {
+      "seed": 122892,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 18,
+      "copies": 144,
+      "traps": []
+    },
+    {
+      "seed": 122989,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 22,
+      "copies": 176,
+      "traps": []
+    },
+    {
+      "seed": 123086,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 14,
+      "copies": 112,
+      "traps": []
+    },
+    {
+      "seed": 123183,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 19,
+      "copies": 152,
+      "traps": []
+    },
+    {
+      "seed": 123280,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 14,
+      "copies": 112,
+      "traps": []
+    },
+    {
+      "seed": 123377,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 14,
+      "copies": 112,
+      "traps": []
+    },
+    {
+      "seed": 123474,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 13,
+      "copies": 104,
+      "traps": []
+    },
+    {
+      "seed": 123571,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 12,
+      "copies": 96,
+      "traps": []
+    },
+    {
+      "seed": 123668,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 10,
+      "copies": 80,
+      "traps": []
+    },
+    {
+      "seed": 123765,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 15,
+      "copies": 120,
+      "traps": []
+    },
+    {
+      "seed": 123862,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 14,
+      "copies": 112,
+      "traps": []
+    },
+    {
+      "seed": 123959,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 11,
+      "copies": 88,
+      "traps": []
+    },
+    {
+      "seed": 124056,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 19,
+      "copies": 152,
+      "traps": []
+    },
+    {
+      "seed": 124153,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 14,
+      "copies": 112,
+      "traps": []
+    },
+    {
+      "seed": 124250,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 13,
+      "copies": 104,
+      "traps": []
+    },
+    {
+      "seed": 124347,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 15,
+      "copies": 120,
+      "traps": []
+    },
+    {
+      "seed": 124444,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 19,
+      "copies": 152,
+      "traps": []
+    },
+    {
+      "seed": 124541,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 15,
+      "copies": 120,
+      "traps": []
+    },
+    {
+      "seed": 124638,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 5,
+      "copies": 40,
+      "traps": []
+    },
+    {
+      "seed": 124735,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 10,
+      "copies": 80,
+      "traps": []
+    },
+    {
+      "seed": 124832,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 11,
+      "copies": 88,
+      "traps": []
+    },
+    {
+      "seed": 124929,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 14,
+      "copies": 112,
+      "traps": []
+    },
+    {
+      "seed": 125026,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 17,
+      "copies": 136,
+      "traps": []
+    },
+    {
+      "seed": 125123,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 15,
+      "copies": 120,
+      "traps": []
+    },
+    {
+      "seed": 125220,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 8,
+      "copies": 64,
+      "traps": []
+    },
+    {
+      "seed": 125317,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 13,
+      "copies": 104,
+      "traps": []
+    },
+    {
+      "seed": 125414,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 19,
+      "copies": 152,
+      "traps": []
+    },
+    {
+      "seed": 125511,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 15,
+      "copies": 120,
+      "traps": []
+    },
+    {
+      "seed": 125608,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 16,
+      "copies": 128,
+      "traps": []
+    },
+    {
+      "seed": 125705,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 11,
+      "copies": 88,
+      "traps": []
+    },
+    {
+      "seed": 125802,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 13,
+      "copies": 104,
+      "traps": []
+    },
+    {
+      "seed": 125899,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 20,
+      "copies": 160,
+      "traps": []
+    },
+    {
+      "seed": 125996,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 16,
+      "copies": 128,
+      "traps": []
+    },
+    {
+      "seed": 126093,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 9,
+      "copies": 72,
+      "traps": []
+    },
+    {
+      "seed": 126190,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 11,
+      "copies": 88,
+      "traps": []
+    },
+    {
+      "seed": 126287,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 9,
+      "copies": 72,
+      "traps": []
+    },
+    {
+      "seed": 126384,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 10,
+      "copies": 80,
+      "traps": []
+    },
+    {
+      "seed": 126481,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 18,
+      "copies": 144,
+      "traps": []
+    },
+    {
+      "seed": 126578,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 14,
+      "copies": 112,
+      "traps": []
+    },
+    {
+      "seed": 126675,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 15,
+      "copies": 120,
+      "traps": []
+    },
+    {
+      "seed": 126772,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 14,
+      "copies": 112,
+      "traps": []
+    },
+    {
+      "seed": 126869,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 12,
+      "copies": 96,
+      "traps": []
+    },
+    {
+      "seed": 126966,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 14,
+      "copies": 112,
+      "traps": []
+    },
+    {
+      "seed": 127063,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 14,
+      "copies": 112,
+      "traps": []
+    },
+    {
+      "seed": 127160,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 10,
+      "copies": 80,
+      "traps": []
+    },
+    {
+      "seed": 127257,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 8,
+      "copies": 64,
+      "traps": []
+    },
+    {
+      "seed": 127354,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 16,
+      "copies": 128,
+      "traps": []
+    },
+    {
+      "seed": 127451,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 7,
+      "copies": 56,
+      "traps": []
+    },
+    {
+      "seed": 127548,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 11,
+      "copies": 88,
+      "traps": []
+    },
+    {
+      "seed": 127645,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 9,
+      "copies": 72,
+      "traps": []
+    },
+    {
+      "seed": 127742,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 20,
+      "copies": 160,
+      "traps": []
+    },
+    {
+      "seed": 127839,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 17,
+      "copies": 136,
+      "traps": []
+    },
+    {
+      "seed": 127936,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 9,
+      "copies": 72,
+      "traps": []
+    },
+    {
+      "seed": 128033,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 9,
+      "copies": 72,
+      "traps": [
+        {
+          "seed": 128033,
+          "pezzo": 223,
+          "libere": 28,
+          "bseed": 4213749716,
+          "start": {
+            "cells": [
+              "-4,0",
+              "-4,1",
+              "-4,2",
+              "-3,-1",
+              "-3,0",
+              "-3,1",
+              "-3,2",
+              "-2,-2",
+              "-2,0",
+              "-2,1",
+              "-2,2",
+              "-1,-3",
+              "-1,-1",
+              "-1,0",
+              "-1,1",
+              "-1,2",
+              "0,-1",
+              "0,2",
+              "0,3",
+              "1,-4",
+              "1,-3",
+              "1,-2",
+              "1,-1",
+              "1,1",
+              "1,2",
+              "2,-4",
+              "2,-3",
+              "2,-1",
+              "2,0",
+              "3,-4",
+              "4,-4",
+              "4,-1",
+              "4,0"
+            ],
+            "tray": ["bandiera sinistra-2", "ferro di cavallo-0", "rombo-2"],
+            "streak": 0
+          },
+          "moves": [
+            [0, 0, -4],
+            [1, 3, -3],
+            [2, -2, 3],
+            [2, 0, -4],
+            [0, 1, 0],
+            [1, 3, 0]
+          ],
+          "k": 6
+        }
+      ]
+    },
+    {
+      "seed": 128130,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 14,
+      "copies": 112,
+      "traps": []
+    },
+    {
+      "seed": 128227,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 12,
+      "copies": 96,
+      "traps": []
+    },
+    {
+      "seed": 128324,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 11,
+      "copies": 88,
+      "traps": []
+    },
+    {
+      "seed": 128421,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 18,
+      "copies": 144,
+      "traps": []
+    },
+    {
+      "seed": 128518,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 20,
+      "copies": 160,
+      "traps": []
+    },
+    {
+      "seed": 128615,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 11,
+      "copies": 88,
+      "traps": []
+    },
+    {
+      "seed": 128712,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 12,
+      "copies": 96,
+      "traps": []
+    },
+    {
+      "seed": 128809,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 15,
+      "copies": 120,
+      "traps": [
+        {
+          "seed": 128809,
+          "pezzo": 439,
+          "libere": 28,
+          "bseed": 4291352447,
+          "start": {
+            "cells": [
+              "-4,0",
+              "-4,1",
+              "-3,-1",
+              "-3,0",
+              "-3,1",
+              "-3,2",
+              "-3,3",
+              "-2,-2",
+              "-2,-1",
+              "-2,4",
+              "-1,-2",
+              "-1,-1",
+              "-1,1",
+              "-1,3",
+              "0,-3",
+              "0,-1",
+              "0,0",
+              "0,2",
+              "0,3",
+              "0,4",
+              "1,-1",
+              "1,1",
+              "1,2",
+              "1,3",
+              "2,-4",
+              "2,-3",
+              "2,1",
+              "2,2",
+              "3,-4",
+              "3,-1",
+              "3,0",
+              "4,-4",
+              "4,-2"
+            ],
+            "tray": ["bandiera destra-5", "rombo-0", "rombo-2"],
+            "streak": 0
+          },
+          "moves": [
+            [0, -2, 2],
+            [1, -4, 2],
+            [0, -2, 2],
+            [0, 0, -4],
+            [1, -2, 0],
+            [1, -2, -2],
+            [2, 1, 2],
+            [2, 1, -2],
+            [1, 4, -3],
+            [1, -2, 3],
+            [1, 1, 0]
+          ],
+          "k": 5
+        }
+      ]
+    },
+    {
+      "seed": 128906,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 9,
+      "copies": 72,
+      "traps": []
+    },
+    {
+      "seed": 129003,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 12,
+      "copies": 96,
+      "traps": []
+    },
+    {
+      "seed": 129100,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 8,
+      "copies": 64,
+      "traps": []
+    },
+    {
+      "seed": 129197,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 18,
+      "copies": 144,
+      "traps": []
+    },
+    {
+      "seed": 129294,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 14,
+      "copies": 112,
+      "traps": []
+    },
+    {
+      "seed": 129391,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 15,
+      "copies": 120,
+      "traps": []
+    },
+    {
+      "seed": 129488,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 9,
+      "copies": 72,
+      "traps": []
+    },
+    {
+      "seed": 129585,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 16,
+      "copies": 128,
+      "traps": []
+    },
+    {
+      "seed": 129682,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 9,
+      "copies": 72,
+      "traps": []
+    },
+    {
+      "seed": 129779,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 15,
+      "copies": 120,
+      "traps": [
+        {
+          "seed": 129779,
+          "pezzo": 636,
+          "libere": 29,
+          "bseed": 93388667,
+          "start": {
+            "cells": [
+              "-4,1",
+              "-4,3",
+              "-4,4",
+              "-3,-1",
+              "-3,0",
+              "-3,1",
+              "-3,2",
+              "-2,-2",
+              "-2,-1",
+              "-2,0",
+              "-2,1",
+              "-1,-3",
+              "-1,-2",
+              "-1,-1",
+              "-1,1",
+              "-1,2",
+              "0,0",
+              "0,1",
+              "0,2",
+              "0,3",
+              "1,-4",
+              "1,-3",
+              "1,-1",
+              "1,0",
+              "1,1",
+              "2,-4",
+              "2,-3",
+              "2,1",
+              "3,-4",
+              "3,-3",
+              "3,-1",
+              "3,0"
+            ],
+            "tray": ["bandiera destra-4", "bandiera destra-2", "rombo-1"],
+            "streak": 0
+          },
+          "moves": [
+            [2, -2, 2],
+            [0, -3, -1],
+            [2, 3, -2]
+          ],
+          "k": 5
+        }
+      ]
+    },
+    {
+      "seed": 129876,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 13,
+      "copies": 104,
+      "traps": []
+    },
+    {
+      "seed": 129973,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 14,
+      "copies": 112,
+      "traps": []
+    },
+    {
+      "seed": 130070,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 15,
+      "copies": 120,
+      "traps": []
+    },
+    {
+      "seed": 130167,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 8,
+      "copies": 64,
+      "traps": []
+    },
+    {
+      "seed": 130264,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 4,
+      "copies": 32,
+      "traps": []
+    },
+    {
+      "seed": 130361,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 16,
+      "copies": 128,
+      "traps": []
+    },
+    {
+      "seed": 130458,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 15,
+      "copies": 120,
+      "traps": []
+    },
+    {
+      "seed": 130555,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 12,
+      "copies": 96,
+      "traps": []
+    },
+    {
+      "seed": 130652,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 14,
+      "copies": 112,
+      "traps": []
+    },
+    {
+      "seed": 130749,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 15,
+      "copies": 120,
+      "traps": []
+    },
+    {
+      "seed": 130846,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 13,
+      "copies": 104,
+      "traps": []
+    },
+    {
+      "seed": 130943,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 13,
+      "copies": 104,
+      "traps": []
+    },
+    {
+      "seed": 131040,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 11,
+      "copies": 88,
+      "traps": []
+    },
+    {
+      "seed": 131137,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 8,
+      "copies": 64,
+      "traps": []
+    },
+    {
+      "seed": 131234,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 8,
+      "copies": 64,
+      "traps": []
+    },
+    {
+      "seed": 131331,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 11,
+      "copies": 88,
+      "traps": []
+    },
+    {
+      "seed": 131428,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 17,
+      "copies": 136,
+      "traps": []
+    },
+    {
+      "seed": 131525,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 17,
+      "copies": 136,
+      "traps": []
+    },
+    {
+      "seed": 131622,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 14,
+      "copies": 112,
+      "traps": []
+    },
+    {
+      "seed": 131719,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 21,
+      "copies": 168,
+      "traps": []
+    },
+    {
+      "seed": 131816,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 23,
+      "copies": 184,
+      "traps": []
+    },
+    {
+      "seed": 131913,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 18,
+      "copies": 144,
+      "traps": [
+        {
+          "seed": 131913,
+          "pezzo": 534,
+          "libere": 28,
+          "bseed": 306794764,
+          "start": {
+            "cells": [
+              "-4,3",
+              "-4,4",
+              "-3,0",
+              "-3,2",
+              "-3,3",
+              "-3,4",
+              "-2,0",
+              "-2,2",
+              "-1,-3",
+              "-1,-2",
+              "-1,1",
+              "0,-4",
+              "0,-3",
+              "0,-2",
+              "0,0",
+              "0,1",
+              "0,2",
+              "1,-4",
+              "1,-3",
+              "1,-1",
+              "1,0",
+              "1,1",
+              "2,-1",
+              "2,0",
+              "2,1",
+              "2,2",
+              "3,-3",
+              "3,-2",
+              "3,-1",
+              "3,0",
+              "3,1",
+              "4,-4",
+              "4,-2"
+            ],
+            "tray": ["rombo-2", "barra 4-0", "rombo-0"],
+            "streak": 0
+          },
+          "moves": [
+            [1, -2, 3],
+            [2, -2, 3],
+            [1, -3, -1],
+            [1, 1, 2]
+          ],
+          "k": 3
+        },
+        {
+          "seed": 131913,
+          "pezzo": 534,
+          "libere": 28,
+          "bseed": 306794768,
+          "start": {
+            "cells": [
+              "-4,3",
+              "-4,4",
+              "-3,0",
+              "-3,2",
+              "-3,3",
+              "-3,4",
+              "-2,0",
+              "-2,2",
+              "-1,-3",
+              "-1,-2",
+              "-1,1",
+              "0,-4",
+              "0,-3",
+              "0,-2",
+              "0,0",
+              "0,1",
+              "0,2",
+              "1,-4",
+              "1,-3",
+              "1,-1",
+              "1,0",
+              "1,1",
+              "2,-1",
+              "2,0",
+              "2,1",
+              "2,2",
+              "3,-3",
+              "3,-2",
+              "3,-1",
+              "3,0",
+              "3,1",
+              "4,-4",
+              "4,-2"
+            ],
+            "tray": ["rombo-2", "barra 4-0", "rombo-0"],
+            "streak": 0
+          },
+          "moves": [
+            [1, -2, 3],
+            [1, -2, 3],
+            [2, -1, 2],
+            [2, -2, -1],
+            [2, -1, -3]
+          ],
+          "k": 7
+        }
+      ]
+    },
+    {
+      "seed": 132010,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 9,
+      "copies": 72,
+      "traps": []
+    },
+    {
+      "seed": 132107,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 15,
+      "copies": 120,
+      "traps": []
+    },
+    {
+      "seed": 132204,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 12,
+      "copies": 96,
+      "traps": []
+    },
+    {
+      "seed": 132301,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 10,
+      "copies": 80,
+      "traps": []
+    },
+    {
+      "seed": 132398,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 13,
+      "copies": 104,
+      "traps": [
+        {
+          "seed": 132398,
+          "pezzo": 770,
+          "libere": 31,
+          "bseed": 355296321,
+          "start": {
+            "cells": [
+              "-4,1",
+              "-4,2",
+              "-3,0",
+              "-3,2",
+              "-2,-1",
+              "-2,0",
+              "-2,1",
+              "-2,2",
+              "-2,3",
+              "-2,4",
+              "-1,-2",
+              "-1,3",
+              "-1,4",
+              "0,-3",
+              "0,-2",
+              "0,0",
+              "0,2",
+              "0,3",
+              "0,4",
+              "1,-3",
+              "1,-2",
+              "1,1",
+              "2,-3",
+              "2,-2",
+              "2,-1",
+              "2,0",
+              "2,1",
+              "2,2",
+              "3,0",
+              "3,1"
+            ],
+            "tray": ["ferro di cavallo-2", "barra 4-1", "bandiera sinistra-2"],
+            "streak": 0
+          },
+          "moves": [
+            [1, 3, -4],
+            [2, 4, -3],
+            [0, -3, 3],
+            [0, -1, -1],
+            [2, 0, 1]
+          ],
+          "k": 4
+        }
+      ]
+    },
+    {
+      "seed": 132495,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 16,
+      "copies": 128,
+      "traps": []
+    },
+    {
+      "seed": 132592,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 15,
+      "copies": 120,
+      "traps": []
+    },
+    {
+      "seed": 132689,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 13,
+      "copies": 104,
+      "traps": []
+    },
+    {
+      "seed": 132786,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 12,
+      "copies": 96,
+      "traps": []
+    },
+    {
+      "seed": 132883,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 16,
+      "copies": 128,
+      "traps": []
+    },
+    {
+      "seed": 132980,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 16,
+      "copies": 128,
+      "traps": []
+    },
+    {
+      "seed": 133077,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 6,
+      "copies": 48,
+      "traps": []
+    },
+    {
+      "seed": 133174,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 16,
+      "copies": 128,
+      "traps": []
+    },
+    {
+      "seed": 133271,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 15,
+      "copies": 120,
+      "traps": []
+    },
+    {
+      "seed": 133368,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 13,
+      "copies": 104,
+      "traps": []
+    },
+    {
+      "seed": 133465,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 9,
+      "copies": 72,
+      "traps": []
+    },
+    {
+      "seed": 133562,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 13,
+      "copies": 104,
+      "traps": []
+    },
+    {
+      "seed": 133659,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 17,
+      "copies": 136,
+      "traps": []
+    },
+    {
+      "seed": 133756,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 16,
+      "copies": 128,
+      "traps": []
+    },
+    {
+      "seed": 133853,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 22,
+      "copies": 176,
+      "traps": [
+        {
+          "seed": 133853,
+          "pezzo": 732,
+          "libere": 29,
+          "bseed": 500801191,
+          "start": {
+            "cells": [
+              "-4,0",
+              "-4,3",
+              "-4,4",
+              "-3,-1",
+              "-3,0",
+              "-3,2",
+              "-3,3",
+              "-3,4",
+              "-2,-1",
+              "-2,0",
+              "-2,1",
+              "-2,2",
+              "-2,3",
+              "-2,4",
+              "-1,-3",
+              "-1,-1",
+              "-1,0",
+              "-1,1",
+              "-1,2",
+              "-1,3",
+              "0,-4",
+              "0,2",
+              "0,3",
+              "1,-1",
+              "1,0",
+              "1,1",
+              "1,2",
+              "2,-3",
+              "2,-1",
+              "3,-3",
+              "3,-1",
+              "4,-1"
+            ],
+            "tray": ["rombo-2", "rombo-2", "rombo-0"],
+            "streak": 0
+          },
+          "moves": [
+            [0, 1, -4],
+            [1, 3, 0],
+            [1, -2, -2],
+            [1, -2, 1]
+          ],
+          "k": 4
+        },
+        {
+          "seed": 133853,
+          "pezzo": 732,
+          "libere": 29,
+          "bseed": 500801192,
+          "start": {
+            "cells": [
+              "-4,0",
+              "-4,3",
+              "-4,4",
+              "-3,-1",
+              "-3,0",
+              "-3,2",
+              "-3,3",
+              "-3,4",
+              "-2,-1",
+              "-2,0",
+              "-2,1",
+              "-2,2",
+              "-2,3",
+              "-2,4",
+              "-1,-3",
+              "-1,-1",
+              "-1,0",
+              "-1,1",
+              "-1,2",
+              "-1,3",
+              "0,-4",
+              "0,2",
+              "0,3",
+              "1,-1",
+              "1,0",
+              "1,1",
+              "1,2",
+              "2,-3",
+              "2,-1",
+              "3,-3",
+              "3,-1",
+              "4,-1"
+            ],
+            "tray": ["rombo-2", "rombo-2", "rombo-0"],
+            "streak": 0
+          },
+          "moves": [
+            [0, 1, -4],
+            [0, 4, 0]
+          ],
+          "k": 5
+        },
+        {
+          "seed": 133853,
+          "pezzo": 732,
+          "libere": 29,
+          "bseed": 500801193,
+          "start": {
+            "cells": [
+              "-4,0",
+              "-4,3",
+              "-4,4",
+              "-3,-1",
+              "-3,0",
+              "-3,2",
+              "-3,3",
+              "-3,4",
+              "-2,-1",
+              "-2,0",
+              "-2,1",
+              "-2,2",
+              "-2,3",
+              "-2,4",
+              "-1,-3",
+              "-1,-1",
+              "-1,0",
+              "-1,1",
+              "-1,2",
+              "-1,3",
+              "0,-4",
+              "0,2",
+              "0,3",
+              "1,-1",
+              "1,0",
+              "1,1",
+              "1,2",
+              "2,-3",
+              "2,-1",
+              "3,-3",
+              "3,-1",
+              "4,-1"
+            ],
+            "tray": ["rombo-2", "rombo-2", "rombo-0"],
+            "streak": 0
+          },
+          "moves": [
+            [0, 1, -4],
+            [1, 3, 0]
+          ],
+          "k": 6
+        }
+      ]
+    },
+    {
+      "seed": 133950,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 11,
+      "copies": 88,
+      "traps": []
+    },
+    {
+      "seed": 134047,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 17,
+      "copies": 136,
+      "traps": []
+    },
+    {
+      "seed": 134144,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 16,
+      "copies": 128,
+      "traps": [
+        {
+          "seed": 134144,
+          "pezzo": 306,
+          "libere": 30,
+          "bseed": 529901357,
+          "start": {
+            "cells": [
+              "-3,0",
+              "-2,-1",
+              "-2,1",
+              "-2,2",
+              "-2,4",
+              "-1,-3",
+              "-1,-2",
+              "-1,0",
+              "-1,2",
+              "0,-4",
+              "0,-3",
+              "0,0",
+              "0,2",
+              "1,-4",
+              "1,-3",
+              "1,-2",
+              "1,-1",
+              "1,0",
+              "1,2",
+              "2,-4",
+              "2,-3",
+              "2,-1",
+              "2,0",
+              "2,1",
+              "2,2",
+              "3,-4",
+              "3,-2",
+              "3,-1",
+              "3,0",
+              "3,1",
+              "4,0"
+            ],
+            "tray": [
+              "ferro di cavallo-1",
+              "ferro di cavallo-1",
+              "bandiera destra-4"
+            ],
+            "streak": 0
+          },
+          "moves": [
+            [2, -3, 1],
+            [0, -2, 2],
+            [1, 1, 2],
+            [2, 0, 3]
+          ],
+          "k": 4
+        }
+      ]
+    },
+    {
+      "seed": 134241,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 13,
+      "copies": 104,
+      "traps": []
+    },
+    {
+      "seed": 134338,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 16,
+      "copies": 128,
+      "traps": []
+    },
+    {
+      "seed": 134435,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 16,
+      "copies": 128,
+      "traps": []
+    },
+    {
+      "seed": 134532,
+      "pieces": 138,
+      "lost": true,
+      "entries": 3,
+      "copies": 24,
+      "traps": []
+    },
+    {
+      "seed": 134629,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 12,
+      "copies": 96,
+      "traps": []
+    },
+    {
+      "seed": 134726,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 17,
+      "copies": 136,
+      "traps": []
+    },
+    {
+      "seed": 134823,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 17,
+      "copies": 136,
+      "traps": []
+    },
+    {
+      "seed": 134920,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 21,
+      "copies": 168,
+      "traps": []
+    },
+    {
+      "seed": 135017,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 12,
+      "copies": 96,
+      "traps": [
+        {
+          "seed": 135017,
+          "pezzo": 416,
+          "libere": 30,
+          "bseed": 617203467,
+          "start": {
+            "cells": [
+              "-4,3",
+              "-3,-1",
+              "-3,0",
+              "-3,1",
+              "-3,2",
+              "-3,3",
+              "-2,-2",
+              "-2,-1",
+              "-2,0",
+              "-1,-3",
+              "-1,-2",
+              "-1,-1",
+              "-1,0",
+              "-1,2",
+              "-1,3",
+              "-1,4",
+              "0,2",
+              "0,3",
+              "1,-3",
+              "1,-2",
+              "1,0",
+              "1,2",
+              "2,-1",
+              "2,0",
+              "2,1",
+              "2,2",
+              "3,-3",
+              "3,-2",
+              "3,-1",
+              "3,0",
+              "3,1"
+            ],
+            "tray": ["rombo-1", "ferro di cavallo-3", "ferro di cavallo-3"],
+            "streak": 0
+          },
+          "moves": [
+            [1, 1, -1],
+            [1, 4, -3],
+            [0, 1, 2],
+            [1, 2, 1]
+          ],
+          "k": 0
+        },
+        {
+          "seed": 135017,
+          "pezzo": 416,
+          "libere": 30,
+          "bseed": 617203468,
+          "start": {
+            "cells": [
+              "-4,3",
+              "-3,-1",
+              "-3,0",
+              "-3,1",
+              "-3,2",
+              "-3,3",
+              "-2,-2",
+              "-2,-1",
+              "-2,0",
+              "-1,-3",
+              "-1,-2",
+              "-1,-1",
+              "-1,0",
+              "-1,2",
+              "-1,3",
+              "-1,4",
+              "0,2",
+              "0,3",
+              "1,-3",
+              "1,-2",
+              "1,0",
+              "1,2",
+              "2,-1",
+              "2,0",
+              "2,1",
+              "2,2",
+              "3,-3",
+              "3,-2",
+              "3,-1",
+              "3,0",
+              "3,1"
+            ],
+            "tray": ["rombo-1", "ferro di cavallo-3", "ferro di cavallo-3"],
+            "streak": 0
+          },
+          "moves": [
+            [1, 1, -1],
+            [1, 4, -3],
+            [1, 0, 3],
+            [0, 2, 1],
+            [1, 1, -4],
+            [0, 0, -4],
+            [1, 1, -3],
+            [1, -1, -3]
+          ],
+          "k": 1
+        },
+        {
+          "seed": 135017,
+          "pezzo": 416,
+          "libere": 30,
+          "bseed": 617203470,
+          "start": {
+            "cells": [
+              "-4,3",
+              "-3,-1",
+              "-3,0",
+              "-3,1",
+              "-3,2",
+              "-3,3",
+              "-2,-2",
+              "-2,-1",
+              "-2,0",
+              "-1,-3",
+              "-1,-2",
+              "-1,-1",
+              "-1,0",
+              "-1,2",
+              "-1,3",
+              "-1,4",
+              "0,2",
+              "0,3",
+              "1,-3",
+              "1,-2",
+              "1,0",
+              "1,2",
+              "2,-1",
+              "2,0",
+              "2,1",
+              "2,2",
+              "3,-3",
+              "3,-2",
+              "3,-1",
+              "3,0",
+              "3,1"
+            ],
+            "tray": ["rombo-1", "ferro di cavallo-3", "ferro di cavallo-3"],
+            "streak": 0
+          },
+          "moves": [[1, 1, -1]],
+          "k": 3
+        },
+        {
+          "seed": 135017,
+          "pezzo": 416,
+          "libere": 30,
+          "bseed": 617203472,
+          "start": {
+            "cells": [
+              "-4,3",
+              "-3,-1",
+              "-3,0",
+              "-3,1",
+              "-3,2",
+              "-3,3",
+              "-2,-2",
+              "-2,-1",
+              "-2,0",
+              "-1,-3",
+              "-1,-2",
+              "-1,-1",
+              "-1,0",
+              "-1,2",
+              "-1,3",
+              "-1,4",
+              "0,2",
+              "0,3",
+              "1,-3",
+              "1,-2",
+              "1,0",
+              "1,2",
+              "2,-1",
+              "2,0",
+              "2,1",
+              "2,2",
+              "3,-3",
+              "3,-2",
+              "3,-1",
+              "3,0",
+              "3,1"
+            ],
+            "tray": ["rombo-1", "ferro di cavallo-3", "ferro di cavallo-3"],
+            "streak": 0
+          },
+          "moves": [[1, 1, -1]],
+          "k": 5
+        }
+      ]
+    },
+    {
+      "seed": 135114,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 10,
+      "copies": 80,
+      "traps": []
+    },
+    {
+      "seed": 135211,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 15,
+      "copies": 120,
+      "traps": []
+    },
+    {
+      "seed": 135308,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 10,
+      "copies": 80,
+      "traps": []
+    },
+    {
+      "seed": 135405,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 15,
+      "copies": 120,
+      "traps": []
+    },
+    {
+      "seed": 135502,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 13,
+      "copies": 104,
+      "traps": []
+    },
+    {
+      "seed": 135599,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 8,
+      "copies": 64,
+      "traps": []
+    },
+    {
+      "seed": 135696,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 19,
+      "copies": 152,
+      "traps": []
+    },
+    {
+      "seed": 135793,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 10,
+      "copies": 80,
+      "traps": []
+    },
+    {
+      "seed": 135890,
+      "pieces": 588,
+      "lost": true,
+      "entries": 10,
+      "copies": 80,
+      "traps": [
+        {
+          "seed": 135890,
+          "pezzo": 587,
+          "libere": 30,
+          "bseed": 704506694,
+          "start": {
+            "cells": [
+              "-4,0",
+              "-4,2",
+              "-4,3",
+              "-3,-1",
+              "-3,0",
+              "-3,1",
+              "-3,3",
+              "-2,-2",
+              "-2,-1",
+              "-2,1",
+              "-2,2",
+              "-2,3",
+              "-1,-3",
+              "-1,-2",
+              "-1,-1",
+              "-1,0",
+              "-1,3",
+              "0,-2",
+              "0,2",
+              "0,4",
+              "1,-4",
+              "1,-3",
+              "1,1",
+              "2,-4",
+              "2,-3",
+              "2,0",
+              "3,-3",
+              "3,-2",
+              "3,-1",
+              "3,1",
+              "4,-3"
+            ],
+            "tray": [
+              "ferro di cavallo-0",
+              "bandiera destra-3",
+              "ferro di cavallo-0"
+            ],
+            "streak": 0
+          },
+          "moves": [[0, 1, -2]],
+          "k": 2
+        },
+        {
+          "seed": 135890,
+          "pezzo": 587,
+          "libere": 30,
+          "bseed": 704506698,
+          "start": {
+            "cells": [
+              "-4,0",
+              "-4,2",
+              "-4,3",
+              "-3,-1",
+              "-3,0",
+              "-3,1",
+              "-3,3",
+              "-2,-2",
+              "-2,-1",
+              "-2,1",
+              "-2,2",
+              "-2,3",
+              "-1,-3",
+              "-1,-2",
+              "-1,-1",
+              "-1,0",
+              "-1,3",
+              "0,-2",
+              "0,2",
+              "0,4",
+              "1,-4",
+              "1,-3",
+              "1,1",
+              "2,-4",
+              "2,-3",
+              "2,0",
+              "3,-3",
+              "3,-2",
+              "3,-1",
+              "3,1",
+              "4,-3"
+            ],
+            "tray": [
+              "ferro di cavallo-0",
+              "bandiera destra-3",
+              "ferro di cavallo-0"
+            ],
+            "streak": 0
+          },
+          "moves": [
+            [0, 1, -2],
+            [0, 0, -1]
+          ],
+          "k": 6
+        }
+      ]
+    },
+    {
+      "seed": 135987,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 9,
+      "copies": 72,
+      "traps": []
+    },
+    {
+      "seed": 136084,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 17,
+      "copies": 136,
+      "traps": []
+    },
+    {
+      "seed": 136181,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 11,
+      "copies": 88,
+      "traps": []
+    },
+    {
+      "seed": 136278,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 11,
+      "copies": 88,
+      "traps": []
+    },
+    {
+      "seed": 136375,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 12,
+      "copies": 96,
+      "traps": []
+    },
+    {
+      "seed": 136472,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 15,
+      "copies": 120,
+      "traps": []
+    },
+    {
+      "seed": 136569,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 9,
+      "copies": 72,
+      "traps": []
+    },
+    {
+      "seed": 136666,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 9,
+      "copies": 72,
+      "traps": []
+    },
+    {
+      "seed": 136763,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 21,
+      "copies": 168,
+      "traps": []
+    },
+    {
+      "seed": 136860,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 11,
+      "copies": 88,
+      "traps": []
+    },
+    {
+      "seed": 136957,
+      "pieces": 793,
+      "lost": true,
+      "entries": 18,
+      "copies": 144,
+      "traps": [
+        {
+          "seed": 136957,
+          "pezzo": 791,
+          "libere": 31,
+          "bseed": 811210701,
+          "start": {
+            "cells": [
+              "-4,0",
+              "-3,-1",
+              "-3,2",
+              "-3,3",
+              "-2,-1",
+              "-2,0",
+              "-2,4",
+              "-1,-2",
+              "-1,-1",
+              "-1,0",
+              "-1,3",
+              "0,-4",
+              "0,-2",
+              "0,-1",
+              "0,0",
+              "0,1",
+              "0,2",
+              "0,3",
+              "1,-2",
+              "1,-1",
+              "1,0",
+              "1,1",
+              "1,3",
+              "2,-2",
+              "2,0",
+              "2,1",
+              "3,-4",
+              "3,0",
+              "4,-4",
+              "4,-2"
+            ],
+            "tray": ["bandiera destra-4", "barra 4-2", "bandiera destra-5"],
+            "streak": 0
+          },
+          "moves": [
+            [2, 3, -3],
+            [2, -1, -3],
+            [2, 1, -4]
+          ],
+          "k": 0
+        },
+        {
+          "seed": 136957,
+          "pezzo": 791,
+          "libere": 31,
+          "bseed": 811210703,
+          "start": {
+            "cells": [
+              "-4,0",
+              "-3,-1",
+              "-3,2",
+              "-3,3",
+              "-2,-1",
+              "-2,0",
+              "-2,4",
+              "-1,-2",
+              "-1,-1",
+              "-1,0",
+              "-1,3",
+              "0,-4",
+              "0,-2",
+              "0,-1",
+              "0,0",
+              "0,1",
+              "0,2",
+              "0,3",
+              "1,-2",
+              "1,-1",
+              "1,0",
+              "1,1",
+              "1,3",
+              "2,-2",
+              "2,0",
+              "2,1",
+              "3,-4",
+              "3,0",
+              "4,-4",
+              "4,-2"
+            ],
+            "tray": ["bandiera destra-4", "barra 4-2", "bandiera destra-5"],
+            "streak": 0
+          },
+          "moves": [
+            [2, 3, -3],
+            [2, -1, 1]
+          ],
+          "k": 2
+        },
+        {
+          "seed": 136957,
+          "pezzo": 791,
+          "libere": 31,
+          "bseed": 811210704,
+          "start": {
+            "cells": [
+              "-4,0",
+              "-3,-1",
+              "-3,2",
+              "-3,3",
+              "-2,-1",
+              "-2,0",
+              "-2,4",
+              "-1,-2",
+              "-1,-1",
+              "-1,0",
+              "-1,3",
+              "0,-4",
+              "0,-2",
+              "0,-1",
+              "0,0",
+              "0,1",
+              "0,2",
+              "0,3",
+              "1,-2",
+              "1,-1",
+              "1,0",
+              "1,1",
+              "1,3",
+              "2,-2",
+              "2,0",
+              "2,1",
+              "3,-4",
+              "3,0",
+              "4,-4",
+              "4,-2"
+            ],
+            "tray": ["bandiera destra-4", "barra 4-2", "bandiera destra-5"],
+            "streak": 0
+          },
+          "moves": [
+            [2, 3, -3],
+            [2, -4, 1]
+          ],
+          "k": 3
+        },
+        {
+          "seed": 136957,
+          "pezzo": 791,
+          "libere": 31,
+          "bseed": 811210706,
+          "start": {
+            "cells": [
+              "-4,0",
+              "-3,-1",
+              "-3,2",
+              "-3,3",
+              "-2,-1",
+              "-2,0",
+              "-2,4",
+              "-1,-2",
+              "-1,-1",
+              "-1,0",
+              "-1,3",
+              "0,-4",
+              "0,-2",
+              "0,-1",
+              "0,0",
+              "0,1",
+              "0,2",
+              "0,3",
+              "1,-2",
+              "1,-1",
+              "1,0",
+              "1,1",
+              "1,3",
+              "2,-2",
+              "2,0",
+              "2,1",
+              "3,-4",
+              "3,0",
+              "4,-4",
+              "4,-2"
+            ],
+            "tray": ["bandiera destra-4", "barra 4-2", "bandiera destra-5"],
+            "streak": 0
+          },
+          "moves": [[2, 3, -3]],
+          "k": 5
+        },
+        {
+          "seed": 136957,
+          "pezzo": 791,
+          "libere": 31,
+          "bseed": 811210707,
+          "start": {
+            "cells": [
+              "-4,0",
+              "-3,-1",
+              "-3,2",
+              "-3,3",
+              "-2,-1",
+              "-2,0",
+              "-2,4",
+              "-1,-2",
+              "-1,-1",
+              "-1,0",
+              "-1,3",
+              "0,-4",
+              "0,-2",
+              "0,-1",
+              "0,0",
+              "0,1",
+              "0,2",
+              "0,3",
+              "1,-2",
+              "1,-1",
+              "1,0",
+              "1,1",
+              "1,3",
+              "2,-2",
+              "2,0",
+              "2,1",
+              "3,-4",
+              "3,0",
+              "4,-4",
+              "4,-2"
+            ],
+            "tray": ["bandiera destra-4", "barra 4-2", "bandiera destra-5"],
+            "streak": 0
+          },
+          "moves": [[2, 3, -3]],
+          "k": 6
+        }
+      ]
+    },
+    {
+      "seed": 137054,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 11,
+      "copies": 88,
+      "traps": []
+    },
+    {
+      "seed": 137151,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 11,
+      "copies": 88,
+      "traps": []
+    },
+    {
+      "seed": 137248,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 8,
+      "copies": 64,
+      "traps": []
+    },
+    {
+      "seed": 137345,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 14,
+      "copies": 112,
+      "traps": []
+    },
+    {
+      "seed": 137442,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 15,
+      "copies": 120,
+      "traps": []
+    },
+    {
+      "seed": 137539,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 9,
+      "copies": 72,
+      "traps": []
+    },
+    {
+      "seed": 137636,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 13,
+      "copies": 104,
+      "traps": []
+    },
+    {
+      "seed": 137733,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 9,
+      "copies": 72,
+      "traps": []
+    },
+    {
+      "seed": 137830,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 8,
+      "copies": 64,
+      "traps": []
+    },
+    {
+      "seed": 137927,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 11,
+      "copies": 88,
+      "traps": []
+    },
+    {
+      "seed": 138024,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 15,
+      "copies": 120,
+      "traps": []
+    },
+    {
+      "seed": 138121,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 10,
+      "copies": 80,
+      "traps": []
+    },
+    {
+      "seed": 138218,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 14,
+      "copies": 112,
+      "traps": []
+    },
+    {
+      "seed": 138315,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 20,
+      "copies": 160,
+      "traps": [
+        {
+          "seed": 138315,
+          "pezzo": 973,
+          "libere": 28,
+          "bseed": 947014978,
+          "start": {
+            "cells": [
+              "-4,1",
+              "-4,2",
+              "-4,4",
+              "-3,0",
+              "-3,1",
+              "-3,2",
+              "-2,-1",
+              "-2,0",
+              "-2,1",
+              "-2,3",
+              "-2,4",
+              "-1,-2",
+              "-1,-1",
+              "-1,0",
+              "-1,1",
+              "-1,2",
+              "-1,3",
+              "-1,4",
+              "0,-3",
+              "0,0",
+              "0,3",
+              "0,4",
+              "1,-3",
+              "1,-2",
+              "1,-1",
+              "1,1",
+              "1,2",
+              "3,-3",
+              "3,-2",
+              "3,-1",
+              "3,0",
+              "4,-4",
+              "4,0"
+            ],
+            "tray": ["barra 4-0", "ferro di cavallo-2", "ferro di cavallo-0"],
+            "streak": 0
+          },
+          "moves": [
+            [0, 0, -4],
+            [0, 1, 0]
+          ],
+          "k": 1
+        },
+        {
+          "seed": 138315,
+          "pezzo": 973,
+          "libere": 28,
+          "bseed": 947014979,
+          "start": {
+            "cells": [
+              "-4,1",
+              "-4,2",
+              "-4,4",
+              "-3,0",
+              "-3,1",
+              "-3,2",
+              "-2,-1",
+              "-2,0",
+              "-2,1",
+              "-2,3",
+              "-2,4",
+              "-1,-2",
+              "-1,-1",
+              "-1,0",
+              "-1,1",
+              "-1,2",
+              "-1,3",
+              "-1,4",
+              "0,-3",
+              "0,0",
+              "0,3",
+              "0,4",
+              "1,-3",
+              "1,-2",
+              "1,-1",
+              "1,1",
+              "1,2",
+              "3,-3",
+              "3,-2",
+              "3,-1",
+              "3,0",
+              "4,-4",
+              "4,0"
+            ],
+            "tray": ["barra 4-0", "ferro di cavallo-2", "ferro di cavallo-0"],
+            "streak": 0
+          },
+          "moves": [[0, 0, -4]],
+          "k": 2
+        },
+        {
+          "seed": 138315,
+          "pezzo": 973,
+          "libere": 28,
+          "bseed": 947014984,
+          "start": {
+            "cells": [
+              "-4,1",
+              "-4,2",
+              "-4,4",
+              "-3,0",
+              "-3,1",
+              "-3,2",
+              "-2,-1",
+              "-2,0",
+              "-2,1",
+              "-2,3",
+              "-2,4",
+              "-1,-2",
+              "-1,-1",
+              "-1,0",
+              "-1,1",
+              "-1,2",
+              "-1,3",
+              "-1,4",
+              "0,-3",
+              "0,0",
+              "0,3",
+              "0,4",
+              "1,-3",
+              "1,-2",
+              "1,-1",
+              "1,1",
+              "1,2",
+              "3,-3",
+              "3,-2",
+              "3,-1",
+              "3,0",
+              "4,-4",
+              "4,0"
+            ],
+            "tray": ["barra 4-0", "ferro di cavallo-2", "ferro di cavallo-0"],
+            "streak": 0
+          },
+          "moves": [
+            [0, 0, -4],
+            [0, 2, -4]
+          ],
+          "k": 7
+        }
+      ]
+    },
+    {
+      "seed": 138412,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 12,
+      "copies": 96,
+      "traps": []
+    },
+    {
+      "seed": 138509,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 14,
+      "copies": 112,
+      "traps": []
+    },
+    {
+      "seed": 138606,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 16,
+      "copies": 128,
+      "traps": []
+    },
+    {
+      "seed": 138703,
+      "pieces": 1000,
+      "lost": false,
+      "entries": 13,
+      "copies": 104,
+      "traps": []
+    }
+  ]
+}
