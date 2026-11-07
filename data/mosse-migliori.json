@@ -5664,6 +5664,356 @@
     }
    },
    "aggiunto": "2026-11-06"
+  },
+  {
+   "id": "trappola-108051-510-0#1|0,-1,-3|36fb9b17892bf79b|paired-v1",
+   "partita": "trappola-108051-510-0",
+   "mossa": 1,
+   "stato": "confermata",
+   "esito": "migliore",
+   "posizione": {
+    "celle": [
+     "-3,0",
+     "-3,2",
+     "-3,4",
+     "-2,-1",
+     "-2,1",
+     "-2,2",
+     "-2,3",
+     "-2,4",
+     "-1,0",
+     "-1,1",
+     "-1,3",
+     "0,-4",
+     "0,0",
+     "0,2",
+     "1,-4",
+     "1,-3",
+     "1,-1",
+     "1,0",
+     "1,1",
+     "1,2",
+     "2,-4",
+     "2,-3",
+     "2,-2",
+     "2,0",
+     "2,1",
+     "2,2",
+     "3,-4",
+     "3,-2",
+     "3,-1",
+     "3,0",
+     "4,-1"
+    ],
+    "vassoio": [
+     "ferro di cavallo-5",
+     "ferro di cavallo-5",
+     "bandiera sinistra-2"
+    ],
+    "combo": 0,
+    "libere": 30
+   },
+   "tua": {
+    "idx": 0,
+    "q": -1,
+    "r": -3,
+    "pezzo": "ferro di cavallo-5",
+    "nome": "ferro di cavallo",
+    "celle": [
+     6,
+     7,
+     12,
+     14
+    ]
+   },
+   "suggerita": {
+    "idx": 2,
+    "q": 0,
+    "r": -3,
+    "pezzo": "bandiera sinistra-2",
+    "nome": "bandiera sinistra",
+    "celle": [
+     7,
+     14,
+     21,
+     22
+    ]
+   },
+   "app": {
+    "strategia": "36fb9b17892bf79b",
+    "confronto": "storica-fa730f6",
+    "protocollo": "trappole-paired-v1",
+    "penalitaBlocco": 1000,
+    "bloccoFinaleIncluso": true
+   },
+   "prova": {
+    "futuri": 30,
+    "mosse": 15,
+    "seme": 777,
+    "differenza": 160.73333333333332,
+    "errore": 73.4634623912691,
+    "a": {
+     "punti": 67.26666666666667,
+     "blocchi": 20
+    },
+    "b": {
+     "punti": 39.86666666666667,
+     "blocchi": 24
+    }
+   },
+   "conferma": {
+    "futuri": 100,
+    "mosse": 15,
+    "seme": 99991,
+    "differenza": 257.31,
+    "errore": 48.73668623171343,
+    "a": {
+     "punti": 104.05,
+     "blocchi": 46
+    },
+    "b": {
+     "punti": 66.74,
+     "blocchi": 68
+    }
+   },
+   "aggiunto": "2026-11-07"
+  },
+  {
+   "id": "trappola-128033-223-6#1|2,3,-3|36fb9b17892bf79b|paired-v1",
+   "partita": "trappola-128033-223-6",
+   "mossa": 1,
+   "stato": "confermata",
+   "esito": "migliore",
+   "posizione": {
+    "celle": [
+     "-4,0",
+     "-4,1",
+     "-4,2",
+     "-3,-1",
+     "-3,0",
+     "-3,1",
+     "-3,2",
+     "-2,-2",
+     "-2,0",
+     "-2,1",
+     "-2,2",
+     "-1,-3",
+     "-1,-1",
+     "-1,0",
+     "-1,1",
+     "-1,2",
+     "0,-1",
+     "0,2",
+     "0,3",
+     "1,-4",
+     "1,-3",
+     "1,-2",
+     "1,-1",
+     "1,1",
+     "1,2",
+     "2,-4",
+     "2,-3",
+     "2,-1",
+     "2,0",
+     "3,-4",
+     "4,-4",
+     "4,-1",
+     "4,0"
+    ],
+    "vassoio": [
+     "bandiera sinistra-2",
+     "ferro di cavallo-0",
+     "rombo-2"
+    ],
+    "combo": 0,
+    "libere": 28
+   },
+   "tua": {
+    "idx": 2,
+    "q": 3,
+    "r": -3,
+    "pezzo": "rombo-2",
+    "nome": "rombo",
+    "celle": [
+     10,
+     11,
+     16,
+     17
+    ]
+   },
+   "suggerita": {
+    "idx": 0,
+    "q": 0,
+    "r": -4,
+    "pezzo": "bandiera sinistra-2",
+    "nome": "bandiera sinistra",
+    "celle": [
+     1,
+     7,
+     13,
+     14
+    ]
+   },
+   "app": {
+    "strategia": "36fb9b17892bf79b",
+    "confronto": "storica-fa730f6",
+    "protocollo": "trappole-paired-v1",
+    "penalitaBlocco": 1000,
+    "bloccoFinaleIncluso": true
+   },
+   "prova": {
+    "futuri": 30,
+    "mosse": 15,
+    "seme": 777,
+    "differenza": 27.5,
+    "errore": 6.720657808526658,
+    "a": {
+     "punti": 234.6,
+     "blocchi": 0
+    },
+    "b": {
+     "punti": 207.1,
+     "blocchi": 0
+    }
+   },
+   "conferma": {
+    "futuri": 100,
+    "mosse": 15,
+    "seme": 99991,
+    "differenza": 74.39,
+    "errore": 21.91827287581268,
+    "a": {
+     "punti": 234.23,
+     "blocchi": 0
+    },
+    "b": {
+     "punti": 199.84,
+     "blocchi": 4
+    }
+   },
+   "aggiunto": "2026-11-07"
+  },
+  {
+   "id": "trappola-preingresso-104753-79#78|1,0,-4|36fb9b17892bf79b|paired-v1",
+   "partita": "preingresso-104753-79",
+   "mossa": 78,
+   "stato": "confermata",
+   "origine": "ricerca-automatica-preingresso",
+   "seed": 104753,
+   "ingresso": 79,
+   "mossePrimaIngresso": 2,
+   "posizione": {
+    "celle": [
+     "-4,0",
+     "-3,-1",
+     "-3,1",
+     "-3,2",
+     "-3,3",
+     "-2,-2",
+     "-2,-1",
+     "-2,0",
+     "-1,3",
+     "0,-3",
+     "0,-1",
+     "0,3",
+     "1,-2",
+     "1,-1",
+     "1,2",
+     "1,3",
+     "2,-3",
+     "2,0",
+     "2,2",
+     "3,-3",
+     "3,-2",
+     "3,0"
+    ],
+    "vassoio": [
+     "barra 4-2",
+     "bandiera sinistra-1",
+     "rombo-0"
+    ],
+    "combo": 2,
+    "libere": 39
+   },
+   "tua": {
+    "idx": 1,
+    "q": 0,
+    "r": -4,
+    "pezzo": "bandiera sinistra-1",
+    "nome": "bandiera sinistra",
+    "celle": [
+     1,
+     2,
+     3,
+     8
+    ]
+   },
+   "suggerita": {
+    "idx": 0,
+    "q": 2,
+    "r": -4,
+    "pezzo": "barra 4-2",
+    "nome": "barra 4",
+    "celle": [
+     3,
+     8,
+     14,
+     21
+    ]
+   },
+   "prova": {
+    "futuri": 30,
+    "mosse": 15,
+    "seme": 777,
+    "differenza": 184.06666666666666,
+    "errore": 78.90727765822967,
+    "a": {
+     "punti": 159.2,
+     "blocchi": 1
+    },
+    "b": {
+     "punti": 141.8,
+     "blocchi": 6
+    }
+   },
+   "conferma": {
+    "futuri": 100,
+    "mosse": 15,
+    "seme": 99991,
+    "differenza": 91.12,
+    "errore": 44.829858556344085,
+    "a": {
+     "punti": 152.89,
+     "blocchi": 9
+    },
+    "b": {
+     "punti": 141.77,
+     "blocchi": 17
+    }
+   },
+   "verifica": {
+    "futuri": 300,
+    "mosse": 15,
+    "seme": 20261108,
+    "differenza": 129.52666666666667,
+    "errore": 28.856778693254522,
+    "a": {
+     "punti": 149,
+     "blocchi": 35
+    },
+    "b": {
+     "punti": 136.14,
+     "blocchi": 70
+    }
+   },
+   "app": {
+    "strategia": "36fb9b17892bf79b",
+    "protocollo": "trappole-paired-v1",
+    "penalitaBlocco": 1000,
+    "bloccoFinaleIncluso": true,
+    "selezione": "una sola candidata per posizione dopo screening"
+   },
+   "aggiunto": "2026-11-07"
   }
  ]
 }

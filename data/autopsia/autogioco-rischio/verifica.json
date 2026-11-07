@@ -1,0 +1,1630 @@
+{
+  "set": "verifica",
+  "baselineSha256": "76d9cd6b495c95551fb50eac4de8565b9ad7bc6ba76d471b52474fc981337307",
+  "continuation": "base",
+  "comparison": "prima mossa della variante, poi identica strategia base",
+  "rows": [
+    {
+      "variant": "base",
+      "variantSha256": "76d9cd6b495c95551fb50eac4de8565b9ad7bc6ba76d471b52474fc981337307",
+      "positions": 88,
+      "availablePositions": 88,
+      "futures": 88,
+      "changed": 0,
+      "blocked": 11,
+      "baselineBlocked": 11,
+      "wins": 0,
+      "losses": 0,
+      "mean": 0,
+      "positionStandardError": 0,
+      "futureStandardError": 0,
+      "choiceMilliseconds": 713.146
+    },
+    {
+      "variant": "soccorso",
+      "variantSha256": "28ee9d5ba011f6c951903a81ab805153046e3a2eac5bd5b405b94441cea056f7",
+      "positions": 88,
+      "availablePositions": 88,
+      "futures": 88,
+      "changed": 1,
+      "blocked": 12,
+      "baselineBlocked": 11,
+      "wins": 0,
+      "losses": 1,
+      "mean": -14.125,
+      "positionStandardError": 14.125,
+      "futureStandardError": 14.125,
+      "choiceMilliseconds": 10791.6337
+    }
+  ],
+  "choices": {
+    "base": [
+      {
+        "id": "attuale-30194-244",
+        "move": {
+          "idx": 2,
+          "q": 1,
+          "r": -4
+        },
+        "key": "bandiera destra-3:1,-4"
+      },
+      {
+        "id": "attuale-31067-113",
+        "move": {
+          "idx": 0,
+          "q": -2,
+          "r": 3
+        },
+        "key": "bandiera destra-0:-2,3"
+      },
+      {
+        "id": "attuale-31067-232",
+        "move": {
+          "idx": 1,
+          "q": -3,
+          "r": 2
+        },
+        "key": "ferro di cavallo-3:-3,2"
+      },
+      {
+        "id": "attuale-33395-315",
+        "move": {
+          "idx": 2,
+          "q": 0,
+          "r": -4
+        },
+        "key": "barra 4-0:0,-4"
+      },
+      {
+        "id": "attuale-33395-362",
+        "move": {
+          "idx": 2,
+          "q": -3,
+          "r": -1
+        },
+        "key": "rombo-2:-3,-1"
+      },
+      {
+        "id": "attuale-33977-481",
+        "move": {
+          "idx": 1,
+          "q": 1,
+          "r": 2
+        },
+        "key": "rombo-1:1,2"
+      },
+      {
+        "id": "attuale-34268-96",
+        "move": {
+          "idx": 1,
+          "q": 2,
+          "r": 0
+        },
+        "key": "bandiera sinistra-5:2,0"
+      },
+      {
+        "id": "attuale-34850-66",
+        "move": {
+          "idx": 0,
+          "q": 3,
+          "r": -1
+        },
+        "key": "ferro di cavallo-0:3,-1"
+      },
+      {
+        "id": "attuale-35432-214",
+        "move": {
+          "idx": 2,
+          "q": -3,
+          "r": 3
+        },
+        "key": "rombo-2:-3,3"
+      },
+      {
+        "id": "attuale-35432-310",
+        "move": {
+          "idx": 2,
+          "q": 0,
+          "r": -4
+        },
+        "key": "ferro di cavallo-3:0,-4"
+      },
+      {
+        "id": "mosse-casuali-40194-77",
+        "move": {
+          "idx": 1,
+          "q": -4,
+          "r": 4
+        },
+        "key": "barra 4-0:-4,4"
+      },
+      {
+        "id": "mosse-casuali-41067-44",
+        "move": {
+          "idx": 0,
+          "q": -2,
+          "r": -1
+        },
+        "key": "bandiera sinistra-2:-2,-1"
+      },
+      {
+        "id": "mosse-casuali-41358-174",
+        "move": {
+          "idx": 2,
+          "q": 3,
+          "r": -2
+        },
+        "key": "rombo-0:3,-2"
+      },
+      {
+        "id": "mosse-casuali-41358-178",
+        "move": {
+          "idx": 0,
+          "q": 4,
+          "r": -2
+        },
+        "key": "rombo-1:4,-2"
+      },
+      {
+        "id": "mosse-casuali-41358-184",
+        "move": {
+          "idx": 1,
+          "q": 2,
+          "r": 1
+        },
+        "key": "barra 4-2:2,1"
+      },
+      {
+        "id": "mosse-casuali-41358-200",
+        "move": {
+          "idx": 0,
+          "q": -3,
+          "r": 3
+        },
+        "key": "rombo-0:-3,3"
+      },
+      {
+        "id": "mosse-casuali-42522-34",
+        "move": {
+          "idx": 2,
+          "q": 1,
+          "r": -4
+        },
+        "key": "barra 4-1:1,-4"
+      },
+      {
+        "id": "mosse-casuali-42522-47",
+        "move": {
+          "idx": 0,
+          "q": 2,
+          "r": -2
+        },
+        "key": "ferro di cavallo-2:2,-2"
+      },
+      {
+        "id": "mosse-casuali-42522-110",
+        "move": {
+          "idx": 0,
+          "q": -1,
+          "r": 2
+        },
+        "key": "punto-0:-1,2"
+      },
+      {
+        "id": "mosse-casuali-42522-112",
+        "move": {
+          "idx": 2,
+          "q": -4,
+          "r": 0
+        },
+        "key": "ferro di cavallo-0:-4,0"
+      },
+      {
+        "id": "mosse-casuali-42522-120",
+        "move": {
+          "idx": 1,
+          "q": -2,
+          "r": 1
+        },
+        "key": "ferro di cavallo-0:-2,1"
+      },
+      {
+        "id": "mosse-casuali-43395-35",
+        "move": {
+          "idx": 1,
+          "q": -3,
+          "r": 0
+        },
+        "key": "rombo-1:-3,0"
+      },
+      {
+        "id": "mosse-casuali-43686-16",
+        "move": {
+          "idx": 1,
+          "q": -4,
+          "r": 0
+        },
+        "key": "barra 4-0:-4,0"
+      },
+      {
+        "id": "mosse-casuali-43686-18",
+        "move": {
+          "idx": 1,
+          "q": -1,
+          "r": -1
+        },
+        "key": "barra 4-2:-1,-1"
+      },
+      {
+        "id": "mosse-casuali-43686-24",
+        "move": {
+          "idx": 0,
+          "q": 2,
+          "r": -4
+        },
+        "key": "bandiera destra-5:2,-4"
+      },
+      {
+        "id": "mosse-casuali-43977-27",
+        "move": {
+          "idx": 0,
+          "q": 3,
+          "r": -4
+        },
+        "key": "bandiera sinistra-2:3,-4"
+      },
+      {
+        "id": "mosse-casuali-43977-82",
+        "move": {
+          "idx": 0,
+          "q": 2,
+          "r": -1
+        },
+        "key": "ferro di cavallo-4:2,-1"
+      },
+      {
+        "id": "mosse-casuali-44850-18",
+        "move": {
+          "idx": 0,
+          "q": -2,
+          "r": 1
+        },
+        "key": "ferro di cavallo-2:-2,1"
+      },
+      {
+        "id": "mosse-casuali-44850-159",
+        "move": {
+          "idx": 0,
+          "q": -1,
+          "r": -3
+        },
+        "key": "bandiera sinistra-0:-1,-3"
+      },
+      {
+        "id": "mosse-casuali-44850-161",
+        "move": {
+          "idx": 2,
+          "q": -4,
+          "r": 0
+        },
+        "key": "bandiera destra-3:-4,0"
+      },
+      {
+        "id": "mosse-casuali-45432-160",
+        "move": {
+          "idx": 0,
+          "q": 4,
+          "r": -4
+        },
+        "key": "barra 4-2:4,-4"
+      },
+      {
+        "id": "mosse-casuali-45723-41",
+        "move": {
+          "idx": 0,
+          "q": 0,
+          "r": -3
+        },
+        "key": "ferro di cavallo-3:0,-3"
+      },
+      {
+        "id": "mosse-casuali-45723-60",
+        "move": {
+          "idx": 0,
+          "q": -3,
+          "r": -1
+        },
+        "key": "rombo-2:-3,-1"
+      },
+      {
+        "id": "mosse-casuali-45723-61",
+        "move": {
+          "idx": 0,
+          "q": 1,
+          "r": 1
+        },
+        "key": "rombo-0:1,1"
+      },
+      {
+        "id": "mosse-casuali-45723-79",
+        "move": {
+          "idx": 0,
+          "q": 0,
+          "r": -4
+        },
+        "key": "bandiera sinistra-0:0,-4"
+      },
+      {
+        "id": "mosse-casuali-46014-22",
+        "move": {
+          "idx": 0,
+          "q": 0,
+          "r": 2
+        },
+        "key": "bandiera destra-2:0,2"
+      },
+      {
+        "id": "mosse-casuali-46014-26",
+        "move": {
+          "idx": 2,
+          "q": 0,
+          "r": -1
+        },
+        "key": "barra 4-0:0,-1"
+      },
+      {
+        "id": "mosse-casuali-46887-39",
+        "move": {
+          "idx": 1,
+          "q": 0,
+          "r": 3
+        },
+        "key": "punto-0:0,3"
+      },
+      {
+        "id": "mosse-casuali-46887-41",
+        "move": {
+          "idx": 1,
+          "q": 4,
+          "r": -3
+        },
+        "key": "rombo-1:4,-3"
+      },
+      {
+        "id": "mosse-casuali-46887-43",
+        "move": {
+          "idx": 0,
+          "q": 4,
+          "r": -1
+        },
+        "key": "rombo-1:4,-1"
+      },
+      {
+        "id": "mosse-casuali-46887-44",
+        "move": {
+          "idx": 0,
+          "q": 3,
+          "r": -4
+        },
+        "key": "rombo-2:3,-4"
+      },
+      {
+        "id": "mosse-casuali-46887-47",
+        "move": {
+          "idx": 0,
+          "q": -1,
+          "r": 3
+        },
+        "key": "rombo-2:-1,3"
+      },
+      {
+        "id": "mosse-casuali-47469-24",
+        "move": {
+          "idx": 1,
+          "q": 0,
+          "r": -4
+        },
+        "key": "rombo-0:0,-4"
+      },
+      {
+        "id": "mosse-casuali-47760-79",
+        "move": {
+          "idx": 2,
+          "q": 1,
+          "r": -4
+        },
+        "key": "ferro di cavallo-4:1,-4"
+      },
+      {
+        "id": "mosse-casuali-47760-91",
+        "move": {
+          "idx": 1,
+          "q": 1,
+          "r": -4
+        },
+        "key": "rombo-0:1,-4"
+      },
+      {
+        "id": "mosse-casuali-48051-29",
+        "move": {
+          "idx": 2,
+          "q": -4,
+          "r": 1
+        },
+        "key": "rombo-0:-4,1"
+      },
+      {
+        "id": "mosse-casuali-48633-40",
+        "move": {
+          "idx": 1,
+          "q": -2,
+          "r": -2
+        },
+        "key": "bandiera sinistra-1:-2,-2"
+      },
+      {
+        "id": "precedente-50776-41",
+        "move": {
+          "idx": 0,
+          "q": -1,
+          "r": -3
+        },
+        "key": "bandiera destra-2:-1,-3"
+      },
+      {
+        "id": "precedente-50776-47",
+        "move": {
+          "idx": 2,
+          "q": -2,
+          "r": -2
+        },
+        "key": "rombo-2:-2,-2"
+      },
+      {
+        "id": "precedente-50776-50",
+        "move": {
+          "idx": 1,
+          "q": 0,
+          "r": -3
+        },
+        "key": "ferro di cavallo-2:0,-3"
+      },
+      {
+        "id": "precedente-50776-53",
+        "move": {
+          "idx": 0,
+          "q": 2,
+          "r": -2
+        },
+        "key": "rombo-0:2,-2"
+      },
+      {
+        "id": "precedente-50776-479",
+        "move": {
+          "idx": 2,
+          "q": 0,
+          "r": -4
+        },
+        "key": "bandiera sinistra-0:0,-4"
+      },
+      {
+        "id": "precedente-50776-481",
+        "move": {
+          "idx": 1,
+          "q": -4,
+          "r": 0
+        },
+        "key": "barra 4-0:-4,0"
+      },
+      {
+        "id": "precedente-50776-485",
+        "move": {
+          "idx": 2,
+          "q": -3,
+          "r": 2
+        },
+        "key": "bandiera sinistra-5:-3,2"
+      },
+      {
+        "id": "precedente-51067-31",
+        "move": {
+          "idx": 2,
+          "q": -1,
+          "r": 2
+        },
+        "key": "rombo-0:-1,2"
+      },
+      {
+        "id": "precedente-51067-35",
+        "move": {
+          "idx": 0,
+          "q": 2,
+          "r": 0
+        },
+        "key": "bandiera sinistra-2:2,0"
+      },
+      {
+        "id": "precedente-51358-64",
+        "move": {
+          "idx": 1,
+          "q": 1,
+          "r": -4
+        },
+        "key": "bandiera sinistra-1:1,-4"
+      },
+      {
+        "id": "precedente-51940-37",
+        "move": {
+          "idx": 1,
+          "q": 2,
+          "r": 1
+        },
+        "key": "rombo-1:2,1"
+      },
+      {
+        "id": "precedente-51940-47",
+        "move": {
+          "idx": 0,
+          "q": 0,
+          "r": 1
+        },
+        "key": "barra 4-0:0,1"
+      },
+      {
+        "id": "precedente-51940-58",
+        "move": {
+          "idx": 0,
+          "q": 4,
+          "r": -4
+        },
+        "key": "barra 4-2:4,-4"
+      },
+      {
+        "id": "precedente-51940-59",
+        "move": {
+          "idx": 0,
+          "q": 1,
+          "r": -4
+        },
+        "key": "bandiera destra-4:1,-4"
+      },
+      {
+        "id": "precedente-52813-13",
+        "move": {
+          "idx": 1,
+          "q": -1,
+          "r": 2
+        },
+        "key": "rombo-0:-1,2"
+      },
+      {
+        "id": "precedente-53104-108",
+        "move": {
+          "idx": 0,
+          "q": 2,
+          "r": -1
+        },
+        "key": "barra 4-2:2,-1"
+      },
+      {
+        "id": "precedente-53104-126",
+        "move": {
+          "idx": 1,
+          "q": 4,
+          "r": -4
+        },
+        "key": "bandiera destra-4:4,-4"
+      },
+      {
+        "id": "precedente-53104-130",
+        "move": {
+          "idx": 0,
+          "q": 1,
+          "r": 1
+        },
+        "key": "barra 4-2:1,1"
+      },
+      {
+        "id": "precedente-53395-90",
+        "move": {
+          "idx": 1,
+          "q": 3,
+          "r": 0
+        },
+        "key": "barra 4-2:3,0"
+      },
+      {
+        "id": "precedente-53395-484",
+        "move": {
+          "idx": 0,
+          "q": -4,
+          "r": 3
+        },
+        "key": "ferro di cavallo-2:-4,3"
+      },
+      {
+        "id": "precedente-54268-28",
+        "move": {
+          "idx": 2,
+          "q": 1,
+          "r": 1
+        },
+        "key": "ferro di cavallo-1:1,1"
+      },
+      {
+        "id": "precedente-54268-194",
+        "move": {
+          "idx": 0,
+          "q": -4,
+          "r": 1
+        },
+        "key": "barra 4-0:-4,1"
+      },
+      {
+        "id": "precedente-54268-196",
+        "move": {
+          "idx": 2,
+          "q": 3,
+          "r": -1
+        },
+        "key": "bandiera destra-2:3,-1"
+      },
+      {
+        "id": "precedente-54559-515",
+        "move": {
+          "idx": 2,
+          "q": -1,
+          "r": -3
+        },
+        "key": "ferro di cavallo-2:-1,-3"
+      },
+      {
+        "id": "precedente-54850-42",
+        "move": {
+          "idx": 2,
+          "q": 0,
+          "r": 2
+        },
+        "key": "bandiera sinistra-1:0,2"
+      },
+      {
+        "id": "precedente-54850-684",
+        "move": {
+          "idx": 1,
+          "q": 4,
+          "r": -4
+        },
+        "key": "rombo-1:4,-4"
+      },
+      {
+        "id": "precedente-55432-36",
+        "move": {
+          "idx": 1,
+          "q": 2,
+          "r": -3
+        },
+        "key": "rombo-0:2,-3"
+      },
+      {
+        "id": "precedente-55432-61",
+        "move": {
+          "idx": 0,
+          "q": 3,
+          "r": -1
+        },
+        "key": "ferro di cavallo-0:3,-1"
+      },
+      {
+        "id": "precedente-55723-30",
+        "move": {
+          "idx": 0,
+          "q": -3,
+          "r": 0
+        },
+        "key": "ferro di cavallo-0:-3,0"
+      },
+      {
+        "id": "precedente-55723-37",
+        "move": {
+          "idx": 2,
+          "q": -3,
+          "r": -1
+        },
+        "key": "rombo-1:-3,-1"
+      },
+      {
+        "id": "precedente-56014-30",
+        "move": {
+          "idx": 1,
+          "q": -3,
+          "r": 0
+        },
+        "key": "ferro di cavallo-0:-3,0"
+      },
+      {
+        "id": "precedente-56014-860",
+        "move": {
+          "idx": 2,
+          "q": -4,
+          "r": 3
+        },
+        "key": "bandiera sinistra-1:-4,3"
+      },
+      {
+        "id": "precedente-56014-864",
+        "move": {
+          "idx": 1,
+          "q": -3,
+          "r": -1
+        },
+        "key": "ferro di cavallo-4:-3,-1"
+      },
+      {
+        "id": "precedente-56014-866",
+        "move": {
+          "idx": 0,
+          "q": 0,
+          "r": -2
+        },
+        "key": "ferro di cavallo-5:0,-2"
+      },
+      {
+        "id": "precedente-56305-54",
+        "move": {
+          "idx": 1,
+          "q": 2,
+          "r": -3
+        },
+        "key": "bandiera destra-3:2,-3"
+      },
+      {
+        "id": "precedente-56596-88",
+        "move": {
+          "idx": 0,
+          "q": -1,
+          "r": -3
+        },
+        "key": "ferro di cavallo-5:-1,-3"
+      },
+      {
+        "id": "precedente-56887-602",
+        "move": {
+          "idx": 2,
+          "q": -3,
+          "r": 4
+        },
+        "key": "barra 4-0:-3,4"
+      },
+      {
+        "id": "precedente-56887-604",
+        "move": {
+          "idx": 2,
+          "q": -3,
+          "r": 4
+        },
+        "key": "barra 4-0:-3,4"
+      },
+      {
+        "id": "precedente-57178-29",
+        "move": {
+          "idx": 2,
+          "q": 0,
+          "r": 2
+        },
+        "key": "ferro di cavallo-5:0,2"
+      },
+      {
+        "id": "precedente-57178-39",
+        "move": {
+          "idx": 1,
+          "q": -4,
+          "r": 3
+        },
+        "key": "bandiera destra-3:-4,3"
+      },
+      {
+        "id": "precedente-57178-41",
+        "move": {
+          "idx": 1,
+          "q": 1,
+          "r": -4
+        },
+        "key": "rombo-0:1,-4"
+      }
+    ],
+    "soccorso": [
+      {
+        "id": "attuale-30194-244",
+        "move": {
+          "idx": 2,
+          "q": 1,
+          "r": -4
+        },
+        "key": "bandiera destra-3:1,-4"
+      },
+      {
+        "id": "attuale-31067-113",
+        "move": {
+          "idx": 0,
+          "q": -2,
+          "r": 3
+        },
+        "key": "bandiera destra-0:-2,3"
+      },
+      {
+        "id": "attuale-31067-232",
+        "move": {
+          "idx": 1,
+          "q": -3,
+          "r": 2
+        },
+        "key": "ferro di cavallo-3:-3,2"
+      },
+      {
+        "id": "attuale-33395-315",
+        "move": {
+          "idx": 2,
+          "q": 0,
+          "r": -4
+        },
+        "key": "barra 4-0:0,-4"
+      },
+      {
+        "id": "attuale-33395-362",
+        "move": {
+          "idx": 2,
+          "q": -3,
+          "r": -1
+        },
+        "key": "rombo-2:-3,-1"
+      },
+      {
+        "id": "attuale-33977-481",
+        "move": {
+          "idx": 1,
+          "q": 1,
+          "r": 2
+        },
+        "key": "rombo-1:1,2"
+      },
+      {
+        "id": "attuale-34268-96",
+        "move": {
+          "idx": 1,
+          "q": 2,
+          "r": 0
+        },
+        "key": "bandiera sinistra-5:2,0"
+      },
+      {
+        "id": "attuale-34850-66",
+        "move": {
+          "idx": 0,
+          "q": 3,
+          "r": -1
+        },
+        "key": "ferro di cavallo-0:3,-1"
+      },
+      {
+        "id": "attuale-35432-214",
+        "move": {
+          "idx": 2,
+          "q": -3,
+          "r": 3
+        },
+        "key": "rombo-2:-3,3"
+      },
+      {
+        "id": "attuale-35432-310",
+        "move": {
+          "idx": 2,
+          "q": 0,
+          "r": -4
+        },
+        "key": "ferro di cavallo-3:0,-4"
+      },
+      {
+        "id": "mosse-casuali-40194-77",
+        "move": {
+          "idx": 1,
+          "q": -4,
+          "r": 4
+        },
+        "key": "barra 4-0:-4,4"
+      },
+      {
+        "id": "mosse-casuali-41067-44",
+        "move": {
+          "idx": 0,
+          "q": -2,
+          "r": -1
+        },
+        "key": "bandiera sinistra-2:-2,-1"
+      },
+      {
+        "id": "mosse-casuali-41358-174",
+        "move": {
+          "idx": 2,
+          "q": 3,
+          "r": -2
+        },
+        "key": "rombo-0:3,-2"
+      },
+      {
+        "id": "mosse-casuali-41358-178",
+        "move": {
+          "idx": 1,
+          "q": 3,
+          "r": -1
+        },
+        "key": "rombo-0:3,-1"
+      },
+      {
+        "id": "mosse-casuali-41358-184",
+        "move": {
+          "idx": 1,
+          "q": 2,
+          "r": 1
+        },
+        "key": "barra 4-2:2,1"
+      },
+      {
+        "id": "mosse-casuali-41358-200",
+        "move": {
+          "idx": 0,
+          "q": -3,
+          "r": 3
+        },
+        "key": "rombo-0:-3,3"
+      },
+      {
+        "id": "mosse-casuali-42522-34",
+        "move": {
+          "idx": 2,
+          "q": 1,
+          "r": -4
+        },
+        "key": "barra 4-1:1,-4"
+      },
+      {
+        "id": "mosse-casuali-42522-47",
+        "move": {
+          "idx": 0,
+          "q": 2,
+          "r": -2
+        },
+        "key": "ferro di cavallo-2:2,-2"
+      },
+      {
+        "id": "mosse-casuali-42522-110",
+        "move": {
+          "idx": 0,
+          "q": -1,
+          "r": 2
+        },
+        "key": "punto-0:-1,2"
+      },
+      {
+        "id": "mosse-casuali-42522-112",
+        "move": {
+          "idx": 2,
+          "q": -4,
+          "r": 0
+        },
+        "key": "ferro di cavallo-0:-4,0"
+      },
+      {
+        "id": "mosse-casuali-42522-120",
+        "move": {
+          "idx": 1,
+          "q": -2,
+          "r": 1
+        },
+        "key": "ferro di cavallo-0:-2,1"
+      },
+      {
+        "id": "mosse-casuali-43395-35",
+        "move": {
+          "idx": 1,
+          "q": -3,
+          "r": 0
+        },
+        "key": "rombo-1:-3,0"
+      },
+      {
+        "id": "mosse-casuali-43686-16",
+        "move": {
+          "idx": 1,
+          "q": -4,
+          "r": 0
+        },
+        "key": "barra 4-0:-4,0"
+      },
+      {
+        "id": "mosse-casuali-43686-18",
+        "move": {
+          "idx": 1,
+          "q": -1,
+          "r": -1
+        },
+        "key": "barra 4-2:-1,-1"
+      },
+      {
+        "id": "mosse-casuali-43686-24",
+        "move": {
+          "idx": 0,
+          "q": 2,
+          "r": -4
+        },
+        "key": "bandiera destra-5:2,-4"
+      },
+      {
+        "id": "mosse-casuali-43977-27",
+        "move": {
+          "idx": 0,
+          "q": 3,
+          "r": -4
+        },
+        "key": "bandiera sinistra-2:3,-4"
+      },
+      {
+        "id": "mosse-casuali-43977-82",
+        "move": {
+          "idx": 0,
+          "q": 2,
+          "r": -1
+        },
+        "key": "ferro di cavallo-4:2,-1"
+      },
+      {
+        "id": "mosse-casuali-44850-18",
+        "move": {
+          "idx": 0,
+          "q": -2,
+          "r": 1
+        },
+        "key": "ferro di cavallo-2:-2,1"
+      },
+      {
+        "id": "mosse-casuali-44850-159",
+        "move": {
+          "idx": 0,
+          "q": -1,
+          "r": -3
+        },
+        "key": "bandiera sinistra-0:-1,-3"
+      },
+      {
+        "id": "mosse-casuali-44850-161",
+        "move": {
+          "idx": 2,
+          "q": -4,
+          "r": 0
+        },
+        "key": "bandiera destra-3:-4,0"
+      },
+      {
+        "id": "mosse-casuali-45432-160",
+        "move": {
+          "idx": 0,
+          "q": 4,
+          "r": -4
+        },
+        "key": "barra 4-2:4,-4"
+      },
+      {
+        "id": "mosse-casuali-45723-41",
+        "move": {
+          "idx": 0,
+          "q": 0,
+          "r": -3
+        },
+        "key": "ferro di cavallo-3:0,-3"
+      },
+      {
+        "id": "mosse-casuali-45723-60",
+        "move": {
+          "idx": 0,
+          "q": -3,
+          "r": -1
+        },
+        "key": "rombo-2:-3,-1"
+      },
+      {
+        "id": "mosse-casuali-45723-61",
+        "move": {
+          "idx": 0,
+          "q": 1,
+          "r": 1
+        },
+        "key": "rombo-0:1,1"
+      },
+      {
+        "id": "mosse-casuali-45723-79",
+        "move": {
+          "idx": 0,
+          "q": 0,
+          "r": -4
+        },
+        "key": "bandiera sinistra-0:0,-4"
+      },
+      {
+        "id": "mosse-casuali-46014-22",
+        "move": {
+          "idx": 0,
+          "q": 0,
+          "r": 2
+        },
+        "key": "bandiera destra-2:0,2"
+      },
+      {
+        "id": "mosse-casuali-46014-26",
+        "move": {
+          "idx": 2,
+          "q": 0,
+          "r": -1
+        },
+        "key": "barra 4-0:0,-1"
+      },
+      {
+        "id": "mosse-casuali-46887-39",
+        "move": {
+          "idx": 1,
+          "q": 0,
+          "r": 3
+        },
+        "key": "punto-0:0,3"
+      },
+      {
+        "id": "mosse-casuali-46887-41",
+        "move": {
+          "idx": 1,
+          "q": 4,
+          "r": -3
+        },
+        "key": "rombo-1:4,-3"
+      },
+      {
+        "id": "mosse-casuali-46887-43",
+        "move": {
+          "idx": 0,
+          "q": 4,
+          "r": -1
+        },
+        "key": "rombo-1:4,-1"
+      },
+      {
+        "id": "mosse-casuali-46887-44",
+        "move": {
+          "idx": 0,
+          "q": 3,
+          "r": -4
+        },
+        "key": "rombo-2:3,-4"
+      },
+      {
+        "id": "mosse-casuali-46887-47",
+        "move": {
+          "idx": 0,
+          "q": -1,
+          "r": 3
+        },
+        "key": "rombo-2:-1,3"
+      },
+      {
+        "id": "mosse-casuali-47469-24",
+        "move": {
+          "idx": 1,
+          "q": 0,
+          "r": -4
+        },
+        "key": "rombo-0:0,-4"
+      },
+      {
+        "id": "mosse-casuali-47760-79",
+        "move": {
+          "idx": 2,
+          "q": 1,
+          "r": -4
+        },
+        "key": "ferro di cavallo-4:1,-4"
+      },
+      {
+        "id": "mosse-casuali-47760-91",
+        "move": {
+          "idx": 1,
+          "q": 1,
+          "r": -4
+        },
+        "key": "rombo-0:1,-4"
+      },
+      {
+        "id": "mosse-casuali-48051-29",
+        "move": {
+          "idx": 2,
+          "q": -4,
+          "r": 1
+        },
+        "key": "rombo-0:-4,1"
+      },
+      {
+        "id": "mosse-casuali-48633-40",
+        "move": {
+          "idx": 1,
+          "q": -2,
+          "r": -2
+        },
+        "key": "bandiera sinistra-1:-2,-2"
+      },
+      {
+        "id": "precedente-50776-41",
+        "move": {
+          "idx": 0,
+          "q": -1,
+          "r": -3
+        },
+        "key": "bandiera destra-2:-1,-3"
+      },
+      {
+        "id": "precedente-50776-47",
+        "move": {
+          "idx": 2,
+          "q": -2,
+          "r": -2
+        },
+        "key": "rombo-2:-2,-2"
+      },
+      {
+        "id": "precedente-50776-50",
+        "move": {
+          "idx": 1,
+          "q": 0,
+          "r": -3
+        },
+        "key": "ferro di cavallo-2:0,-3"
+      },
+      {
+        "id": "precedente-50776-53",
+        "move": {
+          "idx": 0,
+          "q": 2,
+          "r": -2
+        },
+        "key": "rombo-0:2,-2"
+      },
+      {
+        "id": "precedente-50776-479",
+        "move": {
+          "idx": 2,
+          "q": 0,
+          "r": -4
+        },
+        "key": "bandiera sinistra-0:0,-4"
+      },
+      {
+        "id": "precedente-50776-481",
+        "move": {
+          "idx": 1,
+          "q": -4,
+          "r": 0
+        },
+        "key": "barra 4-0:-4,0"
+      },
+      {
+        "id": "precedente-50776-485",
+        "move": {
+          "idx": 2,
+          "q": -3,
+          "r": 2
+        },
+        "key": "bandiera sinistra-5:-3,2"
+      },
+      {
+        "id": "precedente-51067-31",
+        "move": {
+          "idx": 2,
+          "q": -1,
+          "r": 2
+        },
+        "key": "rombo-0:-1,2"
+      },
+      {
+        "id": "precedente-51067-35",
+        "move": {
+          "idx": 0,
+          "q": 2,
+          "r": 0
+        },
+        "key": "bandiera sinistra-2:2,0"
+      },
+      {
+        "id": "precedente-51358-64",
+        "move": {
+          "idx": 1,
+          "q": 1,
+          "r": -4
+        },
+        "key": "bandiera sinistra-1:1,-4"
+      },
+      {
+        "id": "precedente-51940-37",
+        "move": {
+          "idx": 1,
+          "q": 2,
+          "r": 1
+        },
+        "key": "rombo-1:2,1"
+      },
+      {
+        "id": "precedente-51940-47",
+        "move": {
+          "idx": 0,
+          "q": 0,
+          "r": 1
+        },
+        "key": "barra 4-0:0,1"
+      },
+      {
+        "id": "precedente-51940-58",
+        "move": {
+          "idx": 0,
+          "q": 4,
+          "r": -4
+        },
+        "key": "barra 4-2:4,-4"
+      },
+      {
+        "id": "precedente-51940-59",
+        "move": {
+          "idx": 0,
+          "q": 1,
+          "r": -4
+        },
+        "key": "bandiera destra-4:1,-4"
+      },
+      {
+        "id": "precedente-52813-13",
+        "move": {
+          "idx": 1,
+          "q": -1,
+          "r": 2
+        },
+        "key": "rombo-0:-1,2"
+      },
+      {
+        "id": "precedente-53104-108",
+        "move": {
+          "idx": 0,
+          "q": 2,
+          "r": -1
+        },
+        "key": "barra 4-2:2,-1"
+      },
+      {
+        "id": "precedente-53104-126",
+        "move": {
+          "idx": 1,
+          "q": 4,
+          "r": -4
+        },
+        "key": "bandiera destra-4:4,-4"
+      },
+      {
+        "id": "precedente-53104-130",
+        "move": {
+          "idx": 0,
+          "q": 1,
+          "r": 1
+        },
+        "key": "barra 4-2:1,1"
+      },
+      {
+        "id": "precedente-53395-90",
+        "move": {
+          "idx": 1,
+          "q": 3,
+          "r": 0
+        },
+        "key": "barra 4-2:3,0"
+      },
+      {
+        "id": "precedente-53395-484",
+        "move": {
+          "idx": 0,
+          "q": -4,
+          "r": 3
+        },
+        "key": "ferro di cavallo-2:-4,3"
+      },
+      {
+        "id": "precedente-54268-28",
+        "move": {
+          "idx": 2,
+          "q": 1,
+          "r": 1
+        },
+        "key": "ferro di cavallo-1:1,1"
+      },
+      {
+        "id": "precedente-54268-194",
+        "move": {
+          "idx": 0,
+          "q": -4,
+          "r": 1
+        },
+        "key": "barra 4-0:-4,1"
+      },
+      {
+        "id": "precedente-54268-196",
+        "move": {
+          "idx": 2,
+          "q": 3,
+          "r": -1
+        },
+        "key": "bandiera destra-2:3,-1"
+      },
+      {
+        "id": "precedente-54559-515",
+        "move": {
+          "idx": 2,
+          "q": -1,
+          "r": -3
+        },
+        "key": "ferro di cavallo-2:-1,-3"
+      },
+      {
+        "id": "precedente-54850-42",
+        "move": {
+          "idx": 2,
+          "q": 0,
+          "r": 2
+        },
+        "key": "bandiera sinistra-1:0,2"
+      },
+      {
+        "id": "precedente-54850-684",
+        "move": {
+          "idx": 1,
+          "q": 4,
+          "r": -4
+        },
+        "key": "rombo-1:4,-4"
+      },
+      {
+        "id": "precedente-55432-36",
+        "move": {
+          "idx": 1,
+          "q": 2,
+          "r": -3
+        },
+        "key": "rombo-0:2,-3"
+      },
+      {
+        "id": "precedente-55432-61",
+        "move": {
+          "idx": 0,
+          "q": 3,
+          "r": -1
+        },
+        "key": "ferro di cavallo-0:3,-1"
+      },
+      {
+        "id": "precedente-55723-30",
+        "move": {
+          "idx": 0,
+          "q": -3,
+          "r": 0
+        },
+        "key": "ferro di cavallo-0:-3,0"
+      },
+      {
+        "id": "precedente-55723-37",
+        "move": {
+          "idx": 2,
+          "q": -3,
+          "r": -1
+        },
+        "key": "rombo-1:-3,-1"
+      },
+      {
+        "id": "precedente-56014-30",
+        "move": {
+          "idx": 1,
+          "q": -3,
+          "r": 0
+        },
+        "key": "ferro di cavallo-0:-3,0"
+      },
+      {
+        "id": "precedente-56014-860",
+        "move": {
+          "idx": 2,
+          "q": -4,
+          "r": 3
+        },
+        "key": "bandiera sinistra-1:-4,3"
+      },
+      {
+        "id": "precedente-56014-864",
+        "move": {
+          "idx": 1,
+          "q": -3,
+          "r": -1
+        },
+        "key": "ferro di cavallo-4:-3,-1"
+      },
+      {
+        "id": "precedente-56014-866",
+        "move": {
+          "idx": 0,
+          "q": 0,
+          "r": -2
+        },
+        "key": "ferro di cavallo-5:0,-2"
+      },
+      {
+        "id": "precedente-56305-54",
+        "move": {
+          "idx": 1,
+          "q": 2,
+          "r": -3
+        },
+        "key": "bandiera destra-3:2,-3"
+      },
+      {
+        "id": "precedente-56596-88",
+        "move": {
+          "idx": 0,
+          "q": -1,
+          "r": -3
+        },
+        "key": "ferro di cavallo-5:-1,-3"
+      },
+      {
+        "id": "precedente-56887-602",
+        "move": {
+          "idx": 2,
+          "q": -3,
+          "r": 4
+        },
+        "key": "barra 4-0:-3,4"
+      },
+      {
+        "id": "precedente-56887-604",
+        "move": {
+          "idx": 2,
+          "q": -3,
+          "r": 4
+        },
+        "key": "barra 4-0:-3,4"
+      },
+      {
+        "id": "precedente-57178-29",
+        "move": {
+          "idx": 2,
+          "q": 0,
+          "r": 2
+        },
+        "key": "ferro di cavallo-5:0,2"
+      },
+      {
+        "id": "precedente-57178-39",
+        "move": {
+          "idx": 1,
+          "q": -4,
+          "r": 3
+        },
+        "key": "bandiera destra-3:-4,3"
+      },
+      {
+        "id": "precedente-57178-41",
+        "move": {
+          "idx": 1,
+          "q": 1,
+          "r": -4
+        },
+        "key": "rombo-0:1,-4"
+      }
+    ]
+  }
+}

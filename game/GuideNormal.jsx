@@ -602,6 +602,8 @@ export default function GuideNormal({ snapshot }) {
               {fmt(example.byTotal[0].bigRoom * 100, 0)}%).
               {example.byTotal[0].newPiece &&
                 ` Qui le celle libere sono meno di ${NORMAL_NEW_PIECE.free}: i totali delle prime ${NORMAL_NEW_PIECE.top} candidate sono la media sui 25 pezzi che possono arrivare, non la somma delle voci della tabella (con i soli pezzi noti la mossa scelta varrebbe ${fmt(example.byTotal[0].knownTotal)}).`}{" "}
+              {example.byTotal[0].rescue &&
+                ` Qui nessuna candidata colloca un altro pezzo noto: il totale viene da ${example.byTotal[0].rescue.futures} futuri casuali fino a ${example.byTotal[0].rescue.horizon} mosse, con una penalità di 1000 per blocco. La scomposizione ordinaria qui sotto non è il totale delle simulazioni.`}{" "}
               Ecco come è nato il voto della mossa suggerita e quello della sua
               seconda mossa:
             </p>

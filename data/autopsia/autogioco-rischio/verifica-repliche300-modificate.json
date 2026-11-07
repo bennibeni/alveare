@@ -1,0 +1,64 @@
+{
+  "set": "verifica",
+  "baselineSha256": "76d9cd6b495c95551fb50eac4de8565b9ad7bc6ba76d471b52474fc981337307",
+  "continuation": "base",
+  "comparison": "prima mossa della variante, poi identica strategia base",
+  "rows": [
+    {
+      "variant": "base",
+      "variantSha256": "76d9cd6b495c95551fb50eac4de8565b9ad7bc6ba76d471b52474fc981337307",
+      "positions": 1,
+      "availablePositions": 88,
+      "futures": 300,
+      "changed": 0,
+      "blocked": 219,
+      "baselineBlocked": 219,
+      "wins": 0,
+      "losses": 0,
+      "mean": 0,
+      "positionStandardError": null,
+      "futureStandardError": 0,
+      "choiceMilliseconds": 850.4635999999999
+    },
+    {
+      "variant": "soccorso",
+      "variantSha256": "28ee9d5ba011f6c951903a81ab805153046e3a2eac5bd5b405b94441cea056f7",
+      "positions": 1,
+      "availablePositions": 88,
+      "futures": 300,
+      "changed": 1,
+      "blocked": 208,
+      "baselineBlocked": 219,
+      "wins": 21,
+      "losses": 10,
+      "mean": 42.41,
+      "positionStandardError": null,
+      "futureStandardError": 22.58210846785473,
+      "choiceMilliseconds": 19986.7383
+    }
+  ],
+  "choices": {
+    "base": [
+      {
+        "id": "mosse-casuali-41358-178",
+        "move": {
+          "idx": 0,
+          "q": 4,
+          "r": -2
+        },
+        "key": "rombo-1:4,-2"
+      }
+    ],
+    "soccorso": [
+      {
+        "id": "mosse-casuali-41358-178",
+        "move": {
+          "idx": 1,
+          "q": 3,
+          "r": -1
+        },
+        "key": "rombo-0:3,-1"
+      }
+    ]
+  }
+}

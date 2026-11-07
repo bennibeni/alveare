@@ -1,0 +1,30 @@
+[
+  {
+    "id": "trappola-108051-510-0#1|0,-1,-3|36fb9b17892bf79b|paired-v1",
+    "legal": 3,
+    "evaluated": 3,
+    "humanRank": 2,
+    "humanScore": -10091.77294884062,
+    "algorithm": {
+      "idx": 2,
+      "q": 0,
+      "r": -3,
+      "piece": "bandiera sinistra-2",
+      "score": -10000
+    }
+  },
+  {
+    "id": "trappola-128033-223-6#1|2,3,-3|36fb9b17892bf79b|paired-v1",
+    "legal": 6,
+    "evaluated": 6,
+    "humanRank": 4,
+    "humanScore": 230.19582206446603,
+    "algorithm": {
+      "idx": 0,
+      "q": 0,
+      "r": -4,
+      "piece": "bandiera sinistra-2",
+      "score": 286.0596005844006
+    }
+  }
+]

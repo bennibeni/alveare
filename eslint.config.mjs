@@ -18,6 +18,7 @@ export default defineConfig([
   },
   globalIgnores([
     ".next/**",
+    ".strategy-lab/**",
     "out/**",
     "build/**",
     "coverage/**",

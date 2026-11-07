@@ -1,0 +1,1018 @@
+{
+  "set": "umane",
+  "baselineSha256": "76d9cd6b495c95551fb50eac4de8565b9ad7bc6ba76d471b52474fc981337307",
+  "continuation": "base",
+  "comparison": "prima mossa della variante, poi identica strategia base",
+  "rows": [
+    {
+      "variant": "base",
+      "variantSha256": "76d9cd6b495c95551fb50eac4de8565b9ad7bc6ba76d471b52474fc981337307",
+      "positions": 54,
+      "availablePositions": 54,
+      "futures": 270,
+      "changed": 0,
+      "blocked": 9,
+      "baselineBlocked": 9,
+      "wins": 0,
+      "losses": 0,
+      "mean": 0,
+      "positionStandardError": 0,
+      "futureStandardError": 0,
+      "choiceMilliseconds": 2069.9058999999997
+    },
+    {
+      "variant": "soccorso",
+      "variantSha256": "28ee9d5ba011f6c951903a81ab805153046e3a2eac5bd5b405b94441cea056f7",
+      "positions": 54,
+      "availablePositions": 54,
+      "futures": 270,
+      "changed": 1,
+      "blocked": 8,
+      "baselineBlocked": 9,
+      "wins": 1,
+      "losses": 0,
+      "mean": 4.137037037037037,
+      "positionStandardError": 4.137037037037037,
+      "futureStandardError": 4.276779516758686,
+      "choiceMilliseconds": 4222.0267
+    }
+  ],
+  "choices": {
+    "base": [
+      {
+        "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#18",
+        "move": {
+          "idx": 1,
+          "q": 0,
+          "r": -3
+        },
+        "key": "punto-0:0,-3"
+      },
+      {
+        "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#32",
+        "move": {
+          "idx": 1,
+          "q": 2,
+          "r": -1
+        },
+        "key": "bandiera sinistra-0:2,-1"
+      },
+      {
+        "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#69",
+        "move": {
+          "idx": 0,
+          "q": 2,
+          "r": -1
+        },
+        "key": "punto-0:2,-1"
+      },
+      {
+        "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#88",
+        "move": {
+          "idx": 1,
+          "q": -4,
+          "r": 4
+        },
+        "key": "punto-0:-4,4"
+      },
+      {
+        "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#130",
+        "move": {
+          "idx": 1,
+          "q": -3,
+          "r": 1
+        },
+        "key": "barra 4-0:-3,1"
+      },
+      {
+        "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#230",
+        "move": {
+          "idx": 0,
+          "q": 4,
+          "r": 0
+        },
+        "key": "punto-0:4,0"
+      },
+      {
+        "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#246",
+        "move": {
+          "idx": 1,
+          "q": -3,
+          "r": 3
+        },
+        "key": "bandiera sinistra-1:-3,3"
+      },
+      {
+        "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#336",
+        "move": {
+          "idx": 1,
+          "q": 1,
+          "r": 2
+        },
+        "key": "rombo-1:1,2"
+      },
+      {
+        "id": "alveare-partita-2026-11-04T12-01-36-166Z.json#186",
+        "move": {
+          "idx": 0,
+          "q": 2,
+          "r": -4
+        },
+        "key": "rombo-2:2,-4"
+      },
+      {
+        "id": "alveare-partita-2026-11-04T12-01-36-166Z.json#193",
+        "move": {
+          "idx": 1,
+          "q": 2,
+          "r": -4
+        },
+        "key": "punto-0:2,-4"
+      },
+      {
+        "id": "alveare-partita-2026-11-04T12-01-36-166Z.json#194",
+        "move": {
+          "idx": 1,
+          "q": 0,
+          "r": -1
+        },
+        "key": "punto-0:0,-1"
+      },
+      {
+        "id": "alveare-partita-2026-11-04T12-01-36-166Z.json#206",
+        "move": {
+          "idx": 2,
+          "q": -1,
+          "r": 4
+        },
+        "key": "punto-0:-1,4"
+      },
+      {
+        "id": "alveare-partita-2026-11-04T12-01-36-166Z.json#244",
+        "move": {
+          "idx": 1,
+          "q": 1,
+          "r": -3
+        },
+        "key": "ferro di cavallo-2:1,-3"
+      },
+      {
+        "id": "alveare-partita-2026-11-04T12-01-36-166Z.json#263",
+        "move": {
+          "idx": 0,
+          "q": 4,
+          "r": -3
+        },
+        "key": "punto-0:4,-3"
+      },
+      {
+        "id": "alveare-partita-2026-11-04T12-01-36-166Z.json#270",
+        "move": {
+          "idx": 1,
+          "q": 3,
+          "r": -4
+        },
+        "key": "bandiera sinistra-3:3,-4"
+      },
+      {
+        "id": "alveare-partita-2026-11-04T12-01-36-166Z.json#283",
+        "move": {
+          "idx": 0,
+          "q": 0,
+          "r": -4
+        },
+        "key": "punto-0:0,-4"
+      },
+      {
+        "id": "alveare-partita-2026-11-05T12-03-56-546Z.json#222",
+        "move": {
+          "idx": 0,
+          "q": 1,
+          "r": -3
+        },
+        "key": "punto-0:1,-3"
+      },
+      {
+        "id": "alveare-partita-2026-11-05T12-03-56-546Z.json#288",
+        "move": {
+          "idx": 0,
+          "q": -3,
+          "r": -1
+        },
+        "key": "rombo-2:-3,-1"
+      },
+      {
+        "id": "alveare-partita-2026-11-05T17-00-45-400Z.json#35",
+        "move": {
+          "idx": 0,
+          "q": -3,
+          "r": 1
+        },
+        "key": "punto-0:-3,1"
+      },
+      {
+        "id": "alveare-partita-2026-11-05T17-00-45-400Z.json#55",
+        "move": {
+          "idx": 0,
+          "q": -2,
+          "r": 4
+        },
+        "key": "punto-0:-2,4"
+      },
+      {
+        "id": "alveare-partita-2026-11-05T17-00-45-400Z.json#66",
+        "move": {
+          "idx": 0,
+          "q": 1,
+          "r": -4
+        },
+        "key": "bandiera destra-3:1,-4"
+      },
+      {
+        "id": "alveare-partita-2026-11-05T17-00-45-400Z.json#240",
+        "move": {
+          "idx": 0,
+          "q": 1,
+          "r": 1
+        },
+        "key": "barra 4-2:1,1"
+      },
+      {
+        "id": "alveare-partita-2026-11-05T17-00-45-400Z.json#264",
+        "move": {
+          "idx": 0,
+          "q": 1,
+          "r": -4
+        },
+        "key": "punto-0:1,-4"
+      },
+      {
+        "id": "alveare-partita-2026-11-05T17-00-45-400Z.json#282",
+        "move": {
+          "idx": 1,
+          "q": -4,
+          "r": 0
+        },
+        "key": "barra 4-1:-4,0"
+      },
+      {
+        "id": "alveare-partita-2026-11-05T17-00-45-400Z.json#346",
+        "move": {
+          "idx": 0,
+          "q": -4,
+          "r": 1
+        },
+        "key": "punto-0:-4,1"
+      },
+      {
+        "id": "alveare-partita-2026-11-05T17-00-45-400Z.json#398",
+        "move": {
+          "idx": 0,
+          "q": -1,
+          "r": -3
+        },
+        "key": "punto-0:-1,-3"
+      },
+      {
+        "id": "alveare-partita-2026-11-05T17-00-45-400Z.json#413",
+        "move": {
+          "idx": 0,
+          "q": 2,
+          "r": -1
+        },
+        "key": "rombo-2:2,-1"
+      },
+      {
+        "id": "alveare-partita-2026-11-05T17-00-45-400Z.json#428",
+        "move": {
+          "idx": 1,
+          "q": -3,
+          "r": 4
+        },
+        "key": "punto-0:-3,4"
+      },
+      {
+        "id": "alveare-partita-2026-11-05T17-00-45-400Z.json#442",
+        "move": {
+          "idx": 0,
+          "q": -1,
+          "r": 4
+        },
+        "key": "punto-0:-1,4"
+      },
+      {
+        "id": "alveare-partita-2026-11-05T17-00-45-400Z.json#451",
+        "move": {
+          "idx": 0,
+          "q": -3,
+          "r": 2
+        },
+        "key": "punto-0:-3,2"
+      },
+      {
+        "id": "alveare-partita-2026-11-06T11-03-15-525Z.json#154",
+        "move": {
+          "idx": 0,
+          "q": -1,
+          "r": 4
+        },
+        "key": "punto-0:-1,4"
+      },
+      {
+        "id": "alveare-partita-2026-11-06T11-03-15-525Z.json#163",
+        "move": {
+          "idx": 0,
+          "q": 0,
+          "r": -3
+        },
+        "key": "punto-0:0,-3"
+      },
+      {
+        "id": "alveare-partita-2026-11-06T11-03-15-525Z.json#170",
+        "move": {
+          "idx": 1,
+          "q": -4,
+          "r": 1
+        },
+        "key": "punto-0:-4,1"
+      },
+      {
+        "id": "alveare-partita-2026-11-06T11-03-15-525Z.json#244",
+        "move": {
+          "idx": 1,
+          "q": 1,
+          "r": 1
+        },
+        "key": "bandiera destra-1:1,1"
+      },
+      {
+        "id": "alveare-partita-2026-11-06T11-03-15-525Z.json#269",
+        "move": {
+          "idx": 0,
+          "q": 1,
+          "r": 2
+        },
+        "key": "rombo-1:1,2"
+      },
+      {
+        "id": "alveare-partita-2026-11-06T11-03-15-525Z.json#273",
+        "move": {
+          "idx": 0,
+          "q": -2,
+          "r": 2
+        },
+        "key": "rombo-0:-2,2"
+      },
+      {
+        "id": "alveare-partita-2026-11-06T11-03-15-525Z.json#282",
+        "move": {
+          "idx": 1,
+          "q": -1,
+          "r": -3
+        },
+        "key": "punto-0:-1,-3"
+      },
+      {
+        "id": "alveare-partita-2026-11-06T19-01-27-088Z.json#8",
+        "move": {
+          "idx": 1,
+          "q": -2,
+          "r": 2
+        },
+        "key": "barra 4-0:-2,2"
+      },
+      {
+        "id": "alveare-partita-2026-11-06T19-01-27-088Z.json#68",
+        "move": {
+          "idx": 1,
+          "q": -3,
+          "r": 4
+        },
+        "key": "barra 4-0:-3,4"
+      },
+      {
+        "id": "alveare-partita-2026-11-06T19-01-27-088Z.json#135",
+        "move": {
+          "idx": 0,
+          "q": 4,
+          "r": -4
+        },
+        "key": "punto-0:4,-4"
+      },
+      {
+        "id": "alveare-partita-2026-11-06T19-01-27-088Z.json#152",
+        "move": {
+          "idx": 0,
+          "q": -1,
+          "r": -2
+        },
+        "key": "punto-0:-1,-2"
+      },
+      {
+        "id": "alveare-partita-2026-11-06T19-01-27-088Z.json#184",
+        "move": {
+          "idx": 1,
+          "q": 4,
+          "r": -4
+        },
+        "key": "punto-0:4,-4"
+      },
+      {
+        "id": "alveare-partita-2026-11-06T19-01-27-088Z.json#194",
+        "move": {
+          "idx": 0,
+          "q": 4,
+          "r": -4
+        },
+        "key": "punto-0:4,-4"
+      },
+      {
+        "id": "alveare-partita-2026-11-06T19-01-27-088Z.json#205",
+        "move": {
+          "idx": 1,
+          "q": 4,
+          "r": -1
+        },
+        "key": "punto-0:4,-1"
+      },
+      {
+        "id": "alveare-partita-2026-11-06T19-01-27-088Z.json#212",
+        "move": {
+          "idx": 0,
+          "q": 0,
+          "r": -3
+        },
+        "key": "punto-0:0,-3"
+      },
+      {
+        "id": "alveare-partita-2026-11-06T19-01-27-088Z.json#277",
+        "move": {
+          "idx": 1,
+          "q": -4,
+          "r": 0
+        },
+        "key": "barra 4-1:-4,0"
+      },
+      {
+        "id": "alveare-partita-2026-11-06T19-01-27-088Z.json#282",
+        "move": {
+          "idx": 1,
+          "q": -3,
+          "r": 0
+        },
+        "key": "punto-0:-3,0"
+      },
+      {
+        "id": "alveare-partita-2026-11-06T19-01-27-088Z.json#347",
+        "move": {
+          "idx": 1,
+          "q": 0,
+          "r": -4
+        },
+        "key": "rombo-2:0,-4"
+      },
+      {
+        "id": "alveare-partita-2026-11-06T19-01-27-088Z.json#438",
+        "move": {
+          "idx": 1,
+          "q": 1,
+          "r": 3
+        },
+        "key": "punto-0:1,3"
+      },
+      {
+        "id": "alveare-partita-2026-11-06T19-01-27-088Z.json#527",
+        "move": {
+          "idx": 2,
+          "q": -4,
+          "r": 4
+        },
+        "key": "punto-0:-4,4"
+      },
+      {
+        "id": "alveare-partita-2026-11-06T19-01-27-088Z.json#613",
+        "move": {
+          "idx": 0,
+          "q": 2,
+          "r": 2
+        },
+        "key": "punto-0:2,2"
+      },
+      {
+        "id": "trappola-108051-510-0#1|0,-1,-3|36fb9b17892bf79b|paired-v1",
+        "move": {
+          "idx": 2,
+          "q": 0,
+          "r": -3
+        },
+        "key": "bandiera sinistra-2:0,-3"
+      },
+      {
+        "id": "trappola-128033-223-6#1|2,3,-3|36fb9b17892bf79b|paired-v1",
+        "move": {
+          "idx": 0,
+          "q": 0,
+          "r": -4
+        },
+        "key": "bandiera sinistra-2:0,-4"
+      },
+      {
+        "id": "trappola-preingresso-104753-79#78|1,0,-4|36fb9b17892bf79b|paired-v1",
+        "move": {
+          "idx": 0,
+          "q": 2,
+          "r": -4
+        },
+        "key": "barra 4-2:2,-4"
+      }
+    ],
+    "soccorso": [
+      {
+        "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#18",
+        "move": {
+          "idx": 1,
+          "q": 0,
+          "r": -3
+        },
+        "key": "punto-0:0,-3"
+      },
+      {
+        "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#32",
+        "move": {
+          "idx": 1,
+          "q": 2,
+          "r": -1
+        },
+        "key": "bandiera sinistra-0:2,-1"
+      },
+      {
+        "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#69",
+        "move": {
+          "idx": 0,
+          "q": 2,
+          "r": -1
+        },
+        "key": "punto-0:2,-1"
+      },
+      {
+        "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#88",
+        "move": {
+          "idx": 1,
+          "q": -4,
+          "r": 4
+        },
+        "key": "punto-0:-4,4"
+      },
+      {
+        "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#130",
+        "move": {
+          "idx": 1,
+          "q": -3,
+          "r": 1
+        },
+        "key": "barra 4-0:-3,1"
+      },
+      {
+        "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#230",
+        "move": {
+          "idx": 0,
+          "q": 4,
+          "r": 0
+        },
+        "key": "punto-0:4,0"
+      },
+      {
+        "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#246",
+        "move": {
+          "idx": 1,
+          "q": -3,
+          "r": 3
+        },
+        "key": "bandiera sinistra-1:-3,3"
+      },
+      {
+        "id": "alveare-partita-2026-11-04T05-07-12-790Z.json#336",
+        "move": {
+          "idx": 1,
+          "q": 1,
+          "r": 2
+        },
+        "key": "rombo-1:1,2"
+      },
+      {
+        "id": "alveare-partita-2026-11-04T12-01-36-166Z.json#186",
+        "move": {
+          "idx": 0,
+          "q": 2,
+          "r": -4
+        },
+        "key": "rombo-2:2,-4"
+      },
+      {
+        "id": "alveare-partita-2026-11-04T12-01-36-166Z.json#193",
+        "move": {
+          "idx": 1,
+          "q": 2,
+          "r": -4
+        },
+        "key": "punto-0:2,-4"
+      },
+      {
+        "id": "alveare-partita-2026-11-04T12-01-36-166Z.json#194",
+        "move": {
+          "idx": 1,
+          "q": 0,
+          "r": -1
+        },
+        "key": "punto-0:0,-1"
+      },
+      {
+        "id": "alveare-partita-2026-11-04T12-01-36-166Z.json#206",
+        "move": {
+          "idx": 2,
+          "q": -1,
+          "r": 4
+        },
+        "key": "punto-0:-1,4"
+      },
+      {
+        "id": "alveare-partita-2026-11-04T12-01-36-166Z.json#244",
+        "move": {
+          "idx": 1,
+          "q": 1,
+          "r": -3
+        },
+        "key": "ferro di cavallo-2:1,-3"
+      },
+      {
+        "id": "alveare-partita-2026-11-04T12-01-36-166Z.json#263",
+        "move": {
+          "idx": 0,
+          "q": 4,
+          "r": -3
+        },
+        "key": "punto-0:4,-3"
+      },
+      {
+        "id": "alveare-partita-2026-11-04T12-01-36-166Z.json#270",
+        "move": {
+          "idx": 1,
+          "q": 3,
+          "r": -4
+        },
+        "key": "bandiera sinistra-3:3,-4"
+      },
+      {
+        "id": "alveare-partita-2026-11-04T12-01-36-166Z.json#283",
+        "move": {
+          "idx": 0,
+          "q": 0,
+          "r": -4
+        },
+        "key": "punto-0:0,-4"
+      },
+      {
+        "id": "alveare-partita-2026-11-05T12-03-56-546Z.json#222",
+        "move": {
+          "idx": 0,
+          "q": 1,
+          "r": -3
+        },
+        "key": "punto-0:1,-3"
+      },
+      {
+        "id": "alveare-partita-2026-11-05T12-03-56-546Z.json#288",
+        "move": {
+          "idx": 0,
+          "q": -3,
+          "r": -1
+        },
+        "key": "rombo-2:-3,-1"
+      },
+      {
+        "id": "alveare-partita-2026-11-05T17-00-45-400Z.json#35",
+        "move": {
+          "idx": 0,
+          "q": -3,
+          "r": 1
+        },
+        "key": "punto-0:-3,1"
+      },
+      {
+        "id": "alveare-partita-2026-11-05T17-00-45-400Z.json#55",
+        "move": {
+          "idx": 0,
+          "q": -2,
+          "r": 4
+        },
+        "key": "punto-0:-2,4"
+      },
+      {
+        "id": "alveare-partita-2026-11-05T17-00-45-400Z.json#66",
+        "move": {
+          "idx": 0,
+          "q": 1,
+          "r": -4
+        },
+        "key": "bandiera destra-3:1,-4"
+      },
+      {
+        "id": "alveare-partita-2026-11-05T17-00-45-400Z.json#240",
+        "move": {
+          "idx": 0,
+          "q": 1,
+          "r": 1
+        },
+        "key": "barra 4-2:1,1"
+      },
+      {
+        "id": "alveare-partita-2026-11-05T17-00-45-400Z.json#264",
+        "move": {
+          "idx": 0,
+          "q": 1,
+          "r": -4
+        },
+        "key": "punto-0:1,-4"
+      },
+      {
+        "id": "alveare-partita-2026-11-05T17-00-45-400Z.json#282",
+        "move": {
+          "idx": 1,
+          "q": -4,
+          "r": 0
+        },
+        "key": "barra 4-1:-4,0"
+      },
+      {
+        "id": "alveare-partita-2026-11-05T17-00-45-400Z.json#346",
+        "move": {
+          "idx": 0,
+          "q": -4,
+          "r": 1
+        },
+        "key": "punto-0:-4,1"
+      },
+      {
+        "id": "alveare-partita-2026-11-05T17-00-45-400Z.json#398",
+        "move": {
+          "idx": 0,
+          "q": -1,
+          "r": -3
+        },
+        "key": "punto-0:-1,-3"
+      },
+      {
+        "id": "alveare-partita-2026-11-05T17-00-45-400Z.json#413",
+        "move": {
+          "idx": 0,
+          "q": 2,
+          "r": -1
+        },
+        "key": "rombo-2:2,-1"
+      },
+      {
+        "id": "alveare-partita-2026-11-05T17-00-45-400Z.json#428",
+        "move": {
+          "idx": 1,
+          "q": -3,
+          "r": 4
+        },
+        "key": "punto-0:-3,4"
+      },
+      {
+        "id": "alveare-partita-2026-11-05T17-00-45-400Z.json#442",
+        "move": {
+          "idx": 0,
+          "q": -1,
+          "r": 4
+        },
+        "key": "punto-0:-1,4"
+      },
+      {
+        "id": "alveare-partita-2026-11-05T17-00-45-400Z.json#451",
+        "move": {
+          "idx": 0,
+          "q": -3,
+          "r": 2
+        },
+        "key": "punto-0:-3,2"
+      },
+      {
+        "id": "alveare-partita-2026-11-06T11-03-15-525Z.json#154",
+        "move": {
+          "idx": 0,
+          "q": -1,
+          "r": 4
+        },
+        "key": "punto-0:-1,4"
+      },
+      {
+        "id": "alveare-partita-2026-11-06T11-03-15-525Z.json#163",
+        "move": {
+          "idx": 0,
+          "q": 0,
+          "r": -3
+        },
+        "key": "punto-0:0,-3"
+      },
+      {
+        "id": "alveare-partita-2026-11-06T11-03-15-525Z.json#170",
+        "move": {
+          "idx": 1,
+          "q": -4,
+          "r": 1
+        },
+        "key": "punto-0:-4,1"
+      },
+      {
+        "id": "alveare-partita-2026-11-06T11-03-15-525Z.json#244",
+        "move": {
+          "idx": 1,
+          "q": 1,
+          "r": 1
+        },
+        "key": "bandiera destra-1:1,1"
+      },
+      {
+        "id": "alveare-partita-2026-11-06T11-03-15-525Z.json#269",
+        "move": {
+          "idx": 0,
+          "q": 1,
+          "r": 2
+        },
+        "key": "rombo-1:1,2"
+      },
+      {
+        "id": "alveare-partita-2026-11-06T11-03-15-525Z.json#273",
+        "move": {
+          "idx": 0,
+          "q": -2,
+          "r": 2
+        },
+        "key": "rombo-0:-2,2"
+      },
+      {
+        "id": "alveare-partita-2026-11-06T11-03-15-525Z.json#282",
+        "move": {
+          "idx": 1,
+          "q": -1,
+          "r": -3
+        },
+        "key": "punto-0:-1,-3"
+      },
+      {
+        "id": "alveare-partita-2026-11-06T19-01-27-088Z.json#8",
+        "move": {
+          "idx": 1,
+          "q": -2,
+          "r": 2
+        },
+        "key": "barra 4-0:-2,2"
+      },
+      {
+        "id": "alveare-partita-2026-11-06T19-01-27-088Z.json#68",
+        "move": {
+          "idx": 1,
+          "q": -3,
+          "r": 4
+        },
+        "key": "barra 4-0:-3,4"
+      },
+      {
+        "id": "alveare-partita-2026-11-06T19-01-27-088Z.json#135",
+        "move": {
+          "idx": 0,
+          "q": 4,
+          "r": -4
+        },
+        "key": "punto-0:4,-4"
+      },
+      {
+        "id": "alveare-partita-2026-11-06T19-01-27-088Z.json#152",
+        "move": {
+          "idx": 0,
+          "q": -1,
+          "r": -2
+        },
+        "key": "punto-0:-1,-2"
+      },
+      {
+        "id": "alveare-partita-2026-11-06T19-01-27-088Z.json#184",
+        "move": {
+          "idx": 1,
+          "q": 4,
+          "r": -4
+        },
+        "key": "punto-0:4,-4"
+      },
+      {
+        "id": "alveare-partita-2026-11-06T19-01-27-088Z.json#194",
+        "move": {
+          "idx": 0,
+          "q": 4,
+          "r": -4
+        },
+        "key": "punto-0:4,-4"
+      },
+      {
+        "id": "alveare-partita-2026-11-06T19-01-27-088Z.json#205",
+        "move": {
+          "idx": 1,
+          "q": 4,
+          "r": -1
+        },
+        "key": "punto-0:4,-1"
+      },
+      {
+        "id": "alveare-partita-2026-11-06T19-01-27-088Z.json#212",
+        "move": {
+          "idx": 0,
+          "q": 0,
+          "r": -3
+        },
+        "key": "punto-0:0,-3"
+      },
+      {
+        "id": "alveare-partita-2026-11-06T19-01-27-088Z.json#277",
+        "move": {
+          "idx": 1,
+          "q": -4,
+          "r": 0
+        },
+        "key": "barra 4-1:-4,0"
+      },
+      {
+        "id": "alveare-partita-2026-11-06T19-01-27-088Z.json#282",
+        "move": {
+          "idx": 1,
+          "q": -3,
+          "r": 0
+        },
+        "key": "punto-0:-3,0"
+      },
+      {
+        "id": "alveare-partita-2026-11-06T19-01-27-088Z.json#347",
+        "move": {
+          "idx": 1,
+          "q": 0,
+          "r": -4
+        },
+        "key": "rombo-2:0,-4"
+      },
+      {
+        "id": "alveare-partita-2026-11-06T19-01-27-088Z.json#438",
+        "move": {
+          "idx": 1,
+          "q": 1,
+          "r": 3
+        },
+        "key": "punto-0:1,3"
+      },
+      {
+        "id": "alveare-partita-2026-11-06T19-01-27-088Z.json#527",
+        "move": {
+          "idx": 2,
+          "q": -4,
+          "r": 4
+        },
+        "key": "punto-0:-4,4"
+      },
+      {
+        "id": "alveare-partita-2026-11-06T19-01-27-088Z.json#613",
+        "move": {
+          "idx": 0,
+          "q": 2,
+          "r": 2
+        },
+        "key": "punto-0:2,2"
+      },
+      {
+        "id": "trappola-108051-510-0#1|0,-1,-3|36fb9b17892bf79b|paired-v1",
+        "move": {
+          "idx": 0,
+          "q": -1,
+          "r": -3
+        },
+        "key": "ferro di cavallo-5:-1,-3"
+      },
+      {
+        "id": "trappola-128033-223-6#1|2,3,-3|36fb9b17892bf79b|paired-v1",
+        "move": {
+          "idx": 0,
+          "q": 0,
+          "r": -4
+        },
+        "key": "bandiera sinistra-2:0,-4"
+      },
+      {
+        "id": "trappola-preingresso-104753-79#78|1,0,-4|36fb9b17892bf79b|paired-v1",
+        "move": {
+          "idx": 0,
+          "q": 2,
+          "r": -4
+        },
+        "key": "barra 4-2:2,-4"
+      }
+    ]
+  }
+}

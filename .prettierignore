@@ -3,4 +3,5 @@ build/
 dist/
 coverage/
 .next/
+.strategy-lab/
 package-lock.json

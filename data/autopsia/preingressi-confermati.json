@@ -1,0 +1,129 @@
+{
+  "format": "alveare-mosse-umane",
+  "version": 1,
+  "notes": "Confronti appaiati dalle trappole: a = tua mossa, b = mossa storica fa730f6; continuazioni con la strategia corrente. Punti meno 1000 per blocco, 15 mosse successive. Conferma indipendente: vantaggio oltre 2 errori standard.",
+  "records": [
+    {
+      "id": "trappola-preingresso-104753-79#78|1,0,-4|36fb9b17892bf79b|paired-v1",
+      "partita": "preingresso-104753-79",
+      "mossa": 78,
+      "stato": "confermata",
+      "origine": "ricerca-automatica-preingresso",
+      "seed": 104753,
+      "ingresso": 79,
+      "mossePrimaIngresso": 2,
+      "posizione": {
+        "celle": [
+          "-4,0",
+          "-3,-1",
+          "-3,1",
+          "-3,2",
+          "-3,3",
+          "-2,-2",
+          "-2,-1",
+          "-2,0",
+          "-1,3",
+          "0,-3",
+          "0,-1",
+          "0,3",
+          "1,-2",
+          "1,-1",
+          "1,2",
+          "1,3",
+          "2,-3",
+          "2,0",
+          "2,2",
+          "3,-3",
+          "3,-2",
+          "3,0"
+        ],
+        "vassoio": [
+          "barra 4-2",
+          "bandiera sinistra-1",
+          "rombo-0"
+        ],
+        "combo": 2,
+        "libere": 39
+      },
+      "tua": {
+        "idx": 1,
+        "q": 0,
+        "r": -4,
+        "pezzo": "bandiera sinistra-1",
+        "nome": "bandiera sinistra",
+        "celle": [
+          1,
+          2,
+          3,
+          8
+        ]
+      },
+      "suggerita": {
+        "idx": 0,
+        "q": 2,
+        "r": -4,
+        "pezzo": "barra 4-2",
+        "nome": "barra 4",
+        "celle": [
+          3,
+          8,
+          14,
+          21
+        ]
+      },
+      "prova": {
+        "futuri": 30,
+        "mosse": 15,
+        "seme": 777,
+        "differenza": 184.06666666666666,
+        "errore": 78.90727765822967,
+        "a": {
+          "punti": 159.2,
+          "blocchi": 1
+        },
+        "b": {
+          "punti": 141.8,
+          "blocchi": 6
+        }
+      },
+      "conferma": {
+        "futuri": 100,
+        "mosse": 15,
+        "seme": 99991,
+        "differenza": 91.12,
+        "errore": 44.829858556344085,
+        "a": {
+          "punti": 152.89,
+          "blocchi": 9
+        },
+        "b": {
+          "punti": 141.77,
+          "blocchi": 17
+        }
+      },
+      "verifica": {
+        "futuri": 300,
+        "mosse": 15,
+        "seme": 20261108,
+        "differenza": 129.52666666666667,
+        "errore": 28.856778693254522,
+        "a": {
+          "punti": 149,
+          "blocchi": 35
+        },
+        "b": {
+          "punti": 136.14,
+          "blocchi": 70
+        }
+      },
+      "app": {
+        "strategia": "36fb9b17892bf79b",
+        "protocollo": "trappole-paired-v1",
+        "penalitaBlocco": 1000,
+        "bloccoFinaleIncluso": true,
+        "selezione": "una sola candidata per posizione dopo screening"
+      },
+      "aggiunto": "2026-11-07"
+    }
+  ]
+}

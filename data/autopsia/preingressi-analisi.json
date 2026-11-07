@@ -1,0 +1,1073 @@
+{
+  "protocollo": "preingressi-v1",
+  "strategia": "36fb9b17892bf79b",
+  "orizzonte": 15,
+  "penalitaBlocco": 1000,
+  "fasi": {
+    "prova": {
+      "futuri": 30,
+      "seme": 777
+    },
+    "conferma": {
+      "futuri": 100,
+      "seme": 99991
+    },
+    "verifica": {
+      "futuri": 300,
+      "seme": 20261108
+    }
+  },
+  "posizioni": [
+    {
+      "seed": 104753,
+      "ingresso": 79,
+      "prima": 2,
+      "passo": 77,
+      "posizione": {
+        "celle": [
+          "-4,0",
+          "-3,-1",
+          "-3,1",
+          "-3,2",
+          "-3,3",
+          "-2,-2",
+          "-2,-1",
+          "-2,0",
+          "-1,3",
+          "0,-3",
+          "0,-1",
+          "0,3",
+          "1,-2",
+          "1,-1",
+          "1,2",
+          "1,3",
+          "2,-3",
+          "2,0",
+          "2,2",
+          "3,-3",
+          "3,-2",
+          "3,0"
+        ],
+        "vassoio": [
+          "barra 4-2",
+          "bandiera sinistra-1",
+          "rombo-0"
+        ],
+        "combo": 2,
+        "libere": 39
+      },
+      "suggerita": {
+        "idx": 0,
+        "q": 2,
+        "r": -4,
+        "pezzo": "barra 4-2",
+        "nome": "barra 4",
+        "celle": [
+          3,
+          8,
+          14,
+          21
+        ]
+      },
+      "candidate": [
+        {
+          "idx": 0,
+          "q": 0,
+          "r": 1,
+          "pezzo": "barra 4-2",
+          "nome": "barra 4",
+          "celle": [
+            40,
+            47,
+            53,
+            58
+          ]
+        },
+        {
+          "idx": 0,
+          "q": 1,
+          "r": 0,
+          "pezzo": "barra 4-2",
+          "nome": "barra 4",
+          "celle": [
+            32,
+            40,
+            47,
+            53
+          ]
+        },
+        {
+          "idx": 0,
+          "q": 2,
+          "r": -4,
+          "pezzo": "barra 4-2",
+          "nome": "barra 4",
+          "celle": [
+            3,
+            8,
+            14,
+            21
+          ]
+        },
+        {
+          "idx": 0,
+          "q": 2,
+          "r": -1,
+          "pezzo": "barra 4-2",
+          "nome": "barra 4",
+          "celle": [
+            24,
+            32,
+            40,
+            47
+          ]
+        },
+        {
+          "idx": 1,
+          "q": -2,
+          "r": 1,
+          "pezzo": "bandiera sinistra-1",
+          "nome": "bandiera sinistra",
+          "celle": [
+            38,
+            39,
+            40,
+            47
+          ]
+        },
+        {
+          "idx": 1,
+          "q": -1,
+          "r": 0,
+          "pezzo": "bandiera sinistra-1",
+          "nome": "bandiera sinistra",
+          "celle": [
+            30,
+            31,
+            32,
+            40
+          ]
+        },
+        {
+          "idx": 1,
+          "q": -1,
+          "r": 1,
+          "pezzo": "bandiera sinistra-1",
+          "nome": "bandiera sinistra",
+          "celle": [
+            39,
+            40,
+            41,
+            48
+          ]
+        },
+        {
+          "idx": 1,
+          "q": 0,
+          "r": -4,
+          "pezzo": "bandiera sinistra-1",
+          "nome": "bandiera sinistra",
+          "celle": [
+            1,
+            2,
+            3,
+            8
+          ]
+        },
+        {
+          "idx": 2,
+          "q": -2,
+          "r": 1,
+          "pezzo": "rombo-0",
+          "nome": "rombo",
+          "celle": [
+            38,
+            39,
+            46,
+            47
+          ]
+        },
+        {
+          "idx": 2,
+          "q": -1,
+          "r": 0,
+          "pezzo": "rombo-0",
+          "nome": "rombo",
+          "celle": [
+            30,
+            31,
+            39,
+            40
+          ]
+        },
+        {
+          "idx": 2,
+          "q": -1,
+          "r": 1,
+          "pezzo": "rombo-0",
+          "nome": "rombo",
+          "celle": [
+            39,
+            40,
+            47,
+            48
+          ]
+        },
+        {
+          "idx": 2,
+          "q": 0,
+          "r": 0,
+          "pezzo": "rombo-0",
+          "nome": "rombo",
+          "celle": [
+            31,
+            32,
+            40,
+            41
+          ]
+        }
+      ],
+      "prove": [
+        {
+          "mossa": {
+            "idx": 0,
+            "q": 0,
+            "r": 1,
+            "pezzo": "barra 4-2",
+            "nome": "barra 4",
+            "celle": [
+              40,
+              47,
+              53,
+              58
+            ]
+          },
+          "risultato": {
+            "futuri": 30,
+            "mosse": 15,
+            "seme": 777,
+            "differenza": -80.16666666666667,
+            "errore": 74.91920680234621,
+            "a": {
+              "punti": 128.3,
+              "blocchi": 8
+            },
+            "b": {
+              "punti": 141.8,
+              "blocchi": 6
+            }
+          }
+        },
+        {
+          "mossa": {
+            "idx": 0,
+            "q": 1,
+            "r": 0,
+            "pezzo": "barra 4-2",
+            "nome": "barra 4",
+            "celle": [
+              32,
+              40,
+              47,
+              53
+            ]
+          },
+          "risultato": {
+            "futuri": 30,
+            "mosse": 15,
+            "seme": 777,
+            "differenza": -42.53333333333333,
+            "errore": 65.64050006697195,
+            "a": {
+              "punti": 132.6,
+              "blocchi": 7
+            },
+            "b": {
+              "punti": 141.8,
+              "blocchi": 6
+            }
+          }
+        },
+        {
+          "mossa": {
+            "idx": 1,
+            "q": -2,
+            "r": 1,
+            "pezzo": "bandiera sinistra-1",
+            "nome": "bandiera sinistra",
+            "celle": [
+              38,
+              39,
+              40,
+              47
+            ]
+          },
+          "risultato": {
+            "futuri": 30,
+            "mosse": 15,
+            "seme": 777,
+            "differenza": -311.1,
+            "errore": 109.10652129229372,
+            "a": {
+              "punti": 97.36666666666666,
+              "blocchi": 14
+            },
+            "b": {
+              "punti": 141.8,
+              "blocchi": 6
+            }
+          }
+        },
+        {
+          "mossa": {
+            "idx": 0,
+            "q": 2,
+            "r": -1,
+            "pezzo": "barra 4-2",
+            "nome": "barra 4",
+            "celle": [
+              24,
+              32,
+              40,
+              47
+            ]
+          },
+          "risultato": {
+            "futuri": 30,
+            "mosse": 15,
+            "seme": 777,
+            "differenza": -196.6,
+            "errore": 96.00737040672341,
+            "a": {
+              "punti": 111.86666666666666,
+              "blocchi": 11
+            },
+            "b": {
+              "punti": 141.8,
+              "blocchi": 6
+            }
+          }
+        },
+        {
+          "mossa": {
+            "idx": 1,
+            "q": -1,
+            "r": 0,
+            "pezzo": "bandiera sinistra-1",
+            "nome": "bandiera sinistra",
+            "celle": [
+              30,
+              31,
+              32,
+              40
+            ]
+          },
+          "risultato": {
+            "futuri": 30,
+            "mosse": 15,
+            "seme": 777,
+            "differenza": -152.83333333333334,
+            "errore": 72.42805520015452,
+            "a": {
+              "punti": 122.3,
+              "blocchi": 10
+            },
+            "b": {
+              "punti": 141.8,
+              "blocchi": 6
+            }
+          }
+        },
+        {
+          "mossa": {
+            "idx": 1,
+            "q": -1,
+            "r": 1,
+            "pezzo": "bandiera sinistra-1",
+            "nome": "bandiera sinistra",
+            "celle": [
+              39,
+              40,
+              41,
+              48
+            ]
+          },
+          "risultato": {
+            "futuri": 30,
+            "mosse": 15,
+            "seme": 777,
+            "differenza": -302.46666666666664,
+            "errore": 108.87048863222374,
+            "a": {
+              "punti": 106,
+              "blocchi": 14
+            },
+            "b": {
+              "punti": 141.8,
+              "blocchi": 6
+            }
+          }
+        },
+        {
+          "mossa": {
+            "idx": 2,
+            "q": -2,
+            "r": 1,
+            "pezzo": "rombo-0",
+            "nome": "rombo",
+            "celle": [
+              38,
+              39,
+              46,
+              47
+            ]
+          },
+          "risultato": {
+            "futuri": 30,
+            "mosse": 15,
+            "seme": 777,
+            "differenza": 80.73333333333333,
+            "errore": 53.14981933195217,
+            "a": {
+              "punti": 155.86666666666667,
+              "blocchi": 4
+            },
+            "b": {
+              "punti": 141.8,
+              "blocchi": 6
+            }
+          }
+        },
+        {
+          "mossa": {
+            "idx": 1,
+            "q": 0,
+            "r": -4,
+            "pezzo": "bandiera sinistra-1",
+            "nome": "bandiera sinistra",
+            "celle": [
+              1,
+              2,
+              3,
+              8
+            ]
+          },
+          "risultato": {
+            "futuri": 30,
+            "mosse": 15,
+            "seme": 777,
+            "differenza": 184.06666666666666,
+            "errore": 78.90727765822967,
+            "a": {
+              "punti": 159.2,
+              "blocchi": 1
+            },
+            "b": {
+              "punti": 141.8,
+              "blocchi": 6
+            }
+          }
+        },
+        {
+          "mossa": {
+            "idx": 2,
+            "q": -1,
+            "r": 0,
+            "pezzo": "rombo-0",
+            "nome": "rombo",
+            "celle": [
+              30,
+              31,
+              39,
+              40
+            ]
+          },
+          "risultato": {
+            "futuri": 30,
+            "mosse": 15,
+            "seme": 777,
+            "differenza": -305.96666666666664,
+            "errore": 93.26003053301642,
+            "a": {
+              "punti": 102.5,
+              "blocchi": 14
+            },
+            "b": {
+              "punti": 141.8,
+              "blocchi": 6
+            }
+          }
+        },
+        {
+          "mossa": {
+            "idx": 2,
+            "q": -1,
+            "r": 1,
+            "pezzo": "rombo-0",
+            "nome": "rombo",
+            "celle": [
+              39,
+              40,
+              47,
+              48
+            ]
+          },
+          "risultato": {
+            "futuri": 30,
+            "mosse": 15,
+            "seme": 777,
+            "differenza": -266.5,
+            "errore": 106.47856348936448,
+            "a": {
+              "punti": 108.63333333333334,
+              "blocchi": 13
+            },
+            "b": {
+              "punti": 141.8,
+              "blocchi": 6
+            }
+          }
+        },
+        {
+          "mossa": {
+            "idx": 2,
+            "q": 0,
+            "r": 0,
+            "pezzo": "rombo-0",
+            "nome": "rombo",
+            "celle": [
+              31,
+              32,
+              40,
+              41
+            ]
+          },
+          "risultato": {
+            "futuri": 30,
+            "mosse": 15,
+            "seme": 777,
+            "differenza": 145.03333333333333,
+            "errore": 90.50563560700711,
+            "a": {
+              "punti": 153.5,
+              "blocchi": 2
+            },
+            "b": {
+              "punti": 141.8,
+              "blocchi": 6
+            }
+          }
+        }
+      ],
+      "replayVerificato": true,
+      "selezionata": {
+        "idx": 1,
+        "q": 0,
+        "r": -4,
+        "pezzo": "bandiera sinistra-1",
+        "nome": "bandiera sinistra",
+        "celle": [
+          1,
+          2,
+          3,
+          8
+        ]
+      },
+      "prova": {
+        "futuri": 30,
+        "mosse": 15,
+        "seme": 777,
+        "differenza": 184.06666666666666,
+        "errore": 78.90727765822967,
+        "a": {
+          "punti": 159.2,
+          "blocchi": 1
+        },
+        "b": {
+          "punti": 141.8,
+          "blocchi": 6
+        }
+      },
+      "conferma": {
+        "futuri": 100,
+        "mosse": 15,
+        "seme": 99991,
+        "differenza": 91.12,
+        "errore": 44.829858556344085,
+        "a": {
+          "punti": 152.89,
+          "blocchi": 9
+        },
+        "b": {
+          "punti": 141.77,
+          "blocchi": 17
+        }
+      },
+      "verifica": {
+        "futuri": 300,
+        "mosse": 15,
+        "seme": 20261108,
+        "differenza": 129.52666666666667,
+        "errore": 28.856778693254522,
+        "a": {
+          "punti": 149,
+          "blocchi": 35
+        },
+        "b": {
+          "punti": 136.14,
+          "blocchi": 70
+        }
+      },
+      "esito": "migliore confermata e verificata"
+    },
+    {
+      "seed": 108924,
+      "ingresso": 810,
+      "prima": 1,
+      "passo": 809,
+      "posizione": {
+        "celle": [
+          "-3,-1",
+          "-3,2",
+          "-2,-1",
+          "-2,0",
+          "-2,1",
+          "-1,1",
+          "-1,2",
+          "0,-2",
+          "0,-1",
+          "0,0",
+          "0,1",
+          "0,2",
+          "0,3",
+          "1,-2",
+          "1,-1",
+          "1,1",
+          "1,2",
+          "2,-2",
+          "2,-1",
+          "2,0",
+          "2,1",
+          "2,2",
+          "3,-3",
+          "3,-2",
+          "3,-1",
+          "3,0",
+          "3,1",
+          "4,-3",
+          "4,0"
+        ],
+        "vassoio": [
+          "barra 4-2",
+          "bandiera destra-4",
+          "ferro di cavallo-3"
+        ],
+        "combo": 0,
+        "libere": 32
+      },
+      "suggerita": {
+        "idx": 2,
+        "q": -2,
+        "r": 2,
+        "pezzo": "ferro di cavallo-3",
+        "nome": "ferro di cavallo",
+        "celle": [
+          46,
+          52,
+          58,
+          59
+        ]
+      },
+      "candidate": [
+        {
+          "idx": 1,
+          "q": -2,
+          "r": 2,
+          "pezzo": "bandiera destra-4",
+          "nome": "bandiera destra",
+          "celle": [
+            46,
+            52,
+            53,
+            59
+          ]
+        },
+        {
+          "idx": 1,
+          "q": -1,
+          "r": -3,
+          "pezzo": "bandiera destra-4",
+          "nome": "bandiera destra",
+          "celle": [
+            6,
+            12,
+            13,
+            21
+          ]
+        },
+        {
+          "idx": 2,
+          "q": -3,
+          "r": 1,
+          "pezzo": "ferro di cavallo-3",
+          "nome": "ferro di cavallo",
+          "celle": [
+            37,
+            44,
+            51,
+            52
+          ]
+        },
+        {
+          "idx": 2,
+          "q": -2,
+          "r": 2,
+          "pezzo": "ferro di cavallo-3",
+          "nome": "ferro di cavallo",
+          "celle": [
+            46,
+            52,
+            58,
+            59
+          ]
+        }
+      ],
+      "prove": [
+        {
+          "mossa": {
+            "idx": 1,
+            "q": -2,
+            "r": 2,
+            "pezzo": "bandiera destra-4",
+            "nome": "bandiera destra",
+            "celle": [
+              46,
+              52,
+              53,
+              59
+            ]
+          },
+          "risultato": {
+            "futuri": 30,
+            "mosse": 15,
+            "seme": 777,
+            "differenza": -210.33333333333334,
+            "errore": 82.37305570702964,
+            "a": {
+              "punti": 151.93333333333334,
+              "blocchi": 6
+            },
+            "b": {
+              "punti": 195.6,
+              "blocchi": 1
+            }
+          }
+        },
+        {
+          "mossa": {
+            "idx": 2,
+            "q": -3,
+            "r": 1,
+            "pezzo": "ferro di cavallo-3",
+            "nome": "ferro di cavallo",
+            "celle": [
+              37,
+              44,
+              51,
+              52
+            ]
+          },
+          "risultato": {
+            "futuri": 30,
+            "mosse": 15,
+            "seme": 777,
+            "differenza": -395.4,
+            "errore": 119.1035828523889,
+            "a": {
+              "punti": 133.53333333333333,
+              "blocchi": 11
+            },
+            "b": {
+              "punti": 195.6,
+              "blocchi": 1
+            }
+          }
+        },
+        {
+          "mossa": {
+            "idx": 1,
+            "q": -1,
+            "r": -3,
+            "pezzo": "bandiera destra-4",
+            "nome": "bandiera destra",
+            "celle": [
+              6,
+              12,
+              13,
+              21
+            ]
+          },
+          "risultato": {
+            "futuri": 30,
+            "mosse": 15,
+            "seme": 777,
+            "differenza": 32.46666666666667,
+            "errore": 39.625799483093445,
+            "a": {
+              "punti": 194.73333333333332,
+              "blocchi": 0
+            },
+            "b": {
+              "punti": 195.6,
+              "blocchi": 1
+            }
+          }
+        }
+      ],
+      "replayVerificato": true,
+      "esito": "nessuna candidata promettente"
+    }
+  ],
+  "cache": {
+    "104753|0,0,1|prova": {
+      "futuri": 30,
+      "mosse": 15,
+      "seme": 777,
+      "differenza": -80.16666666666667,
+      "errore": 74.91920680234621,
+      "a": {
+        "punti": 128.3,
+        "blocchi": 8
+      },
+      "b": {
+        "punti": 141.8,
+        "blocchi": 6
+      }
+    },
+    "104753|0,1,0|prova": {
+      "futuri": 30,
+      "mosse": 15,
+      "seme": 777,
+      "differenza": -42.53333333333333,
+      "errore": 65.64050006697195,
+      "a": {
+        "punti": 132.6,
+        "blocchi": 7
+      },
+      "b": {
+        "punti": 141.8,
+        "blocchi": 6
+      }
+    },
+    "104753|1,-2,1|prova": {
+      "futuri": 30,
+      "mosse": 15,
+      "seme": 777,
+      "differenza": -311.1,
+      "errore": 109.10652129229372,
+      "a": {
+        "punti": 97.36666666666666,
+        "blocchi": 14
+      },
+      "b": {
+        "punti": 141.8,
+        "blocchi": 6
+      }
+    },
+    "104753|0,2,-1|prova": {
+      "futuri": 30,
+      "mosse": 15,
+      "seme": 777,
+      "differenza": -196.6,
+      "errore": 96.00737040672341,
+      "a": {
+        "punti": 111.86666666666666,
+        "blocchi": 11
+      },
+      "b": {
+        "punti": 141.8,
+        "blocchi": 6
+      }
+    },
+    "104753|1,-1,0|prova": {
+      "futuri": 30,
+      "mosse": 15,
+      "seme": 777,
+      "differenza": -152.83333333333334,
+      "errore": 72.42805520015452,
+      "a": {
+        "punti": 122.3,
+        "blocchi": 10
+      },
+      "b": {
+        "punti": 141.8,
+        "blocchi": 6
+      }
+    },
+    "104753|1,-1,1|prova": {
+      "futuri": 30,
+      "mosse": 15,
+      "seme": 777,
+      "differenza": -302.46666666666664,
+      "errore": 108.87048863222374,
+      "a": {
+        "punti": 106,
+        "blocchi": 14
+      },
+      "b": {
+        "punti": 141.8,
+        "blocchi": 6
+      }
+    },
+    "104753|2,-2,1|prova": {
+      "futuri": 30,
+      "mosse": 15,
+      "seme": 777,
+      "differenza": 80.73333333333333,
+      "errore": 53.14981933195217,
+      "a": {
+        "punti": 155.86666666666667,
+        "blocchi": 4
+      },
+      "b": {
+        "punti": 141.8,
+        "blocchi": 6
+      }
+    },
+    "104753|1,0,-4|prova": {
+      "futuri": 30,
+      "mosse": 15,
+      "seme": 777,
+      "differenza": 184.06666666666666,
+      "errore": 78.90727765822967,
+      "a": {
+        "punti": 159.2,
+        "blocchi": 1
+      },
+      "b": {
+        "punti": 141.8,
+        "blocchi": 6
+      }
+    },
+    "104753|2,-1,0|prova": {
+      "futuri": 30,
+      "mosse": 15,
+      "seme": 777,
+      "differenza": -305.96666666666664,
+      "errore": 93.26003053301642,
+      "a": {
+        "punti": 102.5,
+        "blocchi": 14
+      },
+      "b": {
+        "punti": 141.8,
+        "blocchi": 6
+      }
+    },
+    "104753|2,-1,1|prova": {
+      "futuri": 30,
+      "mosse": 15,
+      "seme": 777,
+      "differenza": -266.5,
+      "errore": 106.47856348936448,
+      "a": {
+        "punti": 108.63333333333334,
+        "blocchi": 13
+      },
+      "b": {
+        "punti": 141.8,
+        "blocchi": 6
+      }
+    },
+    "104753|2,0,0|prova": {
+      "futuri": 30,
+      "mosse": 15,
+      "seme": 777,
+      "differenza": 145.03333333333333,
+      "errore": 90.50563560700711,
+      "a": {
+        "punti": 153.5,
+        "blocchi": 2
+      },
+      "b": {
+        "punti": 141.8,
+        "blocchi": 6
+      }
+    },
+    "108924|1,-2,2|prova": {
+      "futuri": 30,
+      "mosse": 15,
+      "seme": 777,
+      "differenza": -210.33333333333334,
+      "errore": 82.37305570702964,
+      "a": {
+        "punti": 151.93333333333334,
+        "blocchi": 6
+      },
+      "b": {
+        "punti": 195.6,
+        "blocchi": 1
+      }
+    },
+    "108924|2,-3,1|prova": {
+      "futuri": 30,
+      "mosse": 15,
+      "seme": 777,
+      "differenza": -395.4,
+      "errore": 119.1035828523889,
+      "a": {
+        "punti": 133.53333333333333,
+        "blocchi": 11
+      },
+      "b": {
+        "punti": 195.6,
+        "blocchi": 1
+      }
+    },
+    "108924|1,-1,-3|prova": {
+      "futuri": 30,
+      "mosse": 15,
+      "seme": 777,
+      "differenza": 32.46666666666667,
+      "errore": 39.625799483093445,
+      "a": {
+        "punti": 194.73333333333332,
+        "blocchi": 0
+      },
+      "b": {
+        "punti": 195.6,
+        "blocchi": 1
+      }
+    },
+    "104753|1,0,-4|conferma": {
+      "futuri": 100,
+      "mosse": 15,
+      "seme": 99991,
+      "differenza": 91.12,
+      "errore": 44.829858556344085,
+      "a": {
+        "punti": 152.89,
+        "blocchi": 9
+      },
+      "b": {
+        "punti": 141.77,
+        "blocchi": 17
+      }
+    },
+    "104753|1,0,-4|verifica": {
+      "futuri": 300,
+      "mosse": 15,
+      "seme": 20261108,
+      "differenza": 129.52666666666667,
+      "errore": 28.856778693254522,
+      "a": {
+        "punti": 149,
+        "blocchi": 35
+      },
+      "b": {
+        "punti": 136.14,
+        "blocchi": 70
+      }
+    }
+  }
+}

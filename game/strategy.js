@@ -23,7 +23,7 @@
  * In modalità Esperto (coda) la ricerca è diversa: vedi queueCandidates più sotto.
  */
 import { gridMasks, popcount } from "./HexGrid.js";
-import { PIECES, SHAPES } from "./pieces.js";
+import { PIECES, SHAPES, replacePiece, seededRandom } from "./pieces.js";
 import { pieceAvailability } from "./pieceAvailability.js";
 import { learnedRisk } from "./learnedRisk.js";
 
@@ -497,6 +497,18 @@ function normalCandidates(grid, tray, streak) {
       ...byTotal.slice(NORMAL_NEW_TOP),
     ];
   }
+  if (deep) {
+    const rescued = rescueCandidates(byTotal, tray, grid, streak);
+    if (rescued !== byTotal) {
+      const changed = new Map(
+        rescued.map((m) => [m.idx + ":" + m.q + ":" + m.r, m]),
+      );
+      byValue = byValue.map(
+        (m) => changed.get(m.idx + ":" + m.q + ":" + m.r) || m,
+      );
+      byTotal = rescued;
+    }
+  }
   return {
     totalMoves: moves.length,
     deep,
@@ -864,6 +876,10 @@ export function analyzePlayedMove({ grid, tray, streak, expert, idx, q, r }) {
       total: sequence.v,
       sequence,
     };
+  } else if (analysis.moves[0]?.rescue) {
+    move = normalCandidates(grid, tray, streak).byTotal.find(
+      (m) => m.idx === idx && m.q === q && m.r === r,
+    );
   } else {
     const candidate = rankedMoves(grid, tray, streak).find(
       (m) => m.idx === idx && m.q === q && m.r === r,
@@ -908,6 +924,7 @@ export function slimAnalysis(analysis) {
     moves: analysis.moves.map((m) => ({
       ...placement(m),
       total: m.total,
+      ...(m.rescue ? { rescue: m.rescue, knownTotal: m.knownTotal } : {}),
       ...(m.death !== undefined ? { death: m.death } : {}),
       ...(m.blockRisk !== undefined ? { blockRisk: m.blockRisk } : {}),
       ...(m.roomPenalty !== undefined
@@ -951,4 +968,129 @@ export function slimAnalysis(analysis) {
         : {}),
     })),
   };
+}
+
+/** Ricerca aggiuntiva nei soli casi in cui nessuna candidata colloca un altro pezzo noto.
+ * Le candidate vedono gli stessi futuri; le continuazioni usano il motore ordinario, evitando
+ * ricerche ricorsive. Le regole e il punteggio sono quelli della partita, incluso il blocco finale.
+ */
+export const NORMAL_RESCUE = Object.freeze({
+  maxCandidates: 8,
+  futures: 24,
+  horizon: 8,
+  seed: 15131,
+  stride: 7919,
+  blockedPenalty: 1000,
+  cacheEntries: 128,
+});
+let rescueActive = false;
+/** Stesso criterio della ricerca aggiuntiva, senza eseguire le simulazioni. */
+export function isDifficultPosition(grid, tray) {
+  if (!isDeep(grid)) return false;
+  const moves = [];
+  for (let idx = 0; idx < tray.length; idx++) {
+    const piece = tray[idx];
+    if (!piece || tray.slice(0, idx).some((p) => p?.id === piece.id)) continue;
+    for (const [q, r] of grid.placementsFor(piece.cells)) {
+      moves.push({ idx, piece, q, r });
+      if (moves.length > NORMAL_RESCUE.maxCandidates) return false;
+    }
+  }
+  return (
+    moves.length >= 2 &&
+    moves.every(({ idx, piece, q, r }) => {
+      const after = grid.play(piece.cells, q, r).grid;
+      return !tray.some((p, i) => i !== idx && p && after.fits(p.cells));
+    })
+  );
+}
+const rescueCache = new WeakMap();
+const rescueScores = new Map();
+function rescueCandidates(candidates, tray, rootGrid, rootStreak) {
+  if (
+    rescueActive ||
+    candidates.length < 2 ||
+    candidates.length > NORMAL_RESCUE.maxCandidates ||
+    candidates.some((m) => m.next)
+  )
+    return candidates;
+  const cacheKey = `${tray.map((p) => p?.id ?? "-").join(",")}|${rootStreak}`;
+  let cached = rescueCache.get(rootGrid);
+  if (cached?.has(cacheKey)) return cached.get(cacheKey);
+  const positionKey = `${rootGrid.radius}|${rootGrid.fullBits.join(",")}|${cacheKey}`;
+  const remembered = rescueScores.get(positionKey);
+  const moveKey = (m) => `${m.idx}:${m.q}:${m.r}`;
+  const rememberGrid = (result) => {
+    if (!cached) {
+      cached = new Map();
+      rescueCache.set(rootGrid, cached);
+    }
+    cached.set(cacheKey, result);
+    return result;
+  };
+  if (remembered) {
+    // Si riusano solo i punteggi: i tabelloni e i colori restano quelli della posizione corrente.
+    return rememberGrid(
+      candidates
+        .map((m) => ({ ...m, ...remembered.get(moveKey(m)) }))
+        .sort((a, b) => b.total - a.total),
+    );
+  }
+  rescueActive = true;
+  try {
+    const result = candidates
+      .map((first) => {
+        let total = 0,
+          lost = 0;
+        for (let f = 0; f < NORMAL_RESCUE.futures; f++) {
+          const rng = seededRandom(
+            NORMAL_RESCUE.seed + f * NORMAL_RESCUE.stride,
+          );
+          let grid = first.after,
+            pieces = replacePiece(tray, first.idx, rng),
+            streak = first.nextStreak,
+            points = first.piece.cells.length + Math.round(first.gain),
+            blocked = false;
+          for (let k = 1; k < NORMAL_RESCUE.horizon; k++) {
+            const next = normalCandidates(grid, pieces, streak).byTotal[0];
+            if (!next) {
+              blocked = true;
+              break;
+            }
+            points += next.piece.cells.length + Math.round(next.gain);
+            grid = next.after;
+            pieces = replacePiece(pieces, next.idx, rng);
+            streak = next.nextStreak;
+          }
+          blocked ||= !pieces.some((p) => grid.fits(p.cells));
+          lost += Number(blocked);
+          total += points - NORMAL_RESCUE.blockedPenalty * Number(blocked);
+        }
+        return {
+          ...first,
+          knownTotal: first.total,
+          rescue: {
+            futures: NORMAL_RESCUE.futures,
+            horizon: NORMAL_RESCUE.horizon,
+            lost,
+          },
+          total: total / NORMAL_RESCUE.futures,
+        };
+      })
+      .sort((a, b) => b.total - a.total);
+    if (rescueScores.size >= NORMAL_RESCUE.cacheEntries)
+      rescueScores.delete(rescueScores.keys().next().value);
+    rescueScores.set(
+      positionKey,
+      new Map(
+        result.map((m) => [
+          moveKey(m),
+          { total: m.total, knownTotal: m.knownTotal, rescue: m.rescue },
+        ]),
+      ),
+    );
+    return rememberGrid(result);
+  } finally {
+    rescueActive = false;
+  }
 }

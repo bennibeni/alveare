@@ -1,0 +1,118 @@
+{
+  "set": "taratura",
+  "baselineSha256": "76d9cd6b495c95551fb50eac4de8565b9ad7bc6ba76d471b52474fc981337307",
+  "continuation": "base",
+  "comparison": "prima mossa della variante, poi identica strategia base",
+  "rows": [
+    {
+      "variant": "base",
+      "variantSha256": "76d9cd6b495c95551fb50eac4de8565b9ad7bc6ba76d471b52474fc981337307",
+      "positions": 4,
+      "availablePositions": 172,
+      "futures": 120,
+      "changed": 0,
+      "blocked": 64,
+      "baselineBlocked": 64,
+      "wins": 0,
+      "losses": 0,
+      "mean": 0,
+      "positionStandardError": 0,
+      "futureStandardError": 0,
+      "choiceMilliseconds": 1577.4335999999998
+    },
+    {
+      "variant": "soccorso",
+      "variantSha256": "28ee9d5ba011f6c951903a81ab805153046e3a2eac5bd5b405b94441cea056f7",
+      "positions": 4,
+      "availablePositions": 172,
+      "futures": 120,
+      "changed": 4,
+      "blocked": 61,
+      "baselineBlocked": 64,
+      "wins": 13,
+      "losses": 10,
+      "mean": 27.416666666666668,
+      "positionStandardError": 67.95317355573833,
+      "futureStandardError": 49.39729829553664,
+      "choiceMilliseconds": 90278.0919
+    }
+  ],
+  "choices": {
+    "base": [
+      {
+        "id": "mosse-casuali-43298-11",
+        "move": {
+          "idx": 0,
+          "q": -4,
+          "r": 4
+        },
+        "key": "barra 4-0:-4,4"
+      },
+      {
+        "id": "precedente-51261-468",
+        "move": {
+          "idx": 2,
+          "q": -3,
+          "r": 3
+        },
+        "key": "rombo-0:-3,3"
+      },
+      {
+        "id": "precedente-55917-235",
+        "move": {
+          "idx": 0,
+          "q": 2,
+          "r": -4
+        },
+        "key": "barra 4-2:2,-4"
+      },
+      {
+        "id": "precedente-56111-387",
+        "move": {
+          "idx": 2,
+          "q": -2,
+          "r": 1
+        },
+        "key": "bandiera sinistra-5:-2,1"
+      }
+    ],
+    "soccorso": [
+      {
+        "id": "mosse-casuali-43298-11",
+        "move": {
+          "idx": 0,
+          "q": -4,
+          "r": 2
+        },
+        "key": "barra 4-0:-4,2"
+      },
+      {
+        "id": "precedente-51261-468",
+        "move": {
+          "idx": 1,
+          "q": 0,
+          "r": 2
+        },
+        "key": "bandiera sinistra-0:0,2"
+      },
+      {
+        "id": "precedente-55917-235",
+        "move": {
+          "idx": 0,
+          "q": -1,
+          "r": -1
+        },
+        "key": "barra 4-2:-1,-1"
+      },
+      {
+        "id": "precedente-56111-387",
+        "move": {
+          "idx": 2,
+          "q": -2,
+          "r": 2
+        },
+        "key": "bandiera sinistra-5:-2,2"
+      }
+    ]
+  }
+}

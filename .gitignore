@@ -1,4 +1,6 @@
 node_modules/
+.strategy-lab/
+/data/autopsia/autogioco-rischio/*-cache.json
 .next/
 out/
 coverage/

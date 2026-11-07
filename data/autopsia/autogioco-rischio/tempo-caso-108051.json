@@ -1,0 +1,22 @@
+{
+  "seed": 108051,
+  "baselineMs": 18.005499999999998,
+  "coldMs": 1135.9038,
+  "warmMs": 1.7738999999999123,
+  "move": {
+    "idx": 0,
+    "q": -1,
+    "r": -3
+  },
+  "cached": true,
+  "config": {
+    "maxCandidates": 8,
+    "futures": 24,
+    "horizon": 8,
+    "seed": 15131,
+    "stride": 7919,
+    "blockedPenalty": 1000,
+    "cacheEntries": 128
+  },
+  "note": "Misura singola indicativa su questa macchina, non un benchmark generale."
+}

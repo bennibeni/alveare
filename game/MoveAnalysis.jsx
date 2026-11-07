@@ -71,6 +71,15 @@ function AnalysisContent({
         <b data-testid="playable-moves">{analysis.totalMoves}</b>.
       </p>
       <PositionIndicators position={position} analysis={analysis} />
+      {analysis.moves[0]?.rescue && (
+        <p className="rounded-lg bg-amber-950/40 p-3 text-sm text-amber-200">
+          I pezzi già visibili non offrono una continuazione. Per scegliere,
+          l’autogioco ha confrontato {analysis.moves[0].rescue.futures} futuri
+          casuali fino a {analysis.moves[0].rescue.horizon} mosse. I punteggi
+          qui sono le medie dei punti ottenuti, con una penalità di 1000 per
+          ogni blocco simulato.
+        </p>
+      )}
       {!analysis.totalMoves ? (
         <p>
           Nessuna mossa disponibile. Avvia una nuova partita per continuare.

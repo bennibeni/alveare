@@ -464,7 +464,7 @@ copie bloccate da 24 ingressi (tasso 0,019 ogni 1000 pezzi), 10 partite perse.
   strategia in 13 casi su 15. Un solo errore probabile (due copie dallo stesso ingresso): 31 celle
   libere, bandiera destra, barra da 4, bandiera destra; la mossa scelta perde 39 futuri su 60, un'altra
   posizione della stessa bandiera 19–27.
-- **Le mosse prima dell'ingresso non sono sbagliate** (`alternative.mjs`). Nelle ultime 3 mosse prima
+- **Le mosse prima dell'ingresso risultavano quasi sempre migliori nella prova esplorativa** (`alternative.mjs`). Nelle ultime 3 mosse prima
   di ognuno dei 24 ingressi, per ogni mossa possibile, quota di 40 futuri in cui nemmeno l'oracolo
   sopravvive 14 mosse: la strategia sceglie la mossa migliore o una alla pari quasi sempre (le
   differenze sono di uno o due futuri su 40). Con 38–40 celle libere le mosse possibili sono già solo
@@ -475,9 +475,24 @@ copie bloccate da 24 ingressi (tasso 0,019 ogni 1000 pezzi), 10 partite perse.
   delle partite che perde la strategia (rapporto ancora impreciso: 17 copie bloccate). Il rischio è
   concentrato: 5 ingressi su 1.273 fanno il 91% dei futuri persi dall'oracolo.
 
-In pericolo la strategia gioca quasi come si può: ritoccare sguardo avanti e penalità sotto 40 celle
-libere non ha più spazio, come mostrano le ultime prove scartate. Resta la forma del tabellone fra 40 e
-48 celle libere, con guadagni piccoli e costosi da dimostrare.
+Le misure storiche indicavano un margine piccolo. Le verifiche successive su futuri indipendenti
+hanno però confermato scelte migliorabili, anche prima dell'ingresso in pericolo: gli esempi sono
+conservati in `data/mosse-migliori.json`.
+
+### Ricerca nei casi critici (7 novembre 2026)
+
+Quando nessuna candidata permette un'altra mossa con i pezzi già visibili, la modalità normale
+confronta gli stessi 24 futuri casuali fino a 8 mosse, soltanto se restano 2–8 candidate. Il totale
+è la media dei punti, meno 1000 per ogni blocco; le continuazioni usano il motore ordinario.
+Sceglie così la mossa confermata nel seme 108051. Le altre due nuove scoperte rimangono casi aperti.
+La ricerca e i punteggi stimati sono indicati nell'analisi delle mosse; le posizioni ordinarie e
+la modalità Esperto mantengono il criterio precedente.
+
+Il pilota su 32 partite con semi nuovi conserva gli stessi esiti della base (1 partita persa,
+4 copie bloccate su 1648); non dimostra una riduzione generale delle sconfitte. Sono state scartate
+varianti più ampie che miglioravano alcuni esempi ma peggioravano altrove. La ricerca aggiunge
+tempo di calcolo solo nei casi critici; una cache limitata evita di ripetere simulazioni uguali.
+Parametri, risultati e comandi sono in [data/autopsia/autogioco-rischio/README.md](data/autopsia/autogioco-rischio/README.md).
 
 ### Come misurare
 

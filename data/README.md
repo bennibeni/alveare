@@ -1,7 +1,7 @@
 # Dati
 
 File di dati usati dagli script di misura, dai test e dall'autopsia. Nessuno è usato dalla pagina
-del gioco.
+del gioco; il laboratorio separato `/trappole` legge l'archivio delle trappole.
 
 ## `archivio-affollate.json`
 
@@ -74,6 +74,136 @@ ingressi, 10 partite perse: tasso 0,019 sconfitte ogni 1000 pezzi. Con l'oracolo
 
 **Chi lo usa.** Gli script di `scripts/autopsia/`, `tests/unit/autopsy.test.js` (l'autopsia del
 gioco deve dare gli stessi conteggi) e l'app separata alveare-autopsia (`npm run dati` di quell'app).
+
+Anche la pagina `/trappole`, raggiungibile dal gioco, usa questo archivio: filtri per esito,
+replay, anteprima di una mossa manuale e alternative alla mossa decisiva. Ricostruzione in
+`game/trapReplay.js`; analisi calcolata dal motore `game/autopsy.js` durante la generazione statica
+della pagina, senza calcoli dell'oracolo nel browser. Per aggiornare il laboratorio dopo una nuova
+raccolta occorre ricostruire l'app. I risultati descrivono la strategia storica fa730f6.
+
+### Mosse migliori scoperte nel laboratorio
+
+Ogni scelta manuale diversa da quella registrata avvia un confronto in un worker: stessi futuri
+casuali per entrambe le mosse, poi 15 mosse di autogioco corrente. La misura è punti meno 1000 per
+blocco; include il blocco subito dopo l'ultima mossa. Prima 30 futuri (seme 777), poi, solo se la
+differenza supera due errori standard, conferma su 100 nuovi futuri (seme 99991). Una mossa viene
+classificata migliore solo se supera la soglia anche nella conferma. La combo iniziale è
+ricostruita dal replay. Il confronto è con la mossa storica, non con il suggerimento attuale.
+
+L'archivio è persistente nel browser (`alveare-trappole-migliori-v1`), con deduplicazione per
+trappola, passo, mossa, protocollo e impronta del codice della strategia di continuazione.
+«Esporta le mosse migliori salvate» produce `alveare-trappole-migliori.json` nello stesso formato
+dell'archivio delle mosse umane. Per aggiungerlo all'archivio del progetto:
+
+```bash
+node scripts/importa-trappole.mjs PERCORSO/alveare-trappole-migliori.json
+```
+
+L'importazione controlla formato, soglie di conferma e legalità delle mosse, evita duplicati e
+aggiunge i record a `data/mosse-migliori.json`. Non riesegue le simulazioni: le misure provengono
+dall'esportazione. I record includono stato iniziale, entrambe le mosse, risultati delle due fasi
+e impronta della strategia. Sono riutilizzabili con `scripts/mosse-migliori.mjs --verifica`.
+Non modificano automaticamente la strategia. Cancellare i dati del browser cancella l'archivio
+locale: esportarlo consente di conservarlo altrove. Cambiare posizione o scelta annulla il
+confronto in corso, senza registrare risultati incompleti.
+
+Tutti i confronti completati, inclusi quelli «non migliori», sono conservati anche nello storico
+`alveare-trappole-valutazioni-v1`. «Non migliore» significa vantaggio non confermato; il campo
+`esito` distingue i risultati nettamente peggiori da quelli incerti. Tornare sulla stessa scelta
+recupera il risultato senza ripetere il calcolo; durante il trascinamento una nota segnala le mosse
+già valutate. Le vecchie conferme vengono riconosciute automaticamente. Un cambio dell'impronta
+della strategia rende il confronto nuovo. Lo storico completo è esportabile separatamente con
+«Esporta tutte le valutazioni»; l'importazione in `mosse-migliori.json` resta riservata alle
+conferme positive. La scelta manuale avviene tramite trascinamento, senza menu delle coordinate.
+L'icona dello storico in ogni card apre il riepilogo dei tentativi per quella specifica trappola
+(seme, ingresso e copia), con mossa scelta, esito, vantaggio stimato e blocchi. La modale legge
+lo storico aggiornato all'apertura e distingue le valutazioni fatte con una strategia precedente.
+
+La lista raggruppa le 59 continuazioni in 24 posizioni iniziali distinte: stesse celle occupate
+e stesso multinsieme di forme orientate, ignorando l'ordine dei tre slot. Conserva le ripetizioni
+della stessa forma; orientamenti diversi restano distinti. La combo non cambia l'identità visiva
+della card, ma ogni copia mantiene combo, futuro, replay e analisi originali. Una select permette
+di scegliere la continuazione; il filtro sugli esiti opera sulle copie e mostra le posizioni che
+ne contengono almeno una corrispondente. La modale raccoglie i tentativi di tutte le copie del
+gruppo, indicando l'origine di ogni valutazione. Le chiavi dei confronti e gli archivi precedenti
+restano validi: non si riusa una misura di una copia per un'altra con un confronto diverso.
+
+I colori delle card indicano i tentativi manuali salvati: grigio = nessuna valutazione,
+azzurro = almeno una valutazione, verde = almeno una mossa migliore confermata in una delle
+copie. La selezione corrente ha un contorno giallo indipendente dallo stato. I colori vengono
+aggiornati subito dopo il salvataggio e anche se lo storico cambia in un'altra scheda.
+«Esporta trappole con mosse migliori» salva un JSON (`alveare-trappole-con-mosse-migliori` v1)
+con le posizioni verdi, tutte le loro continuazioni e analisi, e i tentativi del gruppo.
+«Esporta le mosse migliori salvate» mantiene il formato importabile in `mosse-migliori.json`.
+
+Il laboratorio esclude prima dell'analisi le posizioni iniziali con esattamente una mossa
+legale, contando una volta sola gli slot con pezzi identici. Sono 5 posizioni (17 continuazioni):
+restano 19 card e 42 continuazioni, di cui 29 senza scampo e 13 con mossa decisiva. L'archivio
+originale e lo storico dei tentativi restano conservati; le esportazioni delle trappole visibili
+seguono lo stesso filtro. Le esportazioni delle valutazioni salvate restano complete.
+
+### Risultati manuali del 7 novembre 2026
+
+`autopsia/risultati-trappole-2026-11-07.json` conserva l'esportazione delle posizioni con
+mosse migliori: due posizioni (semi 108051 e 128033), con due conferme positive e due tentativi
+non confermati. Essendo l'esportazione delle sole posizioni verdi, non è lo storico completo
+dei tentativi sulle altre posizioni. Il file originale in Downloads resta conservato.
+
+`autopsia/mosse-confermate-trappole.json` contiene le due conferme nel formato delle mosse
+umane. Entrambe sono importate in `mosse-migliori.json` senza duplicare i record precedenti
+(53 record totali al momento dell'importazione). Per rivalutarle contro una strategia:
+
+```bash
+node scripts/mosse-migliori.mjs --verifica --out data/autopsia/mosse-confermate-trappole.json --f2 300 --workers 2
+```
+
+`autopsia/diagnosi-mosse-confermate.json` registra la classifica attuale: nel seme 108051 la
+mossa umana è seconda su 3 candidate approfondite; nel seme 128033 è quarta su 6. Non mancano
+candidate approfondite in questi due casi: il criterio di valutazione ordina male le mosse
+rispetto alla misura sulle continuazioni casuali. Questi esempi servono a guidare modifiche
+generali del criterio e a verificarle, insieme alle altre posizioni e a partite con semi nuovi.
+L'importazione da sola non cambia l'autogioco né aggiorna il modello del rischio.
+La verifica su 300 futuri contro la strategia attuale conferma entrambe le mosse:
+vantaggio 265,3 ± 28,2 per il seme 108051 e 57,9 ± 12,0 per il seme 128033 (± un errore
+standard; misura punti meno penalità per blocco). Comando, semi e risultati sono conservati
+in `autopsia/verifica-mosse-confermate-300.json`.
+
+### Analisi prima dell'ingresso in pericolo
+
+`scripts/autopsia/analizza-preingressi.mjs` ricostruisce le posizioni due mosse prima dell'ingresso
+79 del seme 104753 e una mossa prima dell'ingresso 810 del seme 108924. Verifica che il replay
+raggiunga esattamente l'occupazione, le forme e la combo dell'ingresso storico, poi confronta
+tutte le mosse legali (12 e 4, contando una volta sola i pezzi identici). Ogni candidata viene
+confrontata con la scelta attuale sugli stessi 30 futuri. Solo la migliore candidata con un
+vantaggio superiore a due errori standard passa alla conferma su 100 futuri indipendenti e,
+se positiva, alla verifica su ulteriori 300. La misura resta punti meno 1000 per blocco, per
+la prima mossa più 15 successive, incluso il blocco finale. Non usa l'oracolo chiaroveggente.
+
+Il file `autopsia/preingressi-analisi.json` conserva posizioni, tutte le prove e una cache legata
+all'impronta della strategia; rilanciare lo script riprende i risultati già completati.
+`autopsia/preingressi-confermati.json` contiene solo i risultati che passano tutte e tre le fasi.
+I record hanno origine `ricerca-automatica-preingresso`, distinta dalle mosse trovate dall'utente.
+
+Risultato: nel seme 104753, due mosse prima dell'ingresso, bandiera sinistra nelle celle
+1, 2, 3, 8 (slot 2; q=0, r=-4): su 300 futuri, 35 blocchi contro 70 e 149 punti medi contro
+136,14; vantaggio con penalità 129,53 ± 28,86 (errore standard). Importata senza duplicati
+in `mosse-migliori.json`, che contiene ora 54 record. Per 108924 nessuna delle tre alternative
+supera la soglia della prima prova: non si conclude che tutte siano peggiori. La migliore
+ha differenza 32,47 ± 39,63 su 30 futuri, insufficiente per la conferma automatica.
+
+```bash
+node scripts/autopsia/analizza-preingressi.mjs
+node scripts/importa-trappole.mjs data/autopsia/preingressi-confermati.json
+```
+
+La strategia di gioco non viene modificata da questa analisi.
+
+### Esperimenti sulla strategia
+
+`autopsia/autogioco-rischio/README.md` documenta le varianti confrontate e la ricerca aggiuntiva
+adottata nei casi senza continuazione con i pezzi noti. La cartella conserva anche il confronto
+su 54 esempi, 260 posizioni affollate e 32 partite con semi nuovi, inclusi i risultati negativi
+e i limiti della verifica. Queste prove non modificano gli archivi delle mosse confermate.
 
 ## `mosse-migliori.json` e `mosse-peggiori.json`
 

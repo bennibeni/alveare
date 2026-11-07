@@ -19,6 +19,8 @@ const median = (values) => {
 };
 
 function riskOf(move, knownPieces) {
+  if (move.rescue)
+    return { blocked: false, death: move.rescue.lost / move.rescue.futures };
   if (move.sequence)
     return {
       blocked: move.sequence.path.length < knownPieces,

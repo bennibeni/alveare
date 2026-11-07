@@ -33,7 +33,7 @@ import {
   SHAPES,
   shiftQueue,
 } from "./pieces.js";
-import { bestMove } from "./strategy.js";
+import { bestMove, isDifficultPosition } from "./strategy.js";
 import { requestAnalysis } from "./strategyClient.js";
 import { buildGameReport } from "./gameReport.js";
 import { buildAutopsyReport } from "./autopsyData.js";
@@ -307,6 +307,10 @@ function Game({ active = true, onSnapshot }) {
   }, []);
 
   const { grid, tray, score, streak } = game;
+  const difficult = useMemo(
+    () => !expert && !celebrate && isDifficultPosition(grid, tray),
+    [expert, celebrate, grid, tray],
+  );
   // durante la pausa di festa il tabellone è ancora pieno: la fine partita si valuta dopo
   // in Esperto conta solo il primo pezzo della coda: se non entra, la partita è finita
   const gameOver = useMemo(
@@ -937,7 +941,14 @@ function Game({ active = true, onSnapshot }) {
           <div className="flex flex-row items-stretch gap-3">
             {/* tabellone */}
             <div
-              className={`relative shrink-0 rounded-2xl bg-slate-900/70 p-3 transition-shadow duration-200 ${
+              data-testid="board-background"
+              data-difficult={difficult}
+              title={
+                difficult
+                  ? "Posizione difficile: nessuna continuazione con gli altri pezzi disponibili"
+                  : undefined
+              }
+              className={`relative shrink-0 rounded-2xl p-3 transition duration-200 ${difficult ? "bg-red-900" : "bg-slate-900/70"} ${
                 celebrate
                   ? "shadow-[0_0_40px_rgba(252,211,77,0.45)] ring-2 ring-amber-300"
                   : "ring-1 ring-slate-800"
