@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { ENGINE_HASH } from "@alveare/motore";
 /** Ricostruisce due pre-ingressi, confronta tutte le mosse e conferma solo la migliore candidata.
  * node scripts/autopsia/analizza-preingressi.mjs
  * I risultati intermedi sono riutilizzati solo con la stessa impronta del codice.
@@ -31,7 +32,7 @@ if (!isMainThread) {
     root,
     "data/autopsia/preingressi-confermati.json",
   );
-  const hash = createHash("sha256");
+  const hash = createHash("sha256").update(ENGINE_HASH);
   for (const file of [
     "strategy.js",
     "learnedRisk.js",

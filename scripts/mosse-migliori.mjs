@@ -285,7 +285,7 @@ if (!isMainThread) {
       commit = execSync("git rev-parse --short HEAD", { cwd: ROOT })
         .toString()
         .trim();
-      const dirty = execSync("git status --porcelain game/strategy.js", {
+      const dirty = execSync("git status --porcelain game/strategy.js package.json package-lock.json vendor/", {
         cwd: ROOT,
       })
         .toString()

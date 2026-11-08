@@ -15,9 +15,12 @@
     "test:e2e": "playwright test",
     "sim": "node scripts/simulate.mjs",
     "pericolo": "node scripts/pericolo.mjs",
-    "audit": "node scripts/audit-judgment.mjs"
+    "audit": "node scripts/audit-judgment.mjs",
+    "motore:aggiorna": "node scripts/aggiorna-motore.mjs",
+    "motore:versione": "node --input-type=module -e \"import { ENGINE_VERSION, ENGINE_HASH } from '@alveare/motore'; console.log(ENGINE_VERSION, ENGINE_HASH)\""
   },
   "dependencies": {
+    "@alveare/motore": "file:vendor/alveare-motore-1.1.0.tgz",
     "next": "16.3.8",
     "react": "19.3.0",
     "react-dom": "19.3.0",

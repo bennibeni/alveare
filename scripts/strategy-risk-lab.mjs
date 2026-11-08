@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { engineFile, engineDirectory } from "@alveare/motore/node";
 /** Varianti riproducibili in .strategy-lab; nessuna modifica al motore di gioco. */
 import fs from "node:fs";
 import path from "node:path";
@@ -15,7 +16,7 @@ const savedBaseline = path.join(lab, "base/strategy.js");
 const original = fs.readFileSync(
   fs.existsSync(savedBaseline)
     ? savedBaseline
-    : path.join(root, "game/strategy.js"),
+    : engineFile("strategy.js"),
   "utf8",
 );
 const variants = [
@@ -37,9 +38,9 @@ for (const variant of variants) {
   const dir = path.join(lab, variant.name);
   fs.mkdirSync(dir, { recursive: true });
   for (const file of fs
-    .readdirSync(path.join(root, "game"))
+    .readdirSync(engineDirectory())
     .filter((f) => f.endsWith(".js")))
-    fs.copyFileSync(path.join(root, "game", file), path.join(dir, file));
+    fs.copyFileSync(path.join(engineDirectory(), file), path.join(dir, file));
   fs.writeFileSync(path.join(lab, "package.json"), '{"type":"module"}\n');
   let source = original;
   if (variant.rescue) {

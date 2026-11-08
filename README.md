@@ -525,3 +525,11 @@ stesse mosse (semi 7000, 7097, 7194, 2.000 pezzi), circa 17% più veloce (seme 7
 
 Alveare è un progetto indipendente: regole, pezzi, strategia dell'autogioco e grafica sono stati realizzati da
 zero. «Hex FRVR» è citato solo come fonte d'ispirazione.
+
+## Alveare Studio
+
+La pagina «Le trappole dell’autogioco» è stata separata nell’app indipendente `../alveare-studio` (porta predefinita 3001). Alveare conserva il gioco e l’autopsia della partita. Gli archivi e gli script di ricerca restano disponibili qui; la pagina `/trappole` e i suoi componenti di interfaccia sono nello Studio.
+
+## Motore condiviso e versionato
+
+Regole, strategia e analisi provengono ora da `@alveare/motore`, versione iniziale 1.0.0. Le app possono adottare versioni diverse in modo esplicito. Vedi [docs/motore-condiviso.md](docs/motore-condiviso.md) per sviluppo, installazione e ritorno a una versione precedente. `game/strategy.js` e gli altri adattatori non sono più i sorgenti da modificare.

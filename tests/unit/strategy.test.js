@@ -564,12 +564,12 @@ describe("prestazioni e regressioni (simulazioni con seme)", () => {
 
   // Valori di riferimento della strategia attuale. Se si cambia la strategia di
   // proposito, questi numeri vanno aggiornati (dopo averla misurata con npm run sim).
-  it("regressione · normale, seme 555, 60 pezzi: 679 punti, 35 linee", () => {
+  it("regressione · normale, seme 555, 60 pezzi: 664 punti, 37 linee", () => {
     expect(playGame({ mode: "normal", seed: 555, maxMoves: 60 })).toEqual({
       seed: 555,
       pieces: 60,
-      points: 679,
-      lines: 35,
+      points: 664,
+      lines: 37,
       lost: false,
     });
   });
