@@ -15,6 +15,7 @@ import GuideNormal from "./GuideNormal.jsx";
 import MoveAnalysis from "./MoveAnalysis.jsx";
 import GameAutopsy from "./GameAutopsy.jsx";
 import MoveFeedback from "./MoveFeedback.jsx";
+import EngineInfo from "./EngineInfo.jsx";
 import HexGrid, {
   axialToPixel,
   cellNumbers,
@@ -156,12 +157,6 @@ function useIsClient() {
   );
 }
 
-const VIEWS = [
-  { id: "game", label: "Gioco" },
-  { id: "normal", label: "Suggerimenti · normale" },
-  { id: "expert", label: "Suggerimenti · Esperto" },
-];
-
 export default function HexBlockPuzzle() {
   const isClient = useIsClient();
   const [view, setView] = useState("game");
@@ -169,26 +164,17 @@ export default function HexBlockPuzzle() {
   if (!isClient) return <div className="min-h-screen w-full bg-slate-950" />;
   return (
     <div className="hx-root min-h-screen w-full bg-slate-950 text-slate-100">
-      {/* menu delle tre pagine */}
-      <nav
-        className="flex flex-wrap justify-center gap-1 px-4 pt-4"
-        aria-label="Pagine"
-      >
-        {VIEWS.map((v) => (
-          <button
-            key={v.id}
-            type="button"
-            aria-current={view === v.id ? "page" : undefined}
-            onClick={() => setView(v.id)}
-            className={`rounded-full px-4 py-1.5 text-sm font-medium transition ${view === v.id ? "hx-tab-on" : "hx-tab"}`}
-          >
-            {v.label}
+      {view !== "game" && (
+        <nav className="flex justify-center px-4 pt-4" aria-label="Pagine">
+          <button type="button" onClick={() => setView("game")}
+            className="hx-btn rounded-lg px-4 py-2 text-sm font-medium">
+            Torna al gioco
           </button>
-        ))}
-      </nav>
+        </nav>
+      )}
       {/* il gioco resta montato (nascosto) mentre si leggono le guide: niente si perde */}
       <div style={{ display: view === "game" ? "block" : "none" }}>
-        <Game active={view === "game"} onSnapshot={setSnapshot} />
+        <Game active={view === "game"} onSnapshot={setSnapshot} onOpenGuide={setView} />
       </div>
       {view === "normal" && <GuideNormal snapshot={snapshot} />}
       {view === "expert" && <GuideExpert snapshot={snapshot} />}
@@ -262,7 +248,7 @@ function PieceSvg({ cells, color, scale = 1, opacity = 1 }) {
   );
 }
 
-function Game({ active = true, onSnapshot }) {
+function Game({ active = true, onSnapshot, onOpenGuide }) {
   const [game, setGame] = useState(() => freshGame(loadBest(false)));
   const [history, setHistory] = useState(null); // un livello di annullamento
   const [downloading, setDownloading] = useState(false);
@@ -887,6 +873,7 @@ function Game({ active = true, onSnapshot }) {
               <p className="mt-0.5 text-xs text-slate-500">
                 ispirato a Hex FRVR
               </p>
+              <EngineInfo />
             </div>
             <div className="flex flex-wrap justify-center gap-3 text-center">
               <Stat label="Punti" value={score} />
@@ -903,6 +890,33 @@ function Game({ active = true, onSnapshot }) {
           {/* comandi, in orizzontale sopra il tabellone */}
           <div className="flex flex-wrap justify-center gap-2">
             <Button onClick={newGame}>Nuova partita</Button>
+            <Button onClick={toggleAuto} disabled={gameOver} primary={autoOn}>
+              {autoOn ? "Ferma" : "Autogioco"}
+            </Button>
+            <Button
+              onClick={undo}
+              disabled={!history || auto || celebrate || !!flying}
+            >
+              Annulla
+            </Button>
+            <div className="inline-flex items-center gap-1">
+              <Button
+                onClick={askHint}
+                disabled={gameOver || auto || celebrate || !!flying}
+              >
+                Suggerimento
+              </Button>
+              <button type="button"
+                onClick={() => onOpenGuide(expert ? "expert" : "normal")}
+                aria-label={`Come nascono i suggerimenti: ${expert ? "modalità Esperto" : "gioco normale"}`}
+                title="Come nascono i suggerimenti"
+                className="inline-flex size-9 items-center justify-center rounded-full text-amber-300 hover:bg-slate-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-300">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+                  <circle cx="12" cy="12" r="9" />
+                  <path d="M12 11v6" /><circle cx="12" cy="7.5" r=".8" fill="currentColor" stroke="none" />
+                </svg>
+              </button>
+            </div>
             <Button
               onClick={downloadLog}
               disabled={
@@ -911,30 +925,19 @@ function Game({ active = true, onSnapshot }) {
             >
               {downloading ? "Preparazione log…" : "Scarica log partita"}
             </Button>
-            <Button
-              onClick={undo}
-              disabled={!history || auto || celebrate || !!flying}
-            >
-              Annulla
-            </Button>
-            <Button
-              onClick={askHint}
-              disabled={gameOver || auto || celebrate || !!flying}
-            >
-              Suggerimento
-            </Button>
-            <Button onClick={toggleAuto} disabled={gameOver} primary={autoOn}>
-              {autoOn ? "Ferma" : "Autogioco"}
-            </Button>
             <button
               type="button"
               role="switch"
               aria-checked={expert}
               onClick={toggleExpert}
               title="Coda obbligata: si gioca sempre il primo pezzo. Cambiare modalità avvia una nuova partita."
-              className={`min-w-30 rounded-lg px-4 py-1.5 text-sm font-medium transition ${expert ? "hx-btn-expert" : "hx-btn"}`}
+              className="inline-flex min-h-10 items-center gap-2 rounded-lg px-2 text-sm font-medium text-slate-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-300"
             >
-              Esperto
+              <span>Esperto</span>
+              <span aria-hidden="true"
+                className={`inline-flex h-6 w-11 shrink-0 items-center rounded-full p-0.5 transition-colors ${expert ? "bg-amber-400" : "bg-slate-600"}`}>
+                <span className={`size-5 rounded-full bg-white shadow transition-transform ${expert ? "translate-x-5" : "translate-x-0"}`} />
+              </span>
             </button>
           </div>
 
