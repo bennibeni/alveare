@@ -281,7 +281,7 @@ describe("modalità normale: spazio per il pezzo che resta nel vassoio", () => {
         if (!m.next) continue;
         const remaining = tray.find((p, i) => i !== m.idx && i !== m.next.idx);
         expect(m.room).toBe(
-          Math.min(6, m.next.after.placementsFor(remaining.cells).length),
+          m.third ? 6 : Math.min(6, m.next.after.placementsFor(remaining.cells).length),
         );
         expect(m.roomPenalty).toBeCloseTo(
           NORMAL_ROOM_PENALTY * (1 - m.room / 6),
@@ -304,7 +304,7 @@ describe("modalità normale: spazio per rombo e ferro di cavallo", () => {
             (s, p) =>
               s +
               (weight(p) *
-                Math.min(6, m.next.after.placementsFor(p.cells).length)) /
+                Math.min(6, (m.third || m.next).after.placementsFor(p.cells).length)) /
                 6,
             0,
           ) / big.reduce((s, p) => s + weight(p), 0);
@@ -564,12 +564,12 @@ describe("prestazioni e regressioni (simulazioni con seme)", () => {
 
   // Valori di riferimento della strategia attuale. Se si cambia la strategia di
   // proposito, questi numeri vanno aggiornati (dopo averla misurata con npm run sim).
-  it("regressione · normale, seme 555, 60 pezzi: 664 punti, 37 linee", () => {
+  it("regressione · normale, seme 555, 60 pezzi: 705 punti, 34 linee", () => {
     expect(playGame({ mode: "normal", seed: 555, maxMoves: 60 })).toEqual({
       seed: 555,
       pieces: 60,
-      points: 664,
-      lines: 37,
+      points: 705,
+      lines: 34,
       lost: false,
     });
   });
